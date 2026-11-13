@@ -1,0 +1,50 @@
+Call CALL-9008 — Wrenfield Aerospace Parts (ACC-4008) — 2026-03-04 09:00 UTC
+Participants: Sasha Volkov (Senior Account Manager, us) / Marcus Feldman (Procurement Director, customer)
+
+Sasha: Marcus, good to see you.
+
+Sasha: Let's run through what we actually delivered this quarter before we get into anything new on the list.
+
+Marcus: Sounds good, go right ahead, I'm curious how it all adds up.
+
+Sasha: First up, the custom reporting dashboard went live last month, and from what I saw it landed right on the schedule we'd agreed to.
+
+Marcus: Yes, and the team's been using it daily since. Genuinely solid work on that one, better than I expected honestly.
+
+Sasha: Great to hear that. We also finished migrating your data over to the new region, which should have meaningfully improved latency on your end.
+
+Marcus: We actually noticed that ourselves -- things do feel noticeably snappier day to day, especially during peak hours.
+
+Sasha: Good, that's exactly the kind of thing that's easy to say but hard to actually measure, so it's nice to hear it firsthand.
+
+Marcus: Definitely, our own monitoring backed it up too, for what it's worth.
+
+Sasha: Perfect, that's exactly what we were hoping for. And the training sessions for your new hires wrapped up about two weeks ago now.
+
+Marcus: Yeah, feedback on those sessions was good too, people said the pacing was right.
+
+Marcus: Actually, one of the new hires specifically called out how clear the pacing was, for what it's worth.
+
+Sasha: Glad to hear it. Last thing on our list from this quarter -- the API rate limit increase you'd asked for went into effect last week.
+
+Marcus: Noticed that as well, no more throttling issues on our end since it kicked in.
+
+Sasha: That's genuinely everything we had queued up for this quarter. Anything from your side you want to flag before we move on to what's next?
+
+Marcus: Actually, yes, one thing -- could you get me a breakdown of which endpoints we're calling most often? We're trying to optimize our overall usage pattern.
+
+Sasha: Sure, that's an easy one, I can pull that together for you without much trouble.
+
+Marcus: That'd be great, thanks, it'll help us prioritize where to focus our own engineering time.
+
+Sasha: I'll have that breakdown over to you by early next week at the latest.
+
+Marcus: Perfect, that timeline works well for us.
+
+Sasha: Anything else at all on your radar today?
+
+Marcus: No, I think that's genuinely everything. This has been a good quarter for us, honestly, one of the smoother ones in a while.
+
+Sasha: Glad to hear it. We'll keep pushing to make next quarter just as smooth, if not more so.
+
+Marcus: Appreciated. This kind of consistency, honestly, is exactly why we keep renewing year after year.

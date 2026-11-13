@@ -1,0 +1,9 @@
+{
+  "data_point_id": "p2p-0059",
+  "single_turn_input": {
+    "text": "Review invoice INV-5290 (supplier Supplier_4, PO PO-000142) against its PO line and the supplier contract; decide whether to flag it for human review and give a short reason."
+  },
+  "expected_output": {
+    "json": "{\"flagged\": true, \"fault_type\": \"OFF_CONTRACT_FEE\", \"reason\": \"'handling fee' $225.31 not covered by contract (off-contract fee)\", \"off_contract_fee\": 225.31}"
+  }
+}

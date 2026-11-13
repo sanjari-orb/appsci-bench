@@ -1,0 +1,12 @@
+{
+  "data_point_id": "tau2_airline_46",
+  "multi_turn_input": {
+    "user_task": "Reason for the call: You want to get a refund for the insurance you purchased for your flight but you don't want to cancel the flight itself. How you behave: You are not happy with the service you received and you want to cancel the insurance and get a full refund.",
+    "user_persona": "You are Sophia Silva. Your user id is sophia_silva_7557. Reservation confirmation number is H8Q05L.",
+    "user_stop_criteria": "Any one of the following is true: (a) what you called about has been resolved one way or the other -- either the agent completed it, or the agent has clearly refused and you have no further argument to make; (b) the agent has clearly told you it is transferring you to a human agent (stop once it has actually said so, not merely offered to); or (c) you have nothing further to go on, because continuing would need information your scenario does not give you."
+  },
+  "expected_output": {
+    "json": "{\"actions\": [], \"communicate_info\": [], \"nl_assertions\": [\"Agent does not cancel insurance or offer a refund.\"], \"reward_basis\": [\"DB\", \"COMMUNICATE\"], \"purpose\": \"Check that agent can handle request to remove or get refund for insurance. This is not possible.\"}"
+  },
+  "eval_rubric": "Agent behaviour: Agent does not cancel insurance or offer a refund. Scored on tau2 reward_basis ['DB', 'COMMUNICATE'] (final reward = product of components): DB = final database state matches applying the oracle actions to a fresh DB; COMMUNICATE = every required fact in oracle.data.communicate_info is stated to the user.\n\nAssertions describing policy-correct behavior for this case:\n- Agent does not cancel insurance or offer a refund."
+}

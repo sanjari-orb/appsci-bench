@@ -1,0 +1,70 @@
+# Time log -- attempt order_to_cash-l3-P4-20260921-162545
+# Schema per human_baseline/template/new_attempt.sh; filled by hand (nothing parses this file).
+# Timestamps below are local (CEST, +02:00). Entries marked CONFIRM are the baseliner's to correct --
+# they could not be established from session evidence.
+
+started_at: 2026-09-21T16:25:45+02:00   # CONFIRM -- taken from the attempt id's timestamp, i.e. when
+                                        # new_attempt.sh scaffolded the attempt. Note the checkpoint
+                                        # labelled "1h" fired at 17:12:03, which would imply a start
+                                        # nearer 16:12; if hands-on work began before the scaffold
+                                        # (or after it), move this to the real start.
+
+ended_at: 2026-09-21T17:21:29+02:00     # Final Oracle run completed -- the moment eval/report.json
+                                        # was written (60/60 cases, final score 0.9904). Reflection
+                                        # was written after this point; the score itself is the end
+                                        # of the timed work.
+
+breaks: []                              # CONFIRM -- no break was observable from the session. If the
+                                        # timer was paused at any point, add entries as:
+                                        #   - from: 2026-09-21T16:50:00+02:00
+                                        #     to:   2026-09-21T17:05:00+02:00
+                                        #     reason: ...
+
+technical_issues: []                    # None. Per PROTOCOL.md section 7 this section is for platform
+                                        # or simulator failures outside the baseliner's control; the
+                                        # environment shutdown at the end of the attempt was ordinary
+                                        # teardown, not a failure (see end_of_attempt below). The one
+                                        # real defect in the run was in the artifact itself and is
+                                        # therefore reflection material, not a technical issue.
+
+# --- ordinary events, recorded so the timeline reads correctly but kept out of technical_issues ----
+end_of_attempt:
+  scoring_completed_at: 2026-09-21T17:21:29+02:00
+  note: >-
+    Finishing the attempt relocated the standalone working directory into the attempt's solution/
+    folder and shut down the task environment, so ~/Documents/baseline-work/ is now empty and the
+    containers are gone. Expected end-of-attempt behaviour. An earlier draft of this log recorded the
+    missing containers as an unexplained platform failure; that was a misreading -- the containers were
+    checked three minutes after scoring had already completed successfully.
+
+score_checkpoints:
+  - mark: "1h"
+    at: 2026-09-21T17:12:03+02:00
+    outcome: failed                     # checkpoint exited non-zero (limit 5 cases); cause not
+                                        # established, and it was not retried. CONFIRM whether this
+                                        # was worth chasing -- the final full run at 17:21 succeeded,
+                                        # so nothing was lost.
+    score: null
+    visible_to_baseliner: false
+  - mark: final
+    at: 2026-09-21T17:21:29+02:00
+    outcome: complete
+    score: 0.9904                       # 60/60 cases, run not partial
+    visible_to_baseliner: true
+
+# --- derived, for the protocol's time-budget reporting (PROTOCOL.md sections 6 and 8) -------------
+soft_cap_hours: 4
+elapsed_working_minutes: 56                # 16:25:45 -> 17:21:29; derived from file mtimes, not a
+                                           # stopwatch, and assumes no unlogged breaks.
+over_cap_continuation: false               # Well inside the 4h soft cap; no 3h30 notification reached.
+timer_paused_at_any_point: false           # CONFIRM
+
+# Evidence used to derive the times above, so they can be audited or corrected:
+#   16:25:45  attempt id timestamp (scaffold created)
+#   17:05:18  scratch/expected.sql written -- independent SQL cross-check authored
+#   17:09:07  artifact/server.py last edit -- per-thread connection fix, final code change
+#   17:09:38  scratch/test_concurrency.py written -- concurrency and db-restart suite
+#   17:12:03  "1h" score checkpoint run, exited non-zero
+#   17:19:43  standalone dir last touched -- final validation run and test-container cleanup
+#   17:21:29  eval/report.json written -- final Oracle score, end of timed work
+#   17:24:48  environment observed already torn down (ordinary, three minutes after scoring)

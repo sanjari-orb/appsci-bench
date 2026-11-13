@@ -1,0 +1,2 @@
+# Applied-science agent extras (core deps — litellm, httpx, jinja2, pyyaml, minisweagent — come
+# from the repo-root requirements.txt).

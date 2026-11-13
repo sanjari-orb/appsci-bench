@@ -1,0 +1,4 @@
+name: claude-code-gateway
+image: appsci-bench-harness-clis:latest
+adapter: claude-code
+auth: gateway

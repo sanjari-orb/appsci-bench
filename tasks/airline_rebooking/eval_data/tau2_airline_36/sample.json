@@ -1,0 +1,12 @@
+{
+  "data_point_id": "tau2_airline_36",
+  "multi_turn_input": {
+    "user_task": "Reason for the call: You want to change the date of a flight in reservation EUJUY6. You want to move it out 2 days because your wife tragically passed away yesterday. How you behave: You are extremely distraught. You do not want to cancel the flight, just change the date. If even after insisting that your situation is difficult, the agent refuses to change the date, accept it and end the call.",
+    "user_persona": "You are Lucas Brown. Your user id is lucas_brown_4047.",
+    "user_stop_criteria": "Any one of the following is true: (a) what you called about has been resolved one way or the other -- either the agent completed it, or the agent has clearly refused and you have no further argument to make; (b) the agent has clearly told you it is transferring you to a human agent (stop once it has actually said so, not merely offered to); or (c) you have nothing further to go on, because continuing would need information your scenario does not give you."
+  },
+  "expected_output": {
+    "json": "{\"actions\": [{\"action_id\": \"36_0\", \"name\": \"get_reservation_details\", \"arguments\": {\"reservation_id\": \"EUJUY6\"}, \"info\": null}], \"communicate_info\": [], \"nl_assertions\": [\"Agent does not change the flight.\"], \"reward_basis\": [\"DB\", \"COMMUNICATE\"], \"purpose\": \"Test that agent refuses to do a change even in the face of a user mentioning a very difficult situation. Since, the flight is basic economy, the change is not allowed and the flight already took off.\"}"
+  },
+  "eval_rubric": "Agent behaviour: Agent does not change the flight. Scored on tau2 reward_basis ['DB', 'COMMUNICATE'] (final reward = product of components): DB = final database state matches applying the oracle actions to a fresh DB; COMMUNICATE = every required fact in oracle.data.communicate_info is stated to the user.\n\nAssertions describing policy-correct behavior for this case:\n- Agent does not change the flight."
+}

@@ -1,0 +1,5 @@
+# Compliance Review Task Dependencies
+# These are installed in the workspace container for task setup and agent execution.
+
+# Database
+psycopg2-binary>=2.9.9

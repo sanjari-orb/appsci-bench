@@ -1,0 +1,80 @@
+Call CALL-9005 — Castellan Foods Group (ACC-4005) — 2026-03-03 09:30 UTC
+Participants: Theo Marchetti (Senior Account Manager, us) / Renata Ibsen (VP of Supply Chain, customer)
+
+Theo: Renata, thanks for jumping on today. How's the quarter treating you so far, generally speaking?
+
+Renata: Busy, as always this time of year, but a good kind of busy, if that makes sense.
+
+Theo: I hear you. How's the team handling the holiday ramp-up on your end this year?
+
+Renata: We're bringing on some seasonal staff to cover it, should be fine once they're fully trained up on our processes.
+
+Theo: Good to hear that part's under control.
+
+Theo: Let's start with the integration piece -- anything outstanding from your side that we should tackle today?
+
+Renata: Actually yes, one thing -- can you send over the updated integration docs? The copies we have on file are pretty out of date at this point.
+
+Theo: Absolutely, that's an easy one, I'll get those over to you today, no problem at all.
+
+Renata: Great, appreciate that, it'll save my team some back-and-forth guessing.
+
+Theo: Switching gears for a second -- how's the broader market been treating you lately?
+
+Theo: I know a few of our other retail accounts have mentioned a slow start to the season this year.
+
+Renata: Similar story here, honestly. Foot traffic's been noticeably soft compared to last year, though online's picked up some of that slack for us.
+
+Theo: That tracks with what we're seeing more broadly across a few other accounts too, so you're not alone there.
+
+Renata: It is what it is, honestly. We just adjust our promotions and move on as best we can.
+
+Theo: Makes sense, that's a reasonable way to handle it. Speaking of adjustments, though -- how's the rollout of the new ordering API actually going on your end?
+
+Renata: Slower than we'd hoped, if I'm being fully honest. We were originally targeting go-live for this month and that's just not happening at this point.
+
+Theo: Sorry to hear that, genuinely. What's been driving the delay, if you don't mind me asking?
+
+Renata: Mostly our own engineering bandwidth, honestly -- everyone got pulled onto holiday prep instead of the rollout work.
+
+Theo: Understood, that happens more than people like to admit. Do you have any kind of revised sense of timing at this point?
+
+Renata: Not really, if I'm honest. It's just sitting there until after the holidays now, and nobody's actively working on it in the meantime.
+
+Theo: Got it, that's useful to know either way. Let's shift over to staffing for a second -- are you fully covered for the season overall?
+
+Renata: Mostly, yeah. We're still short two people on the overnight shift specifically, and we're actively still recruiting for those roles.
+
+Theo: Hopefully that fills in soon enough to not cause too much strain.
+
+Renata: Yeah, fingers crossed on that one, we'll see how it goes over the next few weeks.
+
+Theo: Back to the API rollout for a moment -- I know it's stalled for now, but once things calm down after the holidays, would a dedicated technical review call actually help get it moving again?
+
+Renata: That would honestly be really helpful, yes, more than you might think.
+
+Theo: Great, I'll get that scheduled on our end once the new year actually starts up properly.
+
+Renata: Appreciated, genuinely -- that rollout's been sitting untouched for weeks now, and it'd be good to finally get some real eyes on it again.
+
+Theo: Understood completely, we'll make sure it gets real, dedicated attention once we're past the holiday crunch. Anything else at all on your end today?
+
+Renata: Actually, yes, one more thing -- I want to run an internal survey with my team about how they're finding the platform day to day.
+
+Renata: Just to get some honest feedback ahead of our renewal conversation.
+
+Theo: That's a genuinely great idea, honestly. Let us know if you'd want any help at all designing the questions for it.
+
+Renata: I'll circulate a first draft myself and see what kind of feedback comes back from the team.
+
+Theo: Sounds good either way, just keep me posted on how it goes.
+
+Renata: Will do, for sure.
+
+Theo: Anything else before we wrap up for today?
+
+Renata: No, I think that genuinely covers everything on my end for today.
+
+Theo: Great, I'll follow up once I've got that review call sorted.
+
+Renata: Perfect, sounds like a plan. Talk soon, Theo.

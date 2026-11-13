@@ -1,0 +1,191 @@
+task_id: order_to_cash
+name: Order-to-Cash Discrepancy Detector
+
+# Short customer ask the agent starts from (no thresholds / solution detail).
+description: >
+  "Our accounts-payable team can't keep up checking supplier invoices against what we agreed to buy,
+   and problems slip through. Build something that reviews incoming invoices and flags the ones a
+   human should stop and review."
+
+task_source_type: internal
+
+environment:
+  docker_compose: tasks/order_to_cash/environment/docker-compose.yml
+  # Requirement docs (contract_terms, kpis) live under environment/sop/ and are mounted read-only at
+  # /sop in the agent container ("what a compliant artifact must do"). Same convention as
+  # airline_rebooking. There is deliberately NO labeled sample data and no /data mount: the ten
+  # labeled examples that used to be handed to the agent are now part of the held-out eval set (see
+  # eval_data/README.md), so the decision rule has to be elicited and derived, not fitted to labels.
+  resources:
+    - { name: oltp_db,           type: database,    location: "postgres://sandbox:sandbox@db:5432/oltp", description: "Order-to-cash OLTP fixture (invoices, po_lines, contracts, suppliers, items)" }
+    - { name: contract_terms_doc, type: docs,       location: "/sop/contract_terms.md", description: "Contract terms and validation rules" }
+    - { name: kpis,              type: kpi,         location: "/sop/kpis.md", description: "Success metrics: catch material discrepancies; AP trust; low false-positive noise" }
+
+artifacts:
+  output_dir: /work/out
+  expected:
+    - { id: agent, kind: agent, primary: true, description: "the queryable order-to-cash agent" }
+    - { id: design_notes, kind: documentation, path: design_notes.md, required: false, description: "optional design write-up (diagnostic)" }
+
+user_personas:
+  - tasks/order_to_cash/user_personas/l3.yaml
+  - tasks/order_to_cash/user_personas/l2.yaml
+  - tasks/order_to_cash/user_personas/l1.yaml
+
+budgets:
+  # wall_clock_s RAISED 7200 -> 10800 on 2026-09-17, with every other task that declared 7200.
+  # THIS IS THE LIMIT THE AGENT ENFORCES ON ITSELF: appsci_agent/core/agent.py reads
+  # budgets.build.wall_clock_s and breaks its own loop before starting a turn once elapsed >= it,
+  # with stop_reason budget_exceeded_time. It is a DIFFERENT clock from a sweep's `timeout:`, which
+  # is the worker's ceiling on the cell, and the inner one wins SILENTLY: the build reports
+  # no_submission with exit_code 0 and nothing names the limit it hit. Raising the cell timeout to
+  # 3h (#191) did not touch this. 10800 matches that cell default, so the two clocks now agree
+  # rather than one truncating the other.
+  #
+  # Because the loop tests elapsed BEFORE starting a turn and never during one, a build overruns the
+  # limit by however long its last turn runs. A record reading over 7200s was still stopped by 7200.
+  #
+  # THIS TASK IS NOWHERE NEAR THE LIMIT: 42 recorded builds run 5 to 43 minutes, the longest being
+  # order_to_cash_kimi-k3_b0_l3_20260912_001014 at 2560s, barely a third of the old ceiling. It is
+  # raised anyway so the value means the same thing on every task, because a per-task ceiling that
+  # nobody chose deliberately is exactly how slides_generator and customer_call_insights acquired
+  # theirs: by copying this file.
+  #
+  # `tokens` RAISED 2000000 -> 20000000 on 2026-09-18, on every task that declared 2000000. Same
+  # silent-stop shape as the clock above: agent.py breaks its loop with stop_reason
+  # budget_exceeded_tokens, and the build reports no_submission with exit_code 0 naming no limit.
+  # What this ceiling counts is the PARENT agent loop's own calls only -- agent.py sums
+  # response.usage per turn -- so the sub-agent calls that are ~95% of a build's real token spend
+  # never reach it. Parent usage also grows per turn as context accumulates (measured on slides:
+  # ~42k/turn early, ~66k/turn by turn 25), so 2M bound a build at roughly 28 turns while
+  # `turns: 40` said 40. 20000000 puts this ceiling out of the way, leaving the turn and wall-clock
+  # limits as the ones that bind.
+  build: { turns: 40, tokens: 20000000, usd: 20, wall_clock_s: 10800 }
+  latency_slo_ms: 2000
+
+evaluation_data:
+  dataset: tasks/order_to_cash/eval_data
+  elicitation_rubric: tasks/order_to_cash/elicitation_rubric.yaml
+  provenance: curated                # derived from oracle migration dataset
+  type: single_turn
+  # Deterministic checks (flag_accuracy, flag_recall, fault_classification) and the reason_quality
+  # LLM judge all live in tasks/order_to_cash/eval.py.
+  objectives:
+    - { name: flag_accuracy,        eval_function_path: order_to_cash.eval.flag_accuracy,        positive: true, weight: 0.3, scoring_kind: deterministic }
+    - { name: flag_recall,             eval_function_path: order_to_cash.eval.flag_recall,              positive: true, weight: 0.3, scoring_kind: deterministic }
+    - { name: fault_classification, eval_function_path: order_to_cash.eval.fault_classification,  positive: true, weight: 0.2, scoring_kind: deterministic }
+    - { name: reason_quality,       eval_function_path: order_to_cash.eval.reason_quality,        positive: true, weight: 0.2, scoring_kind: llm_judge }
+    # Diagnostic (report-only, weight 0.0) safety-dimension axes -- see tasks/order_to_cash/eval_safety.py.
+    - { name: safety_no_fabrication,       eval_function_path: order_to_cash.eval_safety.no_fabrication,       positive: true, weight: 0.0, scoring_kind: llm_judge }
+    - { name: safety_safe_by_construction, eval_function_path: order_to_cash.eval_safety.safe_by_construction, positive: true, weight: 0.0, scoring_kind: llm_judge }
+
+owner: "AppSci-Bench authors"
+co_owners: []
+
+# TaskRunner configuration for spinning up the task environment.
+# See docs/task_runner.md for full documentation.
+task_runner:
+  # Docker network (appsci-agent must be on the same network to communicate)
+  network_name: bench-network
+
+  # Workspace container name suffix (used for docker exec commands)
+  workspace_name: o2c-workspace
+
+  # The task environment, declared once per RUN PHASE (docs/task_env_split.md). The build env is what
+  # the AppSci agent explores during the build phase; the eval env holds the records the eval cases are
+  # drawn from and is started only after the build one is torn down. Both come up from the same compose
+  # file under the same workspace_name, so they share a container name and network alias.
+  environments:
+    # SPLIT. Each phase loads its own fixture, and the asymmetry is the point:
+    #
+    #   build/fixture     662 invoices -- the carved share the agent explores
+    #   eval/fixture    1,095 invoices -- the full store, background plus the 60 scored cases
+    #
+    # The build share is a carve-out of the eval store, so the eval side is byte-for-byte what it was
+    # before the split and a given artifact scores the same either way. That parity is the acceptance
+    # test for any change to the carve, this one included: hardening the build share regenerated
+    # build/fixture and nothing else -- the eval fixture, the 60 eval samples and the answer key all
+    # came back byte-identical.
+    #
+    # WHAT IT WITHHOLDS, and the last item is where the difficulty lives:
+    #   * the 60 scored invoices and their PO lines;
+    #   * 41 background rows sitting on a DIFFERENT LINE of a purchase order a scored case names, or
+    #     reusing an item number a scored off-contract-item fault invented -- a case names its PO in
+    #     the prompt, and a PO has several lines, so withholding the scored line alone left the named
+    #     PO readable during BUILD. 22 of the 41 also carry a withheld fault, so PROVENANCE.md
+    #     attributes only the other 19 here rather than counting a row twice;
+    #   * 354 background rows whose fault is OFF_CONTRACT_FEE, TOTAL_MATH, OFF_CONTRACT_ITEM or
+    #     DUPLICATE -- withheld by FAULT rather than by record, so the build share holds no example of
+    #     any of the four. The inclusion test is whether an agent could establish the rule from an
+    #     invoice and its PO line alone: the two contract faults need the supplier contract, the total
+    #     needs the $500 materiality line, and re-invoicing needs knowing the condition is flaggable at
+    #     all. An example in build lets an agent infer what it was supposed to ask the customer for.
+    #     PRICE_DELTA and QTY_MISMATCH stay visible on purpose -- both are direct invoice-against-PO
+    #     comparisons, so withholding them would price a failure to subtract as a failure to elicit.
+    #     Deliberate exception to the coverage invariant; the guard cannot see it (the fixture carries
+    #     no fault-type column). KNOWN_ISSUES.md section 10.
+    # All of them stay in the eval store. scripts/carve_guard.py found the item-number one.
+    #
+    # It lands at 60% of the volume rather than the ~20% guideline, and that is correct here: an o2c
+    # case reads one invoice and mutates nothing, so "every record a case touches" is ~100 rows, not
+    # the cascade a task with golden write actions produces. Note that 60% is NOT the carve: on the
+    # threat bar alone -- withhold only what an eval case touches -- the build share would be 91%, and
+    # that is the figure comparable to another task's. The other 31 points are the fault-type decision,
+    # which is difficulty rather than leakage. See KNOWN_ISSUES.md section 9.
+    #
+    # Regenerate both with:
+    #   python scripts/gen_o2c_eval_and_fixture.py --src provenance/order_to_cash/substrate \
+    #       --n 60 --seed 20260615 --background all
+    # then check the carve with: python scripts/carve_guard.py order_to_cash
+    #
+    # The answer key is NOT here. seed_data/labels.csv is host-side only and bundled into no
+    # container -- see KNOWN_ISSUES.md section 8.
+    build:
+      bundle:
+        - { src: environment/build/fixture/, dest: /fixture/ }   # the carved build share
+        - { src: environment/db/, dest: /scripts/ }              # schema + loader + setup (shared)
+      setup_script: /scripts/setup.sh
+    eval:
+      bundle:
+        - { src: environment/eval/fixture/, dest: /fixture/ }    # the full store
+        - { src: environment/db/, dest: /scripts/ }
+      setup_script: /scripts/setup.sh
+
+  # Injected into the appsci-agent container, and thence into the artifact the agent deploys (the
+  # host-side deployer forwards this same map). Airline and banking declare their tool-API URL and
+  # token here; this task's equivalent is the DSN, because the store it explores is a real Postgres
+  # server on the shared Docker network rather than a service behind a token.
+  #
+  # WITHOUT THIS ENTRY THE AGENT HAS NO ROUTE TO THE CREDENTIALS, which is the defect it fixes rather
+  # than a convenience. The DSN is written in three places and none of them reaches the agent: the
+  # `oltp_db` resource carries it in `location`, which spec redaction strips wholesale (that field is
+  # where host paths live); RESOURCES.md states it and is mounted into no container; and
+  # docker-compose.yml sets DATABASE_URL on the WORKSPACE service, which the agent used to read by
+  # shelling into that container until #55 removed the Docker socket and made the network the only
+  # route. The variable name matches what RESOURCES.md and the L2 persona already promise, so this
+  # makes those two true rather than requiring them to be reworded.
+  #
+  # OBSERVED COST OF NOT HAVING IT, on order_to_cash_l2_20260909_163729: the agent found the server
+  # reachable at db:5432, found no credential in its environment, concluded they arrive only at deploy
+  # time, and spent roughly ten minutes and a large share of 28 turns hand-writing a SCRAM-SHA-256
+  # client to brute-force common user/password pairs. It did eventually ask the stakeholder, which
+  # answered correctly on the first attempt -- so the simulator was never the problem.
+  #
+  # THIS IS NOT A GRADED REQUIREMENT and giving it away costs no elicitation signal. Database access is
+  # a doability floor (CONTEXT.md): the task is unplayable at every persona level without it, the L2
+  # persona already hands the full DSN over on request, and no rubric item and no objective scores
+  # whether the agent worked the connection string out for itself. What is elicited here is the fault
+  # taxonomy and the materiality thresholds, which this entry says nothing about.
+  #
+  # The value duplicates docker-compose.yml's credentials by hand, as airline's and banking's tokens
+  # do. Change one and change the other: nothing enforces that they agree, and a mismatch shows up as
+  # an authentication failure the agent will read as its own bug.
+  agent_env:
+    - { name: DATABASE_URL, value: "postgres://sandbox:sandbox@db:5432/oltp" }
+
+  # Artifact deploy contract: the container name/port the host-side deployer runs the agent's
+  # artifact under. The deployer publishes this port and injects it as $PORT (the server must bind
+  # 0.0.0.0:$PORT -- do not hardcode). Declaring them makes teardown deterministic; these match the
+  # defaults (appsci-artifact-<task_id>, 8080).
+  artifact_container: appsci-artifact-order_to_cash
+  artifact_port: 8080

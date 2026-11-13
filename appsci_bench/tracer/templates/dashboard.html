@@ -1,0 +1,2123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benchmark Tracer · {{ trace_id[:12] }}</title>
+    <!-- No Google Fonts link: it is render-blocking third-party CSS, and it gated first paint on a
+         network the box does not control. styles.css already ends both stacks in system fallbacks
+         (--font-ui -> sans-serif, --font-mono -> monospace), and Chrome reports identical computed
+         font families with and without it -- only the glyph source changes. Same reasoning as the
+         experiments dashboard; the two headers should stay in step. -->
+    <link rel="stylesheet" href="{{ base }}/static/styles.css?v={{ asset_ver }}">
+    <!-- Alpine served from our own origin, pinned. It was loaded from unpkg at a FLOATING version
+         (alpinejs@3.x.x) into a page that carries an auth cookie: a third party could change what
+         executes here between two page loads. Cache-busted with the same asset_ver as the stylesheet. -->
+    <script src="{{ base }}/static/harness-history.js?v={{ asset_ver }}" defer></script>
+    <script src="{{ base }}/static/alpine-3.15.12.min.js?v={{ asset_ver }}" defer></script>
+</head>
+<!-- No `x-init="init()"`: Alpine 3 already calls an x-data object's own `init()` automatically, so
+     having both ran it TWICE. On this page that is worse than the wasted work -- each init opened an
+     SSE stream, so every trace tab held two permanently-open connections instead of one, and the
+     browser's ~6-per-origin budget was exhausted by three tabs. Since the tracer is mounted inside
+     the experiments dashboard (same origin), that is what starved the dashboard and made a fresh
+     load take 15-20 seconds. Found by counting init() calls while profiling the sister template,
+     which had the identical pair. -->
+<body x-data="dashboard()">
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <a href="{{ base }}/" class="back-link">&larr; All runs</a>
+                <h1>Benchmark Tracer</h1>
+                <button class="theme-toggle" @click="toggleTheme()" :title="theme==='light' ? 'Switch to dark' : 'Switch to light'">
+                    <span x-text="theme==='light' ? '☾ Dark' : '☀ Light'"></span>
+                </button>
+                <div class="connection-status" :class="connected ? 'connected' : 'disconnected'">
+                    <span class="dot"></span><span x-text="connected ? 'Live' : 'Disconnected'"></span>
+                </div>
+            </div>
+            <div class="trace-info">
+                <span class="trace-id">{{ trace_id }}</span>
+                <!-- Which half of a `builds` x `trials` pair this run is. A build trace has agent
+                     turns and no eval; a trial trace has an eval and no build phase. Without this the
+                     two are indistinguishable except by which tabs happen to be empty. -->
+                <span class="replicate-badge" x-show="replicate.badge"
+                      :class="replicate.role === 'build' ? 'is-build' : 'is-trial'"
+                      x-text="replicate.badge"
+                      :title="replicate.label ? `cell ${replicate.label}` : ''"></span>
+                <!-- The link the split costs you: from a trial's eval back to the build that produced
+                     the artifact it scored. Rendered as plain text when the build's run dir is not on
+                     this box, so it never looks like a link that 404s. -->
+                <template x-if="replicate.build_trace_id && replicate.sibling_available">
+                    <a class="replicate-link"
+                       :href="`{{ base }}/?trace_id=${encodeURIComponent(replicate.build_trace_id)}`"
+                       :title="`Open the BUILD phase this trial scored: ${replicate.build_trace_id}`">&uarr; its build phase</a>
+                </template>
+                <template x-if="replicate.build_trace_id && !replicate.sibling_available">
+                    <span class="replicate-link muted"
+                          :title="`Built by ${replicate.build_trace_id}, whose run dir is not on this host (it may still be in S3 -- load it by id)`">built by <span x-text="replicate.build_trace_id"></span></span>
+                </template>
+                <span class="event-count" x-text="`${events.length} ${native.available ? 'benchmark events' : 'events'}`"></span>
+                <!-- Jump straight to another run without going back to the list. Plain GET to
+                     /?trace_id=<id>, which resolves local *or* mirrored runs identically. -->
+                <form class="run-jump" action="{{ base }}/" method="get">
+                    <input type="text" name="trace_id" autocomplete="off"
+                           placeholder="load another run by id&hellip;" required>
+                    <button type="submit" class="btn btn-primary">Go</button>
+                </form>
+            </div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab" :class="activeTab==='build' && 'active'" @click="switchTab('build')">Build
+                <span class="tab-count" x-text="native.available ? native.messageCount+' messages' : buildRows.filter(r => r.node.kind==='turn').length"></span></button>
+            <button class="tab" :class="activeTab==='eval' && 'active'" @click="switchTab('eval')">Eval
+                <span class="tab-count" x-show="evalSummary.complete" x-text="fmtScore(evalSummary.final_score)"></span></button>
+            <button class="tab" :class="activeTab==='artifact' && 'active'" @click="switchTab('artifact')">Artifact</button>
+            <button class="tab" :class="activeTab==='agentfs' && 'active'" @click="switchTab('agentfs')">Container files</button>
+        </nav>
+
+        <!-- Raw event stream: the untransformed event log, always available as a read-the-dump
+             escape hatch when the structured views don't explain what happened. Lazily rendered
+             (x-if) so it doesn't re-serialize every live update. -->
+        <div class="raw-panel">
+            <button class="raw-toggle" @click="showRaw=!showRaw"
+                    x-text="(showRaw?'▾ ':'▸ ')+'Raw event stream ('+events.length+' events)'"></button>
+            <template x-if="showRaw">
+                <div class="raw-body">
+                    <div class="raw-actions">
+                        <button class="raw-copy" @click="copyRaw()">copy</button>
+                        <span class="raw-hint">untransformed events, oldest first · full model I/O is under each call's "full I/O →"</span>
+                    </div>
+                    <pre class="raw-dump" x-text="rawDump()"></pre>
+                </div>
+            </template>
+        </div>
+
+        <!-- ============ BUILD TAB ============ -->
+        <main class="timeline tab-panel" x-show="activeTab==='build'">
+            <p class="native-warning" x-show="native.error && !native.available" x-text="native.error"></p>
+            <section class="native-history" x-show="native.available" aria-label="Harness message history">
+                <div class="native-heading">
+                    <h2>Harness history · <span x-text="native.harness || 'External harness'"></span></h2>
+                    <div class="native-actions">
+                        <button class="btn" @click="nativeJumpToLatest()" :disabled="!native.total">Jump to latest</button>
+                        <button class="btn" @click="loadNativeHistory()" :disabled="native.loading">Refresh</button>
+                    </div>
+                </div>
+                <p class="hint">Messages and tool execution from the native CLI, in recorded order.
+                    These are not AppSci model-call or cost records. Older logs have no timestamps.</p>
+                <p class="hint" x-text="nativeBuildStatus()"></p>
+                <p class="hint" role="status" x-text="native.total+' records loaded'+(native.hasMore ? ' · loading remaining history…' : ' · all available history loaded')"></p>
+                <template x-for="warning in native.warnings" :key="warning">
+                    <p class="native-warning" x-text="warning"></p>
+                </template>
+                <p class="native-warning" x-show="native.error" x-text="native.error"></p>
+                <details class="native-entry" x-show="native.prompt">
+                    <summary>Initial benchmark prompt</summary>
+                    <pre x-text="native.prompt"></pre>
+                </details>
+                <div class="native-viewport" x-ref="nativeViewport" @scroll.passive="nativeScheduleMeasure()"
+                     tabindex="0" role="region" aria-label="Harness conversation">
+                  <div aria-hidden="true" :style="`height:${native.paddingTop}px`"></div>
+                  <template x-for="entry in native.entries" :key="entry.id">
+                    <div class="native-row" :data-native-id="entry.id">
+                    <article class="native-entry" :data-kind="entry.kind" :id="'native-'+entry.id.replace(':','-')">
+                        <div class="native-entry-header">
+                            <span class="native-role" x-text="nativeRole(entry)"></span>
+                            <strong x-text="entry.title"></strong>
+                            <span class="muted" x-show="entry.call_id" x-text="entry.call_id"></span>
+                            <span class="native-status" x-show="entry.status" x-text="entry.status"></span>
+                            <time class="muted" x-show="entry.timestamp" x-text="entry.timestamp ? formatTime(entry.timestamp) : ''"></time>
+                            <a x-show="entry.kind==='tool_result' && nativeCallId(entry)"
+                               :href="'#native-'+nativeCallId(entry).replace(':','-')"
+                               @click.prevent="nativeJumpTo(nativeCallId(entry))">↑ call</a>
+                        </div>
+                        <p class="hint" x-show="entry.parent_call_id" x-text="'Subagent of '+entry.parent_call_id"></p>
+                        <template x-if="entry.content.length <= 1200">
+                            <pre x-text="entry.content || (entry.kind==='tool_result' ? '(no output)' : '')"></pre>
+                        </template>
+                        <template x-if="entry.content.length > 1200">
+                            <details :open="entry.expanded" @toggle="nativeToggle(entry.id, $el.open)">
+                                <summary x-text="entry.content.slice(0,180)+'… (expand)'"></summary>
+                                <template x-if="entry.expanded"><pre x-text="entry.content"></pre></template>
+                            </details>
+                        </template>
+                    </article>
+                    </div>
+                  </template>
+                  <div aria-hidden="true" :style="`height:${native.paddingBottom}px`"></div>
+                </div>
+                <p class="hint" x-show="!native.total && !native.loading">No native messages captured yet.</p>
+                <h3 class="native-benchmark-heading">Benchmark service events</h3>
+            </section>
+            <template x-for="(row, ri) in buildRows" :key="row.node.span_id">
+                <div class="tl-row" :data-depth="row.depth" :style="`--depth:${row.depth}`">
+                    <div class="tl-rail"></div>
+                    <div class="tl-body">
+                    <!-- ===== TURN (any agent) ===== -->
+                    <template x-if="row.node.kind==='turn'">
+                        <div class="turn-hd" @click="toggleCollapse(row.node)">
+                            <span class="tg-caret" x-text="collapsedSpans.has(row.node.span_id) ? '▸' : '▾'"></span>
+                            <span class="tg-src" x-text="agentName(row.node)"></span>
+                            <span class="tg-turn">Turn <span x-text="turnNum(row.node)"></span></span>
+                            <template x-for="(d, di) in turnDispatches(row.node)" :key="di">
+                                <span class="tg-tool" x-text="d"></span>
+                            </template>
+                            <span class="tg-digest" x-text="turnDigest(row.node)"></span>
+                            <span class="tg-time" x-text="formatTime(row.node.time)"></span>
+                            <span class="tg-count" x-text="turnStepCount(row.node) + ' steps'"></span>
+                        </div>
+                    </template>
+
+                    <!-- ===== DISPATCH: a tool call that handed off to a sub-agent (has child spans) ===== -->
+                    <template x-if="row.node.kind==='dispatch' && row.node.children.length">
+                        <div class="dispatch-hd" :data-source="row.node.source" @click="toggleCollapse(row.node)">
+                            <span class="tg-caret" x-text="collapsedSpans.has(row.node.span_id) ? '▸' : '▾'"></span>
+                            <span class="swe-arrow">→ dispatched</span>
+                            <span class="swe-name" x-text="dispatchName(row.node)"></span>
+                            <span class="disp-preview" x-show="dispatchPreview(row.node)" x-text="dispatchPreview(row.node)"></span>
+                            <span class="swe-result" :class="dispatchFailed(row.node) && 'bad'" x-show="dispatchResult(row.node)" x-text="'← ' + dispatchResult(row.node)"></span>
+                        </div>
+                    </template>
+
+                    <!-- ===== PLAIN TOOL CALL: no sub-agent spawned (complete, an unknown/disabled
+                             tool, etc.). Not "dispatched"; show the tool + its result/error inline. ===== -->
+                    <template x-if="row.node.kind==='dispatch' && !row.node.children.length">
+                        <div class="tool-call" :class="dispatchFailed(row.node) && 'failed'">
+                            <span class="tool-icon" x-text="dispatchFailed(row.node) ? '⚠' : '🔧'"></span>
+                            <span class="tool-name" x-text="dispatchToolName(row.node)"></span>
+                            <span class="disp-preview" x-show="dispatchPreview(row.node)" x-text="dispatchPreview(row.node)"></span>
+                            <span class="tool-result" :class="dispatchFailed(row.node) && 'bad'" x-show="dispatchResult(row.node)" x-text="'← ' + dispatchResult(row.node)"></span>
+                        </div>
+                    </template>
+
+                    <!-- ===== SUB-AGENT (mini-swe): rich conversation view fetched on demand ===== -->
+                    <template x-if="row.node.kind==='subagent'">
+                        <div class="swe-run" :data-source="row.node.source">
+                            <button class="swe-toggle" @click="toggleSwe(row.node)">
+                                <span class="swe-caret" x-text="row.node.expanded ? '▾' : '▸'"></span>
+                                <span class="swe-name" x-text="agentName(row.node)"></span>
+                                <span class="swe-steps-count" x-text="'(' + sweInternalSteps(row.node) + ' internal steps)'"></span>
+                                <span class="swe-result" x-show="row.node.completeEvent" :class="sweResult(row.node)==='Submitted' ? 'ok' : 'bad'" x-text="'← ' + sweResult(row.node)"></span>
+                            </button>
+                            <div class="swe-conv" x-show="row.node.expanded">
+                                <div class="swe-empty" x-show="row.node.sweError" x-text="row.node.sweError"></div>
+                                <div class="swe-empty" x-show="row.node.loaded && !row.node.sweError && row.node.trace.length===0">No captured mini-swe conversation.</div>
+                                <template x-for="(s, si) in row.node.trace" :key="si">
+                                    <div class="swe-span" :class="'sk-'+s.cls" x-data="{ open: ['handoff-in','handoff-out','final'].includes(s.cls) }">
+                                        <div class="swe-span-head" @click="open=!open">
+                                            <span class="swe-span-caret" x-text="open ? '▾' : '▸'"></span>
+                                            <span class="swe-span-label" x-text="s.label"></span>
+                                            <span class="swe-span-cmd" x-show="s.cmd" x-text="'→ bash: ' + (s.cmd||'').split('\n')[0]"></span>
+                                        </div>
+                                        <div class="swe-span-body" x-show="open">
+                                            <pre class="swe-span-text" x-show="s.text" x-text="s.text"></pre>
+                                            <pre class="swe-span-bash" x-show="s.cmd" x-text="s.cmd"></pre>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- ===== MODEL CALL (one dedup'd card at any depth) ===== -->
+                    <template x-if="row.node.kind==='model_call'">
+                        <div class="mcall" :data-source="row.node.source">
+                            <div class="mcall-head">
+                                <span class="mcall-caller" x-text="row.node.caller"></span>
+                                <span class="mcall-model" x-text="row.node.model"></span>
+                                <span class="mcall-meta" x-show="row.node.done" x-text="[row.node.dur, row.node.tokens ? row.node.tokens+' tok' : ''].filter(Boolean).join(' · ')"></span>
+                                <span class="mcall-badge" x-show="row.node.n_tool_calls" x-text="row.node.n_tool_calls + ' tool'"></span>
+                                <!-- Only the finish reasons that mean something went wrong. "stop" and
+                                     "tool_calls" are the normal endings and would be noise on every
+                                     row; "length" (cut off mid-generation, so content and tool
+                                     arguments are incomplete) and "content_filter" are the ones a
+                                     reader is looking for. -->
+                                <span class="mcall-badge bad" x-show="row.node.finish_reason && !['stop','tool_calls'].includes(row.node.finish_reason)"
+                                      x-text="row.node.finish_reason === 'length' ? 'TRUNCATED (hit output limit)' : row.node.finish_reason"></span>
+                                <button class="mcall-expand" @click="openModelIo(row.node.ref, row.node)">full I/O &rarr;</button>
+                            </div>
+                            <div class="mcall-io">
+                                <div class="mcall-col"><div class="mcall-lbl">prompt</div><div class="mcall-prev" x-text="promptPreview(row.node)"></div></div>
+                                <div class="mcall-col out"><div class="mcall-lbl" x-text="completionLabel(row.node)"></div><div class="mcall-prev" x-text="row.node.completion || '…'"></div></div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- ===== GENERIC EVENT (bash/file/usersim request+response/etc.) ===== -->
+                    <template x-if="row.node.kind==='event'">
+                        <div class="tl-event" :class="getEventClass(row.node.events[0]) + ' ' + eventRowKind(row.node.events[0])" :data-source="row.node.source">
+                            <span class="tl-etype" x-text="formatEventType(row.node.events[0].event_type)"></span>
+                            <span class="tl-epay" x-show="hasPayload(row.node.events[0])" x-html="formatPayload(row.node.events[0])"></span>
+                        </div>
+                    </template>
+                    </div>
+                </div>
+            </template>
+            <div x-show="buildRows.length === 0" class="empty-state"><p>Waiting for build events…</p></div>
+        </main>
+
+        <!-- ============ EVAL TAB (native render of the eval report) ============ -->
+        <main class="tab-panel eval-native" x-show="activeTab==='eval'">
+            <div class="empty-state" x-show="!evalData.loaded && !evalData.error"><p>Loading eval results…</p></div>
+            <div class="empty-state" x-show="evalData.error"><p x-text="evalData.error"></p></div>
+            <template x-if="evalData.loaded && evalData.report">
+                <div>
+                    <section class="eval-dash">
+                        <div class="eval-final-big" :class="bandClass(evalData.report.final_score)">
+                            <span class="lbl">FINAL SCORE</span>
+                            <span class="val" x-text="fmtScore(evalData.report.final_score)"></span>
+                            <span class="sub" x-text="`${evalData.report.task_id} · ${(evalData.report.views.per_data_point||[]).length} cases`"></span>
+                        </div>
+                        <table class="metrics">
+                            <template x-for="m in (evalData.report.views.per_metric||[])" :key="m.objective">
+                                <tr>
+                                    <td class="mname" x-text="m.objective"></td>
+                                    <td class="mbar"><div class="bar"><div class="bar-fill" :class="bandClass(m.score)" :style="barStyle(m.score)"></div></div></td>
+                                    <td class="mval" x-text="fmtScore(m.score)"></td>
+                                    <td class="mw" x-text="'w=' + m.weight"></td>
+                                </tr>
+                            </template>
+                        </table>
+                        <div class="dist">
+                            <template x-for="dp in (evalData.report.views.per_data_point||[])" :key="dp.data_point_id">
+                                <span class="chip" :class="bandClass(dp.score)" :title="dp.data_point_id" x-text="fmtScore(dp.score)"></span>
+                            </template>
+                        </div>
+                        <ul class="eval-warnings" x-show="evalData.report.warnings && evalData.report.warnings.length">
+                            <template x-for="(w,wi) in evalData.report.warnings" :key="wi"><li x-text="w"></li></template>
+                        </ul>
+                    </section>
+
+                    <section class="eval-cases-native">
+                    <!-- ELICITATION DIAGNOSTIC. Its own section, not a row in the objectives table
+                         above: it scores the BUILD conversation rather than the artifact, and anything
+                         rendered among the objectives eventually gets read as one of them. Deliberately
+                         mirrors the section in the generated report (eval/report_html.py) so the two
+                         views of one run agree -- headline rate, the three-way breakdown, the counts,
+                         and a per-item table folded away because the judge's reasoning is long enough
+                         to push everything else off the screen. -->
+                    <section class="eval-dash elic" x-show="elicitation()">
+                        <div class="eval-final-big elic-head" :class="bandClass(elicitationRate())">
+                            <span class="lbl">ELICITED RATE</span>
+                            <span class="val" x-show="elicitationRate() !== null"
+                                  x-text="fmtScore(elicitationRate())"></span>
+                            <span class="val elic-word" x-show="elicitationRate() === null"
+                                  x-text="elicitationStatusWord()"></span>
+                            <span class="sub" x-text="elicitationSub()"></span>
+                        </div>
+                        <div class="elic-blurb">
+                            <span x-text="elicitationWhy()"></span>
+                            <em>Diagnostic only &mdash; not part of the score above.</em>
+                        </div>
+                        <div class="dist" x-show="elicitationRate() !== null">
+                            <span class="chip good" x-text="elicitationPct('elicited_rate') + ' elicited'"></span>
+                            <span class="chip warn" x-text="elicitationPct('asked_not_elicited_rate') + ' asked, not elicited'"></span>
+                            <span class="chip bad" x-text="elicitationPct('missed_rate') + ' never asked'"></span>
+                        </div>
+                        <ul class="eval-warnings" x-show="(elicitation()||{}).warnings && elicitation().warnings.length">
+                            <template x-for="w in (elicitation()||{}).warnings || []" :key="w">
+                                <li x-text="w"></li>
+                            </template>
+                        </ul>
+                        <details class="elic-fold" x-show="(elicitation()||{}).items && elicitation().items.length">
+                            <summary x-text="`the ${((elicitation()||{}).items||[]).length} per-item verdicts, with the evidence each one was based on`"></summary>
+                            <table class="elic-items">
+                                <thead>
+                                    <tr>
+                                        <th>rubric item &mdash; the fact the agent had to obtain by asking</th>
+                                        <th>verdict</th>
+                                        <th>evidence quoted from the conversation</th>
+                                        <th>judge reasoning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template x-for="it in ((elicitation()||{}).items||[])" :key="it.item_id">
+                                        <tr>
+                                            <td class="elic-id">
+                                                <span class="elic-id-name" x-text="it.item_id + ':'"></span>
+                                                <span class="elic-fact" x-show="it.fact" x-text="it.fact"></span>
+                                            </td>
+                                            <td><span class="chip" :class="verdictBand(it.verdict)"
+                                                      x-text="verdictLabel(it.verdict)"></span></td>
+                                            <td class="elic-q" x-text="it.evidence"></td>
+                                            <td class="elic-r" x-text="it.error || it.reasoning"></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </details>
+                    </section>
+
+                    <!-- OPTIMIZATION DIAGNOSTIC. The build's optimize_agent loop, counted out of the
+                         run's own trace: how many times it ran, why it stopped, how its redeploys
+                         went, and how many durable candidates it left. Its own section for the same
+                         reason as elicitation above -- it measures the BUILD, not the artifact, and
+                         anything rendered among the objectives gets read as one. Mirrors the section
+                         in the generated report (eval/report_html.py) so the two views agree. -->
+                    <section class="eval-dash elic opt" x-show="optimization()">
+                        <div class="eval-final-big elic-head">
+                            <span class="lbl">OPTIMIZATION RUNS</span>
+                            <span class="val" x-show="optimizationRan()"
+                                  x-text="(optimization()||{}).calls"></span>
+                            <span class="val elic-word" x-show="!optimizationRan()"
+                                  x-text="optimizationStatusWord()"></span>
+                            <span class="sub" x-text="optimizationSub()"></span>
+                        </div>
+                        <div class="elic-blurb">
+                            <span x-text="optimizationWhy()"></span>
+                            <em>Diagnostic only &mdash; not part of the score above.</em>
+                        </div>
+                        <div class="dist" x-show="optimizationRan()">
+                            <!-- Saturation and a spent budget are separate claims and are never
+                                 collapsed: running out of cycles is not evidence a candidate cannot
+                                 be improved. -->
+                            <span class="chip" :class="stopReasonBand()" x-text="stopReasonLabel()"></span>
+                            <!-- Whatever the reason above outranked. `unverified_change` wins over
+                                 saturation and a spent budget, and on the last cycle of a
+                                 budget-bounded run all of them routinely hold at once -- this chip is
+                                 the only place the outranked ones would still be visible here. -->
+                            <span class="chip warn" x-show="stopReasonAlso()" x-text="stopReasonAlso()"></span>
+                        </div>
+                        <div class="dist" x-show="optimizationRan()">
+                            <!-- The loop's OWN eval -- its generated cases, its metric names -- which is
+                                 the quantity it is steering. Best is shown next to final because they
+                                 can differ: a change is kept when it beats the PREVIOUS measurement,
+                                 not the best one, so a loop can finish below its own high-water mark. -->
+                            <span class="chip" :class="internalEvalBand()" x-text="internalEvalLabel()"></span>
+                            <!-- Only when the two scores were taken on DIFFERENT candidates. A lower
+                                 final on the same bytes is the eval re-measuring one program, not the
+                                 loop losing ground, and the reader is told which of the two it is. -->
+                            <span class="chip" :class="internalEvalBelowBest() ? internalEvalBelowBest().band : 'na'"
+                                  x-show="internalEvalBelowBest()"
+                                  x-text="(internalEvalBelowBest()||{}).label"></span>
+                            <!-- Every score in order, so the three numbers above can be checked
+                                 against the trajectory they summarise. Elided in the middle on a long
+                                 run, never at the end: the last one is what `final` names. -->
+                            <span class="chip na" x-show="internalEvalTrajectory()"
+                                  x-text="internalEvalTrajectory()"></span>
+                        </div>
+                        <!-- The benchmark's verdict on the same run, beside the loop's. Two different
+                             measurements of one artifact, so the number between them is a distance and
+                             is labelled as one; it is not an error and not an agreement score. -->
+                        <div class="dist" x-show="optimizationRan() && benchmarkGap()">
+                            <span class="chip na" x-text="(benchmarkGap()||{}).label"></span>
+                        </div>
+                        <div class="dist" x-show="optimizationRan()">
+                            <span class="chip good" x-text="`${(optimization()||{}).deploys_succeeded} redeploy(s) succeeded`"></span>
+                            <span class="chip" :class="(optimization()||{}).deploys_failed ? 'bad' : 'na'"
+                                  x-text="`${(optimization()||{}).deploys_failed} would not build`"></span>
+                            <span class="chip" :class="optimizationCheckpointBand()"
+                                  x-text="optimizationCheckpointLabel()"></span>
+                            <span class="chip warn" x-show="deploysOutsideLoop()"
+                                  x-text="deploysOutsideLoop()"></span>
+                        </div>
+                        <!-- What the loop did with its own changes once it had measured them. A
+                             roll-back restores the previous candidate and redeploys it, which is a
+                             redeploy that is NOT a change -- so it leaves a checkpoint the deploy
+                             counts above do not explain. The last chip is the reconciliation. -->
+                        <div class="dist" x-show="optimizationRan() && rollbackLabel()">
+                            <span class="chip" :class="rollbackBand()" x-text="rollbackLabel()"></span>
+                            <!-- Its own chip because it is the only one of these counts that changes
+                                 what the run submitted: the code the loop decided against is what
+                                 stayed running. -->
+                            <span class="chip bad" x-show="rollbacksFailed()" x-text="rollbacksFailed()"></span>
+                            <span class="chip" :class="checkpointReconciliation() ? checkpointReconciliation().band : 'na'"
+                                  x-show="checkpointReconciliation()"
+                                  x-text="(checkpointReconciliation()||{}).label"></span>
+                        </div>
+                        <ul class="eval-warnings" x-show="(optimization()||{}).warnings && optimization().warnings.length">
+                            <template x-for="w in (optimization()||{}).warnings || []" :key="w">
+                                <li x-text="w"></li>
+                            </template>
+                        </ul>
+                        <details class="elic-fold" x-show="((optimization()||{}).call_details||[]).length">
+                            <summary x-text="`the ${((optimization()||{}).call_details||[]).length} call(s), each with what it scored and what it changed`"></summary>
+                            <table class="elic-items">
+                                <thead>
+                                    <tr>
+                                        <th>call</th>
+                                        <th>status</th>
+                                        <th>internal-eval score</th>
+                                        <th>change</th>
+                                        <th>verdict on the previous change</th>
+                                        <th>checkpoint scored</th>
+                                        <th>error</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template x-for="c in ((optimization()||{}).call_details||[])" :key="c.ordinal">
+                                        <tr>
+                                            <td class="elic-id"><span class="elic-id-name" x-text="'call ' + c.ordinal"></span></td>
+                                            <td x-text="c.status || (c.unfinished ? 'no result — the run ended inside this call' : 'n/a')"></td>
+                                            <td x-text="fmtScore(c.headline_metric)"></td>
+                                            <td x-text="callChangeLabel(c)"></td>
+                                            <td x-text="callVerdictLabel(c)"></td>
+                                            <td class="elic-r" x-text="c.checkpoint || ''"></td>
+                                            <td class="elic-r" x-text="c.deploy_error || c.error || ''"></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </details>
+                    </section>
+
+                        <div class="section-hd">PER-CASE TRANSCRIPTS</div>
+                        <template x-for="(c,ci) in evalCases()" :key="c.dp">
+                            <details class="ecase">
+                                <summary>
+                                    <span class="idx" x-text="'#'+ci"></span>
+                                    <span class="chip" :class="bandClass(c.score)" x-text="fmtScore(c.score)"></span>
+                                    <span class="dp" x-text="c.dp"></span>
+                                    <span class="err-chip" x-show="c.error">error</span>
+                                </summary>
+                                <div class="ecase-body">
+                                    <template x-for="(doc,di) in c.docs" :key="di">
+                                        <div class="repeat">
+                                            <div class="err" x-show="doc.error" x-text="doc.error"></div>
+                                            <div class="section-label mio-line">
+                                                <span>Conversation</span>
+                                                <span class="mio-btns" x-show="evalCallsForCase(c.dp).length">
+                                                    <span class="mio-lbl">model I/O:</span>
+                                                    <template x-for="(item, mi) in evalCallsForCase(c.dp)" :key="mi">
+                                                        <button class="mio-btn" @click="openModelIo(item.ref, item)"
+                                                                :title="item.caller + ' · ' + formatTime(item.time) + (item.tokens ? (' · ' + item.tokens + ' tok') : '')"
+                                                                x-text="item.caller"></button>
+                                                    </template>
+                                                </span>
+                                            </div>
+                                            <template x-for="(t,ti) in (doc.conversation||[])" :key="ti">
+                                                <div class="turn">
+                                                    <div class="bubble user" x-show="t.query && (t.query.text||t.query.json)" x-text="(t.query && (t.query.text||t.query.json))||''"></div>
+                                                    <div class="bubble agent" x-text="(t.response && t.response.text) || '(no text)'"></div>
+                                                    <div class="err" x-show="t.response && t.response.rejected_files && t.response.rejected_files.length"
+                                                         x-text="'returned file(s) rejected: ' + ((t.response && t.response.rejected_files) || []).map(f => f.file_name + ' (' + f.file_type + ')').join(', ')"></div>
+                                                    <template x-if="t.response && t.response.trace && t.response.trace.length">
+                                                        <details class="trace">
+                                                            <summary x-text="'agent internals · llm trace ('+t.response.trace.length+' steps)'"></summary>
+                                                            <template x-for="(s,si) in t.response.trace" :key="si">
+                                                                <div class="tstep" :class="'k-'+(s.kind||'assistant')">
+                                                                    <span class="tkind" x-text="s.kind||'assistant'"></span>
+                                                                    <div class="tcontent" x-show="s.content" x-text="s.content"></div>
+                                                                    <template x-for="(tc,tci) in (s.tool_calls||[])" :key="tci">
+                                                                        <div class="tcall" x-text="'→ '+(tc.name||'')+'('+(typeof tc.arguments==='object'?JSON.stringify(tc.arguments):(tc.arguments||''))+')'"></div>
+                                                                    </template>
+                                                                    <pre class="tresult" x-show="s.result !== undefined && s.result !== null" x-text="typeof s.result==='string'?s.result:JSON.stringify(s.result,null,2)"></pre>
+                                                                </div>
+                                                            </template>
+                                                        </details>
+                                                    </template>
+                                                    <div class="struct" x-show="t.response && t.response.json"><pre x-text="t.response && t.response.json"></pre></div>
+                                                </div>
+                                            </template>
+                                            <div class="section-label" x-show="doc.final_state">Environment state (post-run)</div>
+                                            <pre class="env" x-show="doc.final_state" x-text="JSON.stringify(doc.final_state,null,2)"></pre>
+                                        </div>
+                                    </template>
+                                    <div class="section-label">Objectives</div>
+                                    <template x-for="(o,oi) in c.objectives" :key="oi">
+                                        <div class="obj">
+                                            <span class="chip" :class="bandClass(o.score)" x-text="o.score===null?'n/a':fmtScore(o.score)"></span>
+                                            <span class="oname" x-text="o.objective"></span>
+                                            <div class="reasoning" x-show="o.metadata && (o.metadata.reasoning||o.metadata.explanation||o.metadata.note)"
+                                                 x-text="o.metadata && (o.metadata.reasoning||o.metadata.explanation||o.metadata.note)"></div>
+                                            <div class="oerr" x-show="o.error" x-text="o.error"></div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </details>
+                        </template>
+                    </section>
+                </div>
+            </template>
+
+        </main>
+
+        <!-- ============ ARTIFACT TAB ============ -->
+        <main class="tab-panel" x-show="activeTab==='artifact'">
+            <section class="artifact-panel">
+                <div class="artifact-header">
+                    <button @click="loadArtifact()" class="refresh-btn" title="Reload snapshot">⟳ reload</button>
+                    <span class="artifact-status" x-show="artifact.loaded && artifact.exists"
+                          x-text="`${artifact.files.length} files`"></span>
+                    <span class="artifact-status muted" x-show="artifact.loaded && !artifact.exists">
+                        No artifact persisted for this run yet.
+                    </span>
+                </div>
+                <div class="artifact-files" x-show="artifact.exists">
+                    <template x-for="f in artifact.files" :key="f.path">
+                        <div class="artifact-file" @click="viewArtifactFile(f.path)">
+                            <span class="file-link">📄 <span x-text="f.path"></span></span>
+                            <span class="file-size" x-text="formatSize(f.size)"></span>
+                        </div>
+                    </template>
+                </div>
+            </section>
+        </main>
+
+        <main class="tab-panel" x-show="activeTab==='agentfs'">
+            <section class="artifact-panel">
+                <div class="artifact-header">
+                    <button @click="loadAgentFs()" class="refresh-btn" title="Reload snapshot">⟳ reload</button>
+                    <span class="artifact-status" x-show="agentFs.loaded && agentFs.exists"
+                          x-text="`${agentFs.files.length} files — appsci-agent (/workspace, /work, /data, /spec) + user-sim (/spec); deps &amp; large files pruned`"></span>
+                    <span class="artifact-status muted" x-show="agentFs.loaded && !agentFs.exists">
+                        No container-filesystem snapshot for this run (older run, or the containers were unavailable at cleanup).
+                    </span>
+                </div>
+                <div class="artifact-files" x-show="agentFs.exists">
+                    <template x-for="f in agentFs.files" :key="f.path">
+                        <div class="artifact-file" @click="viewAgentFsFile(f.path)">
+                            <span class="file-link">📄 <span x-text="f.path"></span></span>
+                            <span class="file-size" x-text="formatSize(f.size)"></span>
+                        </div>
+                    </template>
+                </div>
+            </section>
+        </main>
+
+        <!-- File viewer modal -->
+        <div x-show="fileModal.open" class="modal" @click.self="fileModal.open = false">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 x-text="fileModal.path"></h3>
+                    <button @click="fileModal.open = false" class="close-btn">&times;</button>
+                </div>
+                <pre class="file-content" x-text="fileModal.content"></pre>
+            </div>
+        </div>
+
+        <!-- Model I/O modal: full prompt messages + completion for one model call -->
+        <div x-show="modelModal.open" class="modal" @click.self="modelModal.open = false">
+            <div class="modal-content wide">
+                <div class="modal-header">
+                    <h3 x-text="modelModal.call ? (`Model call · ${modelModal.call.caller||''} · ${modelModal.call.model||''}`) : 'Model call'"></h3>
+                    <button @click="modelModal.open = false" class="close-btn">&times;</button>
+                </div>
+                <div class="mio-body" x-show="modelModal.call">
+                    <!-- A ref the model_calls store cannot resolve. Say why, and show the request-side
+                         preview the timeline event still carries, rather than an unexplained blank. -->
+                    <template x-if="modelModal.call && modelModal.call.unrecorded">
+                        <div>
+                            <div class="mio-warn">
+                                This call was never recorded, so its full I/O does not exist in this trace.
+                                The timeline knows it <em>started</em> (a model.request event with
+                                <span x-text="modelModal.call.n_messages"></span> input messages) but no
+                                completion was ever written — the call raised before finishing, which on
+                                this stack is almost always an upstream rate limit (429) or a gateway
+                                timeout. Traces recorded before that was fixed keep the gap permanently.
+                            </div>
+                            <div class="mio-label" x-show="modelModal.call.req_preview">LAST INPUT MESSAGE (preview from the event)</div>
+                            <pre class="mio-content" x-show="modelModal.call.req_preview" x-text="modelModal.call.req_preview"></pre>
+                        </div>
+                    </template>
+                    <template x-if="!(modelModal.call && modelModal.call.unrecorded)">
+                        <div>
+                            <div class="mio-label">INPUT MESSAGES</div>
+                            <template x-for="(m,mi) in (modelModal.call ? modelModal.call.messages : [])" :key="mi">
+                                <div class="mio-msg" :class="'role-'+(m.role||'user')">
+                                    <div class="mio-role" x-text="m.role||'?'"></div>
+                                    <pre class="mio-content" x-text="typeof m.content==='string'?m.content:JSON.stringify(m.content,null,2)"></pre>
+                                </div>
+                            </template>
+                            <div class="mio-label">COMPLETION</div>
+                            <pre class="mio-content out" x-text="(modelModal.call && modelModal.call.content) || '(no text)'"></pre>
+                            <template x-if="modelModal.call && modelModal.call.tool_calls && modelModal.call.tool_calls.length">
+                                <div>
+                                    <div class="mio-label">TOOL CALLS</div>
+                                    <pre class="mio-content" x-text="JSON.stringify(modelModal.call.tool_calls,null,2)"></pre>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function dashboard() {
+            return {
+                events: [],
+                connected: false,
+                lastId: 0,
+                eventSource: null,
+                // Build-phase timeline (turn cards + coalesced model-call cards); eval model calls
+                // (judge / user-sim) live on the Eval tab, separate from the build phase.
+                buildTimeline: [],
+                buildRows: [],
+                collapsedSpans: new Set(),
+                _seenTurns: new Set(),
+                // Every event already taken in, keyed on the id its WRITER stamped on it. The
+                // line-number `id` is a position in the merged log and says nothing about identity,
+                // so it cannot be the thing that answers "have I seen this already".
+                _seenEvents: new Set(),
+                _spanIndex: {},
+                evalModelCalls: [],
+                _mcBySpan: {},
+                _sweBySpan: {},
+                _turnBySpan: {},
+                _curTurn: null,
+                fileModal: {
+                    open: false,
+                    path: '',
+                    content: ''
+                },
+                artifact: {
+                    expanded: false,
+                    loaded: false,
+                    exists: false,
+                    files: []
+                },
+                agentFs: { loaded: false, exists: false, files: [] },
+                // Eval-phase summary, derived client-side from eval.* events emitted by the evaluator.
+                evalReport: { checked: false, has_report: false },
+                evalSummary: { seen: false, complete: false, final_score: null, per_metric: {}, cases: [] },
+                // Unified dashboard: which tab is showing, and the natively-rendered eval report data.
+                activeTab: 'build',
+                showRaw: false,
+                theme: 'dark',
+                evalData: { loaded: false, error: null, report: null, convByDp: {} },
+                // Replicate identity: which half of a builds x trials pair this run is, and the
+                // trace holding the other half. Empty for an ordinary run, which is most of them.
+                replicate: { loaded: false, badge: '', role: '', build_trace_id: '', label: '', sibling_available: false },
+                modelModal: { open: false, call: null },
+                native: { available: false, harness: null, entries: [], total: 0, messageCount: 0, offset: 0,
+                    paddingTop: 0, paddingBottom: 0,
+                    prompt: null, warnings: [], hasMore: false, loading: false, error: null },
+                // The frozen wrapper prevents Alpine from proxying the entire retained log.
+                nativeStore: Object.freeze({window: new HarnessHistoryWindow()}),
+                nativeTimer: null,
+                nativeRequest: null,
+                nativeDisposed: false,
+                nativeFrame: null,
+                nativeObserver: null,
+                nativeWidth: 0,
+
+                init() {
+                    // Restore the user's theme choice (dark default).
+                    const saved = (() => { try { return localStorage.getItem('tracer-theme'); } catch (e) { return null; } })();
+                    this.theme = saved || 'dark';
+                    document.documentElement.dataset.theme = this.theme;
+                    // Backlog FIRST, stream second. Both used to be fired off together, and both
+                    // read the resume position at the moment they were called -- which was zero for
+                    // each of them -- so every event that already existed arrived twice and the
+                    // timeline was doubled before the first paint. Chained, the stream resumes from
+                    // where the backlog left off. `finally`, not `then`: a failed backlog fetch must
+                    // still leave a live stream behind.
+                    this.loadEvents().finally(() => this.connectSSE());
+                    this.watchVisibility();
+                    this.loadArtifact();
+                    this.loadEvalStatus();
+                    this.loadReplicate();
+                    this.loadNativeHistory();
+                },
+
+                nativeRole(entry) {
+                    return {assistant: 'Harness', user: 'User', tool_call: 'Tool call',
+                        tool_result: 'Tool response', status: 'Lifecycle', notice: 'Notice'}[entry.kind] || entry.kind;
+                },
+
+                nativeBuildStatus() {
+                    const done = [...this.events].reverse().find(e => e.event_type === 'build.complete');
+                    return done ? 'Build outcome: '+(done.payload?.status || 'finished')
+                        : 'Build outcome not yet recorded. Refreshing captured output while this tab is visible.';
+                },
+
+                nativeCallId(entry) {
+                    return this.nativeStore.window.calls.get(entry.call_id) || '';
+                },
+
+                nativeRender() {
+                    const viewport = this.$refs?.nativeViewport;
+                    const history = this.nativeStore.window;
+                    const view = history.range(viewport?.scrollTop || 0, viewport?.clientHeight || 600);
+                    this.native.entries = view.entries;
+                    this.native.total = history.entries.length;
+                    this.native.messageCount = history.messageCount;
+                    this.native.paddingTop = view.top;
+                    this.native.paddingBottom = view.bottom;
+                    this.$nextTick?.(() => this.nativeObserve());
+                },
+
+                nativeObserve() {
+                    const viewport = this.$refs?.nativeViewport;
+                    if (!viewport || this.nativeDisposed || typeof ResizeObserver === 'undefined') return;
+                    if (!this.nativeObserver) this.nativeObserver = new ResizeObserver(() => this.nativeScheduleMeasure());
+                    // Unobserve detached rows: scrolling must not retain their DOM subtrees.
+                    this.nativeObserver.disconnect();
+                    this.nativeObserver.observe(viewport);
+                    viewport.querySelectorAll('[data-native-id]').forEach(row => this.nativeObserver.observe(row));
+                },
+
+                nativeScheduleMeasure() {
+                    if (this.nativeDisposed || this.nativeFrame !== null || document.hidden || this.activeTab !== 'build') return;
+                    this.nativeFrame = requestAnimationFrame(() => {
+                        this.nativeFrame = null;
+                        this.nativeMeasure();
+                    });
+                },
+
+                nativeMeasure() {
+                    const viewport = this.$refs?.nativeViewport;
+                    if (!viewport || this.nativeDisposed || document.hidden || this.activeTab !== 'build' || !viewport.clientWidth) return;
+                    const history = this.nativeStore.window;
+                    const viewportTop = viewport.getBoundingClientRect().top;
+                    const rows = Array.from(viewport.querySelectorAll('[data-native-id]'), row => ({
+                        id: row.dataset.nativeId, rect: row.getBoundingClientRect(),
+                    }));
+                    // Anchor to the actual visible row, not its estimated position. A jump or an
+                    // expanded output can change the DOM heights before the observer measures them.
+                    const visible = rows.find(row => row.rect.bottom > viewportTop &&
+                        row.rect.top < viewportTop + viewport.clientHeight);
+                    const anchor = visible ? history.indices.get(visible.id) : history.indexAt(viewport.scrollTop);
+                    const withinRow = visible ? viewportTop - visible.rect.top : viewport.scrollTop - history.offsets[anchor];
+                    const atBottom = viewport.scrollHeight > viewport.clientHeight &&
+                        viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight < 2;
+                    const resized = this.nativeWidth !== viewport.clientWidth;
+                    if (resized) { history.invalidateHeights(); this.nativeWidth = viewport.clientWidth; }
+                    const changed = history.measure(rows.map(row => [row.id, row.rect.height]));
+                    history.layout();
+                    const scrollTop = atBottom ? Math.max(0, history.offsets[history.entries.length] - viewport.clientHeight)
+                        : history.offsets[anchor] + withinRow;
+                    const view = history.range(scrollTop, viewport.clientHeight);
+                    // Avoid a ResizeObserver/render loop when neither heights nor the window changed.
+                    if (resized || changed || view.entries[0]?.id !== this.native.entries[0]?.id ||
+                            view.entries.at(-1)?.id !== this.native.entries.at(-1)?.id) {
+                        this.native.entries = view.entries;
+                        this.native.paddingTop = view.top;
+                        this.native.paddingBottom = view.bottom;
+                        this.$nextTick?.(() => {
+                            viewport.scrollTop = scrollTop;
+                            this.nativeObserve();
+                        });
+                    }
+                },
+
+                nativeToggle(id, open) {
+                    const expanded = this.nativeStore.window.expanded;
+                    if (expanded.has(id) === open) return;
+                    if (open) expanded.add(id); else expanded.delete(id);
+                    const entry = this.native.entries.find(row => row.id === id);
+                    if (entry) entry.expanded = open;
+                    this.$nextTick?.(() => this.nativeScheduleMeasure());
+                },
+
+                nativeJumpTo(id) {
+                    const viewport = this.$refs?.nativeViewport;
+                    const top = this.nativeStore.window.topFor(id);
+                    if (!viewport || top === null) return;
+                    viewport.scrollTop = top;
+                    this.nativeRender();
+                    this.$nextTick?.(() => {
+                        document.getElementById('native-'+id.replace(':','-'))?.scrollIntoView({block: 'nearest'});
+                    });
+                },
+
+                nativeJumpToLatest() {
+                    const entry = this.nativeStore.window.entries.at(-1);
+                    if (entry) this.nativeJumpTo(entry.id);
+                },
+
+                async loadNativeHistory() {
+                    clearTimeout(this.nativeTimer);
+                    if (this.nativeDisposed || this.native.loading || document.hidden || this.activeTab !== 'build') return;
+                    this.native.loading = true;
+                    this.nativeRequest = new AbortController();
+                    const request = this.nativeRequest;
+                    const offset = this.native.offset;
+                    let advanced = false;
+                    try {
+                        const response = await fetch(`{{ base }}/api/harness/{{ trace_id }}?offset=${this.native.offset}`, {
+                            signal: this.nativeRequest.signal,
+                        });
+                        if (!response.ok) throw new Error('Could not load harness history (HTTP '+response.status+').');
+                        const data = await response.json();
+                        if (request.signal.aborted || this.nativeDisposed || document.hidden || this.activeTab !== 'build') return;
+                        if (data.reset) {
+                            this.nativeStore.window.reset();
+                            if (this.$refs?.nativeViewport) this.$refs.nativeViewport.scrollTop = 0;
+                        }
+                        this.native.available = data.available;
+                        this.native.harness = data.harness;
+                        this.native.warnings = data.warnings || [];
+                        this.native.hasMore = data.has_more;
+                        this.native.offset = data.offset;
+                        if (data.prompt !== null) this.native.prompt = data.prompt;
+                        this.nativeStore.window.append(data.entries || []);
+                        this.nativeRender();
+                        advanced = data.offset > offset || (data.reset && data.offset > 0);
+                        if (data.has_more && !advanced) throw new Error('History loading stalled; retrying automatically.');
+                        this.native.error = null;
+                    } catch (error) {
+                        if (error.name !== 'AbortError') this.native.error = error.message;
+                    } finally {
+                        this.native.loading = false;
+                        this.nativeRequest = null;
+                        // Drain backlogs automatically, yielding between bounded pages so the UI
+                        // can paint. Errors/no-progress retry at the normal live-poll interval.
+                        if (!this.nativeDisposed && !document.hidden && this.activeTab === 'build') {
+                            const delay = this.native.hasMore && advanced && !this.native.error ? 25 : 3000;
+                            this.nativeTimer = setTimeout(() => this.loadNativeHistory(), delay);
+                        }
+                    }
+                },
+
+                destroy() {
+                    this.nativeDisposed = true;
+                    clearTimeout(this.nativeTimer);
+                    this.nativeRequest?.abort();
+                    if (this.nativeFrame !== null) cancelAnimationFrame(this.nativeFrame);
+                    this.nativeObserver?.disconnect();
+                    this.closeSSE();
+                },
+
+                async loadEvents() {
+                    try {
+                        const response = await fetch(`{{ base }}/api/events/{{ trace_id }}?since_id=${this.lastId}`);
+                        const data = await response.json();
+                        if (data.events && data.events.length > 0) {
+                            this.processEvents(data.events);
+                        }
+                    } catch (e) {
+                        console.error('Failed to load events:', e);
+                    }
+                },
+
+                connectSSE() {
+                    // Never open a second stream: `onerror` reconnects, and `visibilitychange`
+                    // reconnects too, so without this a tab that errored while hidden would end up
+                    // holding two.
+                    if (this.eventSource) return;
+                    // A HIDDEN tab must not hold a connection open. This stream is `while True` on
+                    // the server, so it lives as long as the tab does -- and since the tracer is
+                    // mounted at /tracer on the SAME ORIGIN as the experiments dashboard, those
+                    // connections come out of one browser budget (~6 per origin over HTTP/1.1).
+                    // A few forgotten trace tabs therefore starved the dashboard: its requests sat
+                    // in Queueing/Stalled before they were even sent, and a fresh load took 15-20
+                    // seconds. Closing the tabs made it instant, which is what identified this.
+                    // On its own port the tracer had its own budget and this could not happen; the
+                    // one-port mount is worth keeping, so the stream has to be a good citizen.
+                    if (document.hidden) return;
+                    this.eventSource = new EventSource(`{{ base }}/api/events/{{ trace_id }}/stream?since_id=${this.lastId}`);
+
+                    this.eventSource.onopen = () => {
+                        this.connected = true;
+                    };
+
+                    this.eventSource.onmessage = (e) => {
+                        const event = JSON.parse(e.data);
+                        this.processEvents([event]);
+                    };
+
+                    this.eventSource.onerror = () => {
+                        this.connected = false;
+                        // Drop the handle before retrying, or the guard above would refuse the
+                        // reconnect and the tab would go permanently stale after one blip.
+                        this.closeSSE();
+                        setTimeout(() => this.connectSSE(), 2000);
+                    };
+                },
+
+                closeSSE() {
+                    if (this.eventSource) {
+                        this.eventSource.close();
+                        this.eventSource = null;
+                    }
+                    this.connected = false;
+                },
+
+                watchVisibility() {
+                    // Release the connection while hidden, and catch up on return. `since_id` means
+                    // reconnecting loses nothing -- the stream resumes from the last event seen, so
+                    // this costs a moment of catch-up rather than any data.
+                    document.addEventListener('visibilitychange', () => {
+                        if (document.hidden) {
+                            this.closeSSE();
+                            clearTimeout(this.nativeTimer);
+                            this.nativeRequest?.abort();
+                        } else {
+                            this.connectSSE();
+                            this.nativeScheduleMeasure();
+                            this.loadNativeHistory();
+                        }
+                    });
+                },
+
+                processEvents(newEvents) {
+                    // Only "follow" to the bottom if the user is already there (and viewing the
+                    // timeline) -- otherwise streamed events would keep yanking the page down while
+                    // they're reading/scrolled up.
+                    const nearBottom = (window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 150);
+                    let added = false;
+                    for (const event of newEvents) {
+                        // Two separate jobs, and they used to be conflated into one comparison
+                        // against the last id seen: deciding whether this event is NEW, and moving
+                        // the resume position. A batch arrives in timestamp order while ids run in
+                        // append order, so one batch can carry a lower id after a higher one --
+                        // which made that comparison silently DROP the lower one, losing a genuine
+                        // event whenever two writers' logs interleaved.
+                        //
+                        // So: identity decides what is new, and the resume position only ever moves
+                        // forward.
+                        const key = event.event_id || `line:${event.id}`;
+                        if (this._seenEvents.has(key)) continue;
+                        this._seenEvents.add(key);
+                        this.lastId = Math.max(this.lastId, event.id || 0);
+                        this.events.push(event);              // raw stream (count + dedup)
+                        this.updateEvalSummary(event);
+                        added = true;
+                    }
+                    if (added) this.rebuildBuildTree();
+                    if (nearBottom && this.activeTab === 'build') {
+                        this.$nextTick(() => window.scrollTo(0, document.body.scrollHeight));
+                    }
+                },
+
+                // Build the build phase as a parent_span_id-keyed tree, then flatten it to an indented
+                // pre-order list (buildRows). Every actor is an agent; each sub-agent dispatch (an
+                // agent.tool_invocation span) nests its sub-agent's spans beneath it, to arbitrary depth.
+                // Rebuilt from scratch each batch, so it is robust to out-of-order / child-before-parent
+                // arrival over SSE. Eval model calls (judge / eval user-sim) are siphoned to the Eval tab.
+                rebuildBuildTree() {
+                    const prev = this._spanIndex || {};
+                    const idx = {};
+                    const ensure = (sid) => {
+                        if (!sid) return null;
+                        if (!idx[sid]) {
+                            const pv = prev[sid] || {};
+                            idx[sid] = { span_id: sid, parent_span_id: null, kind: 'event',
+                                source: '', name: null, time: null, events: [], children: [],
+                                caller: '', model: '', ref: null, req_preview: '', completion: '', done: false,
+                                dur: '', tokens: null, n_tool_calls: 0, n_messages: 0, data_point_id: null,
+                                finish_reason: null,
+                                // carry over on-demand mini-swe view state across live rebuilds
+                                expanded: pv.expanded || false, loaded: pv.loaded || false, trace: pv.trace || [],
+                                sweError: pv.sweError || null };
+                        }
+                        return idx[sid];
+                    };
+                    this.evalModelCalls = [];
+                    const evalBySpan = {};
+                    const sorted = [...this.events].sort((a, b) =>
+                        (a.timestamp || '').localeCompare(b.timestamp || '') || (a.id || 0) - (b.id || 0));
+
+                    for (const e of sorted) {
+                        const type = this.normalizeType(e.event_type);
+                        const src = (e.source || '').replace(/^source\./i, '').toLowerCase();
+                        // Eval-phase sources, plural: the eval-time artifact user sim tags its model
+                        // calls 'artifact_usersim' and the elicitation judge tags its own
+                        // 'elicitation_judge', both so the usage rollup can price them apart from the
+                        // ARTIFACT judges' (the elicitation judge is itself a judge, so the untagged
+                        // default would merge it with the objectives' judges and no report could split
+                        // two different models at two different prices). Without them listed here those calls fall through to the build
+                        // timeline and render as stray top-level rows after the last build turn.
+                        const isEval = src === 'evaluator' || src === 'artifact_usersim'
+                            || src === 'elicitation_judge' || type.startsWith('eval.');
+
+                        if (type === 'model.request' || type === 'model.response') {
+                            const p = e.payload || {};
+                            const store = isEval ? evalBySpan : idx;
+                            let n = store[e.span_id];
+                            if (!n) {
+                                n = isEval
+                                    ? { kind: 'model_call', span_id: e.span_id, source: src, name: e.name || null,
+                                        time: e.timestamp, caller: '', model: '', ref: null, req_preview: '',
+                                        completion: '', done: false, dur: '', tokens: null, n_tool_calls: 0,
+                                        finish_reason: null,
+                                        n_messages: 0, data_point_id: null }
+                                    : ensure(e.span_id);
+                                store[e.span_id] = n;
+                                if (isEval) this.evalModelCalls.push(n);
+                            }
+                            n.kind = 'model_call'; n.source = src; n.name = e.name || n.name;
+                            n.parent_span_id = e.parent_span_id || n.parent_span_id;
+                            n.time = n.time || e.timestamp;
+                            if (type === 'model.request') {
+                                n.caller = p.caller || ''; n.model = p.model || ''; n.ref = p.ref;
+                                n.req_preview = p.preview || ''; n.n_messages = p.n_messages || 0;
+                                n.data_point_id = p.data_point_id || null;
+                            } else {
+                                n.completion = p.preview || ''; n.done = true;
+                                n.dur = p.duration_ms ? (p.duration_ms / 1000).toFixed(1) + 's' : '';
+                                n.tokens = p.tokens || null; n.n_tool_calls = p.n_tool_calls || 0;
+                                n.finish_reason = p.finish_reason || null;
+                                if (p.ref) n.ref = p.ref;
+                            }
+                            continue;
+                        }
+                        if (isEval) continue;   // eval.* lifecycle lives on the Eval tab
+
+                        const n = ensure(e.span_id);
+                        n.source = src; n.name = e.name || n.name;
+                        n.parent_span_id = e.parent_span_id || n.parent_span_id;
+                        n.time = n.time || e.timestamp;
+                        n.events.push(e);
+                        // Classify by the strongest signal seen on this span; never downgrade (the
+                        // paired end event -- tool_result, task_complete -- shares the span and must
+                        // not revert a turn/dispatch/subagent back to a plain event).
+                        if (type === 'agent.turn.start') n.kind = 'turn';
+                        else if (type === 'agent.tool.invocation') n.kind = 'dispatch';
+                        else if (type === 'swe.task.start') n.kind = 'subagent';
+                    }
+
+                    // Link children by parent span. An unresolved/absent parent normally makes a node
+                    // a root -- EXCEPT an agent-related node (appsci_agent / usersim / mini_swe_agent)
+                    // with no resolvable parent is attached to the turn that was open at its timestamp
+                    // (positional fallback). This nests genuinely-parentless activity -- e.g. mini-swe
+                    // curling the user-sim /ask directly, whose raw HTTP call carries no span -- under
+                    // the contemporaneous turn (so it collapses with the turn) instead of floating at
+                    // top level. Orchestrator/eval lifecycle nodes stay top-level roots.
+                    const turns = [];
+                    for (const sid in idx) if (idx[sid].kind === 'turn') turns.push(idx[sid]);
+                    turns.sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+                    const latestTurnBefore = (t) => {
+                        let found = null;
+                        for (const tn of turns) { if ((tn.time || '') <= (t || '')) found = tn; else break; }
+                        return found;
+                    };
+                    const AGENTISH = new Set(['appsci_agent', 'usersim', 'mini_swe_agent']);
+                    const roots = [];
+                    for (const sid in idx) {
+                        const n = idx[sid];
+                        const parent = n.parent_span_id ? idx[n.parent_span_id] : null;
+                        if (parent && parent !== n) { parent.children.push(n); continue; }
+                        if (n.kind !== 'turn' && AGENTISH.has(n.source)) {
+                            const turn = latestTurnBefore(n.time);
+                            if (turn && turn !== n) { turn.children.push(n); continue; }
+                        }
+                        roots.push(n);
+                    }
+                    const byTime = (a, b) => (a.time || '').localeCompare(b.time || '');
+                    roots.sort(byTime);
+                    for (const sid in idx) idx[sid].children.sort(byTime);
+
+                    // For mini-swe subagent nodes, remember the deepest model call ref (whose messages
+                    // hold the full conversation) so the on-demand swe view can fetch + flatten it.
+                    for (const sid in idx) {
+                        const n = idx[sid];
+                        if (n.kind !== 'subagent') continue;
+                        let deepest = null, deepestN = -1, complete = null;
+                        for (const c of n.children) {
+                            if (c.kind === 'model_call' && (c.n_messages || 0) >= deepestN) {
+                                deepestN = c.n_messages || 0; deepest = c.ref;
+                            }
+                        }
+                        for (const ev of n.events) {
+                            if (this.normalizeType(ev.event_type) === 'swe.task.complete') complete = ev;
+                        }
+                        n.deepestRef = deepest; n.completeEvent = complete;
+                    }
+
+                    const rows = [];
+                    // Turns start collapsed (like the old <details>): auto-collapse each turn the first
+                    // time we see it, but only once -- so a turn the user has expanded stays expanded
+                    // across live rebuilds.
+                    for (const sid in idx) {
+                        if (idx[sid].kind === 'turn' && !this._seenTurns.has(sid)) {
+                            this._seenTurns.add(sid);
+                            this.collapsedSpans.add(sid);
+                        }
+                    }
+                    const walk = (n, depth) => {
+                        rows.push({ node: n, depth });
+                        if (this.collapsedSpans.has(n.span_id)) return;
+                        for (const c of n.children) {
+                            // A mini-swe subagent renders its own conversation view on demand -> don't
+                            // also explode its raw bash/file/model child rows here.
+                            if (n.kind === 'subagent') continue;
+                            walk(c, depth + 1);
+                        }
+                    };
+                    for (const r of roots) walk(r, 0);
+                    this.buildRows = rows;
+                    this._spanIndex = idx;
+                },
+
+                toggleCollapse(node) {
+                    if (this.collapsedSpans.has(node.span_id)) this.collapsedSpans.delete(node.span_id);
+                    else this.collapsedSpans.add(node.span_id);
+                    this.rebuildBuildTree();
+                },
+
+                // Raw escape hatch: the untransformed event stream (one JSON object per line, oldest
+                // first). Computed only while the panel is open (x-if), so it never re-serializes on a
+                // live update when collapsed.
+                rawDump() {
+                    return this.events.map(e => JSON.stringify(e)).join('\n');
+                },
+                copyRaw() {
+                    try { navigator.clipboard.writeText(this.rawDump()); } catch (e) {}
+                },
+
+                // Display name for any node: the recorded role label, else a source->label fallback
+                // (back-compat with old traces that carry no name).
+                agentName(node) {
+                    if (node && node.name) return node.name;
+                    return this.formatSource(node ? node.source : '');
+                },
+                // The name of a dispatch = the TOOL the agent called, plus what it handed off to.
+                //
+                // The tool comes first because it is the agent's decision and the only thing that
+                // identifies the call. This used to lead with the sub-agent's own name, which made
+                // every delegating tool render as its delegate: `eval_generator` and a direct
+                // `mini_swe_agent` call both showed as "mini-swe", so a run's eval-harness step was
+                // invisible among its coding steps and could only be found by grepping the events.
+                //
+                // A dispatch that failed *before* handing off has no child to name, so it says so
+                // outright rather than looking like an inconsistent label. Tools that never spawn a
+                // sub-agent (deploy_artifact, complete) succeed and keep their plain name.
+                dispatchName(node) {
+                    const inv = (node.events || []).find(e => this.normalizeType(e.event_type) === 'agent.tool.invocation');
+                    const tool = (inv && (inv.payload || {}).tool) || '';
+                    let delegate = '';
+                    for (const c of (node.children || [])) {
+                        if (c.name && c.source !== node.source) { delegate = c.name; break; }
+                    }
+                    if (!delegate) {
+                        for (const c of (node.children || [])) {
+                            if (c.source && c.source !== node.source) {
+                                delegate = this.formatSource(c.source); break;
+                            }
+                        }
+                    }
+                    if (!tool) return delegate || 'sub-agent';
+                    if (this.dispatchFailed(node) && !delegate) return tool + ' (failed, not dispatched)';
+                    // Don't repeat itself when the tool IS the sub-agent it dispatched to. Compared with
+                    // separators and case normalised away, and by prefix, because the two names are
+                    // spelled differently on purpose: the registry key is `mini_swe_agent` and the span
+                    // it publishes is named `mini-swe`. Without this a direct call read as
+                    // "mini_swe_agent → mini-swe", which says the same thing twice.
+                    const norm = s => String(s || '').toLowerCase().replace(/[-_\s]/g, '');
+                    const t = norm(tool), d = norm(delegate);
+                    if (!d || t === d || t.startsWith(d) || d.startsWith(t)) return tool;
+                    return tool + ' → ' + delegate;
+                },
+                // A dispatch's one-line result, from its agent.tool_result payload.
+                //
+                // Beyond success/failure this leads with whatever the tool reported that a reader
+                // scanning the timeline would want: a score, and why the loop stopped. Built from the
+                // fields a tool nominated via `trace_output_keys` (see appsci_agent/tools/base.py), so
+                // a new tool's summary appears here without changing the tracer.
+                dispatchResult(node) {
+                    const res = (node.events || []).find(e => this.normalizeType(e.event_type) === 'agent.tool.result');
+                    const p = res && res.payload;
+                    if (!p) return '';
+                    if (p.success === false) return 'failed' + (p.error ? ': ' + p.error : '');
+                    const bits = [];
+                    if (typeof p.headline_metric === 'number') bits.push('score ' + p.headline_metric.toFixed(3));
+                    const opt = p.optimization;
+                    if (opt && opt.attempted) {
+                        bits.push(opt.accepted
+                            ? 'kept ' + (opt.technique || 'change')
+                            : 'reverted ' + (opt.technique || 'change'));
+                    }
+                    if (p.cycles_allowed !== undefined && p.cycles_allowed !== null) {
+                        bits.push('cycle ' + p.cycles_used + '/' + p.cycles_allowed);
+                    }
+                    if (p.budget_exhausted) bits.push('budget spent');
+                    else if (p.saturated) bits.push('saturated');
+                    if (p.eval_dir) bits.push('wrote ' + p.eval_dir);
+                    if (bits.length) return bits.join(' · ');
+                    return p.answer ? 'answered' : 'ok';
+                },
+                dispatchFailed(node) {
+                    const res = (node.events || []).find(e => this.normalizeType(e.event_type) === 'agent.tool.result');
+                    return !!(res && res.payload && res.payload.success === false);
+                },
+                dispatchToolName(node) {
+                    const inv = (node.events || []).find(e => this.normalizeType(e.event_type) === 'agent.tool.invocation');
+                    return (inv && (inv.payload || {}).tool) || '';
+                },
+
+                formatTime(timestamp) {
+                    if (!timestamp) return '';
+                    const date = new Date(timestamp);
+                    return date.toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false
+                    });
+                },
+
+                formatSource(source) {
+                    // Handle both raw enum values (Source.APPSCI_AGENT) and clean values (appsci_agent).
+                    // Case-insensitive strip so "Source.", "SOURCE.", etc. all lose the prefix.
+                    const cleanSource = source.replace(/^source\./i, '').toLowerCase();
+                    const sources = {
+                        'appsci_agent': 'APPSCI-AGENT',
+                        'usersim': 'USERSIM',
+                        'mini_swe_agent': 'MINI-SWE-AGENT',
+                        'task_env': 'TASK-ENV',
+                        'orchestrator': 'ORCHESTRATOR',
+                        'evaluator': 'EVALUATOR'
+                    };
+                    return sources[cleanSource] || cleanSource.toUpperCase().replace(/_/g, '-');
+                },
+
+                formatEventType(eventType) {
+                    // Handle both raw enum values (EventType.AGENT_TURN_START) and clean values (agent.turn_start)
+                    let cleanType = eventType.replace(/^EventType\./, '').toLowerCase().replace(/_/g, '.');
+                    // Fix double dots that might occur (e.g., agent..turn becomes agent.turn)
+                    cleanType = cleanType.replace(/\.+/g, '.');
+
+                    const types = {
+                        'agent.turn.start': 'Turn started',
+                        'agent.llm.request': 'LLM request',
+                        'agent.llm.response': 'LLM response',
+                        'agent.tool.invocation': 'Tool',
+                        'agent.tool.result': 'Tool result',
+                        'usersim.request': 'ask user-sim →',
+                        'usersim.response': '← user-sim reply',
+                        'swe.task.start': 'Task started',
+                        'swe.bash.command': 'Bash',
+                        'swe.file.write': 'File write',
+                        'swe.task.complete': 'Task completed',
+                        'build.start': 'BUILD started',
+                        'build.complete': 'BUILD completed',
+                        'eval.start': 'EVAL started',
+                        'eval.case.score': 'Case scored',
+                        'eval.elicitation': 'Elicitation diagnostic',
+                        'eval.optimization': 'Optimization diagnostic',
+                        'eval.complete': 'EVAL completed',
+                        // Also keep old format mappings
+                        'agent.turn_start': 'Turn started',
+                        'agent.llm_request': 'LLM request',
+                        'agent.llm_response': 'LLM response',
+                        'agent.tool_invocation': 'Tool',
+                        'agent.tool_result': 'Tool result',
+                        'swe.task_start': 'Task started',
+                        'swe.bash_command': 'Bash',
+                        'swe.file_write': 'File write',
+                        'swe.task_complete': 'Task completed'
+                    };
+                    return types[cleanType] || cleanType;
+                },
+
+                getEventClass(event) {
+                    // Handle raw enum values (case-insensitive strip)
+                    const source = event.source.replace(/^source\./i, '').toLowerCase();
+                    const eventType = event.event_type.replace(/^EventType\./, '').toLowerCase().replace(/_/g, '-');
+                    return `event-${source} event-${eventType}`;
+                },
+
+                hasPayload(event) {
+                    return event.payload && Object.keys(event.payload).length > 0;
+                },
+
+                // Row modifier for the two sides of a user-sim exchange, so a request (someone asking
+                // the sim) and a response (the sim replying) are visually distinct even in a flat list.
+                eventRowKind(event) {
+                    const t = this.normalizeType(event.event_type);
+                    if (t === 'usersim.request') return 'um-ask';
+                    if (t === 'usersim.response') return 'um-reply';
+                    return '';
+                },
+
+                formatPayload(event) {
+                    const p = event.payload;
+                    // Normalize event type: EventType.AGENT_TURN_START -> agent.turn.start
+                    const type = event.event_type.replace(/^EventType\./, '').toLowerCase().replace(/_/g, '.');
+
+                    // Custom formatting for specific event types
+                    if (type === 'agent.turn.start') {
+                        return `<span class="turn-num">Turn ${p.turn || '?'}</span>`;
+                    }
+                    if (type === 'agent.llm.request') {
+                        return `<span class="model">${p.model || ''}</span>`;
+                    }
+                    if (type === 'agent.llm.response') {
+                        const duration = p.duration_ms ? `${(p.duration_ms / 1000).toFixed(1)}s` : '';
+                        const tokens = p.tokens ? `${p.tokens} tokens` : '';
+                        return `<span class="response-info">${duration} ${tokens}</span>`;
+                    }
+                    if (type === 'agent.tool.invocation') {
+                        const tool = p.tool || p.name || '';
+                        const preview = p.task || p.question || '';
+                        // The call's other arguments, when it had any. Without this an
+                        // `optimize_agent` call rendered as a bare name, since only task/question
+                        // were ever read.
+                        const args = (p.args && Object.keys(p.args).length)
+                            ? `<pre class="mio-content">${this.escapeHtml(JSON.stringify(p.args, null, 2))}</pre>` : '';
+                        return `<span class="tool-name">${tool}</span>` +
+                               (preview ? `<div class="tool-preview">${this.escapeHtml(preview.substring(0, 200))}</div>` : '') +
+                               args;
+                    }
+                    if (type === 'agent.tool.result') {
+                        const status = p.success ? 'OK' : 'FAILED';
+                        const duration = p.duration_ms ? `(${(p.duration_ms / 1000).toFixed(1)}s)` : '';
+                        // Everything the tool nominated for the trace, which is the whole reason this
+                        // event is worth expanding: the score, the checkpoint it belongs to, why the
+                        // loop stopped, and what the optimization attempt did. `success`/`duration_ms`/
+                        // `answer` are already rendered above, so they are dropped from the blob.
+                        const skip = {success: 1, duration_ms: 1, answer: 1, error: 1};
+                        const rest = {};
+                        for (const k of Object.keys(p)) {
+                            if (!skip[k] && p[k] !== null && p[k] !== undefined) rest[k] = p[k];
+                        }
+                        const detail = Object.keys(rest).length
+                            ? `<pre class="mio-content">${this.escapeHtml(JSON.stringify(rest, null, 2))}</pre>` : '';
+                        const err = (!p.success && p.error)
+                            ? `<div class="tool-preview">${this.escapeHtml(String(p.error).substring(0, 400))}</div>` : '';
+                        return `<span class="result-status ${p.success ? 'success' : 'failed'}">${status}</span> ${duration}` +
+                               err + detail;
+                    }
+                    if (type === 'usersim.request') {
+                        return `<div class="question">Q: ${this.escapeHtml(p.question || '')}</div>`;
+                    }
+                    if (type === 'usersim.response') {
+                        const duration = p.duration_ms ? `(${(p.duration_ms / 1000).toFixed(1)}s)` : '';
+                        return `<div class="answer">A: ${this.escapeHtml(p.answer || '')}</div> ${duration}`;
+                    }
+                    if (type === 'swe.bash.command') {
+                        return `<code class="command">$ ${this.escapeHtml(p.command || '')}</code>`;
+                    }
+                    if (type === 'swe.file.write') {
+                        const path = p.path || p.file || '';
+                        return `<span class="file-link" @click="viewFile('${path}')">📄 ${path}</span>`;
+                    }
+                    if (type === 'eval.start') {
+                        return `<span class="response-info">${p.num_cases ?? '?'} cases · ${p.num_objectives ?? '?'} objectives</span>`;
+                    }
+                    if (type === 'eval.case.score') {
+                        const status = p.error ? `<span class="result-status failed">ERROR</span>` :
+                            `<span class="result-status ${p.score >= 0.999 ? 'success' : 'failed'}">${this.fmtScore(p.score)}</span>`;
+                        return `<span class="tool-name">${this.escapeHtml(p.data_point_id || '')}</span> ${status}`;
+                    }
+                    if (type === 'eval.complete') {
+                        const pm = Object.entries(p.per_metric || {})
+                            .map(([k, v]) => `${k}=${this.fmtScore(v)}`).join(', ');
+                        return `<span class="response-info">final ${this.fmtScore(p.final_score)}</span>` +
+                               (pm ? `<div class="tool-preview">${this.escapeHtml(pm)}</div>` : '');
+                    }
+
+                    if (type === 'model.request') {
+                        return `<span class="model">${this.escapeHtml(p.model||'')}</span> ` +
+                               `<span class="caller-tag">${this.escapeHtml(p.caller||'')}</span>` +
+                               (p.preview ? `<div class="tool-preview">${this.escapeHtml(p.preview)}</div>` : '');
+                    }
+                    if (type === 'model.response') {
+                        const dur = p.duration_ms ? `${(p.duration_ms/1000).toFixed(1)}s` : '';
+                        const tok = p.tokens ? `${p.tokens} tok` : '';
+                        return `<span class="response-info">${dur} ${tok}</span>` +
+                               (p.preview ? `<div class="tool-preview">${this.escapeHtml(p.preview)}</div>` : '');
+                    }
+
+                    // Default: show JSON
+                    return `<pre class="json">${JSON.stringify(p, null, 2)}</pre>`;
+                },
+
+                escapeHtml(text) {
+                    const div = document.createElement('div');
+                    div.textContent = text;
+                    return div.innerHTML;
+                },
+
+
+
+
+                // --- eval phase (combined observability) ---------------------------------------
+                normalizeType(eventType) {
+                    return eventType.replace(/^EventType\./, '').toLowerCase().replace(/_/g, '.').replace(/\.+/g, '.');
+                },
+
+                async loadEvalStatus() {
+                    try {
+                        const r = await fetch(`{{ base }}/api/eval/{{ trace_id }}`);
+                        const d = await r.json();
+                        this.evalReport = { checked: true, has_report: !!d.has_report };
+                    } catch (e) {
+                        this.evalReport = { checked: true, has_report: false };
+                    }
+                },
+
+                async loadReplicate() {
+                    // Failure is silent by design: this only adds a badge and a cross-link, so a run
+                    // with no record (or a tracer serving an older run dir) renders exactly as before.
+                    try {
+                        const r = await fetch(`{{ base }}/api/replicate/{{ trace_id }}`);
+                        const d = await r.json();
+                        const rep = d.replicate || {};
+                        this.replicate = {
+                            loaded: true,
+                            badge: d.badge || '',
+                            role: rep.role || '',
+                            build_trace_id: rep.build_trace_id || '',
+                            label: rep.label || '',
+                            sibling_available: !!d.sibling_available,
+                        };
+                    } catch (e) {
+                        this.replicate = { loaded: true, badge: '', role: '', build_trace_id: '', label: '', sibling_available: false };
+                    }
+                },
+
+                updateEvalSummary(event) {
+                    const type = this.normalizeType(event.event_type);
+                    if (!type.startsWith('eval.')) return;
+                    this.evalSummary.seen = true;
+                    const p = event.payload || {};
+                    if (type === 'eval.complete') {
+                        this.evalSummary.complete = true;
+                        this.evalSummary.final_score = p.final_score;
+                        this.evalSummary.per_metric = p.per_metric || {};
+                        // a report is usually available once eval completes; re-check the link target
+                        this.loadEvalStatus();
+                    } else if (type === 'eval.case.score') {
+                        this.evalSummary.cases.push({
+                            dp: p.data_point_id, score: p.score, error: p.error || null,
+                        });
+                    }
+                },
+
+                fmtScore(s) {
+                    return (s === null || s === undefined) ? '—' : Number(s).toFixed(3);
+                },
+
+
+                // --- unified dashboard: tabs + native eval + model I/O -------------------------
+                switchTab(tab) {
+                    this.activeTab = tab;
+                    if (tab === 'build') { this.loadNativeHistory(); this.$nextTick?.(() => this.nativeScheduleMeasure()); }
+                    else { clearTimeout(this.nativeTimer); this.nativeRequest?.abort(); }
+                    if (tab === 'eval' && !this.evalData.loaded && !this.evalData.error) this.loadEvalData();
+                    if (tab === 'artifact' && !this.artifact.loaded) this.loadArtifact();
+                    if (tab === 'agentfs' && !this.agentFs.loaded) this.loadAgentFs();
+                },
+
+                async loadEvalData() {
+                    try {
+                        const rr = await fetch(`{{ base }}/api/eval/{{ trace_id }}/report_json`);
+                        if (!rr.ok) {
+                            // Distinguish "build still running" (eval runs after it) from a finished
+                            // build that produced no eval, so the tab doesn't read as broken mid-run.
+                            const started = this.events.some(e => this.normalizeType(e.event_type) === 'build.start');
+                            const done = this.events.some(e => this.normalizeType(e.event_type) === 'build.complete');
+                            this.evalData.error = (started && !done)
+                                ? 'Evaluation has not run yet — the build phase is still in progress. It runs automatically once the build completes.'
+                                : 'No eval results for this run yet.';
+                            return;
+                        }
+                        const report = await rr.json();
+                        const cr = await fetch(`{{ base }}/api/eval/{{ trace_id }}/conversations`);
+                        const convs = cr.ok ? (await cr.json()).conversations : [];
+                        const byDp = {};
+                        for (const doc of convs) {
+                            const dp = doc.data_point_id || '?';
+                            (byDp[dp] = byDp[dp] || []).push(doc);
+                        }
+                        for (const dp in byDp) byDp[dp].sort((a,b)=>(a.repeat_index||0)-(b.repeat_index||0));
+                        this.evalData = { loaded: true, error: null, report, convByDp: byDp };
+                    } catch (e) {
+                        this.evalData.error = 'Failed to load eval results: ' + e;
+                    }
+                },
+
+                evalCases() {
+                    // Join report.results (objectives + judge metadata) with per-dp scores and the
+                    // persisted conversations, keyed by data_point_id -- the same merge report_html does.
+                    const r = this.evalData.report;
+                    if (!r) return [];
+                    const dpScore = {};
+                    for (const row of (r.views.per_data_point||[])) dpScore[row.data_point_id] = row.score;
+                    const objByDp = {};
+                    for (const res of (r.results||[])) (objByDp[res.data_point_id] = objByDp[res.data_point_id] || []).push(res);
+                    const dps = new Set([...Object.keys(objByDp), ...Object.keys(this.evalData.convByDp||{})]);
+                    const out = [];
+                    for (const dp of Array.from(dps).sort()) {
+                        const docs = (this.evalData.convByDp||{})[dp] || [];
+                        const objectives = (objByDp[dp]||[]).slice().sort((a,b)=>
+                            (a.objective||'').localeCompare(b.objective||'') || (a.repeat_index||0)-(b.repeat_index||0));
+                        const error = docs.some(d=>d.error) || objectives.some(o=>o.error);
+                        out.push({ dp, score: dpScore[dp], error, docs, objectives });
+                    }
+                    return out;
+                },
+
+                // --- the elicitation diagnostic ---------------------------------------------
+                // Read straight off the report, never recomputed. The four statuses are the reason there
+                // are this many small helpers: a run can be SCORED, can be a real zero (the agent never
+                // asked anything), or can have measured NOTHING at all -- no rubric, or a conversation
+                // that could not be read. The last two are not a rate of zero, and the section has to
+                // say so in words rather than drawing a number that flatters the agent.
+                elicitation() { return (this.evalData.report || {}).elicitation || null; },
+                elicitationRate() {
+                    const e = this.elicitation();
+                    if (!e || e.elicited_rate === null || e.elicited_rate === undefined) return null;
+                    return e.elicited_rate;
+                },
+                elicitationPct(key) {
+                    const v = (this.elicitation() || {})[key];
+                    return (v === null || v === undefined) ? 'n/a' : Math.round(v * 100) + '%';
+                },
+                elicitationStatusWord() {
+                    return ((this.elicitation() || {}).status || '-').replace(/_/g, ' ');
+                },
+                // The denominator, always shown beside the rate: it varies between runs because items the
+                // judge could not read are excluded from it, and a rate over three judged items is not
+                // the same claim as one over fifty.
+                elicitationSub() {
+                    const e = this.elicitation();
+                    if (!e) return '';
+                    const parts = [];
+                    if (e.error_items) {
+                        parts.push(`${e.judged_items} of ${e.total_items} items judged`);
+                        parts.push(`${e.error_items} not judged — excluded, not counted against the agent`);
+                    } else {
+                        parts.push(`${e.total_items} rubric item${e.total_items === 1 ? '' : 's'}`);
+                    }
+                    parts.push(`${e.num_exchanges} exchange${e.num_exchanges === 1 ? '' : 's'}`);
+                    return parts.join(' · ');
+                },
+                elicitationWhy() {
+                    const s = (this.elicitation() || {}).status;
+                    if (s === 'no_rubric') return 'This task ships no elicitation rubric, so nothing was '
+                        + 'measured.';
+                    if (s === 'unmeasurable') return 'The build conversation could not be read — NO score, '
+                        + 'which is not a zero.';
+                    if (s === 'no_exchanges') return 'The agent never contacted the stakeholder — a real '
+                        + 'zero, not a gap.';
+                    return 'Of the facts only the stakeholder held, this share came back.';
+                },
+                // --- the optimization diagnostic --------------------------------------------
+                // Counts, not a score, so there is nothing to band: the headline is how many times the
+                // build's optimize_agent loop ran, and the claim beside it is why it stopped. The four
+                // statuses matter as much as they do for elicitation -- "the route was off" (the
+                // ablation arm), "the agent never called it", and "we could not read the trace" are
+                // three different findings that a bare 0 would render identically.
+                optimization() { return (this.evalData.report || {}).optimization || null; },
+                optimizationRan() { return ((this.optimization() || {}).status) === 'scored'; },
+                optimizationStatusWord() {
+                    return ((this.optimization() || {}).status || '-').replace(/_/g, ' ');
+                },
+                optimizationSub() {
+                    const o = this.optimization();
+                    if (!o || !this.optimizationRan()) return '';
+                    const allowed = (o.cycles_allowed === null || o.cycles_allowed === undefined)
+                        ? 'no ceiling' : o.cycles_allowed;
+                    // "unknown", not 0: a loop whose calls never reported back spent an unknown
+                    // number of cycles.
+                    const spent = (o.cycles_used === null || o.cycles_used === undefined)
+                        ? 'an unknown number of' : o.cycles_used;
+                    const parts = [`${spent} cycle(s) spent of ${allowed}`,
+                                   `${o.scored_calls} call(s) measured the candidate`];
+                    if (o.failed_calls) parts.push(`${o.failed_calls} measured nothing`);
+                    return parts.join(' · ');
+                },
+                optimizationWhy() {
+                    const s = (this.optimization() || {}).status;
+                    if (s === 'disabled') return 'This run had no optimization route (the ablation arm): '
+                        + 'no eval_generator and no optimize_agent, so there was nothing to run.';
+                    if (s === 'not_attempted') return 'The agent had the optimization route and never '
+                        + 'called it — a real zero about the agent, not a gap in the measurement.';
+                    if (s === 'unmeasurable') return 'The build\'s trace could not be read, so the loop '
+                        + 'is unknown — NOT a run without optimization.';
+                    return 'How many times the build\'s optimize_agent loop ran, counted out of its trace.';
+                },
+                stopReasonLabel() {
+                    const r = (this.optimization() || {}).stop_reason;
+                    return {
+                        saturated: 'saturated — stopped early, with budget still unspent',
+                        budget_exhausted: 'budget spent — the cycle allowance ran out, not the ideas',
+                        saturated_and_budget_exhausted:
+                            'saturated and out of budget — both held, so neither is the sole reason',
+                        nothing_to_fix: 'nothing to fix — every internal-eval case passed',
+                        unverified_change: 'left an unverified change — the submitted candidate is not '
+                            + 'the one any score refers to',
+                        run_ended_mid_call: 'the run ended inside an optimize_agent call — the loop '
+                            + 'did not stop, the run did, so the counts here are a floor',
+                        still_optimizing: 'not stopped — the agent moved on while the loop was still working',
+                    }[r] || (r || 'no stopping state recorded');
+                },
+                stopReasonBand() {
+                    const r = (this.optimization() || {}).stop_reason;
+                    return {saturated: 'good', nothing_to_fix: 'good', budget_exhausted: 'warn',
+                            saturated_and_budget_exhausted: 'warn', unverified_change: 'bad',
+                            run_ended_mid_call: 'bad'}[r] || 'na';
+                },
+                // Mirrors report_html._stop_reason_also: the trajectory state the reason outranked.
+                // Saturation and a spent budget are claims about the trajectory, an unverified change
+                // is a claim about the candidate, and they are not in tension -- so the two that lose
+                // the tie are still said out loud instead of disappearing behind the winner.
+                stopReasonAlso() {
+                    const o = this.optimization() || {};
+                    if (o.stop_reason !== 'unverified_change') return '';
+                    const held = [];
+                    if (o.saturated) held.push('the scores had also saturated');
+                    if (o.budget_exhausted) held.push('the cycle budget was also spent');
+                    return held.join(' and ');
+                },
+                // The counts are null when this run keeps no checkpoints at all, which is not the same
+                // claim as "the loop produced none" -- so the note is shown instead of a zero.
+                optimizationCheckpointLabel() {
+                    const o = this.optimization() || {};
+                    if (o.checkpoints_valid === null || o.checkpoints_valid === undefined) {
+                        return 'checkpoints: ' + (o.checkpoint_note || 'not counted');
+                    }
+                    return `${o.checkpoints_valid} valid checkpoint(s) from optimization `
+                        + `(${o.checkpoints_unhealthy} unhealthy, ${o.checkpoints_failed} failed, `
+                        + `of ${o.checkpoints_in_run} in the run)`;
+                },
+                optimizationCheckpointBand() {
+                    const v = (this.optimization() || {}).checkpoints_valid;
+                    if (v === null || v === undefined) return 'na';
+                    return v > 0 ? 'good' : 'warn';
+                },
+                // The agent's own eval, the one the loop optimises against. A null final means no call
+                // came back with a score, which is said in words rather than shown as 0.000.
+                internalEvalLabel() {
+                    const o = this.optimization() || {};
+                    if (o.internal_eval_final === null || o.internal_eval_final === undefined) {
+                        return 'internal eval: no call reported a score, so the loop\'s own '
+                            + 'trajectory is unknown';
+                    }
+                    const best = (o.internal_eval_best_call === null || o.internal_eval_best_call === undefined)
+                        ? `best ${this.fmtScore(o.internal_eval_best)}`
+                        : `best ${this.fmtScore(o.internal_eval_best)} (call ${o.internal_eval_best_call})`;
+                    const change = (o.internal_eval_change === null || o.internal_eval_change === undefined)
+                        ? 'one measurement only, so there is no change to report'
+                        : `${o.internal_eval_change >= 0 ? '+' : ''}${Number(o.internal_eval_change).toFixed(3)} over the loop`;
+                    return `internal eval: first ${this.fmtScore(o.internal_eval_first)} · ${best} `
+                        + `· final ${this.fmtScore(o.internal_eval_final)} · ${change}`;
+                },
+                internalEvalBand() {
+                    const o = this.optimization() || {};
+                    if (o.internal_eval_final === null || o.internal_eval_final === undefined) return 'na';
+                    if (o.internal_eval_change === null || o.internal_eval_change === undefined) return 'na';
+                    return o.internal_eval_change > 0 ? 'good' : 'warn';
+                },
+                // Whether the loop ended holding a worse candidate, or merely re-measured the same one.
+                // Read off `ended_below_best`, which the reader decides on the candidate's content
+                // hash -- `final < best` alone fires on the eval's own non-determinism, and did, on
+                // four of the six runs it flagged. Null when there is nothing to say (it did not end
+                // below its best) or nothing that can be said (the candidates cannot be compared).
+                internalEvalBelowBest() {
+                    const o = this.optimization() || {};
+                    if (o.ended_below_best === true) {
+                        const where = o.internal_eval_best_checkpoint
+                            ? ` (checkpoint ${o.internal_eval_best_checkpoint})` : '';
+                        return {band: 'warn', label: `ended BELOW its own best on a DIFFERENT `
+                            + `candidate${where} — the loop's keep rule only protects a change the `
+                            + `LOOP made, so a deploy the agent made itself can lose the high-water `
+                            + `candidate`};
+                    }
+                    if (o.ended_below_best === false
+                        && o.internal_eval_final != null && o.internal_eval_best != null
+                        && o.internal_eval_final < o.internal_eval_best) {
+                        return {band: 'na', label: 'the final score is below the best, but on the '
+                            + 'SAME candidate — the loop re-measured one program and its own eval moved'};
+                    }
+                    return null;
+                },
+                // Deploys the agent made itself while the loop was in play. Outside the
+                // keep-or-roll-back rule, which only restores a change the LOOP made.
+                deploysOutsideLoop() {
+                    const n = (this.optimization() || {}).deploys_outside_loop;
+                    if (!n) return null;
+                    return `${n} deploy(s) the agent made outside the loop — the keep-or-roll-back `
+                        + `rule does not cover these`;
+                },
+                // The loop's final belief next to the benchmark's verdict. Null when either side is
+                // missing -- a build-only run has no report score, and showing one number labelled as a
+                // comparison would be worse than showing none.
+                benchmarkGap() {
+                    const o = this.optimization() || {};
+                    const external = (this.evalData.report || {}).final_score;
+                    if (o.internal_eval_final === null || o.internal_eval_final === undefined) return null;
+                    if (external === null || external === undefined) return null;
+                    const gap = o.internal_eval_final - external;
+                    return {
+                        gap,
+                        label: `the loop ended at ${this.fmtScore(o.internal_eval_final)} on its own `
+                            + `eval; this run scored ${this.fmtScore(external)} on the benchmark · `
+                            + `${gap >= 0 ? '+' : ''}${Number(gap).toFixed(3)} between them — a `
+                            + `distance, not an error: the two score different things`,
+                    };
+                },
+                // Every score in call order. Null below two of them: with one, the three chips above
+                // already print it, and with none they say so in words.
+                internalEvalTrajectory() {
+                    const scores = (this.optimization() || {}).internal_eval_all_scores || [];
+                    if (scores.length < 2) return null;
+                    // Elided in the MIDDLE, never at the end: the last number is the one the chip
+                    // above calls `final`, so dropping it would make the two disagree.
+                    const shown = scores.length <= 6
+                        ? scores
+                        : scores.slice(0, 5).concat(['…'], [scores[scores.length - 1]]);
+                    return shown.map(s => (s === '…' ? s : this.fmtScore(s))).join(' → ');
+                },
+                // How many of the loop's own changes survived being measured. Null when it reached no
+                // verdicts at all -- "0 kept, 0 rolled back" would read as every change being rejected.
+                rollbackLabel() {
+                    const o = this.optimization() || {};
+                    const judged = (o.changes_kept || 0) + (o.changes_rolled_back || 0);
+                    if (!judged) return null;
+                    let label = `${o.changes_kept || 0} of ${judged} change(s) kept`;
+                    if (o.changes_rolled_back) label += ` · ${o.changes_rolled_back} rolled back`;
+                    if (o.rollback_redeploys) label += ` · ${o.rollback_redeploys} roll-back redeploy(s)`;
+                    return label;
+                },
+                rollbackBand() {
+                    const o = this.optimization() || {};
+                    return o.changes_rolled_back ? 'warn' : 'good';
+                },
+                rollbacksFailed() {
+                    const n = (this.optimization() || {}).rollbacks_failed;
+                    if (!n) return null;
+                    return `${n} roll-back(s) did not take — the rejected code stayed running`;
+                },
+                // Why the deploy tally and the checkpoint tally differ, in the line that settles it: a
+                // restore is a redeploy that is not a change. Null when there is nothing to reconcile,
+                // since with no roll-backs the two numbers already agree.
+                checkpointReconciliation() {
+                    const o = this.optimization() || {};
+                    if (o.checkpoints_valid === null || o.checkpoints_valid === undefined) return null;
+                    if (!o.rollback_redeploys) return null;
+                    const expected = (o.deploys_succeeded || 0) + o.rollback_redeploys;
+                    const line = `${o.deploys_succeeded || 0} redeploy(s) of a change + `
+                        + `${o.rollback_redeploys} roll-back redeploy(s) = ${expected}`;
+                    if (expected === o.checkpoints_valid) {
+                        return {band: 'na', label: `${line}, which is the valid checkpoint count`};
+                    }
+                    return {
+                        band: 'warn',
+                        label: `${line}, against ${o.checkpoints_valid} valid checkpoint(s) — `
+                            + `${Math.abs(o.checkpoints_valid - expected)} unaccounted for`,
+                    };
+                },
+                callChangeLabel(c) {
+                    if (!c.changed) return 'measured only';
+                    return c.redeployed ? 'changed + redeployed'
+                                        : 'changed, would not build (rolled back)';
+                },
+                // What this call decided about the PREVIOUS call's change. Blank when there was nothing
+                // pending to judge -- 'kept: no' there would read as a rejection.
+                callVerdictLabel(c) {
+                    if (c.previous_change_kept === null || c.previous_change_kept === undefined) return '';
+                    if (c.previous_change_kept) return 'kept the previous change';
+                    if (c.rollback && c.rollback !== 'reverted') {
+                        return `rolled back, but ${c.rollback} — the rejected code stayed running`;
+                    }
+                    return 'rolled the previous change back';
+                },
+                verdictLabel(v) {
+                    return {elicited: 'elicited', asked_not_elicited: 'asked, not elicited',
+                            missed: 'never asked', error: 'not judged'}[v] || v;
+                },
+                verdictBand(v) {
+                    return {elicited: 'good', asked_not_elicited: 'warn', missed: 'bad',
+                            error: 'na'}[v] || 'na';
+                },
+                bandClass(score) {
+                    if (score === null || score === undefined) return 'na';
+                    if (score >= 0.8) return 'good';
+                    if (score >= 0.4) return 'warn';
+                    return 'bad';
+                },
+                barStyle(score) {
+                    const pct = Math.max(0, Math.min(1, score || 0)) * 100;
+                    return `width:${pct}%`;
+                },
+
+                // Label for a model call's completion column. When the call ends in a tool call, the
+                // "completion" is really the reasoning that accompanies the hand-off (e.g. the
+                // appsci-agent dispatching mini_swe_agent) -- NOT a summary of what the tool did -- so
+                // say so, to avoid reading it as the turn's outcome.
+                completionLabel(mc) {
+                    return (mc && mc.n_tool_calls) ? 'reasoning → dispatch' : 'completion';
+                },
+
+                // The prompt preview = the last input message. In the agent-tree view each turn is a
+                // distinct node and the user-sim exchange renders once under its own dispatch, so we
+                // show the real preview (the initial task on turn 1, the prior tool result thereafter)
+                // rather than a placeholder -- the full multi-message prompt is still one click away.
+                promptPreview(mc) {
+                    return mc ? mc.req_preview : '';
+                },
+
+                // Eval model calls (judge/user-sim) grouped by the case that produced them, using the
+                // data_point_id we tag onto each call via model_call_context (eval/generation.py +
+                // eval/scoring.py). A call with no case tag renders nowhere, on purpose. On a CURRENT
+                // run the only eval-phase caller without one is the elicitation judge, which scores the
+                // run's single build conversation rather than a case, and its evidence and reasoning are
+                // already extracted per rubric item in the elicitation section above -- a raw-call list
+                // beside that is a second copy of the same content.
+                //
+                // Two things this deliberately gives up. On a run recorded before per-case tagging
+                // existed, EVERY eval call is untagged and the report carries no elicitation block, so
+                // that model I/O is now unreachable here; the bottom-of-tab list this replaced was
+                // written for exactly those traces. And for the judge, the extracted evidence is the
+                // judge's own account of the transcript rather than the transcript it was handed, so a
+                // suspect verdict has to be chased through the model-call store on disk instead. Both
+                // were accepted knowingly: the legacy shape is dead, and a full raw-call list is a high
+                // price to pay in the common case for the rare debugging session.
+                evalCallsForCase(dp) {
+                    return this.evalModelCalls.filter(c => c.data_point_id === dp);
+                },
+
+                // One-line digest for a collapsed turn: the appsci-agent's own message this turn
+                // (its agent-loop completion). Restricted to appsci_agent model calls so it never
+                // falls through to a nested agent's (mini-swe) message.
+                turnNum(node) {
+                    const e = (node.events || []).find(x => this.normalizeType(x.event_type) === 'agent.turn.start');
+                    return e ? (e.payload || {}).turn : '';
+                },
+                // A turn's one-line digest = its own agent-loop model call's reasoning. Deliberately NO
+                // fallback to req_preview: that surfaced a prior turn's echoed tool result. Empty is fine.
+                turnDigest(node) {
+                    const mc = (node.children || []).find(c => c.kind === 'model_call' && c.caller === 'agent_loop');
+                    return mc ? (mc.completion || '') : '';
+                },
+                // "N steps" for a turn = its own actions (its agent-loop model call + the tool
+                // dispatches it makes). Nested sub-agents report their own step counts separately.
+                turnStepCount(node) {
+                    return (node.children || []).filter(c => c.kind === 'model_call' || c.kind === 'dispatch').length;
+                },
+                // Names of the sub-agents / tools this turn dispatched, for badges in the turn header
+                // (e.g. "mini-swe", the user-sim persona role) -- restores the old turn-overview richness.
+                turnDispatches(node) {
+                    const out = [];
+                    for (const c of (node.children || [])) {
+                        if (c.kind === 'dispatch') out.push(this.dispatchName(c));
+                        else if (c.kind === 'subagent') out.push(this.agentName(c));
+                    }
+                    return out.slice(0, 4);
+                },
+                // One-line preview of what a dispatch asked its sub-agent (the task / question).
+                dispatchPreview(node) {
+                    const inv = (node.events || []).find(e => this.normalizeType(e.event_type) === 'agent.tool.invocation');
+                    const p = (inv && inv.payload) || {};
+                    const s = p.task || p.question || '';
+                    return s ? (s.split('\n')[0].slice(0, 140)) : '';
+                },
+                // Internal step count for a nested mini-swe run (from its task-complete event, else the
+                // number of model calls we absorbed).
+                sweInternalSteps(swe) {
+                    const p = swe.completeEvent && swe.completeEvent.payload;
+                    if (p && (p.step_count || p.step_count === 0)) return p.step_count;
+                    return swe.callCount || 0;
+                },
+                sweResult(swe) {
+                    const p = swe.completeEvent && swe.completeEvent.payload;
+                    if (!p) return '';
+                    return p.exit_status || (p.success ? 'completed' : 'failed');
+                },
+
+                // Toggle + lazily load a nested mini-swe run's reconstructed conversation. The deepest
+                // captured call already holds the whole task history, so we fetch that ONE call and
+                // flatten it -- no per-call full-history dumps.
+                async toggleSwe(swe) {
+                    swe.expanded = !swe.expanded;
+                    if (!swe.expanded || swe.loaded) return;
+                    swe.loaded = true;
+                    swe.sweError = null;
+                    if (!swe.deepestRef) { swe.trace = []; return; }
+                    try {
+                        const r = await fetch(`{{ base }}/api/model_io/{{ trace_id }}?ref=${encodeURIComponent(swe.deepestRef)}`);
+                        if (!r.ok) {
+                            // A failed fetch used to fall through to an empty trace, which the panel
+                            // rendered as "No captured mini-swe conversation." -- the same words used
+                            // when a sub-agent genuinely said nothing. That made a server-side failure
+                            // look like an empty run, and it hid a real bug: the store lookup used to
+                            // load every model call into memory, so the gigabyte traces written by a
+                            // sub-agent that ran uncached could not be read at all. Say which it is,
+                            // and let the user retry by re-expanding.
+                            swe.loaded = false;
+                            swe.sweError = `Could not load this sub-agent's conversation (HTTP ${r.status}`
+                                + `${r.status === 404 ? ' - no stored record for this call' : ''}). `
+                                + 'Click to retry.';
+                            swe.trace = [];
+                            return;
+                        }
+                        const trace = this.flattenSweConversation(await r.json());
+                        // Close the trace with the handoff back to the appsci-agent (task result).
+                        const p = swe.completeEvent && swe.completeEvent.payload;
+                        if (p) {
+                            const res = p.exit_status || (p.success ? 'completed' : 'failed');
+                            trace.push({ label: '← APPSCI-AGENT · task result', cls: 'handoff-out',
+                                         text: res + (p.step_count != null ? ` · ${p.step_count} steps` : '') });
+                        }
+                        swe.trace = trace;
+                    } catch (e) {
+                        swe.loaded = false;
+                        swe.sweError = `Could not load this sub-agent's conversation: ${e.message || e}. Click to retry.`;
+                        swe.trace = [];
+                    }
+                },
+
+                // Reconstruct a mini-swe task as one linear, labeled conversation from a single call:
+                // its input `messages` (system, the task from appsci-agent, then reasoning/result
+                // pairs) plus the call's own final assistant step. Each entry is a flat span; the UI
+                // shows the hierarchical handoffs (APPSCI-AGENT -> mini-swe -> APPSCI-AGENT).
+                flattenSweConversation(call) {
+                    if (!call) return [];
+                    const out = [];
+                    const norm = (c) => (c == null) ? '' : (typeof c === 'string' ? c : JSON.stringify(c, null, 2));
+                    let sawTask = false;
+                    for (const m of (call.messages || [])) {
+                        const role = m.role || 'user';
+                        const text = norm(m.content);
+                        if (role === 'system') {
+                            out.push({ label: 'mini-swe · system', cls: 'sys', text });
+                        } else if (role === 'user' && !sawTask) {
+                            sawTask = true;
+                            out.push({ label: 'APPSCI-AGENT → mini-swe · task', cls: 'handoff-in', text });
+                        } else if (role === 'assistant') {
+                            out.push({ label: 'mini-swe · reasoning', cls: 'reason',
+                                       text: text || '(no text)', cmd: this.bashFromToolCalls(m.tool_calls) });
+                        } else {
+                            out.push({ label: 'mini-swe · result', cls: 'result', text });
+                        }
+                    }
+                    // The call's own output = the final assistant step (its "completion"), shown
+                    // distinctly at the end of the trace. content may be null when it is a pure tool call.
+                    const finalCmd = this.bashFromToolCalls(call.tool_calls);
+                    const finalText = norm(call.content);
+                    if (finalText || finalCmd) {
+                        out.push({ label: 'mini-swe · final output', cls: 'final',
+                                   text: finalText || '(no text)', cmd: finalCmd });
+                    }
+                    return out;
+                },
+
+                bashFromToolCalls(tcs) {
+                    if (!Array.isArray(tcs) || !tcs.length) return '';                    const cmds = [];
+                    for (const tc of tcs) {
+                        let args = (tc && tc.arguments !== undefined) ? tc.arguments
+                                 : (tc && tc.function ? tc.function.arguments : undefined);
+                        if (typeof args === 'string') {
+                            try { args = JSON.parse(args); } catch (e) { args = { command: args }; }
+                        }
+                        if (args && args.command) cmds.push(args.command);
+                        else if (args) cmds.push(typeof args === 'string' ? args : JSON.stringify(args));
+                    }
+                    return cmds.join('\n');
+                },
+
+                toggleTheme() {
+                    const next = (document.documentElement.dataset.theme === 'light') ? 'dark' : 'light';
+                    document.documentElement.dataset.theme = next;
+                    try { localStorage.setItem('tracer-theme', next); } catch (e) {}
+                    this.theme = next;
+                },
+
+                // `node` is the row the button lives on (optional). It is built from the MODEL_REQUEST
+                // event, so when the store has no record for this ref we can still say WHICH call it
+                // was and show the request-side preview we already have, instead of an empty modal.
+                //
+                // A ref with no record is not a bug in this view: model_call_start emits the request
+                // event, model_call_end writes the record, and a call that RAISED (gateway 429, gateway
+                // timeout) used to produce the first without the second. Live evidence: run
+                // airline_rebooking_20260807_091549 had 50 of 96 refs dangling. `model_call` in
+                // shared/observability/model_io.py now closes that hole for new runs, but every
+                // historical trace still contains dangling refs, so this view must degrade honestly.
+                async openModelIo(ref, node) {
+                    if (!ref) return;
+                    this.modelModal = { open: true, call: null };
+                    try {
+                        const r = await fetch(`{{ base }}/api/model_io/{{ trace_id }}?ref=${encodeURIComponent(ref)}`);
+                        this.modelModal.call = r.ok ? await r.json() : this.unrecordedCall(ref, node);
+                    } catch (e) {
+                        this.modelModal.call = { caller: '', model: '', messages: [], tool_calls: [],
+                                                content: 'Failed to load: ' + e };
+                    }
+                },
+
+                // Stand-in "call" for a ref the model_calls store cannot resolve. Carries `unrecorded`
+                // so the modal explains why it is thin rather than looking broken.
+                unrecordedCall(ref, node) {
+                    const n = node || {};
+                    return {
+                        unrecorded: true, ref: ref,
+                        caller: n.caller || '', model: n.model || '',
+                        n_messages: n.n_messages || 0,
+                        req_preview: n.req_preview || '',
+                        messages: [], tool_calls: [], content: null, usage: null, cost_usd: null,
+                    };
+                },
+
+
+                async viewFile(path) {
+                    // File-write events record workspace-relative paths (e.g.
+                    // "artifact/server.py"); the persisted snapshot is rooted at
+                    // the artifact dir, so strip a leading "artifact/" if present.
+                    const rel = path.replace(/^\/?artifact\//, '');
+                    this.viewArtifactFile(rel);
+                },
+
+                async loadArtifact() {
+                    try {
+                        const response = await fetch(`{{ base }}/api/artifact/{{ trace_id }}`);
+                        const data = await response.json();
+                        this.artifact.exists = !!data.exists;
+                        this.artifact.files = data.files || [];
+                        this.artifact.loaded = true;
+                    } catch (e) {
+                        console.error('Failed to load artifact:', e);
+                        this.artifact.loaded = true;
+                    }
+                },
+
+                async viewArtifactFile(path) {
+                    this.fileModal.path = path;
+                    this.fileModal.content = 'Loading...';
+                    this.fileModal.open = true;
+                    try {
+                        const url = `{{ base }}/api/artifact/{{ trace_id }}/file?path=${encodeURIComponent(path)}`;
+                        const response = await fetch(url);
+                        if (!response.ok) {
+                            const err = await response.json().catch(() => ({}));
+                            this.fileModal.content = `Could not load file: ${err.detail || response.status}`;
+                            return;
+                        }
+                        const data = await response.json();
+                        this.fileModal.content = data.content;
+                    } catch (e) {
+                        this.fileModal.content = `Error loading file: ${e}`;
+                    }
+                },
+
+                async loadAgentFs() {
+                    try {
+                        const response = await fetch(`{{ base }}/api/agent_fs/{{ trace_id }}`);
+                        const data = await response.json();
+                        this.agentFs.exists = !!data.exists;
+                        this.agentFs.files = data.files || [];
+                        this.agentFs.loaded = true;
+                    } catch (e) {
+                        console.error('Failed to load agent files:', e);
+                        this.agentFs.loaded = true;
+                    }
+                },
+
+                async viewAgentFsFile(path) {
+                    this.fileModal.path = path;
+                    this.fileModal.content = 'Loading...';
+                    this.fileModal.open = true;
+                    try {
+                        const url = `{{ base }}/api/agent_fs/{{ trace_id }}/file?path=${encodeURIComponent(path)}`;
+                        const response = await fetch(url);
+                        if (!response.ok) {
+                            const err = await response.json().catch(() => ({}));
+                            this.fileModal.content = `Could not load file: ${err.detail || response.status}`;
+                            return;
+                        }
+                        const data = await response.json();
+                        this.fileModal.content = data.content;
+                    } catch (e) {
+                        this.fileModal.content = `Error loading file: ${e}`;
+                    }
+                },
+
+                formatSize(bytes) {
+                    if (bytes == null) return '';
+                    if (bytes < 1024) return `${bytes} B`;
+                    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+                    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+                }
+            };
+        }
+    </script>
+</body>
+</html>

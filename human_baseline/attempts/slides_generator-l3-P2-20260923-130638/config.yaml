@@ -1,0 +1,8 @@
+task_id: slides_generator
+ambiguity_level: L3
+collaboration_style: collaborative
+baseliner: P2
+attempt_id: slides_generator-l3-P2-20260923-130638
+tooling: human + Claude Code
+soft_cap_hours: 4
+standalone_dir: /home/user/Documents/baseline-work/slides_generator-l3-P2-20260923-130638

@@ -1,0 +1,38 @@
+name: mini_swe_agent
+
+description: |
+  Delegate coding and shell tasks to a specialized subagent that handles implementation autonomously.
+
+  The mini_swe_agent can:
+  - Execute bash commands (query databases, run scripts, manage files)
+  - Read and write files
+  - Edit code
+  - Build and deploy artifacts
+  - Run tests and verify functionality
+
+  Use this tool when you need to:
+  - Explore the environment (query databases, read files, inspect APIs)
+  - Write and edit code files
+  - Build and deploy the artifact to the artifact container
+  - Run tests and verify the artifact works
+
+  Guidelines:
+  - Provide clear, specific task descriptions—the subagent works best with well-defined goals
+  - Include relevant context (what you've learned, what you're trying to achieve)
+  - The subagent handles implementation details; you focus on what needs to be built and why
+  - Break complex tasks into smaller, focused subtasks
+  - The subagent runs unprivileged and cannot read the benchmark tooling's own source (`/app`); it
+    works on the task's files, data, and tools only. State model access details in the task if the
+    code it writes needs them.
+
+parameters:
+  type: object
+  properties:
+    task:
+      type: string
+      description: A clear description of the coding/shell task to perform
+    context:
+      type: string
+      description: Additional context about the goal or what you've learned so far
+  required:
+    - task

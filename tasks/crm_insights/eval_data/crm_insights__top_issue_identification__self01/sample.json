@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__top_issue_identification__self01",
+  "single_turn_input": {
+    "text": "Over the past 53 months, what is the most frequently reported issue for the Elemental Soccer Shin Guards? The associated product Id is 01tWs000002wRmgIAE. Return only the issue Id of the most reported issue for this product.\n\n(Today's date: 2024-06-15)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"a1MWs0000012u7BMAQ\", \"evidence_case_ids\": [\"500Ws000007qifIIAQ\", \"500Ws000007rF6YIAU\", \"500Ws000007rKXfIAM\", \"500Ws000007rRPRIA2\", \"500Ws000007rRZ9IAM\"], \"task_category\": \"top_issue_identification\", \"reward_metric\": \"exact_match\"}"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0099",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9044 (Ashcombe Freight Solutions) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"get senior engineering directly involved and provide a written root-cause analysis for the recurring sync failures\", \"provide an initial update within 48 hours\", \"Wren to update her own leadership on the situation\", \"Wren to send the two ticket numbers from the manual reconciliations\"], \"risks\": [\"integration sync failures have recurred intermittently for two months despite two previous temporary fixes\", \"customer states the pattern has made her question whether to renew later this year\"], \"commitments\": [\"get senior engineering directly involved and provide a written root-cause analysis for the recurring sync failures\", \"provide an initial update within 48 hours\"], \"sentiment\": \"NEGATIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 44 (Escalation, L, dissatisfaction + conditional renewal, two distinct risks). The unresolved pattern (two prior fixes, still recurring) and the renewal-in-question statement are separate signals, kept as separate items. Two of Marco's undertakings are acknowledged commitments; Wren's own leadership update is her next step only. 'At the end of my patience' and 'not looking for empty reassurance' make this clearly NEGATIVE. (Corrected: an earlier pass dropped Wren's acknowledged offer to send the two ticket numbers ('That would help a lot, please do send those over' / 'I'll get those to you after this call') from next_steps -- the identical pattern is correctly included in cci-0100, so omitting it here was an inconsistency, not a deliberate exclusion.)",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

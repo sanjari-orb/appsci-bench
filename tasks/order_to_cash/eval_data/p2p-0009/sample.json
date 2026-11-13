@@ -1,0 +1,9 @@
+{
+  "data_point_id": "p2p-0009",
+  "single_turn_input": {
+    "text": "Review invoice INV-2241 (supplier Supplier_9, PO PO-000775) against its PO line and the supplier contract; decide whether to flag it for human review and give a short reason."
+  },
+  "expected_output": {
+    "json": "{\"flagged\": true, \"fault_type\": \"PRICE_DELTA\", \"reason\": \"unit price 219.53 != PO 179.1 (total delta $16172.00 > $500, material); 'handling fee' $364.84 is permitted by the contract\", \"total_delta\": 16172.0, \"permitted_fee\": 364.84}"
+  }
+}

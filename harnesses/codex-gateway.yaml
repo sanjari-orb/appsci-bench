@@ -1,0 +1,5 @@
+# Requires a verified Responses API endpoint, NOT merely Chat Completions.
+name: codex-gateway
+image: appsci-bench-harness-clis:latest
+adapter: codex
+auth: gateway

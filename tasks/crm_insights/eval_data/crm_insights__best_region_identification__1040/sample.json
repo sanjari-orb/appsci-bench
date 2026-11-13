@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__best_region_identification__1040",
+  "single_turn_input": {
+    "text": "Which states have the quickest case closures in the past 5 months? Return only the two-letter abbreviation of the most matching state (eg. CA).\n\n(Today's date: 2024-09-22)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"OR\", \"evidence_case_ids\": [\"500Ws000007rJ70IAE\"], \"task_category\": \"best_region_identification\", \"reward_metric\": \"exact_match\"}"
+  }
+}

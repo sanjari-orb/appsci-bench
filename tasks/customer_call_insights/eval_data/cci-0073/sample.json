@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0073",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9018 (Ferncliff Dental Partners) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [], \"risks\": [], \"commitments\": [], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 18 (Renewal, S, empty is right). A short confirmation call -- renewal is already signed, nothing outstanding. Harlan's 'no issues at all' and smooth-running comment make this POSITIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__handle_time__self03",
+  "single_turn_input": {
+    "text": "Find the agent with the longest handle time who managed more than one case in 2022. Return only the Id of the agent.\n\n(Today's date: 2023-01-15)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xaQIIAY\", \"evidence_case_ids\": [\"500Ws000007qncWIAQ\", \"500Ws000007rBpQIAU\", \"500Ws000007rGU5IAM\", \"500Ws000007rIKdIAM\"], \"task_category\": \"handle_time\", \"reward_metric\": \"exact_match\"}"
+  }
+}

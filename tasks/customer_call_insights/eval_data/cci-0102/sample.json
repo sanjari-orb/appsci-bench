@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0102",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9047 (Holbrook Manufacturing Consortium) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"escalate to senior data engineering with a written root-cause analysis for the quality-control feed errors\", \"provide an initial update within three business days\", \"set up a call with our VP of Engineering next week\", \"Idris to update his own leadership on the situation\", \"Idris to send specific examples of the mismatched records\"], \"risks\": [\"quality-control data feed has had recurring timestamp errors for six weeks, unresolved after two prior support escalations\", \"customer has an active, named evaluation of Castellane Systems underway, with two calls held and a demo scheduled\"], \"commitments\": [\"escalate to senior data engineering with a written root-cause analysis for the quality-control feed errors\", \"provide an initial update within three business days\", \"set up a call with our VP of Engineering next week\"], \"sentiment\": \"NEGATIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 47 (Escalation, XL, multi-item at long range). Four next steps span a 36-turn call with two distinct risks (an unresolved pattern, and an active named competitor evaluation) separated by several turns of context-gathering. Idris stays measured throughout ('I want to keep this measured') rather than furious, but explicitly states real stakes (regulatory exposure, an active competitor evaluation) -- critical, not calm-therefore-neutral, so NEGATIVE. (Corrected: an earlier pass dropped Idris's acknowledged offer to send examples of the mismatched records ('That would genuinely help narrow things down' / 'I'll get those to you after this call wraps up') from next_steps.)",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

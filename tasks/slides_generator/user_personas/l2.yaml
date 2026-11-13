@@ -1,0 +1,51 @@
+persona_id: l2
+task_id: slides_generator
+level: L2
+role: "Technical partner (e.g. platform engineer, software engineer)"
+# L2 owns the INTEGRATION contract -- how the service is called, how it responds, what it must hold up
+# under -- and nothing about method or architecture (that is L1). It holds the business framing only
+# as far as an engineer on the project would: the pain and what "good" means, not audience strategy or
+# the fidelity/synthesis trade-off, which are L3's. That is also why it knows the KPI doc exists (an
+# engineer on this build has seen it) without holding the business reasoning behind it. The output
+# shape itself reaches every level through user_sim_docs/common/.
+domain_knowledge:
+  business_pain: |
+    Manual deck-building is slow:
+    - Teams spend hours or days creating decks for recurring meetings, product pitches, and research briefings.
+    - The process is repetitive, and the content often overlaps with previous decks.
+    - Teams often have to reformat content to fit the corporate template, which is time-consuming
+  what_good_looks_like: |
+    From an integration standpoint, a good response means: every slide in the returned data has to
+    carry real content, never an empty placeholder, and the file that comes back has to open
+    cleanly in PowerPoint and actually reflect the template that was selected -- not just reference
+    it. Concretely that means content sitting in the template's own placeholders: a free-floating text
+    box positioned to look right does not inherit the fonts or colours, and breaks the next time the
+    template changes. Whether the layout looks polished is a judgment call for the business side, not
+    something engineering signs off on.
+  input_flexibility: |
+    Accepted inputs, roughest to most structured:
+    - Sparse notes -- agent expands sensibly rather than padding with filler; flags big gaps
+      instead of inventing content
+    - A markdown (.md) or plain-text (.txt) prompt
+    - Up to 5 uploaded documents (docx, pdf, pptx, csv or xlsx) -- agent extracts and synthesizes content, flags gaps, and generates a deck.
+    Each of those types needs its own extraction path -- text out of a document, tables out of a
+    spreadsheet, text and structure out of a prior deck -- so that is a per-format code path, not one
+    reader. And extraction failures have to surface: a parse that fails quietly propagates into
+    everything downstream and the response still looks successful. Fail loudly or report the gap in
+    the response; do not swallow it.
+  template_expectations: |
+    Every deck must obey the approved template the user selects or uploads, every time. The agent locks
+    the visual theme from the template first, then fits content into it.
+    A template.pptx is always among the attachments, named exactly that, and it is the one attachment
+    that is not a content source -- every other attachment is. Worth handling explicitly at the input
+    boundary: treating it as a content source is a bug that produces a plausible-looking deck.
+  deployment_pipeline: |
+    - Artifact runs as an HTTP service, synchronous response (no async/polling in v1)
+    - Accepts a text prompt plus attached files, returns the structured data and the rendered file in
+      the same call -- one request in, both deliverables out, no second fetch
+    - SLO: 30-60s end to end, longer allowed for larger inputs
+  volume_expectations: "Up to ~50 requests per day. Not high-throughput -- design for this, revisit if real usage grows."
+  good_programming_practices: "Error handling, input validation, reproducible builds, logging for observability."
+known_resources:
+  - samples
+  - kpis

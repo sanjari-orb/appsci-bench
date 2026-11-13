@@ -1,0 +1,16 @@
+# Slide generator Task requirements
+# Installed in the workspace container for task setup and agent execution.
+
+# PPTX generation
+python-pptx>=1.0
+Pillow>=10.0
+
+# Standard artifact server stack (used by agent-built artifacts; must match root requirements.txt)
+fastapi>=0.136
+uvicorn>=0.49
+httpx>=0.28
+
+# Utilities
+jinja2>=3.1
+pyyaml>=6.0
+python-dotenv>=1.0

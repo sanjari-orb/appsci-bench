@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__transfer_count__783",
+  "single_turn_input": {
+    "text": "In the past 5 quarters, which agent averaged the highest number of transfers among those managing more than 3 cases? Return only the Id of the agent.\n\n(Today's date: 2022-10-29)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xYxxIAE\", \"evidence_case_ids\": [\"500Ws000007rFGIIA2\", \"500Ws000007rH9yIAE\", \"500Ws000007rG99IAE\"], \"task_category\": \"transfer_count\", \"reward_metric\": \"exact_match\"}"
+  }
+}

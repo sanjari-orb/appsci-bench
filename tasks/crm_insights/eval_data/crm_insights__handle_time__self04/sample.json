@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__handle_time__self04",
+  "single_turn_input": {
+    "text": "Find the agent with the longest handle time who managed more than one case in Fall 2021. Return only the Id of the agent.\n\n(Today's date: 2022-01-10)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xZSbIAM\", \"evidence_case_ids\": [\"500Ws000007rCOvIAM\", \"500Ws000007rHOVIA2\"], \"task_category\": \"handle_time\", \"reward_metric\": \"exact_match\"}"
+  }
+}

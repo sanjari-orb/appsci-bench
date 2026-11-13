@@ -1,0 +1,9 @@
+run_id,build,deploy,content_hash,is_submission,internal,external
+banking_support_claude-opus-4-8_b0_l3_20260920_174913,b0-0920,2,01fa54ec,0,0.9333,0.0619
+banking_support_claude-opus-4-8_b0_l3_20260920_174913,b0-0920,3,9b0fcc79,0,0.9000,0.0619
+banking_support_claude-opus-4-8_b0_l3_20260920_174913,b0-0920,4,01fa54ec,0,0.8611,0.0928
+banking_support_claude-opus-4-8_b0_l3_20260920_174913,b0-0920,5,a38596ba,0,0.8278,0.0722
+banking_support_claude-opus-4-8_b0_l3_20260921_075749,b0-0921,1,08a90f43,0,0.9500,0.0619
+banking_support_claude-opus-4-8_b0_l3_20260921_075749,b0-0921,2,35adf333,0,0.8833,0.0722
+banking_support_claude-opus-4-8_b0_l3_20260921_075749,b0-0921,3,08a90f43,0,0.8833,0.0619
+banking_support_claude-opus-4-8_b0_l3_20260921_075749,b0-0921,4,cb5ccf85,0,0.8833,0.0619

@@ -1,0 +1,32 @@
+Call CALL-9029 — Northgate Utilities Co (ACC-4029) — 2026-03-10 13:30 UTC
+Participants: Femi Delacroix (Senior Account Manager, us) / Astrid Lindqvist (Migration Program Manager, customer)
+
+Femi: Astrid, thanks for the time. I need to be upfront about something before we get into anything else -- the migration is slipping past our original April target.
+
+Astrid: Okay, that's not great news. What's driving it on your end?
+
+Femi: Honestly, it's on us -- our implementation team got pulled onto another priority customer's launch, and yours got delayed as a result.
+
+Astrid: I appreciate you being straightforward about it rather than making excuses, but I do need a real plan, not just an apology.
+
+Femi: Completely fair.
+
+Femi: I'm going to put together a revised migration plan with concrete dates and get it to you by the end of this week.
+
+Astrid: Appreciated, that would help a lot on my end for planning internally.
+
+Femi: I'll also make sure your migration gets dedicated resourcing this time, not shared with other accounts.
+
+Astrid: That's good to hear, honestly that's part of what went wrong the first time, I think.
+
+Femi: Agreed, and I take responsibility for that. Once you have the revised plan, can we get on a call to walk through it together?
+
+Astrid: Yes, that would be useful, I'd rather review it live than just over email.
+
+Femi: I'll set that call up.
+
+Femi: Once the plan's ready to share, that is.
+
+Astrid: Sounds good. I do want to flag, this delay is going to push back some of our own internal commitments too, so there's a ripple effect here.
+
+Femi: Understood, I hear that, and I'm sorry for the impact that's having beyond just our own timeline. I know I still owe you that revised plan by end of week, and we'll get the walkthrough call on the books right after.

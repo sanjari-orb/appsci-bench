@@ -1,0 +1,15 @@
+timeout: 1200          # global default build timeout (seconds); overridable per run
+observability: true    # stream the live dashboard for each run
+
+runs:
+  - task: airline_rebooking
+    personas: [l1]
+    limit: 3
+
+  - task: order_to_cash
+    personas: [l1]
+    limit: 3
+
+  - task: slides_generator
+    personas: [l1]
+    limit: 3

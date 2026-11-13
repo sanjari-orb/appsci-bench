@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0087",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9032 (Dunmore Educational Services) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [], \"risks\": [], \"commitments\": [], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 32 (Timeline, M, corner 3: acknowledgement rule, ask direction). Priya asks when the next rate review is scheduled; Renee never answers and moves straight to the next question -- per the acknowledgement rule, an unanswered ask belongs in neither list, however reasonable the question was. Priya's positive feedback on the rollout makes this POSITIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__bioamberinc_04_10_2013_ex_10_34_development_agreem_ca34a770__ip_protective",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'IP-Protective Standard' policy (ip_protective). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"ip_protective\", \"compliant\": false, \"violations\": [{\"category\": \"License Grant\", \"rule\": \"must_have\", \"present\": false, \"evidence_spans\": []}, {\"category\": \"Ip Ownership Assignment\", \"rule\": \"must_have\", \"present\": false, \"evidence_spans\": []}], \"needs_review\": []}"
+  }
+}

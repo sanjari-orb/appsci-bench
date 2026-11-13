@@ -1,0 +1,337 @@
+{
+  "series": {
+    "crm_insights_claude-opus-4-8_b0_l3_20260920_180551": {
+      "n": 3,
+      "n_deploys": 3,
+      "pearson": NaN,
+      "spearman": NaN,
+      "kendall_tau_b": NaN,
+      "external_noise_sd": 0.031087821838569958,
+      "programs": [
+        {
+          "program": "A",
+          "internal": 1.0,
+          "external": 0.6547666666666667,
+          "deploys": [
+            1
+          ],
+          "first_deploy": 1
+        },
+        {
+          "program": "B",
+          "internal": 1.0,
+          "external": 0.6192333333333333,
+          "deploys": [
+            2
+          ],
+          "first_deploy": 2
+        },
+        {
+          "program": "C",
+          "internal": 1.0,
+          "external": 0.6303,
+          "deploys": [
+            4
+          ],
+          "first_deploy": 4
+        }
+      ],
+      "internal_first": 1.0,
+      "internal_last": 1.0,
+      "external_first": 0.6547666666666667,
+      "external_last": 0.6303,
+      "external_all": [
+        {
+          "deploy": 1,
+          "external": 0.6547666666666667,
+          "hash": "4b4cc7ec",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 2,
+          "external": 0.6192333333333333,
+          "hash": "64d9b2e3",
+          "program": "B",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 3,
+          "external": 0.6472333333333333,
+          "hash": "4b4cc7ec",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": false
+        },
+        {
+          "deploy": 4,
+          "external": 0.6303,
+          "hash": "0db5c735",
+          "program": "C",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 5,
+          "external": 0.6251333333333333,
+          "hash": "0db5c735",
+          "program": "C",
+          "is_submission": true,
+          "is_submitted_program": true,
+          "has_internal": false
+        }
+      ],
+      "programs_built": 3,
+      "programs_abandoned": [
+        "A",
+        "B"
+      ],
+      "shipped_program": "C",
+      "loop_verdicts": [
+        {
+          "deploy": 2,
+          "incumbent": 1,
+          "verdict": "rejected",
+          "reverted": true,
+          "technique": "grounding",
+          "note": "# Change note\n\n## Metric targeted: grounding (0.6)\n\nanswer_correctness was already 1.0. Grounding failed on 4 cases:\n- c01_count_closed, c02_count_high_priority, c05_created_2023: aggregate COUNT\n  questions where the agent returned an empty `supporting_record_ids` (it\n  reasoned \"a count doesn't ne",
+          "internal": 1.0,
+          "external_delta": -0.03553333333333342,
+          "outcome": "correct_reject",
+          "within_noise": false
+        }
+      ],
+      "loop_correct_keep": 0,
+      "loop_wrong_keep": 0,
+      "loop_correct_reject": 1,
+      "loop_wrong_reject": 0,
+      "loop_value_discarded": 0,
+      "decisions": [
+        {
+          "cycle": "1->2",
+          "from": 1,
+          "to": 2,
+          "internal_delta": 0.0,
+          "external_delta": -0.03553333333333342,
+          "verdict": "tied",
+          "within_noise": false
+        }
+      ],
+      "decisions_agree": 0,
+      "decisions_disagree": 0,
+      "decisions_tied": 1,
+      "decisions_within_noise": 0,
+      "regret": {
+        "best_deploy": 1,
+        "best_score": 0.651,
+        "submitted_deploy": 5,
+        "submitted_score": 0.6277166666666667,
+        "submitted_is_best_program": false,
+        "regret": 0.023283333333333323
+      },
+      "points": [
+        {
+          "deploy": 1,
+          "internal": 1.0,
+          "external": 0.6547666666666667,
+          "hash": "4b4cc7ec",
+          "program": "A",
+          "is_submission": false
+        },
+        {
+          "deploy": 2,
+          "internal": 1.0,
+          "external": 0.6192333333333333,
+          "hash": "64d9b2e3",
+          "program": "B",
+          "is_submission": false
+        },
+        {
+          "deploy": 4,
+          "internal": 1.0,
+          "external": 0.6303,
+          "hash": "0db5c735",
+          "program": "C",
+          "is_submission": false
+        }
+      ]
+    },
+    "crm_insights_claude-opus-4-8_b1_l3_20260920_183649": {
+      "n": 2,
+      "n_deploys": 2,
+      "pearson": NaN,
+      "spearman": NaN,
+      "kendall_tau_b": NaN,
+      "external_noise_sd": 0.012250986354847794,
+      "programs": [
+        {
+          "program": "D",
+          "internal": 1.0,
+          "external": 0.8075,
+          "deploys": [
+            4
+          ],
+          "first_deploy": 4
+        },
+        {
+          "program": "E",
+          "internal": 1.0,
+          "external": 0.7888000000000001,
+          "deploys": [
+            5
+          ],
+          "first_deploy": 5
+        }
+      ],
+      "internal_first": 1.0,
+      "internal_last": 1.0,
+      "external_first": 0.8075,
+      "external_last": 0.7888000000000001,
+      "external_all": [
+        {
+          "deploy": 1,
+          "external": 0.0,
+          "hash": "ba6cc56f",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": false
+        },
+        {
+          "deploy": 2,
+          "external": 0.0,
+          "hash": "10f8435c",
+          "program": "B",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": false
+        },
+        {
+          "deploy": 3,
+          "external": 0.7955333333333333,
+          "hash": "6b3cf352",
+          "program": "C",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": false
+        },
+        {
+          "deploy": 4,
+          "external": 0.8075,
+          "hash": "5f8d9d9b",
+          "program": "D",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 5,
+          "external": 0.7888000000000001,
+          "hash": "e739608f",
+          "program": "E",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 6,
+          "external": 0.8076666666666666,
+          "hash": "5f8d9d9b",
+          "program": "D",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": false
+        },
+        {
+          "deploy": 7,
+          "external": 0.7843,
+          "hash": "5f8d9d9b",
+          "program": "D",
+          "is_submission": true,
+          "is_submitted_program": true,
+          "has_internal": false
+        }
+      ],
+      "programs_built": 5,
+      "programs_abandoned": [
+        "A",
+        "B",
+        "C",
+        "E"
+      ],
+      "shipped_program": "D",
+      "loop_verdicts": [
+        {
+          "deploy": 5,
+          "incumbent": 4,
+          "verdict": "rejected",
+          "reverted": true,
+          "technique": "grounding",
+          "note": "# Change note\n\n## Targeted metric\n`grounding` (0.9). The single failing case was `longest_handle_time_case`\n(grounding 0.2, answer_correctness already 1.0).\n\n## Root cause\nFor \"which case had the longest handle time?\" the agent legitimately ran an\nexploratory `ORDER BY handle_time DESC LIMIT 5` quer",
+          "internal": 1.0,
+          "external_delta": -0.01869999999999994,
+          "outcome": "correct_reject",
+          "within_noise": false
+        }
+      ],
+      "loop_correct_keep": 0,
+      "loop_wrong_keep": 0,
+      "loop_correct_reject": 1,
+      "loop_wrong_reject": 0,
+      "loop_value_discarded": 0,
+      "decisions": [
+        {
+          "cycle": "4->5",
+          "from": 4,
+          "to": 5,
+          "internal_delta": 0.0,
+          "external_delta": -0.01869999999999994,
+          "verdict": "tied",
+          "within_noise": false
+        }
+      ],
+      "decisions_agree": 0,
+      "decisions_disagree": 0,
+      "decisions_tied": 1,
+      "decisions_within_noise": 0,
+      "regret": {
+        "best_deploy": 4,
+        "best_score": 0.7998222222222222,
+        "submitted_deploy": 7,
+        "submitted_score": 0.7998222222222222,
+        "submitted_is_best_program": true,
+        "regret": 0.0
+      },
+      "points": [
+        {
+          "deploy": 4,
+          "internal": 1.0,
+          "external": 0.8075,
+          "hash": "5f8d9d9b",
+          "program": "D",
+          "is_submission": false
+        },
+        {
+          "deploy": 5,
+          "internal": 1.0,
+          "external": 0.7888000000000001,
+          "hash": "e739608f",
+          "program": "E",
+          "is_submission": false
+        }
+      ]
+    }
+  },
+  "skipped": {
+    "fewer_than_two_points": [
+      "crm_insights_claude-opus-4-8_b2_l3_20260920_192604"
+    ]
+  },
+  "limit": null
+}

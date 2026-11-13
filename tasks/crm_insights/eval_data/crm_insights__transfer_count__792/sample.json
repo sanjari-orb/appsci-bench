@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__transfer_count__792",
+  "single_turn_input": {
+    "text": "Find the agent with the highest number of transfers in January 2023 who managed any cases. Return only the Id of the agent.\n\n(Today's date: 2023-03-10)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xZqnIAE\", \"evidence_case_ids\": [\"500Ws000007rFoEIAU\"], \"task_category\": \"transfer_count\", \"reward_metric\": \"exact_match\"}"
+  }
+}

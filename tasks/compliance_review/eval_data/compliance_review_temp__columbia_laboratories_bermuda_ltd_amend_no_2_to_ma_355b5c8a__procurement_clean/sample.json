@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__columbia_laboratories_bermuda_ltd_amend_no_2_to_ma_355b5c8a__procurement_clean",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'Procurement Clean Standard' policy (procurement_clean). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"procurement_clean\", \"compliant\": false, \"violations\": [{\"category\": \"Minimum Commitment\", \"rule\": \"must_not_have\", \"present\": true, \"evidence_spans\": [\"Fleet shall ensure that it has sufficient experienced production staff available to meet the requirements set out in each Production Schedule and at a minimum, to meet the expected non-binding forecast set out below:\\n\\n[***] [***] [***] [***] [***] [***]\\n\\nN u m b e r  o f batches\", \"The amounts set forth for the [***] in each Production Schedule shall constitute a firm purchase order and shall be binding upon Columbia (each a \\\"Purchase Order\\\") unless otherwise agreed in writing by both parties.\"]}], \"needs_review\": []}"
+  }
+}

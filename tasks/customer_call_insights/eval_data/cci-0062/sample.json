@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0062",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9007 (Fennimore Waste Solutions) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [], \"risks\": [], \"commitments\": [], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 7 (Check-in, M, corner 8: bare constraint, discriminated in a call with other content). Being short-staffed is a fact about Carla's team with no action attached and no offer from us that she takes up -- a constraint, not a step. It's also not a risk: none of the seven named categories cover a customer's internal staffing, and she explicitly has 'no complaints' about the platform itself. Even-toned throughout, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

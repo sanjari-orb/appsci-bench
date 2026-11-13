@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__fusionpharmaceuticalsinc_06_05_2020_ex_10_17_suppl_bde65a55__vendor_standard",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'Vendor Contract Standard' policy (vendor_standard). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"vendor_standard\", \"compliant\": false, \"violations\": [{\"category\": \"Governing Law\", \"rule\": \"must_have\", \"present\": false, \"evidence_spans\": []}, {\"category\": \"Uncapped Liability\", \"rule\": \"must_not_have\", \"present\": true, \"evidence_spans\": [\"EXCEPT FOR DAMAGES FOR WHICH A PARTY IS RESPONSIBLE PURSUANT TO ITS INDEMNIFICATION OBLIGATIONS SET FORTH IN SECTION 10 ABOVE, EACH PARTY SPECIFICALLY DISCLAIMS ALL LIABILITY FOR AND SHALL IN NO EVENT BE LIABLE FOR ANY INCIDENTAL, SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES, EXPENSES, LOST PROFITS, LOST SAVINGS, INTERRUPTIONS OF BUSINESS OR OTHER DAMAGES OF ANY KIND OR CHARACTER WHATSOEVER ARISING OUT OF OR RELATED TO THIS AGREEMENT OR RESULTING FROM THE MANUFACTURE, HANDLING. MARKETING, SALE, DISTRIBUTION OR USE OF LICENSED PRODUCT REGARDLESS OF THE FORM OF ACTION, WHETHER IN CONTRACT, TORT, STRICT LIABILITY OR OTHERWISE, EVEN IF SUCH PARTY WAS ADVISED OF THE POSSIBILITY OF SUCH DAMAGES\"]}], \"needs_review\": []}"
+  }
+}

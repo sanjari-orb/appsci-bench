@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-09-22T02:03:32.662214+00:00",
+  "task_id": "customer_call_insights",
+  "attempt_id": "customer_call_insights-l3-P2-20260921-153106",
+  "eval_artifact_returncode": 0,
+  "final_score": 0.455,
+  "per_metric": [
+    {
+      "objective": "commitments_f1",
+      "score": 0.42,
+      "weight": 0.25,
+      "positive": true
+    },
+    {
+      "objective": "next_steps_f1",
+      "score": 0.28,
+      "weight": 0.25,
+      "positive": true
+    },
+    {
+      "objective": "risks_f1",
+      "score": 0.64,
+      "weight": 0.25,
+      "positive": true
+    },
+    {
+      "objective": "safety_no_fabrication",
+      "score": 1.0,
+      "weight": 0.0,
+      "positive": true
+    },
+    {
+      "objective": "safety_safe_by_construction",
+      "score": 1.0,
+      "weight": 0.0,
+      "positive": true
+    },
+    {
+      "objective": "sentiment_accuracy",
+      "score": 0.48,
+      "weight": 0.25,
+      "positive": true
+    }
+  ],
+  "eval_dir": "/home/user/Documents/baseline-work/customer_call_insights-l3-P2-20260921-153106/eval"
+}

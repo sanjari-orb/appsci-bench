@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0063",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9008 (Wrenfield Aerospace Parts) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send a breakdown of most-called API endpoints, by early next week\"], \"risks\": [], \"commitments\": [\"send a breakdown of most-called API endpoints, by early next week\"], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 8 (Check-in, L, corner 6: already-done exclusion). The dashboard, migration, training, and rate-limit increase are all delivered before or during prior work -- none of them are outstanding for this call, no matter how thoroughly they're reviewed. Only the new endpoint-breakdown ask, raised and accepted at the end, is a real item. Marcus's 'this kind of consistency is exactly why we keep renewing' is clearly POSITIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "series": {
+    "order_to_cash_claude-opus-4-8_b2_l3_20260911_232253": {
+      "n": 2,
+      "n_deploys": 2,
+      "pearson": 1.0,
+      "spearman": 0.9999999999999998,
+      "kendall_tau_b": 1.0,
+      "external_noise_sd": 0.0004946628731011632,
+      "programs": [
+        {
+          "program": "A",
+          "internal": 0.4514,
+          "external": 0.9845444444444444,
+          "deploys": [
+            1
+          ],
+          "first_deploy": 1
+        },
+        {
+          "program": "B",
+          "internal": 1.0,
+          "external": 0.9846222222222222,
+          "deploys": [
+            2
+          ],
+          "first_deploy": 2
+        }
+      ],
+      "internal_first": 0.4514,
+      "internal_last": 1.0,
+      "external_first": 0.9845444444444444,
+      "external_last": 0.9846222222222222,
+      "external_all": [
+        {
+          "deploy": 1,
+          "external": 0.9845444444444444,
+          "hash": "13c765e3",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 2,
+          "external": 0.9846222222222222,
+          "hash": "806a20fd",
+          "program": "B",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 3,
+          "external": 0.9844666666666667,
+          "hash": "806a20fd",
+          "program": "B",
+          "is_submission": true,
+          "is_submitted_program": true,
+          "has_internal": false
+        }
+      ],
+      "programs_built": 2,
+      "programs_abandoned": [
+        "A"
+      ],
+      "shipped_program": "B",
+      "loop_verdicts": [
+        {
+          "deploy": 2,
+          "incumbent": 1,
+          "verdict": "kept",
+          "reverted": false,
+          "technique": "flag_correctness",
+          "note": "# Change note\n\n## Targeted metric\nflag_correctness (0.2593) \u2014 and by extension fault_type_correctness (0.5833).\n\n## Root cause\nThe candidate extracts the invoice number from the request with the regex\n`INV-\\d+`. All 10 failing cases use invoice numbers of the form\n`INV-EVAL-9001`. After `INV-` comes",
+          "internal": 1.0,
+          "external_delta": 7.77777777777322e-05,
+          "outcome": "correct_keep",
+          "within_noise": true
+        }
+      ],
+      "loop_correct_keep": 1,
+      "loop_wrong_keep": 0,
+      "loop_correct_reject": 0,
+      "loop_wrong_reject": 0,
+      "loop_value_discarded": 0,
+      "decisions": [
+        {
+          "cycle": "1->2",
+          "from": 1,
+          "to": 2,
+          "internal_delta": 0.5486,
+          "external_delta": 7.77777777777322e-05,
+          "verdict": "agree",
+          "within_noise": true
+        }
+      ],
+      "decisions_agree": 1,
+      "decisions_disagree": 0,
+      "decisions_tied": 0,
+      "decisions_within_noise": 1,
+      "regret": {
+        "best_deploy": 1,
+        "best_score": 0.9845444444444444,
+        "submitted_deploy": 3,
+        "submitted_score": 0.9845444444444444,
+        "submitted_is_best_program": false,
+        "regret": 0.0
+      },
+      "points": [
+        {
+          "deploy": 1,
+          "internal": 0.4514,
+          "external": 0.9845444444444444,
+          "hash": "13c765e3",
+          "program": "A",
+          "is_submission": false
+        },
+        {
+          "deploy": 2,
+          "internal": 1.0,
+          "external": 0.9846222222222222,
+          "hash": "806a20fd",
+          "program": "B",
+          "is_submission": false
+        }
+      ]
+    }
+  },
+  "skipped": {
+    "fewer_than_two_points": [
+      "order_to_cash_claude-opus-4-8_b0_l3_20260911_225703",
+      "order_to_cash_claude-opus-4-8_b1_l3_20260911_230944"
+    ]
+  },
+  "limit": null
+}

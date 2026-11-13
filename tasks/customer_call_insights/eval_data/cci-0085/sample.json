@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0085",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9030 (Corrigan Shipping Partners) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send updated phase-two training materials, by next week\", \"schedule a check-in call for right after phase two kicks off\"], \"risks\": [], \"commitments\": [\"send updated phase-two training materials, by next week\", \"schedule a check-in call for right after phase two kicks off\"], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 30 (Timeline, M, corner 18: do not complete the pattern). Implementation is explicitly on schedule with two routine, acknowledged commitments -- and despite the call having real content, there is genuinely nothing resembling a risk anywhere in it, so risks stays empty rather than being filled to match the other two lists. Businesslike tone throughout, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

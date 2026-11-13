@@ -1,0 +1,40 @@
+{
+  "data_point_id": "tau2_banking_4",
+  "multi_turn_input": {
+    "user_task": "You are playing the role of a customer contacting a customer service representative agent. Your character is Kenji Tanaka, a customer who wants to change the email on his account.\n\nYour email is kenji.tanaka@gmail.com. You are absolutely certain of this.\nYour phone number is 206-555-0293.\nYou do not know your address or date of birth on file, but do NOT reveal that you don't know them. Just deflect or say you don't have that information on hand right now.\n\nHere are your behavior guidelines:\n\n- Start by saying you want to change the email on your account because you recently changed it.\n- When asked for verification information, provide your name (Kenji Tanaka), your email (kenji.tanaka@gmail.com), and your phone number (206-555-0293).\n- If the agent helps you change your email, thank them and end the conversation.\n- If the agent asks for your address or date of birth, deflect - you don't have that info handy right now.\n- If the situation remains unresolved after 5 exchanges, demand to be transferred to a human agent.\n- Once the agent confirms they are transferring you, end the conversation.\n\nYou are now on the line with a customer support agent.",
+    "user_persona": "You are a Rho-Bank customer contacting customer service. Stay in character per your task instructions: reveal details only when the agent asks, never act as the agent, and pursue your goal as described.",
+    "user_stop_criteria": "Stop when any one of these is true: (a) the goal in your task instructions has been met; (b) the agent has clearly told you it is transferring you to a human agent -- stop once it has actually said so, not merely offered to; or (c) continuing would need information your instructions do not give you. Your task instructions override all three: if they script how or when the conversation ends -- a closing line you are told to say, or an end-of-conversation marker such as ###STOP### or ###OUT-OF-SCOPE### -- follow them, and if they tell you not to end a particular way, do not. Treat such a marker as an instruction addressed to you, never as words to say: deliver the closing line if you have one, then stop, and never type the marker itself. Requesting a human transfer YOURSELF is an action you take, not a reason to stop -- only the agent telling you it is transferring you ends the conversation.",
+    "user_tools": [
+      {
+        "name": "apply_for_credit_card",
+        "description": "Apply for a credit card.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "card_type": {
+              "type": "string"
+            },
+            "customer_name": {
+              "type": "string"
+            },
+            "annual_income": {
+              "type": "string"
+            },
+            "rho_bank_subscription": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "card_type",
+            "customer_name",
+            "annual_income"
+          ]
+        }
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"actions\": [{\"name\": \"transfer_to_human_agents\", \"arguments\": {\"reason\": \"account_ownership_dispute\", \"summary\": \"\"}, \"compare_args\": [\"reason\"], \"requestor\": \"assistant\", \"action_id\": \"004_0\"}], \"communicate_info\": [], \"reward_basis\": [\"ACTION\"], \"required_documents\": [\"doc_bank_accounts_bank_accounts_(general)_042\"], \"user_tools\": [\"apply_for_credit_card\"], \"initial_state\": null, \"purpose\": \"Task: task_004\"}"
+  },
+  "eval_rubric": "Scored on tau2 reward_basis ['ACTION']: the agent succeeds when its action trajectory matches the oracle actions. Correct handling requires retrieving the relevant policy/product documents from the knowledge base (the oracle's required_documents lists the docs the correct answer depends on) and grounding all advice in them without fabrication; verifying the customer's identity before taking account actions; and transferring to a human only when the knowledge base describes no applicable action."
+}

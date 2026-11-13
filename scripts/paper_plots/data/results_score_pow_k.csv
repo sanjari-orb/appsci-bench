@@ -1,0 +1,99 @@
+task,model,opt_enabled,k_builds,score_pow_k_mean,score_pow_k_std,score_pow_k_random_trial,worst_k3,trial_mean,trial_std,note
+airline_rebooking,claude-opus-4-8,true,3,0.49,0.0174,0.5,0.42,0.61,0.04,
+airline_rebooking,claude-opus-5,true,3,0.68,0.0133,0.68,0.62,0.73,0.02,
+airline_rebooking,gpt-5.5,true,3,0.38,0.0196,0.38,0.3,0.48,0.03,
+airline_rebooking,kimi-k3,true,3,0.44,0.0285,0.46,0.32,0.59,0.05,"b0/b2 rerun 2026-10-16 at a 4-hr build limit after 3-hr timeouts (both needed 3h26m-3h50m); runner-3, PR #236 harness"
+airline_rebooking,claude-sonnet-4-6,true,3,0.0,0.0,0.0,0.0,0.4,0.29,Conformance failure in 1 build
+airline_rebooking,claude-haiku-4-5,true,3,0.0,0.0,0.0,0.0,0.28,0.2,"Conformance failure in 1 build; the sheet gives std -0.0012, a recompute with scripts/score_power.py over the same trials (2026-10-30) gives 0.0"
+airline_rebooking,gpt-oss-120b,true,3,0.0,0.0,0.0,0.0,0.15,0.21,No submission in 2 builds
+order_to_cash,claude-opus-4-8,true,3,0.25,0.0006,0.25,0.25,0.72,0.38,
+order_to_cash,claude-opus-5,true,3,0.26,0.0003,0.26,0.25,0.46,0.38,
+order_to_cash,gpt-5.5,true,3,0.0,0.0,0.0,0.0,0.09,,Conformance failure in 1 build
+order_to_cash,kimi-k3,true,3,0.15,0.0012,0.15,0.14,0.57,0.33,
+order_to_cash,claude-sonnet-4-6,true,3,0.09,0.0013,0.09,0.09,0.11,0.0,
+order_to_cash,claude-haiku-4-5,true,3,0.0,0.0,0.0,0.0,0.25,,Conformance failure in 2 builds
+order_to_cash,gpt-oss-120b,true,3,0.0,0.0,0.0,0.0,0.02,0.02,"Conformance failure in 1 build; trial_mean recomputed 2026-11-05 with scripts/score_power.py (was 0.09, a copy of the GPT-5.5 row; b0 0.046, b1/b2 no submission)"
+customer_call_insights,claude-opus-4-8,true,3,0.52,0.0036,0.52,0.51,0.64,0.07,
+customer_call_insights,claude-opus-5,true,3,0.63,0.0049,0.63,0.61,0.74,0.05,
+customer_call_insights,gpt-5.5,true,3,0.27,0.0058,0.27,0.26,0.46,0.04,
+customer_call_insights,kimi-k3,true,3,0.6,0.0088,0.6,0.56,0.69,0.02,"b0 rerun 2026-11-02 at a 4-hr build limit (finished in 58m38s; the original b0 was stopped by the 2-hour inner clock with no submission); runner-3, j-20261102-073135-000000"
+customer_call_insights,claude-sonnet-4-6,true,3,0.0,0.0,0.0,0.0,0.22,0.19,Conformance failure in 1 build
+customer_call_insights,claude-haiku-4-5,true,3,0.0,0.0,0.0,0.0,0.0,0.0,Conformance failure in 3 builds
+customer_call_insights,gpt-oss-120b,true,3,0.0,0.0,0.0,0.0,0.15,0.21,Conformance failure in 2 builds
+compliance_review,claude-opus-4-8,true,3,0.17,0.0219,0.16,0.05,0.35,0.02,
+compliance_review,claude-opus-5,true,3,0.27,0.0078,0.28,0.24,0.54,0.15,
+compliance_review,gpt-5.5,true,3,0.04,0.0019,0.04,0.03,0.41,0.04,
+compliance_review,kimi-k3,true,3,0.36,0.0051,0.35,0.32,0.57,0.11,
+compliance_review,claude-sonnet-4-6,true,3,0.12,0.0007,0.11,0.11,0.29,0.12,
+compliance_review,claude-haiku-4-5,true,3,0.0,0.0,0.0,0.0,0.08,0.12,"no submission in one, conformance failure in one"
+compliance_review,gpt-oss-120b,true,3,0.0,0.0,0.0,0.0,0.0,0.0,"No submission in 2 builds, Conformance failure in 1"
+slides_generator,claude-opus-4-8,true,3,0.57,0.0361,0.61,0.5,0.7,0.06,Re-scored 2026-10-28 after the MIME file_type fix (#237): b1 uses re-eval trials t3-t5.
+slides_generator,claude-opus-5,true,3,0.52,0.0187,0.52,0.48,0.67,0.09,"Re-scored 2026-10-28 after the MIME file_type fix (#237): the third build is the 2026-10-15 rerun of b1 (slides_generator_claude-opus-5_b0_l3_20261015_195801), re-eval trials t3-t5; the 2026-10-17 rebuild is INVALID."
+slides_generator,gpt-5.5,true,3,0.0,0.0,0.0,0.0,0.1,0.12,Re-scored 2026-10-28 after the MIME file_type fix (#237): b0/b1 use re-eval trials t3-t5. Conformance failure in 1 build.
+slides_generator,kimi-k3,true,3,0.59,0.0104,0.59,0.56,0.66,0.0,"b0 rerun 2026-10-29 at a 4-hr build limit (finished in 145m01s; the original b0 hit the 3-hr limit while still working); runner-3, j-20261029-192618-000000"
+slides_generator,claude-sonnet-4-6,true,3,0.39,0.0225,0.39,0.35,0.55,0.07,Re-scored 2026-10-28 after the MIME file_type fix (#237): all 3 builds use re-eval trials t6-t8.
+slides_generator,claude-haiku-4-5,true,3,0.0,0.0,0.0,0.0,0.11,0.15,"Re-scored 2026-10-28 after the MIME file_type fix (#237): b0 uses re-eval trials t3-t5. No submission in one build, conformance failure in one."
+slides_generator,gpt-oss-120b,true,3,0.0,0.0,0.0,0.0,0.02,0.01,Re-scored 2026-10-28 after the MIME file_type fix (#237): b1 uses re-eval trials t3-t5; b2 not re-evaluated. Conformance failure in 1 build (b0).
+crm_insights,claude-opus-4-8,true,3,0.4,0.0254,0.36,0.3,0.65,0.12,
+crm_insights,claude-opus-5,true,3,0.73,0.0132,0.73,0.71,0.79,0.01,"b2 rerun 2026-10-15 after the refusal loop (40-turn limit, content filter) was fixed; runner-3, PR #236 harness"
+crm_insights,gpt-5.5,true,3,0.01,0.0005,0.0,0.0,0.14,0.04,
+crm_insights,kimi-k3,true,3,0.01,0.0005,0.0,0.0,0.44,0.32,1 build doesn't configure DB creds properly
+crm_insights,claude-sonnet-4-6,true,3,0.0,0.0,0.0,0.0,0.14,0.2,No submission in 2 builds
+crm_insights,claude-haiku-4-5,true,3,0.0,0.0,0.0,0.0,0.0,0.0,"No submission in 1 builds, Conformance failure in 2"
+crm_insights,gpt-oss-120b,true,3,0.0,0.0,0.0,0.0,0.0,0.0,"No submission in 2 builds, prompt len exceeded by model in 1"
+banking_support,claude-opus-4-8,true,3,0.04,,0.04,0.04,0.09,0.02,
+banking_support,claude-opus-5,true,3,0.04,,0.04,0.04,0.15,0.04,
+banking_support,gpt-5.5,true,3,0.01,,0.01,0.01,0.03,0.01,
+banking_support,kimi-k3,true,3,0.04,,0.04,0.04,0.09,0.02,
+banking_support,claude-sonnet-4-6,true,3,0.0,,0.0,0.0,0.04,0.03,No submission in 1 build
+banking_support,claude-haiku-4-5,true,3,0.0,,0.0,0.0,0.01,0.01,No submission in 1 build
+banking_support,gpt-oss-120b,true,3,0.0,,0.0,0.0,0.0,0.0,"Conformance failure in 1 build, 0 scores in other 2"
+airline_rebooking,claude-opus-4-8,false,3,0.55,0.035,0.58,0.48,0.65,0.04,
+airline_rebooking,claude-opus-5,false,3,0.68,0.0218,0.68,0.6,0.74,0.02,
+airline_rebooking,gpt-5.5,false,3,0.36,0.0305,0.32,0.28,0.43,0.03,
+airline_rebooking,kimi-k3,false,3,0.42,0.0518,0.4,0.24,0.6,0.03,
+airline_rebooking,claude-sonnet-4-6,false,3,0.43,0.0254,0.42,0.38,0.52,0.03,
+airline_rebooking,claude-haiku-4-5,false,3,0.0,0.0,0.0,0.0,0.0,0.0,"2 conformance failure, 1 build failed"
+airline_rebooking,gpt-oss-120b,false,3,0.0,0.0,0.0,0.0,0.12,0.18,2 no submissions
+order_to_cash,claude-opus-4-8,false,3,0.33,0.0011,0.33,0.32,0.73,0.37,
+order_to_cash,claude-opus-5,false,3,0.97,0.0009,0.97,0.96,0.99,0.01,
+order_to_cash,gpt-5.5,false,3,0.11,0.0017,0.1,0.1,0.12,0.01,
+order_to_cash,kimi-k3,false,3,0.19,0.0006,0.19,0.19,0.42,0.37,
+order_to_cash,claude-sonnet-4-6,false,3,0.11,0.0009,0.11,0.1,0.33,0.3,
+order_to_cash,claude-haiku-4-5,false,3,0.0,0.0,0.0,0.0,0.08,0.06,1 conformance failure
+order_to_cash,gpt-oss-120b,false,3,0.0,0.0,0.0,0.0,0.05,0.07,2 conformance failure
+customer_call_insights,claude-opus-4-8,false,3,0.53,0.0153,0.53,0.49,0.62,0.04,
+customer_call_insights,claude-opus-5,false,3,0.67,0.0038,0.67,0.65,0.76,0.02,
+customer_call_insights,gpt-5.5,false,3,0.0,0.0,0.0,0.0,0.33,0.24,1 conformance failure
+customer_call_insights,kimi-k3,false,3,0.09,0.0174,0.08,0.05,0.41,0.21,
+customer_call_insights,claude-sonnet-4-6,false,3,0.0,0.0,0.0,0.0,0.16,0.12,
+customer_call_insights,claude-haiku-4-5,false,3,0.0,0.0,0.0,0.0,0.0,0.0,3 conformance failures
+customer_call_insights,gpt-oss-120b,false,3,0.0,0.0,0.0,0.0,0.0,0.0,3 conformance failures
+compliance_review,claude-opus-4-8,false,3,0.29,0.0022,0.29,0.27,0.4,0.08,
+compliance_review,claude-opus-5,false,3,0.25,0.0382,0.28,0.17,0.55,0.2,
+compliance_review,gpt-5.5,false,3,0.07,0.0026,0.07,0.06,0.16,0.06,
+compliance_review,kimi-k3,false,3,0.31,0.0145,0.32,0.25,0.54,0.15,"b1 rerun 2026-10-17 at a 4-hr build limit (finished in 1h00m; original b0/b2 had 2 hr); runner-3, PR #236 harness"
+compliance_review,claude-sonnet-4-6,false,3,0.06,0.0023,0.07,0.05,0.22,0.09,
+compliance_review,claude-haiku-4-5,false,3,0.0,0.0,0.0,0.0,0.0,0.0,3 conformance failures
+compliance_review,gpt-oss-120b,false,3,0.0,0.0,0.0,0.0,0.0,0.0,"1 conformance failure, 2 no submission"
+slides_generator,claude-opus-4-8,false,3,0.75,0.0106,0.75,0.74,0.78,0.01,
+slides_generator,claude-opus-5,false,3,0.51,0.0193,0.48,0.47,0.69,0.13,
+slides_generator,gpt-5.5,false,3,0.27,0.0037,0.26,0.25,0.38,0.09,Re-scored 2026-10-28 after the MIME file_type fix (#237): all 3 builds use re-eval trials t3-t5.
+slides_generator,kimi-k3,false,3,0.26,0.0376,0.28,0.16,0.53,0.1,"Reconciled 2026-09-25 against valid optimization-disabled Slides rows: b0/b1 use extended trials t3-t5; b2 retains t0-t2. All 3 builds included. New trials use eval commit 6bcf04b5804b4642bded70216f71c0d515de622e (tree dirty); b2 retains the original eval harness. MMS uses per-example minima; Average is the mean of build means, so it need not equal the mean per-example score."
+slides_generator,claude-sonnet-4-6,false,3,0.23,0.0132,0.24,0.21,0.34,0.11,"Re-scored 2026-10-28 after the MIME file_type fix (#237): b0/b1 use re-eval trials t6-t8, b2 t3-t5."
+slides_generator,claude-haiku-4-5,false,3,0.0,0.0,0.0,0.0,0.1,0.14,Re-scored 2026-10-28 after the MIME file_type fix (#237): b2 uses re-eval trials t3-t5; b0 not re-evaluated. b1 failed conformance and is represented by an empty --build (zero score).
+slides_generator,gpt-oss-120b,false,3,0.0,0.0,0.0,0.0,0.01,0.01,Re-scored 2026-10-28 after the MIME file_type fix (#237): b1 uses re-eval trials t3-t5. b0 has artifact HTTP 422 errors. b2 failed conformance and is represented by an empty --build (zero score).
+crm_insights,claude-opus-4-8,false,3,0.31,0.0189,0.29,0.26,0.64,0.2,
+crm_insights,claude-opus-5,false,3,0.8,0.0086,0.79,0.77,0.84,0.01,
+crm_insights,gpt-5.5,false,3,0.0,0.0,0.0,0.0,0.1,0.07,
+crm_insights,kimi-k3,false,3,0.38,0.0186,0.36,0.34,0.65,0.16,
+crm_insights,claude-sonnet-4-6,false,3,0.0,0.0,0.0,0.0,0.12,0.17,
+crm_insights,claude-haiku-4-5,false,3,0.0,0.0,0.0,0.0,0.0,0.0,"1 conformance failure, 2 builds score 0"
+crm_insights,gpt-oss-120b,false,3,0.0,0.0,0.0,0.0,0.0,0.0,"1 no submission, 1 conformance, 1 build scores 0"
+banking_support,claude-opus-4-8,false,3,0.03,0.0,0.03,0.03,0.13,0.05,
+banking_support,claude-opus-5,false,3,0.02,0.0,0.02,0.02,0.2,0.08,
+banking_support,gpt-5.5,false,3,0.02,0.0,0.02,0.02,0.03,0.02,
+banking_support,kimi-k3,false,3,0.03,0.0,0.03,0.03,0.08,0.02,
+banking_support,claude-sonnet-4-6,false,3,0.0,0.0,0.0,0.0,0.03,0.02,1 no submission
+banking_support,claude-haiku-4-5,false,3,0.0,0.0,0.0,0.0,0.0,0.0,"1 conformance, 1 no submission, 1 build scores 0"
+banking_support,gpt-oss-120b,false,3,0.0,0.0,0.0,0.0,0.0,0.0,3 conformance failures

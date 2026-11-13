@@ -1,0 +1,50 @@
+Call CALL-9031 — Ferrow Building Materials (ACC-4031) — 2026-03-11 10:00 UTC
+Participants: Sasha Petrov (Senior Account Manager, us) / Malik Osei (Implementation Director, customer)
+
+Sasha: Malik, good to catch up. Wanted to review where Phase One landed before we get into Phase Two planning together.
+
+Malik: Sure, happy to walk through it. Phase One's fully done on our end, and honestly the review call last week confirmed everything's working as expected.
+
+Malik: Actually, the whole implementation team was pretty pleased with how it wrapped up, for what it's worth.
+
+Sasha: Great to hear that confirmed properly. Any lingering issues at all from that phase worth flagging before we move forward into the next one?
+
+Malik: No, genuinely nothing outstanding, the team signed off on it cleanly during the review.
+
+Sasha: Perfect, glad it wrapped up cleanly like that. Let's talk Phase Two then -- I know we'd tentatively discussed a start date last time, do you want to lock that in today?
+
+Malik: Yes, let's do that now while we're both on. I'd like to target the first week of next month if that works on your end.
+
+Sasha: That works well for us, I don't see any conflicts on our side with that timing. I'll get the configuration work scheduled to kick off ahead of that start date.
+
+Malik: Appreciated. I'll get our team prepped internally on our end so we're ready to go the moment configuration's actually done.
+
+Sasha: Perfect, that division of labor makes sense given how Phase One went. One thing worth flagging on our side while we're planning -- procurement for the additional hardware you'll need typically takes about two weeks to process on our end.
+
+Malik: Good to know ahead of time, I'll factor that into our own internal planning then so it doesn't catch us off guard.
+
+Sasha: Appreciated, that's exactly the kind of thing worth flagging early. I'll get configuration scheduled ahead of the start date.
+
+Malik: Exactly right, that's my understanding as well. This has honestly been a smooth process so far, I appreciate how organized it's been on your end.
+
+Sasha: That means a lot to hear, we try to keep it that way across every phase. How's the broader team feeling about the platform generally, now that Phase One's behind you?
+
+Malik: Really positive, honestly. A few people specifically mentioned how much smoother onboarding was compared to our old system.
+
+Sasha: Great to hear that landed well. Anything else on your radar for Phase Two beyond what we've already covered today?
+
+Malik: Not that I can think of right now, those are really the main pieces on my end.
+
+Sasha: Understood. Let's also touch on support coverage for Phase Two -- will you need the same level of hands-on support as Phase One, or less this time around?
+
+Malik: Probably similar, honestly, given it's a new phase for the team even if the platform itself is familiar now.
+
+Sasha: Makes sense, I'll make sure we staff it the same way then.
+
+Sasha: One last thing while I have you -- any changes to who's involved from your team this time around?
+
+Malik: No, same group as Phase One, that's stayed consistent throughout.
+
+Sasha: Good to know, keeps things simple on our end too. Anything else before we wrap up for today?
+
+Malik: No, I think that covers everything for Phase Two planning at this point.

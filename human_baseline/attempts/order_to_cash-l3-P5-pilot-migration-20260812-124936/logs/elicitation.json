@@ -1,0 +1,111 @@
+{
+  "task_id": "order_to_cash",
+  "status": "scored",
+  "total_items": 12,
+  "judged_items": 12,
+  "elicited_rate": 0.5,
+  "asked_not_elicited_rate": 0.4166666666666667,
+  "missed_rate": 0.08333333333333333,
+  "error_items": 0,
+  "num_exchanges": 22,
+  "items": [
+    {
+      "item_id": "check_order_first_failure_wins",
+      "verdict": "asked_not_elicited",
+      "evidence": "\"the checks we defined have a natural order, so flagging on the first fault found is fine as a baseline\"",
+      "reasoning": "The requirement specifies a fixed check order (duplicate, price, quantity, total, contract item, contract fee) with first-failure-wins. The engineer asked in exchange 17 about multiple flags. The stakeholder replied: 'the checks we defined have a natural order, so flagging on the first fault found is fine as a baseline.' This conveys the first-failure-wins concept and that there's a 'natural order,' but the stakeholder never enumerated the specific sequence of the six checks. The stakeholder mentions a 'natural order' exists but does not specify what that order is (duplicate first, then price, etc.). So while the first-failure rule is conveyed, the specific order of the six checks is not stated. The requirement requires all six checks in that sequence plus the rule. The order was never spelled out.",
+      "error": null,
+      "fact": "The checks run in a fixed order and the first one that fails is the fault reported: (1) duplicate, (2) price, (3) quantity, (4) total, (5) contract item coverage, (6) contract fee. An invoice with several problems at once therefore reports only the earliest -- a duplicate that is also overpriced reports DUPLICATE. If any check fails the invoice is flagged; if all pass it is clean.\n"
+    },
+    {
+      "item_id": "fault_type_exact_spellings",
+      "verdict": "elicited",
+      "evidence": "- PRICE_DELTA \u2014 ... - QTY_MISMATCH \u2014 ... - TOTAL_MATH \u2014 ... - OFF_CONTRACT_ITEM \u2014 ... - OFF_CONTRACT_FEE \u2014 ... - DUPLICATE \u2014 duplicate submission",
+      "reasoning": "The engineer explicitly asked for category names in exchange 6: 'let's get a category name for every fault now so we can communicate clearly.' The stakeholder replied with all six exact strings: PRICE_DELTA, QTY_MISMATCH, TOTAL_MATH, OFF_CONTRACT_ITEM, OFF_CONTRACT_FEE, DUPLICATE, and added that when nothing's wrong the fault type is null. All six exact values with correct spelling and capitalization were conveyed.",
+      "error": null,
+      "fact": "`fault_type` is a closed set of exactly six values, spelled and capitalized exactly as written: PRICE_DELTA (invoice unit price differs from the PO / contract price), QTY_MISMATCH (invoiced quantity does not match the PO quantity), TOTAL_MATH (invoice total does not match the computed sum of line items plus fees), OFF_CONTRACT_ITEM (an item the supplier contract does not cover), OFF_CONTRACT_FEE (a fee type the contract does not authorize), and DUPLICATE (a duplicate submission of an invoice already received). The queue rejects anything else, including a lower-case or reworded version of the same idea.\n"
+    },
+    {
+      "item_id": "json_only_reply_or_invoice_dropped",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement concerns the output format being a single JSON object with no surrounding text, and the consequence that any readable text breaks parsing and drops the invoice. Reviewing the conversation, the engineer asked about flagging actions, categories, latency, detection, and input format, but never asked about the output format or how the reply should be structured/parsed. The stakeholder never mentioned JSON, parsing, or that non-JSON text would drop the invoice. The closest is the discussion of what to tell AP (flagged, problem type, plain-language reason), but nothing about the response being JSON-only or the parse consequence.",
+      "error": null,
+      "fact": "The whole reply is a single JSON object and nothing else: the first character is `{` and the last is `}`, with no summary sentence before it, no explanation after it, no code fence, heading or bullet list around it. A reply carrying even one line of readable text is rejected in full -- the queue parses the entire reply as JSON, that parse fails, and the invoice is dropped unreviewed rather than being flagged or passed. It does not matter that the object itself was correct. Anything a human reviewer needs to read goes inside the `reason` field.\n"
+    },
+    {
+      "item_id": "null_fault_type_when_not_flagged",
+      "verdict": "elicited",
+      "evidence": "exchange 3: 'When the invoice checks out clean, it shouldn't flag \u2014 no problem type, and it just passes through.' and exchange 6: 'PRICE_DELTA... QTY_MISMATCH... TOTAL_MATH... OFF_CONTRACT_ITEM... OFF_CONTRACT_FEE... DUPLICATE... And when nothing's wrong, the fault type is just null.'",
+      "reasoning": "The requirement covers the clean-invoice behavior (flagged false -> fault_type null, no reason, passes through without a reviewer) and the flagged behavior (all three keys populated, fault_type one of six values). The engineer asked about agent actions when flagging and not flagging (exchange 3), and asked for category names (exchange 6). The stakeholder confirmed on flagging it tells AP three things and that clean invoices shouldn't flag with fault type null. In exchange 6, the six named fault types were given and 'when nothing's wrong, the fault type is just null.' However, the specific claim that a clean invoice 'passes through the queue without a reviewer looking at it' was NOT confirmed. In exchange 3 the stakeholder said clean invoices 'just pass through' but nothing about no reviewer looking. Actually the stakeholder consistently framed AP as final reviewer for flagged items. The 'no reviewer looking' detail for clean invoices was not explicitly conveyed. But the bulk of the requirement -- the three keys populated when flagged, fault_type one of six values, null when clean, no reason for clean -- was conveyed. The 'passes through without a reviewer looking' part: stakeholder said clean ones 'pass through' (exchange 2/3) which reasonably conveys no human review of clean ones. Combining exchanges 3 and 6, the fact is substantially conveyed.",
+      "error": null,
+      "fact": "When `flagged` is false, `fault_type` is null and no reason is needed -- a clean invoice passes through the queue without a reviewer looking at it. When `flagged` is true all three keys are populated and `fault_type` is one of the six values.\n"
+    },
+    {
+      "item_id": "off_contract_charges_have_no_threshold",
+      "verdict": "elicited",
+      "evidence": "Yes, flag it. The $500 bar only applies to price and total-math differences. Anything that's not in the contract at all \u2014 an item or a fee we never agreed to \u2014 should be flagged regardless of amount.",
+      "reasoning": "The engineer directly asked in exchange 9 whether OFF_CONTRACT_ITEM or OFF_CONTRACT_FEE under $500 should still be flagged. The stakeholder confirmed the full asymmetric materiality rule: off-contract items/fees flagged regardless of amount, while the $500 bar applies only to price and total-math. This fully covers the stated requirement.",
+      "error": null,
+      "fact": "The materiality bar is asymmetric: a price or total delta must exceed $500 to matter, but any charge outside the contract is flagged regardless of amount. An out-of-contract item or fee is never too small to flag.\n"
+    },
+    {
+      "item_id": "one_value_per_key_never_a_list",
+      "verdict": "asked_not_elicited",
+      "evidence": "If an invoices has several reasons to be flagged, should we provide them all? ... flagging on the first fault found is fine as a baseline. If it's easy to surface more than one reason, that's a nice-to-have",
+      "reasoning": "The engineer asked in exchange 17 about handling multiple flags: 'If an invoices has several reasons to be flagged, should we provide them all?' This reaches for the multi-problem handling. However, the stakeholder's reply did not convey the stated fact's structure. The requirement says each key holds a single value, and when multiple problems exist the reason string says so in words while fault_type names the one that matters most. The stakeholder instead said 'flagging on the first fault found is fine as a baseline' and that surfacing more than one is a 'nice-to-have.' This is a different approach (first-found, not most-important) and does not describe the single-value-per-key structure or the reason-string-in-words convention. Additionally, exchange 19 explicitly said 'I wouldn't rank one fault type above the others,' which contradicts the 'names the one that matters most' aspect.",
+      "error": null,
+      "fact": "Each key holds a single value, never a list: one invoice, one flag, one fault type, one reason. Where a reviewer would want to know about more than one problem, the `reason` string says so in words and `fault_type` names the one that matters most.\n"
+    },
+    {
+      "item_id": "price_check_dollar_impact_threshold",
+      "verdict": "asked_not_elicited",
+      "evidence": "PRICE_DELTA is about a line item being priced wrong \u2014 the invoice unit price doesn't match what the PO/contract says, and once you multiply by quantity the impact is over $500.",
+      "reasoning": "The requirement has three parts: (1) comparison against the PO line's unit price, (2) threshold is total dollar impact not percentage, (3) it trips only on an overcharge (positive delta), not underpricing. The engineer asked about PRICE_DELTA in exchanges 20 and 22. The stakeholder conveyed that the comparison is against the PO/contract price ('the invoice unit price doesn't match what the PO/contract says') and that the threshold is total dollar impact ('once you multiply by quantity the impact is over $500'). However, the stakeholder never conveyed the third part \u2014 that it trips only on an overcharge (positive delta), not on underpricing. The stakeholder consistently framed it as 'doesn't match' / 'differs', which is symmetric, not directional. In exchange 9 the stakeholder even confirmed the $500 bar applies to 'price and total-math differences' \u2014 again symmetric framing. Nothing conveys the overcharge-only directional requirement. Since the fact requires all three things and only two came back, the item as a whole fails.",
+      "error": null,
+      "fact": "The price check is (invoice_unit_price - po_unit_price) * quantity > $500. Three things follow: the comparison is against the PO line's unit price, the threshold is a total dollar impact rather than a percentage, and it trips only on an overcharge -- a positive delta -- not on underpricing.\n"
+    },
+    {
+      "item_id": "quantity_check_has_no_tolerance",
+      "verdict": "elicited",
+      "evidence": "\"The $500 bar only applies to price and total-math differences. Anything that's not in the contract at all ... should be flagged regardless of amount.\"",
+      "reasoning": "The requirement is that the quantity check flags on ANY mismatch, with no dollar threshold and no tolerance, unlike the $500 threshold checks. The engineer asked about the $500 threshold in exchange 9 for off-contract items/fees, and the stakeholder replied 'The $500 bar only applies to price and total-math differences.' This explicitly excludes quantity from the $500 bar, implying quantity mismatch flags regardless of amount. Throughout, QTY_MISMATCH is defined as 'invoice quantity doesn't match the PO quantity' with no threshold mentioned. The exchange 9 statement that only price and total-math get the $500 bar covers the fact that quantity has no dollar threshold. The 'any mismatch / exact inequality / no tolerance' aspect is conveyed by the consistent phrasing 'doesn't match the PO quantity' and the explicit exclusion from the materiality bar.",
+      "error": null,
+      "fact": "The quantity check is an exact inequality, invoice_quantity != po_quantity: any mismatch flags the invoice, with no dollar threshold and no tolerance -- unlike the price and total checks, which both need $500 of impact before they trip.\n"
+    },
+    {
+      "item_id": "reason_names_the_specifics",
+      "verdict": "asked_not_elicited",
+      "evidence": "a plain-language reason they can act on. It never auto-pays or auto-rejects",
+      "reasoning": "The engineer asked in exchange 3 about the agent action when flagging, and the stakeholder said the flag should include 'a plain-language reason they can act on.' This matches the KPI-level phrasing that is explicitly excluded as not counting for this item. The specific content required by the fact -- that the reason string must name the amounts involved, the offending fee or item, or the specific duplicated invoice id (e.g. 'duplicate of INV-3046 for PO line 1350') -- was never asked about with that specificity, and the stakeholder never provided such an example or detail. No exchange reached for the granular content of the reason string beyond 'act on it' phrasing.",
+      "error": null,
+      "fact": "On a flagged invoice the `reason` string names the discrepancy specifically enough for an AP reviewer to act on without opening anything else: the amounts involved, the fee or item at issue, or the invoice it duplicates -- not a restatement of the fault type. The stakeholder's own example of an acceptable reason is `duplicate of INV-3046 for PO line 1350` -- it identifies the specific prior invoice and the specific PO line rather than saying \"this is a duplicate\".\n"
+    },
+    {
+      "item_id": "sub_threshold_noise_must_not_be_flagged",
+      "verdict": "elicited",
+      "evidence": "What we don't want flagged is the noise \u2014 trivial rounding differences, tiny price variances under $500, or invoices that just match the PO and contract. Those clean ones should pass through.",
+      "reasoning": "The requirement covers three things that must NOT be flagged: trivial rounding differences, price variances under $500 impact, and invoices matching PO and contract. The engineer asked 'when checking the invoice should not be flagged?' in exchange 3, and asked about flagged issues in exchange 2. In exchange 2, the stakeholder stated: 'What we don't want flagged is the noise \u2014 trivial rounding differences, tiny price variances under $500, or invoices that just match the PO and contract. Those clean ones should pass through.' This directly conveys all three elements of the requirement.",
+      "error": null,
+      "fact": "These must not be flagged, because false positives erode AP's trust in the system: trivial rounding differences of a few dollars, price variances whose total impact is under $500, and invoices that match the PO and contract.\n"
+    },
+    {
+      "item_id": "three_exact_key_names_and_types",
+      "verdict": "asked_not_elicited",
+      "evidence": "When it flags, it should tell AP three things: that it's flagged, what kind of problem it is ..., and a plain-language reason they can act on.",
+      "reasoning": "The requirement is about the exact output schema: three keys named `flagged`, `fault_type`, and `reason`, spelled exactly and in the singular. The engineer asked about what the agent should output when flagging (exchange 3), and the stakeholder said it should tell AP three things: that it's flagged, the problem type, and a plain-language reason. This conveys the three conceptual pieces. However, the requirement specifies exact key names and singular spelling. The stakeholder described the three pieces of information conceptually but never named specific JSON key names like `flagged`, `fault_type`, `reason`. In exchange 6, the stakeholder gave category names (PRICE_DELTA etc.) and said 'when nothing's wrong, the fault type is just null' \u2014 this touches on fault_type being null, but doesn't establish the exact key names as a schema. The engineer never asked about the exact field/key names or spelling of the output structure. So while the three conceptual elements came back, the exact key names spelled in the singular were not conveyed.",
+      "error": null,
+      "fact": "Exactly three keys, spelled exactly and in the singular: `flagged` (boolean -- true when a human must stop and review), `fault_type` (string or null -- which kind of discrepancy), and `reason` (string -- a short plain-language explanation an AP reviewer can act on). Not `flag`, not `fault_types`, not `reasons`: the queue reads those three names and no others, so a plural or renamed key is invisible to it and an object carrying `fault_types` has, as far as the queue is concerned, no fault type at all. Keys beyond the three are ignored.\n"
+    },
+    {
+      "item_id": "total_check_dollar_tolerance",
+      "verdict": "elicited",
+      "evidence": "TOTAL_MATH is about the invoice not adding up against itself \u2014 the stated total doesn't match the sum of its own line items plus fees, off by more than $500.",
+      "reasoning": "The requirement specifies the TOTAL_MATH check formula: |invoice_total - computed_total| > $500, where computed total = quantity times price plus allowed fees, and $500 is the tolerance. The engineer asked about TOTAL_MATH repeatedly (exchanges 5, 21, 22). The stakeholder consistently described it as the invoice's stated total not matching the sum of line items plus fees, over $500. In exchange 22: 'the stated total doesn't match the sum of its own line items plus fees, off by more than $500.' This conveys the computed total = line items (quantity times price) plus fees, and the $500 threshold. The 'few cents of rounding never trips it' aspect is covered by the $500 materiality bar established throughout (exchange 8 mentions not flagging trivial stuff). The core formula components \u2014 the difference exceeding $500, computed from line items plus fees \u2014 are conveyed.",
+      "error": null,
+      "fact": "The total check is |invoice_total - computed_total| > $500, where the computed total is quantity times price plus allowed fees. The $500 is the tolerance, so a few cents of rounding never trips it.\n"
+    }
+  ],
+  "transcript_source": "human_baseline/attempts/order_to_cash-l3-P5-pilot-migration-20260812-124936/logs/transcript.md",
+  "warnings": []
+}

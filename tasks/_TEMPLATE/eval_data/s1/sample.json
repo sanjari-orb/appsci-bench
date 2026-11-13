@@ -1,0 +1,17 @@
+{
+  "data_point_id": "s1",
+  "single_turn_input": {
+    "text": "<what the artifact must do for this sample -- the query the artifact agent receives>",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "attachment.txt",
+        "file_path": "attachment.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"<field_1>\": \"<a value resolve_scalar can compare -- a number, bool, or short string>\", \"<field_2>\": \"<another field -- json_field_match compares a whole object of these at once>\"}"
+  },
+  "eval_rubric": "<optional NL description of what success looks like -- read by make_transcript_judge / make_file_similarity_judge, not by resolve_scalar/json_field_match>"
+}

@@ -1,0 +1,105 @@
+{
+  "census": {
+    "counts": {
+      "fetch_failed": 0,
+      "mixed_cases": 0,
+      "mixed_limit": 0,
+      "no_scorable_captures": 0,
+      "no_scores": 0,
+      "run_dir_missing": 0
+    },
+    "skipped": {
+      "fetch_failed": [],
+      "mixed_cases": [],
+      "mixed_limit": [],
+      "no_scorable_captures": [],
+      "no_scores": [],
+      "run_dir_missing": []
+    },
+    "total": 0
+  },
+  "generated_at": "2026-09-23T08:11:01.519964+00:00",
+  "pooled": {
+    "beat_noise": 0,
+    "floor_unmeasured": 2,
+    "headline_improved": 1,
+    "headline_series": 2,
+    "headline_sign_test_p": 1.0,
+    "headline_unchanged": 1,
+    "headline_worsened": 0,
+    "improved": 1,
+    "n_series": 2,
+    "sign_test_p": 1.0,
+    "unchanged": 1,
+    "worsened": 0
+  },
+  "provenance": {
+    "banking_support_claude-opus-4-8_b0_l3_20260920_174913": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": true,
+      "headline_objective": "task_success",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "dfed35c65a8e1c2d5de11beab783cd1d2add0f4b"
+      ]
+    },
+    "banking_support_claude-opus-4-8_b0_l3_20260921_075749": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": true,
+      "headline_objective": "task_success",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "dfed35c65a8e1c2d5de11beab783cd1d2add0f4b"
+      ]
+    }
+  },
+  "report_commit": "b98e3c0edc38738ddc985cfac6e5d3775b40b508",
+  "report_tree_dirty": false,
+  "runs": {
+    "banking_support_claude-opus-4-8_b0_l3_20260920_174913": {
+      "delta": 0.010309278350515455,
+      "delta_se": null,
+      "distinct_hashes": 4,
+      "first": 0.061855670103092786,
+      "headline_delta": 0.010309278350515455,
+      "headline_first": 0.061855670103092786,
+      "headline_last": 0.07216494845360824,
+      "headline_objective": "task_success",
+      "last": 0.07216494845360824,
+      "n_points": 7,
+      "n_unmeasured": 0,
+      "noise_floor": null,
+      "run_id": "banking_support_claude-opus-4-8_b0_l3_20260920_174913",
+      "spearman": 0.7484811885651197,
+      "steps_down": 2,
+      "steps_flat": 2,
+      "steps_up": 2,
+      "task_id": "banking_support",
+      "zeros": 0
+    },
+    "banking_support_claude-opus-4-8_b0_l3_20260921_075749": {
+      "delta": 0.0,
+      "delta_se": null,
+      "distinct_hashes": 3,
+      "first": 0.061855670103092786,
+      "headline_delta": 0.0,
+      "headline_first": 0.061855670103092786,
+      "headline_last": 0.061855670103092786,
+      "headline_objective": "task_success",
+      "last": 0.061855670103092786,
+      "n_points": 7,
+      "n_unmeasured": 0,
+      "noise_floor": null,
+      "run_id": "banking_support_claude-opus-4-8_b0_l3_20260921_075749",
+      "spearman": -0.15811388300841894,
+      "steps_down": 2,
+      "steps_flat": 2,
+      "steps_up": 2,
+      "task_id": "banking_support",
+      "zeros": 0
+    }
+  },
+  "synthetic": false
+}

@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__top_issue_identification__265",
+  "single_turn_input": {
+    "text": "What is the most frequent problem with Seamless Yoga Leggings in the past 5 quarters? The associated product Id is 01tWs000002wSu1IAE. Return only the issue Id of the most reported issue for this product.\n\n(Today's date: 2022-11-28)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"a1MWs0000012u3xMAA\", \"evidence_case_ids\": [\"500Ws000007qlrmIAA\", \"500Ws000007rJepIAE\"], \"task_category\": \"top_issue_identification\", \"reward_metric\": \"exact_match\"}"
+  }
+}

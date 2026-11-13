@@ -1,0 +1,24 @@
+persona_id: l2
+task_id: airline_rebooking
+level: L2
+role: "Integration engineer who owns the airline reservations backend + tool layer"
+domain_knowledge:
+  db_shape: "the airline DB has three collections: flights, users, reservations"
+  user_record: "a user has user_id, name, address, dob, email, membership level (regular/silver/gold), payment_methods (credit_card/gift_card/certificate), reservation ids"
+  reservation_record: "a reservation has reservation_id, user_id, origin, destination, flight_type (one_way/round_trip), cabin, flights[], passengers[], payment, baggages, insurance, created time"
+  flight_record: "a flight has flight_number, origin, destination, scheduled times, and per-date status (available/delayed/on time/flying) with seats + prices per cabin"
+  read_tools: "get_user_details, get_reservation_details, search_direct_flight, search_onestop_flight, list_all_airports, get_flight_status, calculate"
+  write_tools: "book_reservation, update_reservation_flights, update_reservation_baggages, update_reservation_passengers, cancel_reservation, send_certificate"
+  transfer_tool: "transfer_to_human_agents(summary) for out-of-scope requests"
+  no_policy_enforcement: "the write tools apply changes blindly; they do NOT validate policy/eligibility -- that's on the caller"
+  confirmation_gate: "product requirement: list action details and get explicit user confirmation before any write tool call; one tool call per turn"
+  reference_time: "the environment's 'now' is fixed at 2024-05-15 15:00:00 EST (matters for 24h cancel + flown-segment checks)"
+  test_records_note: "nothing enumerates users or reservations -- get_user_details and get_reservation_details both take an id you already hold -- so the build environment's records are listed below. get_user_details returns a user's reservation ids, so one user id reaches everything of theirs. These are build-environment records only."
+  # ONLY ids, comma-separated, nothing else: tests/appsci_bench/core/test_usersim_docs_repo_guards.py
+  # splits this field and asserts every entry is a real key of the BUILD store (and of
+  # no other), which is what keeps it honest when the seed is regenerated.
+  test_record_ids: "nora_castillo_9412, owen_delgado_9137, priya_venkat_9268, quinn_okafor_9503, rafael_moreau_9821, TRN001"
+# Resources (by spec name) this engineer can speak to. L2 owns the DB/tool landscape, not the success metric.
+known_resources:
+  - airline_db
+  - airline_tools

@@ -1,0 +1,363 @@
+{
+  "presentation": {
+    "title": "CUSTOMER_NAME_REDACTED",
+    "theme": "default",
+    "aspectRatio": "16:9",
+    "metadata": {
+      "author": "Unknown",
+      "version": "1.0",
+      "date": ""
+    },
+    "slides": [
+      {
+        "slideNumber": 1,
+        "layout": "Blank Basic Layout / Photo full",
+        "elements": [
+          {
+            "type": "bullet_list",
+            "name": "CuadroTexto 3",
+            "items": [
+              "CUSTOMER_NAME_REDACTED",
+              "Quarterly Business Review"
+            ],
+            "style": {
+              "fontSize": 32,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "image",
+            "name": "Gráfico 6",
+            "sourceUrl": "",
+            "altText": "Gráfico 6"
+          },
+          {
+            "type": "image",
+            "name": "Gráfico 1",
+            "sourceUrl": "",
+            "altText": "Gráfico 1"
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 7",
+            "items": [
+              "Q2 FY26",
+              "Presented by: NAME_REDACTED, Customer Success Manager",
+              "Executive Sponsor: NAME_REDACTED, VP Contact Center Operations",
+              "Date: January 14, 2026"
+            ],
+            "style": {
+              "fontSize": 20,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 2,
+        "layout": "Agenda",
+        "elements": [
+          {
+            "type": "bullet_list",
+            "name": "TextBox 1",
+            "items": [
+              "Executive Summary",
+              "Adoption & Usage",
+              "Value Delivered",
+              "Support & Health",
+              "Roadmap & What's Next",
+              "Asks & Next Steps"
+            ],
+            "style": {
+              "fontSize": 18,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 3,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "bullet_list",
+            "name": "Text Placeholder 1",
+            "items": [
+              "Onboarding gap closed — activation surged from 79% to 93% (1,395 / 1,500 licenses)",
+              "SSO shipped in Q2 — the primary blocker to broader platform rollout is now resolved",
+              "Platform health back to GREEN; strong improvement across all support metrics",
+              "Auto-QA adoption accelerating: 41% → 58%; Coaching & Insights emerging at 19%",
+              "Executive sponsor update: NAME_REDACTED (VP Contact Center Operations) joining as new sponsor",
+              "Renewal in Q3 — expansion conversation underway for EU contact center (~500 licenses)"
+            ],
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Executive Summary\u000b",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 4,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Adoption & Usage",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Table 5",
+            "rows": [
+              [
+                "Metric",
+                "Q1 FY26",
+                "Q2 FY26",
+                "Change"
+              ],
+              [
+                "Monthly active agents",
+                "1,240",
+                "1,510",
+                "+22% ↑"
+              ],
+              [
+                "Licenses activated",
+                "79%\n(1,180/1,500)",
+                "93%\n(1,395/1,500)",
+                "+14pp ↑"
+              ],
+              [
+                "Conversation Intelligence",
+                "68%",
+                "74%",
+                "+6pp ↑"
+              ],
+              [
+                "Auto-QA",
+                "41%",
+                "58%",
+                "+17pp ↑"
+              ],
+              [
+                "Coaching & Insights",
+                "12%",
+                "19%",
+                "+7pp ↑"
+              ]
+            ]
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 5,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "bullet_list",
+            "name": "Text Placeholder 1",
+            "items": [
+              "SSO shipped — removes the primary blocker to enterprise-wide rollout; CUSTOMER_NAME_REDACTED IT confirmed go-live",
+              "Auto-QA now covering 3 contact center queues; manual QA effort reduced by an estimated 30% per QA lead",
+              "Coaching & Insights expanded from 40-agent pilot to 180 agents; early CSAT correlation data shared with ops team",
+              "Weekly executive reporting dashboard adopted by NAME_REDACTED's team in first week of Q2"
+            ],
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Value Delivered",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 6,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Support & Health",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Table 5",
+            "rows": [
+              [
+                "Metric",
+                "Q2 FY26"
+              ],
+              [
+                "Support tickets",
+                "31"
+              ],
+              [
+                "P1 incidents",
+                "1"
+              ],
+              [
+                "CSAT",
+                "4.6 / 5"
+              ],
+              [
+                "SLA attainment",
+                "99.1%"
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "name": "Rounded Rectangle 7",
+            "content": "HEALTH: GREEN",
+            "style": {
+              "fontSize": 20,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 8",
+            "content": "P1 Note (May): API latency degradation in the agent desktop integration — resolved within SLA. RCA shared with CUSTOMER_NAME_REDACTED IT; root cause was a third-party CDN routing change. No recurrence since May 22.",
+            "style": {
+              "fontSize": 20,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 7,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Roadmap & What's Next",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 5",
+            "content": "Q2 (Delivered)",
+            "style": {
+              "fontSize": 20,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 6",
+            "content": "Q3 (Planned)",
+            "style": {
+              "fontSize": 20,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 7",
+            "items": [
+              "✓ SSO shipped — unblocking enterprise rollout",
+              "✓ Activation target: 93% achieved (goal was 90%+)",
+              "✓ Auto-QA templates live across 3 queues",
+              "✓ Coaching & Insights expanded to 180 agents"
+            ],
+            "style": {
+              "fontSize": 20,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 8",
+            "items": [
+              "Q3 renewal — contract review and finalization",
+              "Expansion planning: EU contact center (~500 licenses)",
+              "API adoption: integrate COMPANY_NAME_REDACTED Insights into CRM workflow",
+              "Quarterly executive business review cadence"
+            ],
+            "style": {
+              "fontSize": 20,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 8,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "bullet_list",
+            "name": "Text Placeholder 1",
+            "items": [
+              "Q3 renewal: share renewal paperwork with NAME_REDACTED's team by end of January",
+              "EU expansion conversation: we'd like to explore ~500 additional licenses for the new EU contact center — happy to schedule a scoping call",
+              "CUSTOMER_NAME_REDACTED IT: confirm post-SSO agent provisioning process to complete remaining activations",
+              "Joint roadmap review: align on Q3 API integration priorities for CRM workflow",
+              "Next QBR: Q3 FY26 — April 2026"
+            ],
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Asks & Next Steps",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      }
+    ]
+  }
+}

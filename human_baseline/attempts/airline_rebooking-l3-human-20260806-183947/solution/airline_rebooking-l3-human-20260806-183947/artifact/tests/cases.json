@@ -1,0 +1,1079 @@
+{
+  "reference_time": "2024-05-15T15:00:00",
+  "branches": [
+    "baggage_add_free_allowance",
+    "baggage_decrease_denied",
+    "book_too_many_passengers",
+    "cancel_airline_cancelled_flight",
+    "cancel_business",
+    "cancel_flown_segment",
+    "cancel_insurance_reason_uncorroborated",
+    "cancel_no_grounds",
+    "cancel_within_24h",
+    "compensation_eligible_cancelled",
+    "compensation_ineligible",
+    "compensation_not_requested",
+    "modify_basic_economy_denied",
+    "modify_economy_allowed",
+    "origin_destination_immutable",
+    "passenger_count_immutable",
+    "user_wrong_about_allowance",
+    "user_wrong_about_cancellability"
+  ],
+  "cases": [
+    {
+      "id": "cancel_within_24h_0",
+      "branch": "cancel_within_24h",
+      "why": "Booked within the last 24h of the reference clock, so cancellable whatever the cabin.",
+      "user_id": "aarav_brown_5556",
+      "reservation_id": "00GMVN",
+      "facts": {
+        "membership": "regular",
+        "cabin": "business",
+        "insurance": "no",
+        "passengers": 1,
+        "created_at": "2024-05-14T22:33:39",
+        "segment_statuses": [
+          "available"
+        ],
+        "total_baggages": 2,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 2
+      },
+      "user_turns": [
+        "I need to cancel reservation 00GMVN, my user id is aarav_brown_5556. My plans changed.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [
+          {
+            "name": "cancel_reservation",
+            "arguments": {
+              "reservation_id": "00GMVN"
+            }
+          }
+        ],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "cancel_within_24h_1",
+      "branch": "cancel_within_24h",
+      "why": "Booked within the last 24h of the reference clock, so cancellable whatever the cabin.",
+      "user_id": "P5_anderson_8718",
+      "reservation_id": "00Y36Z",
+      "facts": {
+        "membership": "gold",
+        "cabin": "business",
+        "insurance": "no",
+        "passengers": 2,
+        "created_at": "2024-05-14T19:21:38",
+        "segment_statuses": [
+          "available",
+          "available",
+          "available",
+          "available"
+        ],
+        "total_baggages": 4,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 8
+      },
+      "user_turns": [
+        "I need to cancel reservation 00Y36Z, my user id is P5_anderson_8718. My plans changed.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [
+          {
+            "name": "cancel_reservation",
+            "arguments": {
+              "reservation_id": "00Y36Z"
+            }
+          }
+        ],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "cancel_business_0",
+      "branch": "cancel_business",
+      "why": "Business cabin is cancellable regardless of when it was booked.",
+      "user_id": "juan_taylor_8806",
+      "reservation_id": "018BE2",
+      "facts": {
+        "membership": "silver",
+        "cabin": "business",
+        "insurance": "no",
+        "passengers": 1,
+        "created_at": "2024-05-13T17:59:06",
+        "segment_statuses": [
+          "available",
+          "available",
+          "available",
+          "available"
+        ],
+        "total_baggages": 2,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 3
+      },
+      "user_turns": [
+        "Please cancel 018BE2 for user juan_taylor_8806 - change of plan.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [
+          {
+            "name": "cancel_reservation",
+            "arguments": {
+              "reservation_id": "018BE2"
+            }
+          }
+        ],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "cancel_business_1",
+      "branch": "cancel_business",
+      "why": "Business cabin is cancellable regardless of when it was booked.",
+      "user_id": "olivia_moore_2080",
+      "reservation_id": "05KW3F",
+      "facts": {
+        "membership": "silver",
+        "cabin": "business",
+        "insurance": "yes",
+        "passengers": 2,
+        "created_at": "2024-05-12T22:45:24",
+        "segment_statuses": [
+          "available",
+          "available",
+          "available",
+          "available"
+        ],
+        "total_baggages": 4,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 6
+      },
+      "user_turns": [
+        "Please cancel 05KW3F for user olivia_moore_2080 - change of plan.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [
+          {
+            "name": "cancel_reservation",
+            "arguments": {
+              "reservation_id": "05KW3F"
+            }
+          }
+        ],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "cancel_airline_cancelled_flight_0",
+      "branch": "cancel_airline_cancelled_flight",
+      "why": "A segment was cancelled by the airline, which makes the reservation cancellable.",
+      "user_id": "ivan_taylor_6615",
+      "reservation_id": "06K2QN",
+      "facts": {
+        "membership": "gold",
+        "cabin": "basic_economy",
+        "insurance": "no",
+        "passengers": 2,
+        "created_at": "2024-05-07T04:41:19",
+        "segment_statuses": [
+          "cancelled"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 4
+      },
+      "user_turns": [
+        "The airline cancelled my flight. Cancel 06K2QN, user ivan_taylor_6615.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [
+          {
+            "name": "cancel_reservation",
+            "arguments": {
+              "reservation_id": "06K2QN"
+            }
+          }
+        ],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "cancel_airline_cancelled_flight_1",
+      "branch": "cancel_airline_cancelled_flight",
+      "why": "A segment was cancelled by the airline, which makes the reservation cancellable.",
+      "user_id": "daiki_patel_1917",
+      "reservation_id": "0W60LB",
+      "facts": {
+        "membership": "gold",
+        "cabin": "business",
+        "insurance": "no",
+        "passengers": 1,
+        "created_at": "2024-05-03T12:05:28",
+        "segment_statuses": [
+          "cancelled"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 4
+      },
+      "user_turns": [
+        "The airline cancelled my flight. Cancel 0W60LB, user daiki_patel_1917.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [
+          {
+            "name": "cancel_reservation",
+            "arguments": {
+              "reservation_id": "0W60LB"
+            }
+          }
+        ],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "cancel_flown_segment_0",
+      "branch": "cancel_flown_segment",
+      "why": "Part of the trip has already flown, so policy requires a human handoff.",
+      "user_id": "lucas_hernandez_8985",
+      "reservation_id": "02EA8Y",
+      "facts": {
+        "membership": "regular",
+        "cabin": "economy",
+        "insurance": "yes",
+        "passengers": 3,
+        "created_at": "2024-05-01T04:05:14",
+        "segment_statuses": [
+          "landed",
+          "landed",
+          "landed",
+          "landed"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 3
+      },
+      "user_turns": [
+        "Cancel 02EA8Y please, user lucas_hernandez_8985. Change of plan.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "transferred",
+        "write_actions": [],
+        "forbidden_tools": [
+          "cancel_reservation"
+        ]
+      }
+    },
+    {
+      "id": "cancel_flown_segment_1",
+      "branch": "cancel_flown_segment",
+      "why": "Part of the trip has already flown, so policy requires a human handoff.",
+      "user_id": "isabella_khan_8788",
+      "reservation_id": "03LG23",
+      "facts": {
+        "membership": "silver",
+        "cabin": "economy",
+        "insurance": "no",
+        "passengers": 4,
+        "created_at": "2024-04-30T22:13:42",
+        "segment_statuses": [
+          "landed"
+        ],
+        "total_baggages": 3,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 8
+      },
+      "user_turns": [
+        "Cancel 03LG23 please, user isabella_khan_8788. Change of plan.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "transferred",
+        "write_actions": [],
+        "forbidden_tools": [
+          "cancel_reservation"
+        ]
+      }
+    },
+    {
+      "id": "cancel_insurance_reason_uncorroborated_0",
+      "branch": "cancel_insurance_reason_uncorroborated",
+      "why": "Eligibility rests only on an unverifiable stated reason; TRUST_STATED_REASON is off, so the agent hands off instead of acting on it.",
+      "user_id": "mohamed_taylor_5128",
+      "reservation_id": "01WQQ7",
+      "facts": {
+        "membership": "regular",
+        "cabin": "basic_economy",
+        "insurance": "yes",
+        "passengers": 2,
+        "created_at": "2024-05-02T01:52:19",
+        "segment_statuses": [
+          "available",
+          "available",
+          "available",
+          "available"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 0
+      },
+      "user_turns": [
+        "I have insurance and I'm ill, so cancel 01WQQ7. User mohamed_taylor_5128.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "transferred",
+        "write_actions": [],
+        "forbidden_tools": [
+          "cancel_reservation"
+        ]
+      }
+    },
+    {
+      "id": "cancel_insurance_reason_uncorroborated_1",
+      "branch": "cancel_insurance_reason_uncorroborated",
+      "why": "Eligibility rests only on an unverifiable stated reason; TRUST_STATED_REASON is off, so the agent hands off instead of acting on it.",
+      "user_id": "amelia_davis_7067",
+      "reservation_id": "03W8G4",
+      "facts": {
+        "membership": "gold",
+        "cabin": "basic_economy",
+        "insurance": "yes",
+        "passengers": 2,
+        "created_at": "2024-05-03T04:05:09",
+        "segment_statuses": [
+          "available",
+          "available",
+          "available",
+          "available"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 4
+      },
+      "user_turns": [
+        "I have insurance and I'm ill, so cancel 03W8G4. User amelia_davis_7067.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "transferred",
+        "write_actions": [],
+        "forbidden_tools": [
+          "cancel_reservation"
+        ]
+      }
+    },
+    {
+      "id": "cancel_no_grounds_0",
+      "branch": "cancel_no_grounds",
+      "why": "No eligibility ground applies: outside 24h, not business, no insurance, nothing cancelled by the airline.",
+      "user_id": "mia_jackson_2156",
+      "reservation_id": "0171JI",
+      "facts": {
+        "membership": "gold",
+        "cabin": "basic_economy",
+        "insurance": "no",
+        "passengers": 2,
+        "created_at": "2024-05-10T16:08:44",
+        "segment_statuses": [
+          "available",
+          "available"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 4
+      },
+      "user_turns": [
+        "I want to cancel 0171JI, user mia_jackson_2156. I just changed my mind.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": [
+          "cancel_reservation"
+        ]
+      }
+    },
+    {
+      "id": "cancel_no_grounds_1",
+      "branch": "cancel_no_grounds",
+      "why": "No eligibility ground applies: outside 24h, not business, no insurance, nothing cancelled by the airline.",
+      "user_id": "yara_jackson_7992",
+      "reservation_id": "09F9WJ",
+      "facts": {
+        "membership": "silver",
+        "cabin": "basic_economy",
+        "insurance": "no",
+        "passengers": 3,
+        "created_at": "2024-05-03T22:03:13",
+        "segment_statuses": [
+          "available",
+          "available",
+          "available",
+          "available"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 3
+      },
+      "user_turns": [
+        "I want to cancel 09F9WJ, user yara_jackson_7992. I just changed my mind.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": [
+          "cancel_reservation"
+        ]
+      }
+    },
+    {
+      "id": "modify_basic_economy_denied_0",
+      "branch": "modify_basic_economy_denied",
+      "why": "Basic economy flights cannot be changed.",
+      "user_id": "mia_jackson_2156",
+      "reservation_id": "0171JI",
+      "facts": {
+        "membership": "gold",
+        "cabin": "basic_economy",
+        "insurance": "no",
+        "passengers": 2,
+        "created_at": "2024-05-10T16:08:44",
+        "segment_statuses": [
+          "available",
+          "available"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 4
+      },
+      "user_turns": [
+        "Move reservation 0171JI to a different day, user mia_jackson_2156.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": [
+          "update_reservation_flights"
+        ]
+      }
+    },
+    {
+      "id": "modify_basic_economy_denied_1",
+      "branch": "modify_basic_economy_denied",
+      "why": "Basic economy flights cannot be changed.",
+      "user_id": "mohamed_taylor_5128",
+      "reservation_id": "01WQQ7",
+      "facts": {
+        "membership": "regular",
+        "cabin": "basic_economy",
+        "insurance": "yes",
+        "passengers": 2,
+        "created_at": "2024-05-02T01:52:19",
+        "segment_statuses": [
+          "available",
+          "available",
+          "available",
+          "available"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 0
+      },
+      "user_turns": [
+        "Move reservation 01WQQ7 to a different day, user mohamed_taylor_5128.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": [
+          "update_reservation_flights"
+        ]
+      }
+    },
+    {
+      "id": "modify_economy_allowed_0",
+      "branch": "modify_economy_allowed",
+      "why": "Economy, nothing flown, single segment, and the owner has a usable card.",
+      "user_id": "P5_li_6597",
+      "reservation_id": "23LMN8",
+      "facts": {
+        "membership": "regular",
+        "cabin": "economy",
+        "insurance": "yes",
+        "passengers": 2,
+        "created_at": "2024-05-04T10:35:14",
+        "segment_statuses": [
+          "available"
+        ],
+        "total_baggages": 1,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 2
+      },
+      "user_turns": [
+        "I'd like to change the date of 23LMN8, user P5_li_6597.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "modify_economy_allowed_1",
+      "branch": "modify_economy_allowed",
+      "why": "Economy, nothing flown, single segment, and the owner has a usable card.",
+      "user_id": "chen_rossi_8135",
+      "reservation_id": "2KC8YP",
+      "facts": {
+        "membership": "gold",
+        "cabin": "economy",
+        "insurance": "yes",
+        "passengers": 2,
+        "created_at": "2024-05-05T04:23:47",
+        "segment_statuses": [
+          "available"
+        ],
+        "total_baggages": 1,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 6
+      },
+      "user_turns": [
+        "I'd like to change the date of 2KC8YP, user chen_rossi_8135.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "baggage_add_free_allowance_0",
+      "branch": "baggage_add_free_allowance",
+      "why": "Still inside the free allowance, so the extra bag must be added at no charge.",
+      "user_id": "P5_anderson_8718",
+      "reservation_id": "00Y36Z",
+      "facts": {
+        "membership": "gold",
+        "cabin": "business",
+        "insurance": "no",
+        "passengers": 2,
+        "created_at": "2024-05-14T19:21:38",
+        "segment_statuses": [
+          "available",
+          "available",
+          "available",
+          "available"
+        ],
+        "total_baggages": 4,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 8
+      },
+      "user_turns": [
+        "Add a checked bag to 00Y36Z, user P5_anderson_8718.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "baggage_add_free_allowance_1",
+      "branch": "baggage_add_free_allowance",
+      "why": "Still inside the free allowance, so the extra bag must be added at no charge.",
+      "user_id": "mia_jackson_2156",
+      "reservation_id": "0171JI",
+      "facts": {
+        "membership": "gold",
+        "cabin": "basic_economy",
+        "insurance": "no",
+        "passengers": 2,
+        "created_at": "2024-05-10T16:08:44",
+        "segment_statuses": [
+          "available",
+          "available"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 4
+      },
+      "user_turns": [
+        "Add a checked bag to 0171JI, user mia_jackson_2156.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "compensation_eligible_cancelled_0",
+      "branch": "compensation_eligible_cancelled",
+      "why": "Cancelled flight complaint from an eligible customer: $100 per passenger.",
+      "user_id": "ivan_taylor_6615",
+      "reservation_id": "06K2QN",
+      "facts": {
+        "membership": "gold",
+        "cabin": "basic_economy",
+        "insurance": "no",
+        "passengers": 2,
+        "created_at": "2024-05-07T04:41:19",
+        "segment_statuses": [
+          "cancelled"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 4
+      },
+      "user_turns": [
+        "My flight on 06K2QN was cancelled, user ivan_taylor_6615. Can I get any compensation?",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [
+          {
+            "name": "send_certificate",
+            "arguments": {
+              "user_id": "ivan_taylor_6615",
+              "amount": 200
+            }
+          }
+        ],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "compensation_eligible_cancelled_1",
+      "branch": "compensation_eligible_cancelled",
+      "why": "Cancelled flight complaint from an eligible customer: $100 per passenger.",
+      "user_id": "daiki_patel_1917",
+      "reservation_id": "0W60LB",
+      "facts": {
+        "membership": "gold",
+        "cabin": "business",
+        "insurance": "no",
+        "passengers": 1,
+        "created_at": "2024-05-03T12:05:28",
+        "segment_statuses": [
+          "cancelled"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 4
+      },
+      "user_turns": [
+        "My flight on 0W60LB was cancelled, user daiki_patel_1917. Can I get any compensation?",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [
+          {
+            "name": "send_certificate",
+            "arguments": {
+              "user_id": "daiki_patel_1917",
+              "amount": 100
+            }
+          }
+        ],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "compensation_ineligible_0",
+      "branch": "compensation_ineligible",
+      "why": "Regular member, no insurance, (basic) economy: explicitly not compensated.",
+      "user_id": "noah_jackson_7027",
+      "reservation_id": "3VIYOC",
+      "facts": {
+        "membership": "regular",
+        "cabin": "economy",
+        "insurance": "no",
+        "passengers": 3,
+        "created_at": "2024-05-09T14:33:21",
+        "segment_statuses": [
+          "cancelled",
+          "cancelled",
+          "available",
+          "available"
+        ],
+        "total_baggages": 2,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 3
+      },
+      "user_turns": [
+        "My flight was cancelled on 3VIYOC, user noah_jackson_7027. I want compensation.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": [
+          "send_certificate"
+        ]
+      }
+    },
+    {
+      "id": "compensation_ineligible_1",
+      "branch": "compensation_ineligible",
+      "why": "Regular member, no insurance, (basic) economy: explicitly not compensated.",
+      "user_id": "isabella_davis_2143",
+      "reservation_id": "521ARH",
+      "facts": {
+        "membership": "regular",
+        "cabin": "economy",
+        "insurance": "no",
+        "passengers": 1,
+        "created_at": "2024-05-08T13:25:59",
+        "segment_statuses": [
+          "cancelled"
+        ],
+        "total_baggages": 1,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 1
+      },
+      "user_turns": [
+        "My flight was cancelled on 521ARH, user isabella_davis_2143. I want compensation.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": [
+          "send_certificate"
+        ]
+      }
+    },
+    {
+      "id": "compensation_not_requested_0",
+      "branch": "compensation_not_requested",
+      "why": "An eligible customer who never asked for compensation must not be offered any.",
+      "user_id": "ivan_taylor_6615",
+      "reservation_id": "06K2QN",
+      "facts": {
+        "membership": "gold",
+        "cabin": "basic_economy",
+        "insurance": "no",
+        "passengers": 2,
+        "created_at": "2024-05-07T04:41:19",
+        "segment_statuses": [
+          "cancelled"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 4
+      },
+      "user_turns": [
+        "Just checking the status of 06K2QN, user ivan_taylor_6615."
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [],
+        "forbidden_tools": [
+          "send_certificate"
+        ]
+      }
+    },
+    {
+      "id": "compensation_not_requested_1",
+      "branch": "compensation_not_requested",
+      "why": "An eligible customer who never asked for compensation must not be offered any.",
+      "user_id": "daiki_patel_1917",
+      "reservation_id": "0W60LB",
+      "facts": {
+        "membership": "gold",
+        "cabin": "business",
+        "insurance": "no",
+        "passengers": 1,
+        "created_at": "2024-05-03T12:05:28",
+        "segment_statuses": [
+          "cancelled"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 4
+      },
+      "user_turns": [
+        "Just checking the status of 0W60LB, user daiki_patel_1917."
+      ],
+      "expect": {
+        "outcome": "allowed",
+        "write_actions": [],
+        "forbidden_tools": [
+          "send_certificate"
+        ]
+      }
+    },
+    {
+      "id": "user_wrong_about_allowance_0",
+      "branch": "user_wrong_about_allowance",
+      "why": "Gold in economy gets 3 free bags per passenger, not 4; the agent must correct this.",
+      "user_id": "liam_jackson_9794",
+      "reservation_id": "0MR5MT",
+      "facts": {
+        "membership": "gold",
+        "cabin": "economy",
+        "insurance": "yes",
+        "passengers": 1,
+        "created_at": "2024-05-11T06:05:58",
+        "segment_statuses": [
+          "available",
+          "available"
+        ],
+        "total_baggages": 1,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 3
+      },
+      "user_turns": [
+        "I'm gold so I get 4 free checked bags in economy on 0MR5MT, user liam_jackson_9794. Add 4 free bags.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "user_wrong_about_allowance_1",
+      "branch": "user_wrong_about_allowance",
+      "why": "Gold in economy gets 3 free bags per passenger, not 4; the agent must correct this.",
+      "user_id": "raj_kim_8539",
+      "reservation_id": "0VSL5F",
+      "facts": {
+        "membership": "gold",
+        "cabin": "economy",
+        "insurance": "no",
+        "passengers": 1,
+        "created_at": "2024-05-05T01:02:17",
+        "segment_statuses": [
+          "available",
+          "available"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 3
+      },
+      "user_turns": [
+        "I'm gold so I get 4 free checked bags in economy on 0VSL5F, user raj_kim_8539. Add 4 free bags.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": []
+      }
+    },
+    {
+      "id": "user_wrong_about_cancellability_0",
+      "branch": "user_wrong_about_cancellability",
+      "why": "The customer asserts an entitlement they do not have; the agent must say no and explain.",
+      "user_id": "mia_jackson_2156",
+      "reservation_id": "0171JI",
+      "facts": {
+        "membership": "gold",
+        "cabin": "basic_economy",
+        "insurance": "no",
+        "passengers": 2,
+        "created_at": "2024-05-10T16:08:44",
+        "segment_statuses": [
+          "available",
+          "available"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 4
+      },
+      "user_turns": [
+        "I'm entitled to a free cancellation on 0171JI, user mia_jackson_2156. Cancel it and refund me.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": [
+          "cancel_reservation"
+        ]
+      }
+    },
+    {
+      "id": "user_wrong_about_cancellability_1",
+      "branch": "user_wrong_about_cancellability",
+      "why": "The customer asserts an entitlement they do not have; the agent must say no and explain.",
+      "user_id": "yara_jackson_7992",
+      "reservation_id": "09F9WJ",
+      "facts": {
+        "membership": "silver",
+        "cabin": "basic_economy",
+        "insurance": "no",
+        "passengers": 3,
+        "created_at": "2024-05-03T22:03:13",
+        "segment_statuses": [
+          "available",
+          "available",
+          "available",
+          "available"
+        ],
+        "total_baggages": 0,
+        "nonfree_baggages": 0,
+        "free_bag_allowance": 3
+      },
+      "user_turns": [
+        "I'm entitled to a free cancellation on 09F9WJ, user yara_jackson_7992. Cancel it and refund me.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": [
+          "cancel_reservation"
+        ]
+      }
+    },
+    {
+      "id": "book_six_passengers",
+      "branch": "book_too_many_passengers",
+      "why": "A reservation may hold at most five passengers; the tool does not check this.",
+      "user_id": "aarav_ahmed_6699",
+      "reservation_id": null,
+      "facts": {
+        "passengers": 6
+      },
+      "user_turns": [
+        "I want to book one flight for six people, user aarav_ahmed_6699.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": [
+          "book_reservation"
+        ],
+        "constructed_arguments": {
+          "passengers": [
+            {
+              "first_name": "Test",
+              "last_name": "Passenger0",
+              "dob": "1990-01-01"
+            },
+            {
+              "first_name": "Test",
+              "last_name": "Passenger1",
+              "dob": "1990-01-01"
+            },
+            {
+              "first_name": "Test",
+              "last_name": "Passenger2",
+              "dob": "1990-01-01"
+            },
+            {
+              "first_name": "Test",
+              "last_name": "Passenger3",
+              "dob": "1990-01-01"
+            },
+            {
+              "first_name": "Test",
+              "last_name": "Passenger4",
+              "dob": "1990-01-01"
+            },
+            {
+              "first_name": "Test",
+              "last_name": "Passenger5",
+              "dob": "1990-01-01"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "baggage_decrease",
+      "branch": "baggage_decrease_denied",
+      "why": "Checked bags may be added but never removed; the tool would happily decrease them.",
+      "user_id": "aarav_brown_5556",
+      "reservation_id": "00GMVN",
+      "facts": {
+        "total_baggages": 2
+      },
+      "user_turns": [
+        "Remove a checked bag from 00GMVN, user aarav_brown_5556.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": [
+          "update_reservation_baggages"
+        ]
+      }
+    },
+    {
+      "id": "passenger_count_change",
+      "branch": "passenger_count_immutable",
+      "why": "The passenger count cannot change -- not even a human agent can do it, so this is a refusal rather than a transfer.",
+      "user_id": "aarav_brown_5556",
+      "reservation_id": "00GMVN",
+      "facts": {
+        "passengers": 1
+      },
+      "user_turns": [
+        "Add my partner to 00GMVN, user aarav_brown_5556.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": [
+          "update_reservation_passengers"
+        ]
+      }
+    },
+    {
+      "id": "change_origin_denied",
+      "branch": "origin_destination_immutable",
+      "why": "A modification may not change origin, destination or trip type.",
+      "user_id": "isabella_khan_8788",
+      "reservation_id": "03LG23",
+      "facts": {
+        "origin": "EWR",
+        "destination": "IAH"
+      },
+      "user_turns": [
+        "Change 03LG23 to depart from a different city, user isabella_khan_8788.",
+        "yes"
+      ],
+      "expect": {
+        "outcome": "denied",
+        "write_actions": [],
+        "forbidden_tools": [
+          "update_reservation_flights"
+        ]
+      }
+    }
+  ]
+}

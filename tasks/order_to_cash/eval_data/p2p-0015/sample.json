@@ -1,0 +1,9 @@
+{
+  "data_point_id": "p2p-0015",
+  "single_turn_input": {
+    "text": "Review invoice INV-5123 (supplier Supplier_3, PO PO-000092) against its PO line and the supplier contract; decide whether to flag it for human review and give a short reason."
+  },
+  "expected_output": {
+    "json": "{\"flagged\": true, \"fault_type\": \"QTY_MISMATCH\", \"reason\": \"invoiced qty 276 != PO qty 275 (quantity mismatch)\", \"qty_delta\": 1}"
+  }
+}

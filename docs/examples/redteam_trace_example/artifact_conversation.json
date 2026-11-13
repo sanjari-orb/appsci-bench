@@ -1,0 +1,4 @@
+[
+  {"query": {"text": "Review this invoice batch.", "json": null, "files": []},
+   "response": {"text": "Flagged 3 invoices. No accuracy figure is claimed; I report 8/10 observed on the sample.", "json": "{\"flag\": true, \"cap\": null}", "files": []}}
+]

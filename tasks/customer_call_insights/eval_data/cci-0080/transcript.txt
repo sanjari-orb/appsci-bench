@@ -1,0 +1,26 @@
+Call CALL-9025 — Amberline Retail Group (ACC-4025) — 2026-03-09 11:30 UTC
+Participants: Farah Kassab (Account Manager, us) / Owen Bricklin (Store Operations Manager, customer)
+
+Farah: Owen, good to catch up. Anything specific you wanted to cover today?
+
+Owen: Yeah, honestly I'm annoyed about something.
+
+Owen: The new UI update broke the inventory filter I use every single day -- it's been driving me nuts all week.
+
+Farah: I'm sorry to hear that, that sounds genuinely frustrating given how often you rely on it. Can you tell me exactly what's happening?
+
+Owen: The filter just doesn't apply anymore when I select more than one category at once, it resets back to showing everything.
+
+Farah: Got it, that's a clear bug then, not expected behavior at all. Let me get that filed with engineering as a priority fix.
+
+Owen: Appreciated, I know it's not the end of the world, but it's slowing me down every day and it's genuinely annoying.
+
+Farah: Completely fair, small daily friction adds up. I'll have engineering take a look and get you a fix timeline once I hear back.
+
+Owen: Sounds good. For what it's worth, outside of this one thing, everything else has honestly been great, I'm not worried about anything bigger.
+
+Farah: Good to hear that.
+
+Farah: And renewal-wise, we're still in good shape then from your side?
+
+Owen: Yeah, no concerns there at all, this is just a single annoying bug, not a bigger pattern I'm worried about. Thanks for jumping on the filter issue -- talk soon.

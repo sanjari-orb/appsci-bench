@@ -1,0 +1,9 @@
+{
+  "data_point_id": "p2p-0001",
+  "single_turn_input": {
+    "text": "Review invoice INV-13046 (supplier Supplier_9, PO PO-000681) against its PO line and the supplier contract; decide whether to flag it for human review and give a short reason."
+  },
+  "expected_output": {
+    "json": "{\"flagged\": true, \"fault_type\": \"DUPLICATE\", \"reason\": \"duplicate of INV-3046 for PO line 1350 (double charge); 'admin charge' $175.89 is permitted by the contract\", \"duplicate_of\": \"INV-3046\", \"permitted_fee\": 175.89}"
+  }
+}

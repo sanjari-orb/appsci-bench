@@ -1,0 +1,12 @@
+{
+  "data_point_id": "tau2_airline_26",
+  "multi_turn_input": {
+    "user_task": "Reason for the call: You want to cancel your flights from MCO to CLT. How you behave: You insist to cancel and have the refund.",
+    "user_persona": "You are Amelia Sanchez. Your user id is amelia_sanchez_4739.",
+    "user_stop_criteria": "Any one of the following is true: (a) what you called about has been resolved one way or the other -- either the agent completed it, or the agent has clearly refused and you have no further argument to make; (b) the agent has clearly told you it is transferring you to a human agent (stop once it has actually said so, not merely offered to); or (c) you have nothing further to go on, because continuing would need information your scenario does not give you."
+  },
+  "expected_output": {
+    "json": "{\"actions\": [], \"communicate_info\": [], \"nl_assertions\": [\"Agent does not offer the refund because reservation doesn't meet policy criteria.\"], \"reward_basis\": [\"DB\", \"COMMUNICATE\"], \"purpose\": \"Test that agent refuses cancellation with refund if criteria are not met.\"}"
+  },
+  "eval_rubric": "Agent behaviour: Agent does not offer the refund because reservation doesn't meet policy criteria. Scored on tau2 reward_basis ['DB', 'COMMUNICATE'] (final reward = product of components): DB = final database state matches applying the oracle actions to a fresh DB; COMMUNICATE = every required fact in oracle.data.communicate_info is stated to the user.\n\nAssertions describing policy-correct behavior for this case:\n- Agent does not offer the refund because reservation doesn't meet policy criteria."
+}

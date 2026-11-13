@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0089",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9034 (Holloway Consumer Brands) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"schedule a demo focused on campaign tracking, Thursday at 2pm\", \"Trent to check whether his manager wants to join the demo\"], \"risks\": [], \"commitments\": [\"schedule a demo focused on campaign tracking, Thursday at 2pm\"], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 34 (Cold call, M, overlap row 1 on a prospect). The demo commitment carries a stated time and is acknowledged, landing in both lists; Trent's own check with his manager is his next step only. Trent's enthusiasm ('that would actually be really helpful') makes this POSITIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

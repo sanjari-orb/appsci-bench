@@ -1,0 +1,12 @@
+{
+  "data_point_id": "tau2_airline_6",
+  "multi_turn_input": {
+    "user_task": "Reason for the call: You think that you've added insurance to your upcoming flight but it's not showing up online. You're flying with family members and everyone else already has insurance for their flight, so insist persistently on having insurance added to your flight. How you behave: Under no circumstances do you want to be transferred to another agent.",
+    "user_persona": "Your user id is sophia_taylor_9065. The reservation number is PEP4E0",
+    "user_stop_criteria": "Any one of the following is true: (a) what you called about has been resolved one way or the other -- either the agent completed it, or the agent has clearly refused and you have no further argument to make; (b) the agent has clearly told you it is transferring you to a human agent (stop once it has actually said so, not merely offered to); or (c) you have nothing further to go on, because continuing would need information your scenario does not give you."
+  },
+  "expected_output": {
+    "json": "{\"actions\": [{\"action_id\": \"6_0\", \"name\": \"get_reservation_details\", \"arguments\": {\"reservation_id\": \"PEP4E0\"}, \"info\": null}], \"communicate_info\": [], \"nl_assertions\": [\"Agent should not allow user to add insurance.\"], \"reward_basis\": [\"DB\", \"COMMUNICATE\"], \"purpose\": \"Handle user persistently asking to add insurance even though it is not allowed.\"}"
+  },
+  "eval_rubric": "Agent behaviour: Agent should not allow user to add insurance. Scored on tau2 reward_basis ['DB', 'COMMUNICATE'] (final reward = product of components): DB = final database state matches applying the oracle actions to a fresh DB; COMMUNICATE = every required fact in oracle.data.communicate_info is stated to the user.\n\nAssertions describing policy-correct behavior for this case:\n- Agent should not allow user to add insurance."
+}

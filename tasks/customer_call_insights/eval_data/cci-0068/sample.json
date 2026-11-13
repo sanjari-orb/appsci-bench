@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0068",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9013 (Bellcourt Hospitality Group) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send revised pricing tier options\", \"Julian to review the revised tiers and follow up with questions\"], \"risks\": [], \"commitments\": [\"send revised pricing tier options\"], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 13 (Renewal, M, price talk is not a budget risk). Julian explicitly confirms the budget is there ('We have the budget, I just want to make sure we're getting a fair deal') -- a negotiation, not a shortfall, so risks stays empty per the policy's own trap warning. Nadia's tier review is a commitment; Julian's own follow-up is his next step only. Even-toned throughout, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

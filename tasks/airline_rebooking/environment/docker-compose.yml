@@ -1,0 +1,39 @@
+# Docker Compose for the Airline Task Environment
+#
+# Unlike order_to_cash (a Postgres stack), airline's environment is the in-process
+# FastAPI tool-API service (tasks/airline_rebooking/environment/service.py), here
+# containerized as a single `workspace` service so the existing TaskRunner /
+# BenchmarkOrchestrator path works unchanged in shape.
+#
+# TaskRunner runs this as project "airline" (derived from task_runner.workspace_name
+# "airline-workspace"), so the container is named `airline-workspace-1` and other
+# containers on bench-network reach the tool-API at http://airline-workspace-1:8080/tools.
+#
+# Tokens are STATIC (mirrors o2c's static sandbox/sandbox DB creds): the same tool
+# token is handed to the agent via spec.task_runner.agent_env (AIRLINE_TOOLS_TOKEN).
+# The admin token is set for the (future) evaluator's per-case reset/state_hash; it
+# is unused until airline's DB-check eval lands.
+
+services:
+  workspace:
+    build:
+      context: ../../..
+      dockerfile: tasks/airline_rebooking/environment/Dockerfile
+    environment:
+      # Read from the starting process's environment, defaulting to the historic static value. The
+      # default is what a single-environment run gets, unchanged. Parallel eval runs several copies of
+      # this stack under different compose projects and overrides this per copy, so an artifact that
+      # hardcoded the token instead of reading AIRLINE_TOOLS_TOKEN gets a 401 rather than quietly
+      # transacting against a copy it was not assigned.
+      AIRLINE_ENV_TOKEN: ${AIRLINE_ENV_TOKEN:-airline-tool-token-local}
+      AIRLINE_ENV_ADMIN_TOKEN: airline-admin-token-local
+      # No AIRLINE_DB_PATH, and that is load-bearing: with it unset the service boots holding NO
+      # records, and each phase's setup script loads that phase's own store via POST /admin/load.
+      # Nothing is baked into the image -- a baked store would be present in the BUILD container
+      # whatever was bundled, which is how a carve becomes decorative.
+    networks:
+      - bench-network
+
+networks:
+  bench-network:
+    external: true

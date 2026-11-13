@@ -1,0 +1,8 @@
+started_at: 2026-09-23T13:03:00+02:00
+ended_at: 2026-09-23T18:29:34+02:00
+breaks:
+  - from: 2026-09-23T13:30:00+02:00
+    to: 2026-09-23T15:00:00+02:00
+    reason: lunch+meeting
+technical_issues:
+  - "Evaluation results received 2026-09-24: the initial full pass had task-environment failures on 55 of 97 cases. Those 55 were rerun separately and merged into the supplied 97-case report; its warning records the recovery. The returned artifact fingerprint matches the frozen version."

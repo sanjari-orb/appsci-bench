@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0095",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9040 (Larkspur Dental Network) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"Odette to get budget approved internally for the scheduling add-on module, expected within a couple weeks\"], \"risks\": [], \"commitments\": [], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 40 (Expansion, M, next_steps without commitments). Entirely Odette's own undertaking -- nothing is owed by us. The one-pager offer is explicitly deferred rather than accepted ('let me first confirm the committee actually wants it before you spend time on it'), so it stays out of both lists per the acknowledgement rule. Plain, even tone, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

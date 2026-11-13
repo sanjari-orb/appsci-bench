@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__chinarealestateinformationcorp_20090929_f_1_ex_10__d2e6503b__vendor_standard",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'Vendor Contract Standard' policy (vendor_standard). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"vendor_standard\", \"compliant\": false, \"violations\": [{\"category\": \"Cap On Liability\", \"rule\": \"must_have\", \"present\": false, \"evidence_spans\": []}, {\"category\": \"Most Favored Nation\", \"rule\": \"must_not_have\", \"present\": true, \"evidence_spans\": [\"In the event E-House Research and Training Institute becomes entitled to charge, invoice, or otherwise receive from, Licensee any  royalties, fees or other remuneration for use of the E-House Licensed Data and Information pursuant to amendments to the Master Transaction  Agreement or through other means, Licensor and Licensee shall use good faith efforts to amend this Agreement such that Licensor becomes  entitled to charge, invoice, or otherwise receive fees from Licensee to use the Licensed Domain Names and Licensed Content, such fees to be  agreed upon by the Parties, provided that (i) such fees shall be commercially reasonable and (ii) such fees shall not exceed the fees charged by  Licensor to unaffiliated third parties for use of the Licensed Content, taking into account any other consideration received by Licensor (including,  but not limited to, discounted services offerings from the third party).\"]}], \"needs_review\": [{\"category\": \"Change Of Control\", \"evidence_spans\": [\"This Agreement and any rights or authority granted hereunder shall not be assigned or transferred by either Party, including by  operation of law, merger or otherwise, without the express written consent of the other Party, provided that Licensor may assign this Agreement  without consent to any of its Affiliates and Licensee may assign this Agreement without consent to SINA Leju or an Affiliate of Licensee that is  controlled by SINA Leju.\", \"Licensor may terminate this Agreement by providing prior written notice to Licensee upon the occurrence  of a Change of Control.\"]}]}"
+  }
+}

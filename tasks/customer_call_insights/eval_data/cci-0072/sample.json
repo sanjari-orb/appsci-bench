@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0072",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9017 (Overbrook Industrial Supply) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send revised pricing, by Friday\", \"get legal review started on our side, this week\", \"set up a reference call with a peer customer, within the next couple weeks\", \"Wren to circulate the final numbers internally for budget sign-off\"], \"risks\": [\"customer's VP has asked for a comparison quote from a named competitor (Aldergate Systems) as a benchmark ahead of the renewal decision\"], \"commitments\": [\"send revised pricing, by Friday\", \"get legal review started on our side, this week\", \"set up a reference call with a peer customer, within the next couple weeks\"], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 17 (Renewal, XL, overlap at max cardinality). Three of Diego's undertakings each carry a stated deadline and land in both lists; Wren's budget circulation is her own next step only. The competitor comparison is a named, concrete benchmarking request from leadership -- a real competitor risk, not the ordinary price-negotiation look-alike (the refresher-training offer earlier in the call is deliberately left unaccepted -- 'let me check with them first' -- and correctly does not add a fifth item). Businesslike throughout, NEUTRAL despite the live risk.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

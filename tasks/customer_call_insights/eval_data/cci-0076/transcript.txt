@@ -1,0 +1,50 @@
+Call CALL-9021 — Brindlewood Payments Inc (ACC-4021) — 2026-03-08 09:00 UTC
+Participants: Julian Ferro (Senior Account Manager, us) / Naomi Castellanos (VP of Engineering, customer)
+
+Julian: Naomi, thanks for getting on given everything that's happened. I know this isn't a call you wanted to have to make today.
+
+Naomi: No, it's not, honestly. This is the third outage we've had this quarter, and I'll be direct with you -- I've lost confidence in the reliability story right now.
+
+Julian: That's completely fair, and I'm not going to try to talk you out of that feeling. Can you walk me through what happened this time?
+
+Naomi: Our payment processing was down for almost two hours yesterday afternoon, right during one of our busiest windows of the week.
+
+Julian: I'm sorry, genuinely, that's a bad time for it to happen. Do you have a sense of what specifically failed on our end?
+
+Naomi: Not fully, no, and that's actually part of the frustration -- we haven't gotten a clear root cause from your side on any of the three incidents yet.
+
+Julian: That's on us, and I hear you loud and clear. I'm going to personally escalate this to our infrastructure leadership and push for a full incident review, not just another quick patch.
+
+Naomi: I'd want to see that in writing, honestly, given the pattern we've seen so far this quarter.
+
+Julian: Understood completely. I'll get you a written incident report with root cause and remediation steps once the review is done, and I'll arrange a direct call with our VP of Engineering as part of that.
+
+Naomi: Appreciated, that's really the bare minimum at this point though, given where we are.
+
+Julian: I know, and I'm not going to pretend otherwise with you. Separately, is there anything urgent still broken right now, or is it stable at the moment?
+
+Naomi: It's stable for now, but stable doesn't mean I actually trust it's going to stay that way going forward.
+
+Naomi: Honestly, I said something similar after the first outage too, and look where we are now.
+
+Julian: Understood completely, that's a fair way to feel given the history here. I'll get that incident report and engineering call moving as quickly as I can.
+
+Naomi: Appreciated. I do want to be clear, this is genuinely affecting how I'm thinking about our renewal later this year.
+
+Julian: I understand completely, and honestly that's the right way to think about it given what's happened. We need to earn that trust back, not just ask for it.
+
+Naomi: We'll see how it goes. I'm not saying we're walking away, but I'm also not going to pretend everything's fine right now.
+
+Julian: That's fair, and I'd genuinely rather have this honest conversation with you than a comfortable one that doesn't reflect reality.
+
+Naomi: I appreciate that, honestly, most vendors just tell you what you want to hear in a moment like this.
+
+Julian: That's not going to fix anything for you, so there's no point in it.
+
+Naomi: I'll be keeping my own leadership updated on how this goes before we get anywhere near that renewal conversation, for what it's worth.
+
+Julian: That makes sense given everything.
+
+Julian: Anything else today before we wrap up?
+
+Naomi: No, I think I've said what I needed to say for now.

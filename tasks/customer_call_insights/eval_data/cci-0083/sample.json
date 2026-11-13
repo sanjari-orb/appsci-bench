@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0083",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9028 (Ashworth Pharmaceuticals) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [], \"risks\": [\"implementation rollout has slipped from March to June because of a delay entirely on the customer's side\"], \"commitments\": [], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 28 (Timeline, L, slipping timeline, customer's own side). Colin is explicit the delay is entirely theirs, not ours, so this is a risk but not a commitment -- nothing is owed by us. The revised date itself is the outstanding fact, phrased as the CRM would carry it. Even-toned and cooperative throughout, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

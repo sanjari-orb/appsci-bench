@@ -1,0 +1,427 @@
+{
+  "series": {
+    "banking_support_claude-opus-4-8_b0_l3_20260920_174913": {
+      "n": 3,
+      "n_deploys": 4,
+      "pearson": -0.2222039345850917,
+      "spearman": -0.4999999999999999,
+      "kendall_tau_b": -0.3333333333333333,
+      "external_noise_sd": 0.01735310126866336,
+      "programs": [
+        {
+          "program": "B",
+          "internal": 0.8972222222222221,
+          "external": 0.07731958762886598,
+          "deploys": [
+            2,
+            4
+          ],
+          "first_deploy": 2
+        },
+        {
+          "program": "C",
+          "internal": 0.9,
+          "external": 0.061855670103092786,
+          "deploys": [
+            3
+          ],
+          "first_deploy": 3
+        },
+        {
+          "program": "D",
+          "internal": 0.8277777777777778,
+          "external": 0.07216494845360824,
+          "deploys": [
+            5
+          ],
+          "first_deploy": 5
+        }
+      ],
+      "internal_first": 0.9333333333333332,
+      "internal_last": 0.8277777777777778,
+      "external_first": 0.061855670103092786,
+      "external_last": 0.07216494845360824,
+      "external_all": [
+        {
+          "deploy": 1,
+          "external": 0.061855670103092786,
+          "hash": "3fcb124e",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": false
+        },
+        {
+          "deploy": 2,
+          "external": 0.061855670103092786,
+          "hash": "01fa54ec",
+          "program": "B",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 3,
+          "external": 0.061855670103092786,
+          "hash": "9b0fcc79",
+          "program": "C",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 4,
+          "external": 0.09278350515463918,
+          "hash": "01fa54ec",
+          "program": "B",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 5,
+          "external": 0.07216494845360824,
+          "hash": "a38596ba",
+          "program": "D",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 6,
+          "external": 0.10309278350515463,
+          "hash": "01fa54ec",
+          "program": "B",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": false
+        },
+        {
+          "deploy": 7,
+          "external": 0.07216494845360824,
+          "hash": "01fa54ec",
+          "program": "B",
+          "is_submission": true,
+          "is_submitted_program": true,
+          "has_internal": false
+        }
+      ],
+      "programs_built": 4,
+      "programs_abandoned": [
+        "A",
+        "C",
+        "D"
+      ],
+      "shipped_program": "B",
+      "loop_verdicts": [
+        {
+          "deploy": 3,
+          "incumbent": 2,
+          "verdict": "rejected",
+          "reverted": true,
+          "technique": "outcome_records_correctness",
+          "note": "# Change note\n\n## Metric targeted\n`outcome_records_correctness` (0.833, the weakest metric). The only failing case was\n`case6_dispute_alex_silver` (scored 0.0): the expected net-new dispute for user 126 never landed.\n\n## Root cause\nThe `file_credit_card_transaction_dispute_4829` tool requires a `tra",
+          "internal": 0.9,
+          "external_delta": 0.0,
+          "outcome": "wrong_reject",
+          "within_noise": true
+        },
+        {
+          "deploy": 5,
+          "incumbent": 4,
+          "verdict": "rejected",
+          "reverted": true,
+          "technique": "kb_grounding",
+          "note": "# Change note\n\n## Metric targeted\n`kb_grounding` (0.7, weakest). The single failing case `case2_cli_eligible_alex_silver`\nscored 0.0 on kb_grounding and also dragged down verification_correctness (0.4) and\noutcome_records_correctness (0.3) \u2014 one case was responsible for most of the lost points\nacros",
+          "internal": 0.8277777777777778,
+          "external_delta": -0.020618556701030938,
+          "outcome": "correct_reject",
+          "within_noise": false
+        }
+      ],
+      "loop_correct_keep": 0,
+      "loop_wrong_keep": 0,
+      "loop_correct_reject": 1,
+      "loop_wrong_reject": 1,
+      "loop_value_discarded": 0.0,
+      "decisions": [
+        {
+          "cycle": "2->3",
+          "from": 2,
+          "to": 3,
+          "internal_delta": -0.033333333333333215,
+          "external_delta": 0.0,
+          "verdict": "tied",
+          "within_noise": true
+        },
+        {
+          "cycle": "4->5",
+          "from": 4,
+          "to": 5,
+          "internal_delta": -0.033333333333333326,
+          "external_delta": -0.020618556701030938,
+          "verdict": "agree",
+          "within_noise": false
+        }
+      ],
+      "decisions_agree": 1,
+      "decisions_disagree": 0,
+      "decisions_tied": 1,
+      "decisions_within_noise": 1,
+      "regret": {
+        "best_deploy": 2,
+        "best_score": 0.08247422680412371,
+        "submitted_deploy": 7,
+        "submitted_score": 0.08247422680412371,
+        "submitted_is_best_program": true,
+        "regret": 0.0
+      },
+      "points": [
+        {
+          "deploy": 2,
+          "internal": 0.9333333333333332,
+          "external": 0.061855670103092786,
+          "hash": "01fa54ec",
+          "program": "B",
+          "is_submission": false
+        },
+        {
+          "deploy": 3,
+          "internal": 0.9,
+          "external": 0.061855670103092786,
+          "hash": "9b0fcc79",
+          "program": "C",
+          "is_submission": false
+        },
+        {
+          "deploy": 4,
+          "internal": 0.8611111111111112,
+          "external": 0.09278350515463918,
+          "hash": "01fa54ec",
+          "program": "B",
+          "is_submission": false
+        },
+        {
+          "deploy": 5,
+          "internal": 0.8277777777777778,
+          "external": 0.07216494845360824,
+          "hash": "a38596ba",
+          "program": "D",
+          "is_submission": false
+        }
+      ]
+    },
+    "banking_support_claude-opus-4-8_b0_l3_20260921_075749": {
+      "n": 3,
+      "n_deploys": 4,
+      "pearson": -0.49999999999999994,
+      "spearman": -0.5000000000000001,
+      "kendall_tau_b": -0.5,
+      "external_noise_sd": 0.016300400310146287,
+      "programs": [
+        {
+          "program": "A",
+          "internal": 0.9166666666666667,
+          "external": 0.061855670103092786,
+          "deploys": [
+            1,
+            3
+          ],
+          "first_deploy": 1
+        },
+        {
+          "program": "B",
+          "internal": 0.8833333333333334,
+          "external": 0.07216494845360824,
+          "deploys": [
+            2
+          ],
+          "first_deploy": 2
+        },
+        {
+          "program": "C",
+          "internal": 0.8833333333333334,
+          "external": 0.061855670103092786,
+          "deploys": [
+            4
+          ],
+          "first_deploy": 4
+        }
+      ],
+      "internal_first": 0.95,
+      "internal_last": 0.8833333333333334,
+      "external_first": 0.061855670103092786,
+      "external_last": 0.061855670103092786,
+      "external_all": [
+        {
+          "deploy": 1,
+          "external": 0.061855670103092786,
+          "hash": "08a90f43",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 2,
+          "external": 0.07216494845360824,
+          "hash": "35adf333",
+          "program": "B",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 3,
+          "external": 0.061855670103092786,
+          "hash": "08a90f43",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 4,
+          "external": 0.061855670103092786,
+          "hash": "cb5ccf85",
+          "program": "C",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 5,
+          "external": 0.07216494845360824,
+          "hash": "08a90f43",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": false
+        },
+        {
+          "deploy": 6,
+          "external": 0.061855670103092786,
+          "hash": "08a90f43",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": false
+        },
+        {
+          "deploy": 7,
+          "external": 0.061855670103092786,
+          "hash": "08a90f43",
+          "program": "A",
+          "is_submission": true,
+          "is_submitted_program": true,
+          "has_internal": false
+        }
+      ],
+      "programs_built": 3,
+      "programs_abandoned": [
+        "B",
+        "C"
+      ],
+      "shipped_program": "A",
+      "loop_verdicts": [
+        {
+          "deploy": 2,
+          "incumbent": 1,
+          "verdict": "rejected",
+          "reverted": true,
+          "technique": "correct_action",
+          "note": "# Change note\n\n## Targeted metric\n`correct_action` (0.5) \u2014 the only failing metric. Single failing case:\n`case_b_dispute_two_matching_fields` (correct_action = 0.0).\n\n## Diagnosis\nCase B expects the agent to file `file_debit_card_transaction_dispute_6281`\n(duplicate_charge \u2192 keep_active) after verif",
+          "internal": 0.8833333333333334,
+          "external_delta": 0.010309278350515455,
+          "outcome": "wrong_reject",
+          "within_noise": true
+        },
+        {
+          "deploy": 4,
+          "incumbent": 3,
+          "verdict": "rejected",
+          "reverted": true,
+          "technique": "correct_action",
+          "note": "# Change note\n\n## Targeted metric\n`correct_action` (0.0) \u2014 the only failing metric. Failing cases: `case_b_dispute_two_matching_fields` and `case_e_nothing_extra_only_x` (both correct_action = 0.0).\n\n## Diagnosis\nBoth cases are account-actions gated on identity verification. The personas supply two ",
+          "internal": 0.8833333333333334,
+          "external_delta": 0.0,
+          "outcome": "wrong_reject",
+          "within_noise": true
+        }
+      ],
+      "loop_correct_keep": 0,
+      "loop_wrong_keep": 0,
+      "loop_correct_reject": 0,
+      "loop_wrong_reject": 2,
+      "loop_value_discarded": 0.010309278350515455,
+      "decisions": [
+        {
+          "cycle": "1->2",
+          "from": 1,
+          "to": 2,
+          "internal_delta": -0.06666666666666654,
+          "external_delta": 0.010309278350515455,
+          "verdict": "disagree",
+          "within_noise": true
+        },
+        {
+          "cycle": "3->4",
+          "from": 3,
+          "to": 4,
+          "internal_delta": 0.0,
+          "external_delta": 0.0,
+          "verdict": "tied",
+          "within_noise": true
+        }
+      ],
+      "decisions_agree": 0,
+      "decisions_disagree": 1,
+      "decisions_tied": 1,
+      "decisions_within_noise": 2,
+      "regret": {
+        "best_deploy": 2,
+        "best_score": 0.07216494845360824,
+        "submitted_deploy": 7,
+        "submitted_score": 0.06391752577319587,
+        "submitted_is_best_program": false,
+        "regret": 0.00824742268041237
+      },
+      "points": [
+        {
+          "deploy": 1,
+          "internal": 0.95,
+          "external": 0.061855670103092786,
+          "hash": "08a90f43",
+          "program": "A",
+          "is_submission": false
+        },
+        {
+          "deploy": 2,
+          "internal": 0.8833333333333334,
+          "external": 0.07216494845360824,
+          "hash": "35adf333",
+          "program": "B",
+          "is_submission": false
+        },
+        {
+          "deploy": 3,
+          "internal": 0.8833333333333334,
+          "external": 0.061855670103092786,
+          "hash": "08a90f43",
+          "program": "A",
+          "is_submission": false
+        },
+        {
+          "deploy": 4,
+          "internal": 0.8833333333333334,
+          "external": 0.061855670103092786,
+          "hash": "cb5ccf85",
+          "program": "C",
+          "is_submission": false
+        }
+      ]
+    }
+  },
+  "skipped": {},
+  "limit": null
+}

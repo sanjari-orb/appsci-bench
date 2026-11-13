@@ -1,0 +1,9 @@
+{
+  "run_id": "run_76dfeda36c3a_18d75f23a11052481",
+  "task_id": "order_to_cash",
+  "cases_scored": 60,
+  "cases_total": 60,
+  "partial": true,
+  "final_score_so_far": 0.9904,
+  "last_data_point_id": "p2p-0057"
+}

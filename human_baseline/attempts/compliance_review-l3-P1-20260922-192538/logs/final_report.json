@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-09-23T10:38:02.627009+00:00",
+  "task_id": "compliance_review",
+  "attempt_id": "compliance_review-l3-P1-20260922-192538",
+  "eval_artifact_returncode": 0,
+  "final_score": 0.6565892,
+  "cases_scored": 50,
+  "cases_total": 50,
+  "per_metric": [
+    {"objective": "violation_set_f1", "score": 0.58, "weight": 0.4, "positive": true},
+    {"objective": "rationale_quality", "score": 0.65, "weight": 0.3, "positive": true},
+    {"objective": "evidence_span_overlap", "score": 0.79, "weight": 0.2, "positive": true},
+    {"objective": "verdict_accuracy", "score": 0.70, "weight": 0.1, "positive": true}
+  ],
+  "note": "Official score is the first full held-out scoring after the artifact existed (0.6565892, 50/50). Component scores are the 2-decimal figures logged at that pass. Later harden passes are not part of this baseline."
+}

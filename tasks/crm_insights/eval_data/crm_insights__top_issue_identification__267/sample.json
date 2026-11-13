@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__top_issue_identification__267",
+  "single_turn_input": {
+    "text": "What has been the most frequent problem reported for the Hydration Fitness Watch over the past 6 quarters? The associated product Id is 01tWs000002wQDuIAM. Return only the issue Id of the most reported issue for this product.\n\n(Today's date: 2022-09-16)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"a1MWs0000012tvtMAA\", \"evidence_case_ids\": [\"500Ws000007rQy3IAE\"], \"task_category\": \"top_issue_identification\", \"reward_metric\": \"exact_match\"}"
+  }
+}

@@ -1,0 +1,47 @@
+# Docker Compose for CRM Insights Task Environment
+# Note: Data and DB initialization are handled by TaskRunner (bundle + setup.sh)
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: crm_insights
+      POSTGRES_USER: sandbox
+      POSTGRES_PASSWORD: sandbox
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sandbox -d crm_insights"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - bench-network
+
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: crm_insights
+      POSTGRES_USER: sandbox
+      POSTGRES_PASSWORD: sandbox
+      DATABASE_URL: postgres://sandbox:sandbox@db:5432/crm_insights
+    volumes:
+      - workdir:/work
+    working_dir: /work
+    command: ["tail", "-f", "/dev/null"]
+    stdin_open: true
+    tty: true
+    networks:
+      - bench-network
+
+networks:
+  bench-network:
+    external: true
+
+volumes:
+  workdir:

@@ -1,0 +1,26 @@
+Call CALL-9038 — Halstead Office Supply Co (ACC-4038) — 2026-03-13 11:30 UTC
+Participants: Priya Deshmukh (Sales Development Representative, us) / Marcus Villanueva (Purchasing Manager, customer)
+
+Marcus: Hi Priya, thanks for hopping on, I wanted to get a sense of pricing before we go any further on our end.
+
+Priya: Sure, happy to walk through that.
+
+Priya: Can you tell me roughly how many users you'd be looking to onboard initially?
+
+Marcus: Around twenty five to start, could grow to closer to forty within the year.
+
+Priya: Good to know, that helps me put together something relevant. I'll draft a proposal reflecting that range and send it your way.
+
+Marcus: Appreciated, when do you think you could have that ready?
+
+Priya: I can have it to you by end of week.
+
+Marcus: That works.
+
+Marcus: Once I have it, I'll take it internally to discuss with finance before coming back to you.
+
+Priya: Sounds good, take whatever time you need on that end.
+
+Marcus: Appreciated, I'll follow up once we've had that discussion internally.
+
+Priya: Perfect, I'll have that proposal ready by end of week as promised. Sounds like that covers everything for today -- talk soon, Marcus.

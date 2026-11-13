@@ -1,0 +1,9 @@
+{
+  "run_id": "run_b8db87eb2d0d_18d7058c2458bc681",
+  "task_id": "airline_rebooking",
+  "cases_scored": 50,
+  "cases_total": 50,
+  "partial": true,
+  "final_score_so_far": 0.68,
+  "last_data_point_id": "tau2_airline_9"
+}

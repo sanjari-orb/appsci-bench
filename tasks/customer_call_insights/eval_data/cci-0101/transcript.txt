@@ -1,0 +1,26 @@
+Call CALL-9046 — Thistledown Apparel Co (ACC-4046) — 2026-03-16 11:00 UTC
+Participants: Owen Castellano (Account Support Specialist, us) / Bianca Voss (Retail Operations Lead, customer)
+
+Bianca: Owen, I am furious, honestly.
+
+Bianca: We had a checkout outage last week that cost us real sales during a promotion, and I want answers today.
+
+Bianca: I already talked to someone about this last week, they said it was fixed, but I want to hear it confirmed again directly from you.
+
+Owen: Let me check the record here... yes, I can confirm the root cause was identified and resolved within the same day, and we've had no recurrence since, monitoring's been completely clean all week since then.
+
+Bianca: Okay. And there's no risk of it happening again during our next promotion coming up?
+
+Owen: Based on everything in the system, no, the fix was permanent, not a workaround, and it's been fully stable since it went in.
+
+Bianca: Fine. I'm still annoyed about the lost sales, I want that understood clearly, but if it's genuinely fixed then I suppose there's nothing more to escalate today.
+
+Owen: Completely understood, and I don't want to minimize the impact on your end even though the technical issue itself is resolved.
+
+Bianca: Appreciated. That's really all I wanted today, honestly, just confirmation it's actually handled properly.
+
+Owen: Understood, glad I could confirm that for you directly rather than leave it uncertain.
+
+Owen: Anything else today?
+
+Bianca: No, that's it. Thanks, Owen.

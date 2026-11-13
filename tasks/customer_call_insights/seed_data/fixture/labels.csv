@@ -1,0 +1,4 @@
+call_id,next_steps,risks,commitments,sentiment
+"seed-0001","send revised quote at 65 seats | customer to run quote past Priya in finance","","revised quote at 65 seats sent tomorrow","POSITIVE"
+"seed-0002","","","","NEUTRAL"
+"seed-0003","get written fix timeline from engineering | set up call with VP of Engineering","unresolved export timeouts, three weeks open, second occurrence this year | director evaluating alternatives ahead of November renewal","written fix timeline by end of week | call with VP of Engineering","NEGATIVE"

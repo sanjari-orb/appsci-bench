@@ -1,0 +1,93 @@
+# Elicitation rubric -- crm_insights
+#
+# The facts the applied-science agent could only obtain by ASKING the persona posing the question.
+# HELD-OUT ANSWER-KEY MATERIAL: never mounted, never shown to the agent. Schema:
+# schema/elicitation_rubric.schema.json. Design + authoring rules: docs/elicitation_score_design.md.
+#
+# Authored from the simulator's own material only (rule 6): user_sim_docs/common/domain_conventions.md
+# (quarter/season windows and the per-question "Today's date" anchor) and the three category-specific
+# docs (case_routing.md, handle_time.md, transfer_count.md), plus each persona's declared
+# domain_knowledge. Not authored from any run.
+#
+# Dropped by testing each candidate against what the agent can read
+# (tasks/crm_insights/environment/data/schema_reference.md) and the redacted spec:
+#   - that the schema has 8 tables mirroring CRMArena's Salesforce objects, and the column names: the
+#     mounted schema_reference.md states all of this. Only the operational conventions/policies below
+#     are sim-only.
+#   - that shipping_state is what "region"/"state" means, and that crm_case_history rows with
+#     field='Owner Assignment' are what a transfer looks like: also stated in the mounted doc, since
+#     those are schema facts (what a column means), not operational conventions (how to use it in a
+#     policy computation).
+#   - top_issue_identification / monthly_trend_analysis / best_region_identification have no
+#     category-specific tie-break rule beyond the shared date conventions (confirmed against
+#     seed_data/oracle.py's EVIDENCE_FNS: no policy text backs any of the three beyond a window +
+#     straightforward join) -- there is no item to author for them beyond domain_conventions_windows,
+#     which already covers every category.
+task_id: crm_insights
+
+items:
+  # --- shared across all 6 categories (user_sim_docs/common/domain_conventions.md) -------------
+  - item_id: domain_conventions_windows
+    fact: >
+      Quarters run calendar Q1-Q4 (Jan-Mar, Apr-Jun, Jul-Sep, Oct-Dec); seasons are Winter
+      (Dec-Feb), Spring (Mar-May), Summer (Jun-Aug), Fall/Autumn (Sep-Nov), and a season named by a
+      single year (e.g. "Winter 2021") means the winter ENDING in that year, i.e. starting the
+      December before. A "past/last N quarters/months" phrasing with no explicit calendar period is
+      relative to that question's own stated "Today's date", never to any other date.
+    objectives: [answer_correctness, grounding]
+    judge_hint: >
+      All three pieces: the quarter/season boundaries, the year-attribution rule for a
+      single-year-named season, and that relative windows anchor to the question's own stated date
+      rather than a fixed or current date. Getting the boundaries right but missing the
+      single-year-season attribution (or vice versa) is a partial elicitation, not a full one --
+      score only if all three came back in some form.
+
+  # --- case_routing (user_sim_docs/case_routing.md) ----------------------------------------------
+  - item_id: case_routing_tiebreak_order
+    fact: >
+      The best agent for a new case is picked by a strict 3-tier order, not a weighted score: first,
+      whoever has closed the most cases on the most-similar issue (Issue Expertise); if that's tied,
+      whoever has solved the most cases on the most-relevant product (Product Expertise); if still
+      tied, whoever has the fewest non-Closed cases (Workload).
+    objectives: [answer_correctness, grounding]
+    judge_hint: >
+      The exact 3-tier ORDER (expertise before product before workload), not just that these three
+      factors matter. A persona who names all three factors but not their precedence has not
+      conveyed this fact -- ties are common enough in this data that the order changes the answer.
+
+  # --- handle_time / transfer_count share one filter rule (user_sim_docs/handle_time.md,
+  # user_sim_docs/transfer_count.md) --------------------------------------------------------------
+  - item_id: first_assigned_agent_filter
+    fact: >
+      When a question says an agent "managed/handled X cases", that count is filtered to cases where
+      this agent was the FIRST agent assigned -- identified by having only one 'Owner Assignment'
+      history row for never-transferred cases, or being the agent named in the earliest such row for
+      transferred cases. A case later transferred TO this agent does not count toward their
+      managed/handled total, even though they own it now.
+    objectives: [answer_correctness, grounding]
+    judge_hint: >
+      That the filter is keyed to the FIRST-assigned agent specifically (not current owner, not any
+      agent who ever touched the case). A persona who says "cases the agent worked on" without the
+      first-assignment qualifier has not conveyed this -- it's the qualifier that changes which cases
+      count.
+
+  - item_id: handle_time_excludes_transferred
+    fact: >
+      Handle time (open-to-close duration) is only computed for cases that were NEVER transferred --
+      a transferred case is excluded from handle-time aggregates entirely, it isn't attributed to
+      either the original or the receiving agent.
+    objectives: [answer_correctness, grounding]
+    judge_hint: >
+      That transferred cases are dropped from the computation altogether, not attributed to some
+      agent. "Handle time is open-to-close" alone (the definition, not the exclusion) does not count
+      as eliciting this item.
+
+  - item_id: transfer_count_direction
+    fact: >
+      A transfer from agent A to agent B adds to agent A's transfer count -- the count belongs to the
+      agent giving the case away, not the one receiving it.
+    objectives: [answer_correctness, grounding]
+    judge_hint: >
+      That the count is attributed to the OUTGOING agent specifically. A persona who only says
+      "transfers are tracked between agents" without stating which side accrues the count has not
+      conveyed this.

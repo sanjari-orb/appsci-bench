@@ -1,0 +1,7 @@
+{
+  "data_point_id": "s2",
+  "single_turn_input": {
+    "text": "<a second sample -- rubric-only pattern, no structured ground truth>"
+  },
+  "eval_rubric": "<what a good response looks like, in plain language -- this pattern skips expected_output entirely and relies on an LLM judge (make_transcript_judge, or a prebuilt judges.builtin.* judge) to grade against this rubric text>"
+}

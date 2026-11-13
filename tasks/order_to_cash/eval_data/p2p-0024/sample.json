@@ -1,0 +1,9 @@
+{
+  "data_point_id": "p2p-0024",
+  "single_turn_input": {
+    "text": "Review invoice INV-6898 (supplier Supplier_8, PO PO-000167) against its PO line and the supplier contract; decide whether to flag it for human review and give a short reason."
+  },
+  "expected_output": {
+    "json": "{\"flagged\": true, \"fault_type\": \"TOTAL_MATH\", \"reason\": \"invoice total $5047.67 exceeds qty*price by $2127.62 (> $500, material); 'expediting fee' $358.42 is permitted by the contract\", \"total_delta\": 2127.62, \"permitted_fee\": 358.42}"
+  }
+}

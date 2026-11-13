@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__corioinc_07_20_2000_ex_10_5_license_and_hosting_ag_e5ad84c1__procurement_clean",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'Procurement Clean Standard' policy (procurement_clean). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"procurement_clean\", \"compliant\": true, \"violations\": [], \"needs_review\": []}"
+  }
+}

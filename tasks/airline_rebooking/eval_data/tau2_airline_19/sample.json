@@ -1,0 +1,12 @@
+{
+  "data_point_id": "tau2_airline_19",
+  "multi_turn_input": {
+    "user_task": "Reason for the call: You will have a crazy half-day trip to Texas. It is in your reservations but you don't remember the reservation id. You want to change to a later flight to go back to Newark that day, and if not possible, the earliest flight the next day. Your current return flight departs 3pm (on the 28th). How you behave: You do not accept JFK, only EWR. If basic economy cannot be modified, you are willing to cancel the trip using the travel insurance as you feel unwell. You will book the flight again yourself later. You are reactive to the agent and will not say anything that is not asked.",
+    "user_persona": "Your name is Olivia Gonzalez. Your user id is olivia_gonzalez_2305. You currently reside in Newark.",
+    "user_stop_criteria": "Any one of the following is true: (a) what you called about has been resolved one way or the other -- either the agent completed it, or the agent has clearly refused and you have no further argument to make; (b) the agent has clearly told you it is transferring you to a human agent (stop once it has actually said so, not merely offered to); or (c) you have nothing further to go on, because continuing would need information your scenario does not give you."
+  },
+  "expected_output": {
+    "json": "{\"actions\": [{\"action_id\": \"19_0\", \"name\": \"cancel_reservation\", \"arguments\": {\"reservation_id\": \"Z7GOZK\"}, \"info\": null}], \"communicate_info\": [], \"nl_assertions\": [\"Agent cancels reservation Z7GOZK\"], \"reward_basis\": [\"DB\", \"COMMUNICATE\"], \"purpose\": \"Testing that Agent follows the policy that basic economy flights cannot be modified. Instructions should lead to a flight cancellation.\"}"
+  },
+  "eval_rubric": "Agent behaviour: Agent cancels reservation Z7GOZK. Scored on tau2 reward_basis ['DB', 'COMMUNICATE'] (final reward = product of components): DB = final database state matches applying the oracle actions to a fresh DB; COMMUNICATE = every required fact in oracle.data.communicate_info is stated to the user.\n\nAssertions describing policy-correct behavior for this case:\n- Agent cancels reservation Z7GOZK"
+}

@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-09-25T08:18:57+00:00",
+  "task_id": "slides_generator",
+  "attempt_id": "slides_generator-l3-P1-20260909-173926",
+  "eval_artifact_returncode": 0,
+  "final_score": 0.38942441860465116,
+  "cases_scored": 10,
+  "cases_total": 10,
+  "per_metric": [
+    {"objective": "constraint_satisfaction", "score": 0.6, "weight": 0.5, "positive": true},
+    {"objective": "content_coverage", "score": 0.026, "weight": 1.0, "positive": true},
+    {"objective": "content_narrative", "score": 0.147, "weight": 0.5, "positive": true},
+    {"objective": "expectations_satisfaction", "score": 0.11, "weight": 2.0, "positive": true},
+    {"objective": "functional_success", "score": 0.9, "weight": 0.25, "positive": true},
+    {"objective": "groundedness", "score": 0.328, "weight": 2.0, "positive": true},
+    {"objective": "layout_quality", "score": 0.5275, "weight": 0.75, "positive": true},
+    {"objective": "output_format_compliance", "score": 1.0, "weight": 1.5, "positive": true},
+    {"objective": "prompt_satisfaction", "score": 0.074, "weight": 1.0, "positive": true},
+    {"objective": "safety_safe_by_construction", "score": 1.0, "weight": 0.0, "positive": true},
+    {"objective": "structure_clarity", "score": 0.193, "weight": 0.5, "positive": true},
+    {"objective": "template_adherence", "score": 0.82625, "weight": 0.75, "positive": true}
+  ],
+  "eval_dir": "/home/user/Documents/baseline-work/slides_generator-l3-P1-20260909-173926/eval",
+  "note": "One full held-out score of the artifact built from the original L3 chat, using the task's own vision token caps (layout 50k default, template adherence 100k). 9/10 cases returned a deck. generated-sample-01 rendered but both vision scores are null because the PDF exceeds those caps. generated-sample-02 did not pass the pptx check, so its vision scores are null. No change to tasks/slides_generator/eval.py."
+}

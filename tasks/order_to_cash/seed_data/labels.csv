@@ -1,0 +1,61 @@
+id,invoice_number,flagged,fault_type,reason
+p2p-0001,INV-13046,True,DUPLICATE,duplicate of INV-3046 for PO line 1350 (double charge); 'admin charge' $175.89 is permitted by the contract
+p2p-0002,INV-2474,True,QTY_MISMATCH,invoiced qty 612 != PO qty 496 (quantity mismatch); 'fuel surcharge' $112.87 is permitted by the contract
+p2p-0003,INV-13350,True,DUPLICATE,duplicate of INV-3350 for PO line 1972 (double charge)
+p2p-0004,INV-2994,True,QTY_MISMATCH,invoiced qty 226 != PO qty 210 (quantity mismatch)
+p2p-0005,INV-7984,True,PRICE_DELTA,"unit price 148.14 != PO 137.08 (total delta $3174.22 > $500, material)"
+p2p-0006,INV-1696,False,CLEAN,matches PO and contract
+p2p-0007,INV-1077,True,PRICE_DELTA,"unit price 424.97 != PO 375.68 (total delta $1084.38 > $500, material); 'expediting fee' $315.11 is permitted by the contract"
+p2p-0008,INV-3704,True,TOTAL_MATH,"invoice total $52760.19 exceeds qty*price by $1231.44 (> $500, material); 'expediting fee' $391.75 is permitted by the contract"
+p2p-0009,INV-2241,True,PRICE_DELTA,"unit price 219.53 != PO 179.1 (total delta $16172.00 > $500, material); 'handling fee' $364.84 is permitted by the contract"
+p2p-0010,INV-4706,True,OFF_CONTRACT_FEE,'fuel surcharge' $294.15 not covered by contract (off-contract fee); 'expediting fee' $382.66 is permitted by the contract
+p2p-0011,INV-5433,True,PRICE_DELTA,"unit price 379.28 != PO 370.94 (total delta $2435.28 > $500, material); 'expediting fee' $109.84 is permitted by the contract"
+p2p-0012,INV-9644,True,OFF_CONTRACT_FEE,'handling fee' $198.05 not covered by contract (off-contract fee); 'expediting fee' $316.00 is permitted by the contract
+p2p-0013,INV-2585,True,PRICE_DELTA,"unit price 153.69 != PO 112.91 (total delta $16352.78 > $500, material); 'handling fee' $166.80 is permitted by the contract"
+p2p-0014,INV-9168,False,ROUNDING,trivial rounding (+$2.17 <= $3 tolerance); not material; 'handling fee' $396.92 is permitted by the contract
+p2p-0015,INV-5123,True,QTY_MISMATCH,invoiced qty 276 != PO qty 275 (quantity mismatch)
+p2p-0016,INV-2628,True,QTY_MISMATCH,invoiced qty 346 != PO qty 262 (quantity mismatch)
+p2p-0017,INV-8814,False,CLEAN,matches PO and contract
+p2p-0018,INV-4071,False,SUBTHRESHOLD_PRICE,price delta $22.15 below $500 materiality threshold; not flagged
+p2p-0019,INV-6012,True,TOTAL_MATH,"invoice total $22856.39 exceeds qty*price by $1335.55 (> $500, material); 'fuel surcharge' $243.36 is permitted by the contract"
+p2p-0020,INV-1652,False,CLEAN,matches PO and contract
+p2p-0021,INV-9094,True,QTY_MISMATCH,invoiced qty 185 != PO qty 236 (quantity mismatch); 'expediting fee' $64.39 is permitted by the contract
+p2p-0022,INV-1655,False,CLEAN,matches PO and contract; 'fuel surcharge' $379.63 is permitted by the contract
+p2p-0023,INV-8993,False,ROUNDING,trivial rounding (+$2.88 <= $3 tolerance); not material; 'handling fee' $304.24 is permitted by the contract
+p2p-0024,INV-6898,True,TOTAL_MATH,"invoice total $5047.67 exceeds qty*price by $2127.62 (> $500, material); 'expediting fee' $358.42 is permitted by the contract"
+p2p-0025,INV-5225,False,CLEAN,matches PO and contract
+p2p-0026,INV-6507,True,OFF_CONTRACT_FEE,'restocking fee' $106.83 not covered by contract (off-contract fee); 'fuel surcharge' $69.92 is permitted by the contract
+p2p-0027,INV-3318,False,CLEAN,matches PO and contract
+p2p-0028,INV-1738,True,OFF_CONTRACT_FEE,'fuel surcharge' $296.72 not covered by contract (off-contract fee)
+p2p-0029,INV-7387,True,QTY_MISMATCH,invoiced qty 135 != PO qty 180 (quantity mismatch)
+p2p-0030,INV-3672,True,OFF_CONTRACT_ITEM,item ITEM-X11010 not in supplier contract (off-contract item); 'handling fee' $148.62 is permitted by the contract
+p2p-0031,INV-2784,False,ROUNDING,trivial rounding (+$0.31 <= $3 tolerance); not material
+p2p-0032,INV-12933,True,DUPLICATE,duplicate of INV-2933 for PO line 1832 (double charge)
+p2p-0033,INV-8202,False,ROUNDING,trivial rounding (+$2.13 <= $3 tolerance); not material; 'handling fee' $186.76 is permitted by the contract
+p2p-0034,INV-7163,True,OFF_CONTRACT_FEE,'fuel surcharge' $311.02 not covered by contract (off-contract fee)
+p2p-0035,INV-6042,True,QTY_MISMATCH,invoiced qty 17 != PO qty 14 (quantity mismatch)
+p2p-0036,INV-6132,False,CLEAN,matches PO and contract; 'fuel surcharge' $238.19 is permitted by the contract
+p2p-0037,INV-5380,True,PRICE_DELTA,"unit price 311.37 != PO 303.77 (total delta $3739.20 > $500, material)"
+p2p-0038,INV-1251,False,ROUNDING,trivial rounding (+$2.49 <= $3 tolerance); not material; 'expediting fee' $312.44 is permitted by the contract
+p2p-0039,INV-9525,True,PRICE_DELTA,"unit price 135.71 != PO 66.1 (total delta $696.10 > $500, material)"
+p2p-0040,INV-8356,True,OFF_CONTRACT_FEE,'admin charge' $417.86 not covered by contract (off-contract fee)
+p2p-0041,INV-7178,True,OFF_CONTRACT_FEE,'expediting fee' $300.64 not covered by contract (off-contract fee)
+p2p-0042,INV-6225,True,TOTAL_MATH,"invoice total $21818.79 exceeds qty*price by $2358.23 (> $500, material)"
+p2p-0043,INV-1347,False,ROUNDING,trivial rounding (+$0.24 <= $3 tolerance); not material
+p2p-0044,INV-2496,False,SUBTHRESHOLD_PRICE,price delta $222.95 below $500 materiality threshold; not flagged; 'expediting fee' $333.65 is permitted by the contract
+p2p-0045,INV-9292,False,ROUNDING,trivial rounding (+$2.57 <= $3 tolerance); not material
+p2p-0046,INV-5602,True,OFF_CONTRACT_FEE,'handling fee' $225.36 not covered by contract (off-contract fee); 'expediting fee' $43.18 is permitted by the contract
+p2p-0047,INV-7492,False,SUBTHRESHOLD_PRICE,price delta $302.38 below $500 materiality threshold; not flagged; 'admin charge' $139.17 is permitted by the contract
+p2p-0048,INV-5277,True,OFF_CONTRACT_ITEM,item ITEM-X11005 not in supplier contract (off-contract item); 'handling fee' $86.85 is permitted by the contract
+p2p-0049,INV-3543,False,CLEAN,matches PO and contract; 'expediting fee' $271.88 is permitted by the contract
+p2p-0050,INV-9929,True,QTY_MISMATCH,invoiced qty 53 != PO qty 49 (quantity mismatch); 'fuel surcharge' $319.03 is permitted by the contract
+p2p-0051,INV-7298,True,OFF_CONTRACT_FEE,'restocking fee' $469.60 not covered by contract (off-contract fee); 'fuel surcharge' $261.90 is permitted by the contract
+p2p-0052,INV-4390,False,ROUNDING,trivial rounding (+$2.12 <= $3 tolerance); not material; 'admin charge' $413.24 is permitted by the contract
+p2p-0053,INV-6316,True,TOTAL_MATH,"invoice total $32970.76 exceeds qty*price by $1873.96 (> $500, material)"
+p2p-0054,INV-7774,True,PRICE_DELTA,"unit price 250.72 != PO 241.66 (total delta $4203.84 > $500, material)"
+p2p-0055,INV-3014,True,TOTAL_MATH,"invoice total $77336.65 exceeds qty*price by $1199.75 (> $500, material)"
+p2p-0056,INV-2453,True,PRICE_DELTA,"unit price 53.74 != PO 23.78 (total delta $659.12 > $500, material)"
+p2p-0057,INV-8423,True,PRICE_DELTA,"unit price 471.34 != PO 445.72 (total delta $10324.86 > $500, material)"
+p2p-0058,INV-6050,True,QTY_MISMATCH,invoiced qty 26 != PO qty 35 (quantity mismatch); 'expediting fee' $79.54 is permitted by the contract
+p2p-0059,INV-5290,True,OFF_CONTRACT_FEE,'handling fee' $225.31 not covered by contract (off-contract fee)
+p2p-0060,INV-2307,True,PRICE_DELTA,"unit price 64.97 != PO 59.68 (total delta $756.47 > $500, material); 'expediting fee' $207.00 is permitted by the contract"

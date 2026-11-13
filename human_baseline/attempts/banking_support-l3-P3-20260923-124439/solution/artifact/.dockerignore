@@ -1,0 +1,7 @@
+# Keep the image lean and free of dev-only files. diagnostic.py is intentionally NOT ignored:
+# P3 runs it container-side in dev_deploy.
+tests/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/

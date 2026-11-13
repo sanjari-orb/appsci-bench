@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0076",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9021 (Brindlewood Payments Inc) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"provide a written incident report with root cause and remediation steps, and arrange a call with our VP of Engineering\", \"Naomi to keep her own leadership updated on reliability before the renewal conversation\"], \"risks\": [\"third outage this quarter with no clear root cause identified across any of the three incidents\", \"customer's renewal decision later this year is now affected by the pattern of outages\"], \"commitments\": [\"provide a written incident report with root cause and remediation steps, and arrange a call with our VP of Engineering\"], \"sentiment\": \"NEGATIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 21 (Problem/Escalation, L, dissatisfaction stated outright). Two distinct risks: an unresolved pattern across three incidents, and an explicitly stated effect on the renewal decision. The incident report and VP call are one combined commitment since they're the same escalation response; Naomi's own leadership updates are her next step only. 'I've lost confidence' and 'I'm also not going to pretend everything's fine' make this clearly NEGATIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__handle_time__652",
+  "single_turn_input": {
+    "text": "In the past 3 months, which agent achieved the lowest average handle time while handling more than 2 cases? Return only the Id of the agent.\n\n(Today's date: 2022-08-22)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xalFIAQ\", \"evidence_case_ids\": [\"500Ws000007qqKlIAI\", \"500Ws000007rGYuIAM\", \"500Ws000007rHJfIAM\"], \"task_category\": \"handle_time\", \"reward_metric\": \"exact_match\"}"
+  }
+}

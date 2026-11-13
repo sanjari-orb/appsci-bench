@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0067",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9012 (Winterbourne Retail Co) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"flag Winterbourne's reduced renewal budget internally\"], \"risks\": [\"renewal budget was cut in the last planning cycle; remaining funds don't cover renewal at the current price\"], \"commitments\": [], \"sentiment\": \"NEGATIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 12 (Renewal, M, budget risk true positive). Amara states outright that the budget was cut and the money isn't there at the current price -- a genuine budget risk, not the price-negotiation look-alike. Grant's internal flag mirrors cci-0001/cci-0052's precedent (next step for us, no deliverable owed, so no commitment). Amara's explicit frustration ('honestly it's been a frustrating few weeks', 'I really don't want to have to walk away') makes this NEGATIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

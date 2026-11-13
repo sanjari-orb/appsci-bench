@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__case_routing__394",
+  "single_turn_input": {
+    "text": "Use the case routing policy to determine the most suitable agent for the given case. Return only the Id of the agent.\n## Given Case\n- Case Subject: Issue with Soccer Ball Size\n- Case Description: I recently purchased the Velocity Soccer Ball from your website and noticed that the size chart provided does not match the actual product size. The ball I received is significantly different from what was described, and it\u2019s affecting my gameplay. I'm quite disappointed as I specifically chose this model for its claimed size and performance. Can you please assist me with this size mismatch issue?"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xYl3IAE\", \"evidence_case_ids\": [\"500Ws000007r4BxIAI\", \"500Ws000007rFRcIAM\", \"500Ws000007rFUrIAM\", \"500Ws000007rGfKIAU\", \"500Ws000007rHA0IAM\", \"500Ws000007rHoJIAU\", \"500Ws000007rIR3IAM\", \"500Ws000007rJeqIAE\", \"500Ws000007rJi3IAE\", \"500Ws000007rK1OIAU\", \"500Ws000007rK1SIAU\", \"500Ws000007rQ3aIAE\", \"500Ws000007rQ3bIAE\", \"500Ws000007rQunIAE\", \"500Ws000007rSJvIAM\"], \"task_category\": \"case_routing\", \"reward_metric\": \"exact_match\"}"
+  }
+}

@@ -1,0 +1,48 @@
+reviewing invoice INV-1696...
+Finished reviewing invoice INV-1696. Flagged: False
+respond() took 0.011s (invoice INV-1696)
+reviewing invoice INV-3704...
+Finished reviewing invoice INV-3704. Flagged: True
+respond() took 1.017s (invoice INV-3704)
+reviewing invoice INV-4706...
+Finished reviewing invoice INV-4706. Flagged: True
+respond() took 1.927s (invoice INV-4706)
+reviewing invoice INV-9168...
+Finished reviewing invoice INV-9168. Flagged: False
+respond() took 0.014s (invoice INV-9168)
+reviewing invoice INV-4071...
+Finished reviewing invoice INV-4071. Flagged: False
+respond() took 0.010s (invoice INV-4071)
+reviewing invoice INV-3672...
+Finished reviewing invoice INV-3672. Flagged: True
+respond() took 1.038s (invoice INV-3672)
+reviewing invoice INV-8814...
+Finished reviewing invoice INV-8814. Flagged: False
+respond() took 0.012s (invoice INV-8814)
+=== OTC invoice-review eval (iteration 1: DUPLICATE only) ===
+examples scored: 10   (source: /data/examples.jsonl)
+
+Confusion matrix (flagged vs label.flagged):
+  true positives : 6
+  false positives: 0
+  false negatives: 0
+  true negatives : 4
+
+Metrics:
+  flag accuracy : 1.000
+  precision     : 1.000
+  recall        : 1.000
+  F1-score      : 1.000
+
+Per fault_type breakdown (flagged decision correct / total):
+  CLEAN               : 2/2
+  DUPLICATE           : 1/1
+  OFF_CONTRACT_FEE    : 1/1
+  OFF_CONTRACT_ITEM   : 1/1
+  PRICE_DELTA         : 1/1
+  QTY_MISMATCH        : 1/1
+  ROUNDING            : 1/1
+  SUBTHRESHOLD_PRICE  : 1/1
+  TOTAL_MATH          : 1/1
+
+Misses: none.

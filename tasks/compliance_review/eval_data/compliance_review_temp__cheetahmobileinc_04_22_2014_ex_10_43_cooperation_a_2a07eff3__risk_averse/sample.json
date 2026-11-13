@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__cheetahmobileinc_04_22_2014_ex_10_43_cooperation_a_2a07eff3__risk_averse",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'Risk-Averse Standard' policy (risk_averse). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"risk_averse\", \"compliant\": false, \"violations\": [{\"category\": \"Cap On Liability\", \"rule\": \"must_have\", \"present\": false, \"evidence_spans\": []}, {\"category\": \"Audit Rights\", \"rule\": \"must_have\", \"present\": false, \"evidence_spans\": []}, {\"category\": \"Insurance\", \"rule\": \"must_have\", \"present\": false, \"evidence_spans\": []}, {\"category\": \"Liquidated Damages\", \"rule\": \"must_not_have\", \"present\": true, \"evidence_spans\": [\"In the event that Party B breaches this covenant, Party A has the right to terminate this Agreement at any time and require Party B to pay 30% of Party A's share of revenues as liquidated damages.\"]}], \"needs_review\": []}"
+  }
+}

@@ -1,0 +1,103 @@
+# Elicitation rubric -- compliance_review
+#
+# The facts the applied-science agent could only obtain by ASKING the compliance stakeholder. HELD-OUT
+# ANSWER-KEY MATERIAL: never mounted, never shown to the agent. Schema:
+# schema/elicitation_rubric.schema.json. Design + authoring rules: docs/elicitation_score_design.md.
+#
+# Authored from the simulator's own material only (rule 6): user_sim_docs/common/output_contract.md
+# (the response shape) and user_sim_docs/common/*_rules.md (the 4 policies' clause rules), plus the
+# domain_knowledge every persona (L1/L2/L3) declares (the needs_review/violation distinction and the
+# rule-type taxonomy). Each candidate was then tested against what the agent can read --
+# tasks/compliance_review/environment/ and the redacted spec -- and dropped where the fact was already
+# there.
+#
+# Dropped by that test, recorded so the next author does not re-litigate them:
+#   - which 4 policies exist and which deal type each applies to: environment/data/policies/*.md names
+#     them. Only each policy's actual clause-level rules are sim-only.
+#   - that a policy is a list of rules pairing a category with a rule type (must_have/must_not_have/
+#     needs_review): the generic MECHANISM is stated in domain_knowledge but is also derivable from
+#     the category names themselves, and no objective scores knowing the mechanism in the abstract --
+#     only getting a specific policy's specific rules right moves violation_set_f1/verdict_accuracy.
+#   - the DB schema (contracts_db: contract_id, title, full_text) and that it holds no labels:
+#     environment/db/ states both.
+task_id: compliance_review
+
+items:
+  # --- how the answer has to arrive (user_sim_docs/common/output_contract.md) -----------------
+  - item_id: json_only_reply_or_report_dropped
+    fact: >
+      The whole reply must be a single JSON object and nothing else -- no summary sentence before it,
+      no explanation after it, no heading or bullet list around it. A reply carrying even one line of
+      readable text around the object is rejected in full: the parser reads the entire reply as JSON,
+      that parse fails, and the review is scored as though the artifact never answered at all -- not as
+      a partial or degraded answer. It does not matter that the object itself was correct; everything a
+      human reviewer needs to read goes inside the `rationale` field of each violation.
+    objectives: [verdict_accuracy, violation_set_f1]
+    judge_hint: >
+      Two halves: the reply is JSON-only, AND breaking that drops the review entirely rather than
+      degrading the answer. A stakeholder who only says "reply in JSON" without the consequence has
+      conveyed the format but not the stake; accept as elicited only if the whole-reply-or-nothing
+      consequence came back in some form.
+
+  - item_id: two_scored_key_names_and_types
+    fact: >
+      Exactly two keys the review is scored on, spelled exactly: `compliant` (boolean, true only when
+      the `violations` list is empty) and `violations` (a list). Each violation object's `category`
+      and `rule` fields are what the score reads, and `rule` is spelled exactly `must_have` or
+      `must_not_have` -- get either key name wrong, or misspell a rule value, and that violation does
+      not count as a match even when the right clause was found.
+    objectives: [verdict_accuracy, violation_set_f1]
+    judge_hint: >
+      Both key names AND that `rule` is one of exactly two spelled values. Naming only "compliant and a
+      list of issues" is not this item -- the exact `rule` spelling has to come back too.
+
+  - item_id: needs_review_is_not_a_violation
+    fact: >
+      A category flagged `needs_review`, when present in the document, is never itself a violation and
+      must not be counted as one or added to the `violations` list. It is routed to a human reviewer
+      instead. A report that folds a needs_review hit into `violations` misrepresents the document as
+      non-compliant when it may not be.
+    objectives: [violation_set_f1, verdict_accuracy]
+    judge_hint: >
+      That the distinction is enforced, not just that the two categories exist. "needs_review items are
+      routed to a human" without stating they are excluded from `violations` is not this item.
+
+  # --- each policy's actual clause rules (user_sim_docs/common/*_rules.md) --------------------
+  # Caveat against the CURRENT placeholder eval_data/ (scripts/build_temp_eval_data.py, deleted once
+  # a contributor's real held-out set publishes): both vendor_standard gold contracts happen to be clean, so
+  # this ruleset item's objectives score 1.0 whether or not the agent ever elicited it. Governing Law
+  # and Change Of Control appear in no other policy, so nothing else scores those two either -- this
+  # is a gap in the placeholder data, not a reason to drop the item, which describes the real oracle.
+  - item_id: vendor_standard_full_ruleset
+    fact: >
+      Under the Vendor Contract Standard, all 5 rules, exactly: Cap On Liability (must_have), Governing
+      Law (must_have), Uncapped Liability (must_not_have), Most Favored Nation (must_not_have), Change
+      Of Control (needs_review).
+    objectives: [violation_set_f1, evidence_span_overlap, verdict_accuracy]
+    judge_hint: >
+      All 5 categories AND their exact rule type. Three or four of five is not this item -- a missed
+      category is a missed rule the agent will never check for.
+
+  - item_id: ip_protective_full_ruleset
+    fact: >
+      Under the IP-Protective Standard, all 5 rules, exactly: License Grant (must_have), Ip Ownership
+      Assignment (must_have), Joint Ip Ownership (must_not_have), Irrevocable Or Perpetual License
+      (must_not_have), Source Code Escrow (needs_review).
+    objectives: [violation_set_f1, evidence_span_overlap, verdict_accuracy]
+    judge_hint: All 5 categories and their exact rule type.
+
+  - item_id: risk_averse_full_ruleset
+    fact: >
+      Under the Risk-Averse Standard, all 6 rules, exactly: Cap On Liability (must_have), Audit Rights
+      (must_have), Insurance (must_have), Uncapped Liability (must_not_have), Liquidated Damages
+      (must_not_have), Covenant Not To Sue (needs_review).
+    objectives: [violation_set_f1, evidence_span_overlap, verdict_accuracy]
+    judge_hint: All 6 categories and their exact rule type.
+
+  - item_id: procurement_clean_full_ruleset
+    fact: >
+      Under the Procurement Clean Standard, all 6 rules, exactly: Audit Rights (must_have), Most
+      Favored Nation (must_not_have), Non-Compete (must_not_have), Exclusivity (must_not_have), Minimum
+      Commitment (must_not_have), Volume Restriction (needs_review).
+    objectives: [violation_set_f1, evidence_span_overlap, verdict_accuracy]
+    judge_hint: All 6 categories and their exact rule type.

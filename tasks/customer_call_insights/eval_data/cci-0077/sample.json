@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0077",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9022 (Halworth Legal Services) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [], \"risks\": [], \"commitments\": [], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 22 (Problem, M, corner 14: tone is not a risk, tone is not negative). Grant is curt and rushed throughout ('let's make this quick') but never states anything negative about the product or the relationship -- a brisk manner alone doesn't meet the bar for NEGATIVE. The login issue resolves live, nothing outstanding.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

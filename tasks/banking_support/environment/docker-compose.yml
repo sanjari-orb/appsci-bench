@@ -1,0 +1,118 @@
+# Docker Compose for the Banking-support Task Environment
+#
+# Like airline, banking's environment is the in-process FastAPI tool-API service
+# (tasks/banking_support/environment/service.py), as the `workspace` service, so the existing
+# TaskRunner / BenchmarkOrchestrator path works unchanged in shape. TWO services, not one: `shell`
+# executes the shell tool's commands in isolation (see its comment below). Multi-service is not new
+# here -- order_to_cash already runs a database alongside its workspace.
+#
+# TaskRunner runs this as project "banking" (from task_runner.workspace_name "banking-workspace"), so
+# the container is named `banking-workspace-1` and other containers on bench-network reach the tool-API
+# at http://banking-workspace-1:8080/tools. The knowledge base has no route of its own -- it is reachable
+# only through the retrieval tools. The workspace addresses the sidecar by its compose SERVICE name
+# (`shell`) rather than a container name, so it does not depend on the derived project name.
+#
+# Tokens are STATIC (mirrors airline/o2c): the tool token is handed to the agent via
+# spec.task_runner.agent_env; the admin token is evaluator-only (the per-phase store load, and the
+# per-case reset/seed/state_hash).
+
+services:
+  workspace:
+    build:
+      context: ../../..
+      dockerfile: tasks/banking_support/environment/Dockerfile
+    environment:
+      # Read from the starting process's environment, defaulting to the historic static value (the
+      # same form the embedding keys below already use). The default is what a single-environment run
+      # gets, unchanged; parallel eval overrides it per copy of this stack so an artifact that
+      # hardcoded the token instead of reading BANKING_TOOLS_TOKEN gets a 401 rather than quietly
+      # transacting against a copy it was not assigned.
+      BANKING_ENV_TOKEN: ${BANKING_ENV_TOKEN:-banking-tool-token-local}
+      BANKING_ENV_ADMIN_TOKEN: banking-admin-token-local
+      # No BANKING_DB_PATH, and that is load-bearing: with it unset the service boots holding NO
+      # transactional records, and each phase's setup script loads that phase's own store from /fixture/
+      # via POST /admin/load. Nothing is baked into the image -- a baked store would be present in the
+      # BUILD container whatever was bundled, which is how a carve becomes decorative.
+      #
+      # BANKING_DOCS_PATH stays set, and the difference is deliberate. The knowledge base is shared
+      # whole with both phases, so it is baked in and present from the first request; only the
+      # transactional store is carved.
+      BANKING_DOCS_PATH: /app/banking_docs
+      # KB_search_dense embeddings key (optional): passed through from the host env if set. Without a
+      # key, bm25/shell still work and KB_search_dense degrades gracefully. BANKING_EMBED_API_KEY
+      # takes precedence over OPENAI_API_KEY.
+      BANKING_EMBED_API_KEY: ${BANKING_EMBED_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      # Optional dense embedding-model override (default text-embedding-3-large).
+      BANKING_EMBED_MODEL: ${BANKING_EMBED_MODEL:-}
+      # Where the `shell` tool's commands actually run. Unset, `shell` reports itself uninitialized and
+      # bm25/dense/grep carry on -- which is exactly what every run did before the sidecar existed.
+      BANKING_SHELL_URL: http://shell:8081
+      BANKING_SHELL_TOKEN: banking-shell-token-local
+    depends_on:
+      shell:
+        condition: service_healthy
+    networks:
+      - bench-network
+      - shell-network
+
+  # The `shell` tool's executor. A shell, the knowledge corpus, and nothing else.
+  #
+  # WHY IT IS NOT PART OF `workspace`. The workspace image carries environment/tools.py, which encodes
+  # the identity-verification rule, the unlock-then-call protocol, the discoverable-tool catalogue and
+  # the escalation rules -- the material this task withholds so the agent has to ELICIT it. A shell there
+  # could `cat` the policy it is meant to ask about. This image never received that material (see
+  # shell_sidecar/Dockerfile), so the guarantee is "the secrets are not in this container" rather than
+  # "access to them is restricted" -- checkable by reading a Dockerfile instead of trusting a mount.
+  #
+  # EVERY LINE BELOW IS THE CONFINEMENT, and Docker enforces it rather than our code:
+  #   user            -- unprivileged (`nobody`); never root
+  #   read_only       -- no writable path in the whole filesystem, so nothing can be dropped or altered
+  #   cap_drop ALL    -- no capabilities at all
+  #   no-new-privileges -- a setuid binary cannot regain any
+  #   tmpfs /tmp      -- the one writable spot, in RAM, noexec/nosuid, capped, discarded on stop
+  #   pids_limit      -- a fork bomb cannot take the run down with it
+  #   mem_limit       -- nor can a runaway allocation
+  # There is no volume mount on purpose: the corpus is baked in, so there is no host path to widen by
+  # accident and nothing to keep in sync.
+  shell:
+    build:
+      context: ../../..
+      dockerfile: tasks/banking_support/environment/shell_sidecar/Dockerfile
+    environment:
+      # Shared with the workspace, and it does real work: `shell-network` keeps the agent from routing
+      # to this port at all, and the token means that even a request that somehow arrives from elsewhere
+      # is refused rather than executed.
+      BANKING_SHELL_TOKEN: banking-shell-token-local
+    user: "65534:65534"
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+    pids_limit: 128
+    mem_limit: 512m
+    # Python rather than curl: this image installs no HTTP client, which is itself part of keeping it
+    # minimal. Gates the workspace's start so an early `shell` call cannot race the sidecar's boot.
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if __import__('json').loads(urllib.request.urlopen('http://127.0.0.1:8081/health',timeout=3).read())['exists'] else 1)"]
+      interval: 3s
+      timeout: 5s
+      retries: 10
+      start_period: 2s
+    # NOT on bench-network, deliberately. That network also carries the appsci-agent container, so a
+    # sidecar attached to it would be addressable by the artifact directly -- letting it bypass the
+    # tool API's accounting and gating. `shell-network` is internal and joined only by the workspace,
+    # so the sole route to a command is through POST /tools/shell.
+    networks:
+      - shell-network
+
+networks:
+  bench-network:
+    external: true
+  # Compose-managed and `internal: true`: no gateway, no route off it, and only the two services below
+  # are attached. This is what makes the sidecar reachable by the workspace and by nothing else.
+  shell-network:
+    internal: true

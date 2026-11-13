@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__case_routing__self02",
+  "single_turn_input": {
+    "text": "Use the case routing policy to determine the most suitable agent for the given case. Return only the Id of the agent.\n## Given Case\n- Case Subject: Trailblazer Jacket Order Stuck in Transit\n- Case Description: I ordered the Trailblazer Jacket over two weeks ago and the tracking page hasn't updated in 10 days -- it still says 'label created'. I need this jacket for a trip this weekend. Can you check what's going on with the shipment?"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xTrqIAE\", \"evidence_case_ids\": [\"500Ws000007quJsIAI\", \"500Ws000007rFWUIA2\", \"500Ws000007rFXzIAM\", \"500Ws000007rS8bIAE\"], \"task_category\": \"case_routing\", \"reward_metric\": \"exact_match\"}"
+  }
+}

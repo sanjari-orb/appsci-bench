@@ -1,0 +1,14 @@
+task_id: order_to_cash
+ambiguity_level: L3
+collaboration_style: collaborative
+baseliner: P5
+attempt_id: order_to_cash-l3-P5-pilot-migration-20260812-124936
+tooling: "human + Claude Code"
+soft_cap_hours: 4
+# This attempt is a migration of human_baseline/pilot/ (attempt_id: otc-l3-collab-pilot-01) onto the
+# current artifact-deploy template contract, so it could go through real scoring (blocked at the
+# time the pilot was authored). Solution logic (agent/, rules/, reason/, tools/, detector.py) is
+# unchanged from the pilot; only server.py/Dockerfile/requirements.txt were added as an adapter.
+# Kept in-repo (no standalone_dir) since this is retroactive evaluation, not fresh authoring --
+# there is no contamination risk from an editor/assistant reading answer-key files.
+standalone_dir: ""

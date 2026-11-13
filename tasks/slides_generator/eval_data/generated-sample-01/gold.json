@@ -1,0 +1,397 @@
+{
+  "presentation": {
+    "title": "What makes a place a place to visit?",
+    "theme": "default",
+    "aspectRatio": "16:9",
+    "metadata": {
+      "author": "Unknown",
+      "version": "1.0",
+      "date": ""
+    },
+    "slides": [
+      {
+        "slideNumber": 1,
+        "layout": "4_Title Slide",
+        "elements": [
+          {
+            "type": "bullet_list",
+            "name": "Title 1",
+            "items": [
+              "What makes a place a place to visit?",
+              "Understanding peripheral tourism destinations in the making"
+            ],
+            "style": {
+              "fontSize": 31,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Text Placeholder 2",
+            "items": [
+              "33rd Nordic Symposium on Tourism and Hospitality Research, Island of Bornholm, 17-19 September 2025",
+              "Presenter: Viktor Smith (vs.msc@cbs.dk) Contributors: Maximilian Block (maximilianblock@gmx.de) Nicole Carpentari (nicole.carpentari@gmail.com) Carsten Jacob Humlebæk (cjh.msc@cbs.dk)"
+            ],
+            "style": {
+              "fontSize": 12,
+              "bold": false,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "image",
+            "name": "Picture 3",
+            "sourceUrl": "",
+            "altText": "Picture 3"
+          },
+          {
+            "type": "image",
+            "name": "Picture 4",
+            "sourceUrl": "",
+            "altText": "Picture 4"
+          },
+          {
+            "type": "image",
+            "name": "Picture 5",
+            "sourceUrl": "",
+            "altText": "Picture 5"
+          },
+          {
+            "type": "image",
+            "name": "Picture 6",
+            "sourceUrl": "",
+            "altText": "Picture 6"
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 2,
+        "layout": "19_Custom Layout",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Google Shape;438;p46",
+            "content": "Research context",
+            "style": {
+              "fontSize": 32,
+              "bold": true,
+              "color": "#00205A"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;439;p46",
+            "items": [
+              "Horizon 2020 Innovation Action (2021-2024) Aim: Promoting community-based, sustainable, engaging, and creative tourism in rural and remote areas across Europe. 10 Pilot cases. Details and results.",
+              "Horizon Europe Research and Innovation Project (2024-2027) Aim: Practical implementation of community-based tourism initiatives in remote and rural areas through alternative business models rooted in local heritage and identity. 8 Pilot cases.",
+              "Details and results.",
+              "A key task of the CBS team: Supporting cross-pilot synergies and learnings"
+            ],
+            "style": {
+              "fontSize": 13,
+              "bold": false,
+              "color": "#3F4345"
+            }
+          },
+          {
+            "type": "image",
+            "name": "Picture 439",
+            "sourceUrl": "",
+            "altText": "Picture 439"
+          },
+          {
+            "type": "image",
+            "name": "Picture 440",
+            "sourceUrl": "",
+            "altText": "Picture 440"
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 3,
+        "layout": "19_Custom Layout",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Google Shape;438;p46",
+            "content": "Aim of this presentation",
+            "style": {
+              "fontSize": 32,
+              "bold": true,
+              "color": "#00205A"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;439;p46",
+            "items": [
+              "To contribute a few elements to further conceptualizing some overarching challenges faced by several (otherwise quite diverse) INCULTUM and SECreTour pilot cases.",
+              "In continuation of theorizing and findings presented in Humlebæk, Smith, & Block (2024); Smith & Block (2025); Smith, Block, & Carpentari (submitted) Specifically: Pinpointing four distinctive traits of what has been tentatively dubbed the below zero scenario found across several pilot cases.",
+              "As phrased by one local actor: “You need to understand this: We are not staring from zero – we are still below zero”. Highlighting one key implication of this: The decisive role of having a name for it as a first precondition for any more far-reaching tourism development efforts.",
+              "Not a new observation as such, but it becomes particularly prominent in a “below zero” context due to the combination of factors outlined in the following."
+            ],
+            "style": {
+              "fontSize": 13,
+              "bold": false,
+              "color": "#3F4345"
+            }
+          },
+          {
+            "type": "image",
+            "name": "Picture 1",
+            "sourceUrl": "",
+            "altText": "Picture 1"
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 4,
+        "layout": "19_Custom Layout",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Google Shape;438;p46",
+            "content": "The “below zero” scenario",
+            "style": {
+              "fontSize": 32,
+              "bold": true,
+              "color": "#00205A"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;439;p46",
+            "items": [
+              "Tourism development in less touristified places poses different challenges compared to more established ones. Buultjens, Wilde, & Crummy (2011); Barbini & Presutti (2014); Carson, Carson, & Hodge (2014); Madanaguli et al.(2022).",
+              "The INCULTUM and SECreTour work offers some overarching insights on how such challenges manifest across regional and cultural variations.",
+              "Key traits:",
+              "The place/offering remains to be recognized as something that might possibly interest tourists by both potential visitors and local residents.",
+              "Local actors interested in creating tourism opportunities must first be identified and brought together.",
+              "Vital background information and baseline data are limited or absent.",
+              "Few financial resources available for any such purposes, making self- contained funding and innovative business-models vital.",
+              "The challenges become particularly pronounced when the goal is sustainable tourism driven by local actors rather than top-down initiatives – say: yet another golf & spa resort. All of this renders the name a matter of more than classic branding."
+            ],
+            "style": {
+              "fontSize": 13,
+              "bold": false,
+              "color": "#3F4345"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 5,
+        "layout": "19_Custom Layout",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Google Shape;438;p46",
+            "content": "What’s in a (place) name?",
+            "style": {
+              "fontSize": 32,
+              "bold": true,
+              "color": "#00205A"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;439;p46",
+            "items": [
+              "An integrated conceptual framework for capturing the diverse dimensions along which the name of a place (or other tourism offering) and its associated framings become pivotal for attracting visitors and engaging stakeholders in tourism development Smith & Block (2025); Smith, Block, & Carpentari (submitted); see also Smith (2021).",
+              "Perspective 1: Having (and people knowing) a name for “it”",
+              "Perspective 2: Built-in (name-intrinsic) cues hinting at what the name might stand for≈ The Joyce Principle",
+              "Perspective 3: Surrounding (name-extrinsic) verbal and experiential cues further shaping people’s understanding of the name≈ The Juliet Principle",
+              "Perspective 4: Larger “sets” of names and other words pushing the understanding of a wider topic (and of each other) in a particular direction",
+              "Adapted from Smith (2021: 6).",
+              "Taken separately, each perspective has been widely studied in disciplines ranging from linguistics, semiotics, cognitive psychology, and multimodal communication to branding and tourism. However, they have rarely been considered in combination."
+            ],
+            "style": {
+              "fontSize": 13,
+              "bold": false,
+              "color": "#3F4345"
+            }
+          },
+          {
+            "type": "image",
+            "name": "Picture 1",
+            "sourceUrl": "",
+            "altText": "Picture 1"
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 6,
+        "layout": "23_Custom Layout",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Google Shape;589;p15",
+            "content": "Semiotic landscapes",
+            "style": {
+              "fontSize": 30,
+              "bold": true,
+              "color": "#00205A"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;590;p15",
+            "items": [
+              "The totality of communicative cues – verbal, visual, auditive, olfactory, etc. – surrounding a person at a given location (physical or digital) and shaping the person’s understanding of that place.",
+              "The relative emphasis on these elements varies somewhat among scholars, yet they are all central to capturing the full range of influences involved in the naming & framing of a novel tourism destination."
+            ],
+            "style": {
+              "fontSize": 13,
+              "bold": false,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "image",
+            "name": "Picture 590",
+            "sourceUrl": "",
+            "altText": "Picture 590"
+          },
+          {
+            "type": "image",
+            "name": "Picture 591",
+            "sourceUrl": "",
+            "altText": "Picture 591"
+          },
+          {
+            "type": "image",
+            "name": "Picture 592",
+            "sourceUrl": "",
+            "altText": "Picture 592"
+          },
+          {
+            "type": "image",
+            "name": "Picture 593",
+            "sourceUrl": "",
+            "altText": "Picture 593"
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 7,
+        "layout": "19_Custom Layout",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Google Shape;438;p46",
+            "content": "A case study: Naming, framing, and finding ‘Campina de Faro’",
+            "style": {
+              "fontSize": 32,
+              "bold": true,
+              "color": "#00205A"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;439;p46",
+            "items": [
+              "Scrutinizing the “below zero” scenario of the hinterland of Faro in Algarve, Portugal Campina de Faro is a coastal plain located in the hinterland of the Algarve coast between the historical cities Faro, Olhão, and Loulé.",
+              "It is rich in natural beauty and cultural heritage, including a historical irrigation system dating back to the Islamic era, garden and orchards keeping alive age-old food production methods, and a unique local cuisine.",
+              "However, it remains widely unknown to tourists and many residents at the nearby Algarve coast which welcomes about 5 million tourists per year. Read more here.",
+              "Taking the four perspectives on naming and framing as the primary analytical lens, a diagnostic case study was conducted for assessing the status and future potential of the name Campina de Faro as a fixpoint for elevating sustainable cultural tourism in the area.",
+              "The inquiries included: A visitor survey targeting tourists staying at the nearby Algarve coast (N=92). In-depth qualitative interviews with residents in the target area and Algarve tourism professionals (N=15).",
+              "On-site field observations including informal conversations."
+            ],
+            "style": {
+              "fontSize": 14,
+              "bold": false,
+              "color": "#3F4345"
+            }
+          },
+          {
+            "type": "image",
+            "name": "Picture 439",
+            "sourceUrl": "",
+            "altText": "Picture 439"
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 8,
+        "layout": "19_Custom Layout",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Google Shape;438;p46",
+            "content": "A few selected highlights",
+            "style": {
+              "fontSize": 32,
+              "bold": true,
+              "color": "#00205A"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;439;p46",
+            "items": [
+              "In terms of Perspective 1:",
+              "The vast majority of nearby visitors (85 out of 92 = 92.4%) were unfamiliar with the name Campina de Faro. The same was true for most locals spoken with formally or informally – including 4 out of 7 residents living in the target area itself interviewed in further depth.",
+              "Others offered rather discrepant or fuzzy descriptions, including several tourism professionals.",
+              "However: It transpired from the interviews that Faro’s hinterland was nevertheless generally perceived as a distinct area in its own right, whether explicitly named or not, suggesting a salient but fuzzy spatio-cultural concept not unambiguously lexicalized.",
+              "In terms of Perspective 2:",
+              "When potential visitors were asked what they could imagine Campina de Faro to be, judging from the name, some were able to produce rather adequate suggestions (‘probably the area or landscape around Faro’) while others offered less adequate ones (e.g., 'a campsite’, ‘an airport’, ‘a beach’).",
+              "Taken as an ordinary Portuguese word, campina (and plural: campinas) was known by residents and tourism professionals alike as denoting the adjacent farmland supplying food to any given city… which potentially offers additional leads for future tourism-oriented framings.",
+              "However: While the campinas of some cities (the Tagus River Valley near Lisbon, some rural zones in the Alentejo region) are culturally salient in their own right, in the present case the identity is more fractured and dispersed."
+            ],
+            "style": {
+              "fontSize": 12,
+              "bold": true,
+              "color": "#3F4345"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 9,
+        "layout": "5_Title Slide",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 1",
+            "content": "Next steps:",
+            "style": {
+              "fontSize": 29,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 2",
+            "content": "A systematic typology of similarities and differences of below zero scenarios also along other dimensions than naming & framing challenges",
+            "style": {
+              "fontSize": 16,
+              "bold": false,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 3",
+            "content": "For now: Any question?",
+            "style": {
+              "fontSize": 20,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          }
+        ],
+        "notes": ""
+      }
+    ]
+  }
+}

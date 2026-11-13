@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__case_routing__390",
+  "single_turn_input": {
+    "text": "Use the case routing policy to determine the most suitable agent for the given case. Return only the Id of the agent.\n## Given Case\n- Case Subject: Unable to Cancel Order for Women's Fitness Leggings\n- Case Description: I recently placed an order for Women's Fitness Leggings and I'm trying to cancel it. Despite being within the cancellation window, the online system won't let me proceed with the cancellation. Could you please help me cancel this order?"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xadBIAQ\", \"evidence_case_ids\": [\"500Ws000007rCdKIAU\", \"500Ws000007rEAUIA2\", \"500Ws000007rEH3IAM\", \"500Ws000007rFcuIAE\", \"500Ws000007rHBhIAM\", \"500Ws000007rIE9IAM\", \"500Ws000007rK7rIAE\", \"500Ws000007rRR3IAM\", \"500Ws000007rSRyIAM\"], \"task_category\": \"case_routing\", \"reward_metric\": \"exact_match\"}"
+  }
+}

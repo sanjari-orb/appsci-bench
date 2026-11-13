@@ -1,0 +1,26 @@
+Call CALL-9022 — Halworth Legal Services (ACC-4022) — 2026-03-08 11:00 UTC
+Participants: Simone Achebe (Technical Support Specialist, us) / Grant Okonkwo (IT Coordinator, customer)
+
+Grant: Yeah, hi, my login's not working, and I've got maybe five minutes before my next meeting, so let's make this quick if we can.
+
+Simone: Understood, let's get right into it.
+
+Simone: What error are you seeing exactly when you try to log in?
+
+Grant: Just says invalid credentials. I know for a fact my password's right, I use it every day.
+
+Simone: Can you try resetting it through the link on the login page real quick, just to rule that out?
+
+Grant: Fine, hold on... okay, that actually worked, I'm in now.
+
+Simone: Great, glad that resolved it that fast, sometimes it really is that simple.
+
+Grant: Yeah, apparently. Anyway, that's what I needed.
+
+Simone: One more thing while I've got you -- anything else going on I should know about?
+
+Grant: Should be fine, yeah.
+
+Simone: Good to know either way. Anything else before you head off to your meeting?
+
+Grant: Nope, that's it -- thanks for the quick turnaround, appreciate it.

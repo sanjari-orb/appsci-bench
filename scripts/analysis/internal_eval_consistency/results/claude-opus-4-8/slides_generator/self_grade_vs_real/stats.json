@@ -1,0 +1,270 @@
+{
+  "series": {
+    "slides_generator_claude-opus-4-8_b1_l3_20260917_105454": {
+      "n": 4,
+      "n_deploys": 5,
+      "pearson": 0.7587349347287615,
+      "spearman": 0.7999999999999998,
+      "kendall_tau_b": 0.6666666666666666,
+      "external_noise_sd": 0.005719647517646492,
+      "programs": [
+        {
+          "program": "B",
+          "internal": 0.9194,
+          "external": 0.7549313025475817,
+          "deploys": [
+            2
+          ],
+          "first_deploy": 2
+        },
+        {
+          "program": "C",
+          "internal": 0.9894499999999999,
+          "external": 0.7591953382534777,
+          "deploys": [
+            3,
+            5
+          ],
+          "first_deploy": 3
+        },
+        {
+          "program": "D",
+          "internal": 0.99,
+          "external": 0.7667787174066244,
+          "deploys": [
+            4
+          ],
+          "first_deploy": 4
+        },
+        {
+          "program": "E",
+          "internal": 0.9917,
+          "external": 0.7612480620155039,
+          "deploys": [
+            6
+          ],
+          "first_deploy": 6
+        }
+      ],
+      "internal_first": 0.9194,
+      "internal_last": 0.9917,
+      "external_first": 0.7549313025475817,
+      "external_last": 0.7612480620155039,
+      "external_all": [
+        {
+          "deploy": 1,
+          "external": 0.7428274554902462,
+          "hash": "882fd814",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": false
+        },
+        {
+          "deploy": 2,
+          "external": 0.7549313025475817,
+          "hash": "a09a3159",
+          "program": "B",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 3,
+          "external": 0.760234920118641,
+          "hash": "b0d3cee6",
+          "program": "C",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 4,
+          "external": 0.7667787174066244,
+          "hash": "c2272d8f",
+          "program": "D",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 5,
+          "external": 0.7581557563883146,
+          "hash": "b0d3cee6",
+          "program": "C",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 6,
+          "external": 0.7612480620155039,
+          "hash": "84174da8",
+          "program": "E",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 7,
+          "external": 0.7625898649154463,
+          "hash": "b0d3cee6",
+          "program": "C",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": false
+        },
+        {
+          "deploy": 8,
+          "external": 0.7657000363977108,
+          "hash": "b0d3cee6",
+          "program": "C",
+          "is_submission": true,
+          "is_submitted_program": true,
+          "has_internal": false
+        }
+      ],
+      "programs_built": 5,
+      "programs_abandoned": [
+        "A",
+        "B",
+        "D",
+        "E"
+      ],
+      "shipped_program": "C",
+      "loop_verdicts": [
+        {
+          "deploy": 3,
+          "incumbent": 2,
+          "verdict": "kept",
+          "reverted": false,
+          "technique": "grounding_no_fabrication",
+          "note": "# Change note\n\n## Targeted metric\n`grounding_no_fabrication` (0.6833, the weakest metric). Case-03\n(`case-03-missing-data-gap-flagging`) scored 0.05 on grounding and dragged the\nwhole metric down; presentability (0.8833) is the secondary target.\n\n## Root cause (from eval_report.json + probing)\nCase-",
+          "internal": 0.9889,
+          "external_delta": 0.005303617571059349,
+          "outcome": "correct_keep",
+          "within_noise": true
+        },
+        {
+          "deploy": 4,
+          "incumbent": 3,
+          "verdict": "rejected",
+          "reverted": true,
+          "technique": "intent_alignment",
+          "note": "# Change note\n\n## Decision\nHeadline metric = 0.9889, which is >= 0.919, so last cycle's change is kept. Proceeded to improve.\n\n## Metric targeted\nintent_alignment (0.9667 overall; the only real failing case is\ncase-03-missing-data-gap-flagging at intent_alignment=0.9). Also touches the\nminor present",
+          "internal": 0.99,
+          "external_delta": 0.006543797287983377,
+          "outcome": "wrong_reject",
+          "within_noise": false
+        },
+        {
+          "deploy": 6,
+          "incumbent": 5,
+          "verdict": "rejected",
+          "reverted": true,
+          "technique": "intent_alignment",
+          "note": "# Change note\n\n## Metric targeted\nintent_alignment (0.9667 overall). The only under-scoring case is\ncase-03-missing-data-gap-flagging: intent_alignment=0.9. The judge's reason was\nexplicit: \"6 slides vs ~5 requested\". The brief asked for ~5 slides but also\nasked for three slides whose data the docs ",
+          "internal": 0.9917,
+          "external_delta": 0.003092305627189318,
+          "outcome": "wrong_reject",
+          "within_noise": true
+        }
+      ],
+      "loop_correct_keep": 1,
+      "loop_wrong_keep": 0,
+      "loop_correct_reject": 0,
+      "loop_wrong_reject": 2,
+      "loop_value_discarded": 0.009636102915172695,
+      "decisions": [
+        {
+          "cycle": "2->3",
+          "from": 2,
+          "to": 3,
+          "internal_delta": 0.0695,
+          "external_delta": 0.005303617571059349,
+          "verdict": "agree",
+          "within_noise": true
+        },
+        {
+          "cycle": "3->4",
+          "from": 3,
+          "to": 4,
+          "internal_delta": 0.0010999999999999899,
+          "external_delta": 0.006543797287983377,
+          "verdict": "agree",
+          "within_noise": false
+        },
+        {
+          "cycle": "5->6",
+          "from": 5,
+          "to": 6,
+          "internal_delta": 0.0017000000000000348,
+          "external_delta": 0.003092305627189318,
+          "verdict": "agree",
+          "within_noise": true
+        }
+      ],
+      "decisions_agree": 3,
+      "decisions_disagree": 0,
+      "decisions_tied": 0,
+      "decisions_within_noise": 2,
+      "regret": {
+        "best_deploy": 4,
+        "best_score": 0.7667787174066244,
+        "submitted_deploy": 8,
+        "submitted_score": 0.7616701444550282,
+        "submitted_is_best_program": false,
+        "regret": 0.005108572951596169
+      },
+      "points": [
+        {
+          "deploy": 2,
+          "internal": 0.9194,
+          "external": 0.7549313025475817,
+          "hash": "a09a3159",
+          "program": "B",
+          "is_submission": false
+        },
+        {
+          "deploy": 3,
+          "internal": 0.9889,
+          "external": 0.760234920118641,
+          "hash": "b0d3cee6",
+          "program": "C",
+          "is_submission": false
+        },
+        {
+          "deploy": 4,
+          "internal": 0.99,
+          "external": 0.7667787174066244,
+          "hash": "c2272d8f",
+          "program": "D",
+          "is_submission": false
+        },
+        {
+          "deploy": 5,
+          "internal": 0.99,
+          "external": 0.7581557563883146,
+          "hash": "b0d3cee6",
+          "program": "C",
+          "is_submission": false
+        },
+        {
+          "deploy": 6,
+          "internal": 0.9917,
+          "external": 0.7612480620155039,
+          "hash": "84174da8",
+          "program": "E",
+          "is_submission": false
+        }
+      ]
+    }
+  },
+  "skipped": {
+    "fewer_than_two_points": [
+      "slides_generator_claude-opus-4-8_b0_l3_20260917_095134",
+      "slides_generator_claude-opus-4-8_b2_l3_20260917_114447"
+    ]
+  },
+  "limit": null
+}

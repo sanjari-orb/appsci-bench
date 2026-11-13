@@ -1,0 +1,387 @@
+task_id: banking_support
+name: Banking Customer-Service Agent (Knowledge-Grounded)
+
+# Short customer ask the agent starts from (no KB / retrieval / verification / scoring detail).
+description: >
+  "We run a retail bank's customer-service contact channel (Rho-Bank). We want an agent that helps
+   customers with their accounts, cards, referrals, disputes, and product questions the way a great
+   human banker would: the customer gets an accurate, helpful answer and the right outcome, and we
+   always go by the book."
+
+# Business goals for this task (passed to persona templates).
+# The customer's stated goals. The THIRD goal used to read "Verify the customer before taking account
+# actions; take only actions the bank's rules allow, and transfer to a human otherwise" -- three of the
+# bank's operating rules, handed to the agent and then scored against it. They now live in
+# user_sim_docs/common/operating_rules.md and must be elicited. Grounding stays here deliberately: it
+# was not part of the approved hide, and it is also the signpost that sends the agent to the corpus.
+business_goals:
+  - "Help customers with account, card, referral, dispute, and product questions, end to end."
+  - "Give accurate answers grounded in the bank's official documentation -- never make things up."
+
+# Data files available for this task (passed to persona templates).
+dataset_files:
+  # The reachability caveat is repeated from the `banking_db` resource below because the agent is
+  # shown BOTH lists, and this key's name ("dataset_files") invites the reading that there is a file
+  # to open. There is not: the store is only ever reachable through the tool API.
+  - { name: "banking_db", description: "transactional store: users, accounts, credit-card accounts/applications, referrals, transactions, disputes, verification history, etc. Reachable ONLY through the banking tool API: there is no file to read and no SQL connection." }
+  - { name: "knowledge_base", description: "the bank's official documentation (product terms, fee schedules, eligibility, procedures) the agent must ground answers in -- reachable only by searching it with the provided retrieval tools (KB_search_bm25/KB_search_dense/shell)" }
+  # NOTE: there is deliberately no `tools_reference.json` entry, and the file it named is now the
+  # SIMULATOR's rather than nobody's. The entry pointed under sop/, which is mounted into no container, so
+  # an agent that read it went hunting for a signature reference it could never open -- the same dead
+  # pointer the absent `technical_docs` below would have been. Removing the entry alone left the material
+  # unreachable by everyone, including the stakeholder who is supposed to be asked for it, so the
+  # reference was copied to user_sim_docs/common/tools_reference.json (loaded for every persona). The base
+  # tool surface therefore reaches the agent by ELICITATION: `interface_design` states the retrieval and
+  # discoverable-tool mechanism, the L2 stakeholder can name the base agent and customer tools and give
+  # their arguments, and a call with the wrong arguments comes back as a 400 naming what it missed rather
+  # than a 500.
+
+# NOTE: there is deliberately no `technical_docs`. The operating policy (grounding, verification and
+# transfer rules) is gated ground truth held by the L1 stakeholder -- naming it here would point the
+# agent at a document that is mounted in no container, and the entry's own description restated the
+# material it was hiding.
+
+# The same stakeholder additionally holds the bank's REVIEW rules, which were never a spec field:
+# operating_rules.md's closing section states that a conversation is reviewed on the records it left
+# behind, so an unrequested-but-permitted write is a finding, a procedure's named lookup has to actually
+# be called, and advice that records nothing resolves nothing. Those three are consequences of how the
+# reward reads the store, restated as bank policy in the bank's own vocabulary -- the agent elicits an
+# audit rule, never a scoring rule. Scored by three rubric items; see elicitation_rubric.yaml's header.
+
+# Expected interface/action space for the solution (passed to persona templates).
+# ⚠️ Three of the bank's operating rules were removed from this field and now live in
+# user_sim_docs/common/operating_rules.md, to be elicited: that identity verification is mandatory
+# before account actions, the unlock-then-call protocol for specialist tools, and when escalation is
+# (and is not) correct. What stays is ARCHITECTURE -- the retrieval tools are still named and still
+# provided, because building retrieval is deliberately not the graded skill (commit b69a4b7).
+#
+# WHAT MAKES THE HIDE FAIR IS THAT THE ANSWERS ARE ASKABLE, not that they are visible. This comment used
+# to claim the gap was "signposted" because the agent already receives a tools reference naming
+# log_verification, unlock_discoverable_agent_tool, call_discoverable_agent_tool,
+# list_discoverable_agent_tools, give_discoverable_user_tool and transfer_to_human_agents. That was not
+# true: none of those names appears in any agent-facing field, and no route enumerates tools --
+# POST /tools/<name> takes a name it will not tell you. The reference has since been moved to
+# user_sim_docs/common/tools_reference.json, so the L2 stakeholder holds the base tool names and their
+# argument lists and can answer exactly when asked. So the agent cannot SEE that the tools exist; it can
+# ASK, and gets a precise answer. The prose below states the retrieval and discoverable-tool MECHANISM
+# without naming the action tools, which is what tells the agent there is something to ask about.
+interface_design: >
+  "The artifact behaves as a conversational banking agent. It searches the bank's KNOWLEDGE BASE
+  (using the provided retrieval tools) to answer accurately, and drives transactional tools.
+  RETRIEVAL IS PROVIDED OUT OF THE BOX: the retrieval tools are exposed as agent tools --
+  KB_search_bm25 (BM25 keyword search, no key), KB_search_dense (embedding search; needs an
+  embeddings key, degrades gracefully without one), and shell (run read-only Unix commands --
+  ls/cat/grep/head/find/awk -- over the corpus as files) -- so the artifact does NOT spin up a
+  vector DB or write its own search code. The graded skill is WIRING these provided tools into a
+  grounded, compliant, correct transactional agent. All retrieval is READ-only over the corpus (it
+  never mutates the DB). Not every action the bank can take is available to the artifact up front.
+  Beyond the retrieval tools named above, the channel exposes a BASE set of always-available agent
+  tools -- identity and account lookups, an identity-verification log, an environment clock,
+  escalation. The specialist actions the artifact has to perform to resolve a request are not among
+  them: they are DISCOVERABLE BY SEARCHING THE KNOWLEDGE BASE, which is what makes retrieval
+  load-bearing here rather than decorative. The customer performs actions of their own as well, and
+  the artifact is what tells them which: those are likewise not known in advance, and are discovered
+  the same way. None of the mechanisms to do any of this are listed here. The people who run the
+  channel know them, so ask rather than guess: building against guessed names is the most common way
+  this task fails. The tools do NOT enforce policy -- being able to call something does not make it
+  correct, so the artifact must establish what the bank's rules require. ARTIFACT ARCHITECTURE:
+  build the artifact as a small HTTP service exposing GET /health and POST /respond, where /respond
+  accepts {\"messages\": [...]} and returns OpenAI-style {\"choices\": [{\"message\": {\"role\":
+  \"assistant\", \"content\": ...}}]}. It reaches the tools (retrieval included) as a tool-API at
+  env var BANKING_TOOLS_URL (bearer BANKING_TOOLS_TOKEN): POST {BANKING_TOOLS_URL}/<tool_name> with
+  {\"arguments\": {...}} -> {\"result\": ...}. The knowledge base is reachable ONLY through the
+  retrieval tools -- there is no raw-corpus endpoint, deliberately (see environment/service.py).
+  Deploy it with deploy_artifact, then call complete."
+
+# Comprehensive GROUND-TRUTH definition (never shown to the agent; source for personas/oracle) -- and
+# deliberately NOT a spec field. It lives in TASK_SOP.md beside this file, which states the task in
+# readable form and links each audience-scoped section (policy header, tools reference, KPIs). It was
+# `task_sop:` here until #107 removed the field from the schema, having audited that nothing read it;
+# that file is not mounted into the agent's container, so on-disk is the better home anyway -- the spec
+# was only ever safe for this material because the redactor stripped it on the way out, and a guard
+# someone can forget to run is weaker than a location the agent cannot reach.
+task_source_type: open-source
+source:
+  benchmark: tau2-bench
+  domain: banking_knowledge
+  url: https://github.com/sierra-research/tau2-bench
+  notes: >
+    "Offline-cast from the tau2-bench banking_knowledge domain. The 97 held-out eval cases were
+     produced by scripts/convert_tau2_banking.py from the vendored upstream tasks (seed_data/,
+     see PROVENANCE.md + TAU2_COMMIT.txt). Each sample carries the upstream golden ground truth
+     (actions, reward_basis, required_documents, user_tools, initial_state) in oracle.data. The
+     upstream RETRIEVAL toolkits (BM25 / dense / shell -- upstream's `alltools` surface) are adopted 1:1 and provided in the
+     task environment as agent tools (vendored under environment/_runtime/), so the artifact
+     wires the given retrieval rather than building its own."
+
+environment:
+  docker_compose: tasks/banking_support/environment/docker-compose.yml
+  resources:
+    # Access caveat kept in `description`, not `location`: `location` is stripped from the agent-facing
+    # spec (core/spec.py `_AGENT_RESOURCE_KEYS`), so a caveat written there is the one sentence the
+    # agent never reads -- it would see a resource typed "database" with no hint there is nothing to
+    # connect to. Same fix as airline_rebooking's airline_db.
+    - { name: banking_db,     type: database,    location: "in-memory transactional store behind the banking tool API (no direct file or SQL access)", description: "Transactional store (users, accounts, cards, applications, referrals, disputes, verification history, ...). Reachable ONLY through the banking tool API -- it is an in-memory store with no file, dump, or SQL connection you can open." }
+    - { name: knowledge_base, type: docs,        location: "the knowledge base behind the tool API: reachable only via the retrieval tools", description: "the bank's official documentation the agent must ground answers in; searchable via KB_search_bm25/KB_search_dense/shell" }
+    # The description used to end "see the tools reference for base signatures", which sent the agent to
+    # a file under sop/ that no container holds -- see the dataset_files note above. What it can actually
+    # do is ask the L2 stakeholder, who now holds that reference as sim-only material and can give both
+    # the names and their arguments.
+    # NOTE: there is deliberately no `banking_policy` and no `kpis` resource. Neither is published to
+    # the agent -- this task mounts no /sop, so both entries named a document that exists in no
+    # container, and each description restated the material it was hiding (which the redacted
+    # agent-facing spec keeps). The policy is gated to L1 and the KPIs to L3 as SOP sections.
+    #
+    # NOR IS THERE A `prod_traces` RESOURCE. It was carried over from the task-spec template and never
+    # materialized -- no traces file exists in this repo for any task, nothing is bundled into either
+    # run phase, and no endpoint serves them. Since the agent is instructed to build only from the
+    # resources in its environment, the entry sent it looking for something that does not exist.
+    # Declare it again only alongside a fixture the agent can actually open.
+
+# TaskRunner / BenchmarkOrchestrator wiring (Docker path). workspace_name "banking-workspace"
+# derives compose project "banking" and container "banking-workspace-1". The service bakes and loads
+# the shared knowledge base at startup but boots holding NO transactional records: each phase bundles
+# its own store to /fixture/ and setup.sh loads it through the admin-gated load route, which is what
+# makes the build/eval carve a data decision. agent_env is injected into the appsci-agent container
+# (and thus the artifact): the banking artifact reaches the tool-API via
+# BANKING_TOOLS_URL/BANKING_TOOLS_TOKEN. There is no raw-corpus var: the knowledge base is reachable
+# only through the retrieval tools, which keeps the action space 1:1 with upstream. The token matches the
+# static BANKING_ENV_TOKEN in docker-compose.yml.
+task_runner:
+  network_name: bench-network
+  workspace_name: banking-workspace
+  # The task environment, declared once per RUN PHASE (docs/task_env_split.md). The build env serves
+  # the build phase and is torn down when the agent submits; the eval env is started for the eval phase
+  # only. Both come up from the same compose file under the same workspace_name, so they share a
+  # container name and network alias and the artifact needs no re-pointing across the handover.
+  #
+  # CARVED. Each phase bundles its OWN transactional store to /fixture/ and shares one setup script,
+  # which loads whatever it finds there and asserts the counts against the manifest bundled beside it.
+  # The anchor that used to tie both phases to one dataset is deliberately gone: with it, the carve
+  # existed on disk while both phases loaded the same thing, so the change looked finished and measured
+  # nothing. That is the failure both airline's and banking's notes single out as the worst of the
+  # partial states, because every surface reports healthy while nothing is being measured.
+  #
+  # Nothing transactional is baked into the image any more (see environment/Dockerfile) and the service
+  # boots holding no records, because the bundle arrives only after the container is running. A store
+  # baked into the image would be present in the BUILD container whatever was bundled here.
+  #
+  # THE BUILD SHARE IS 8 CARVED RECORDS PLUS 100 AUTHORED ONES. The carve first: withhold every record the
+  # 97 eval cases touch, add the two records a case is about only in its PROSE, close over the reference
+  # graph, and 760 of 768 records go: 32 of the 39 customers are touched by name, and nearly every other
+  # record hangs off a customer. What is left is 6 customers and 2 bank accounts, and nothing else at all.
+  # That rule is the strict carve and is not to be relaxed.
+  #
+  # THEN THE AUGMENTATION, which reverses an earlier "no synthesized records" decision (KNOWN_ISSUES.md
+  # section 6 records the reversal and why). The carve is the right answer to "which real records may the
+  # agent see" and the wrong answer to "can the agent test its own work": with an empty store the agent's
+  # own eval generator wrote its test cases against invented customers and graded conversations instead of
+  # outcomes, scoring itself 0.9175 on a build that scored 0.021. So 100 authored records now hang off
+  # those same 6 customers, adding cards, transactions, disputes and history. They reuse no id the eval
+  # store owns, are named by no eval case, and collide with no id a golden action mints -- all enforced by
+  # scripts/generate_banking_build_share.py, which refuses to write otherwise.
+  #
+  # The agent can now learn schema and mechanism from data; it still cannot learn STATISTICS, because 108
+  # records chosen to cover situations are not a sample of 768. Score comparisons for banking must not
+  # straddle either change. See environment/build/README.md for the full accounting.
+  #
+  # THE KNOWLEDGE BASE IS NOT CARVED. Both phases hold the same 698 documents and the corpus stays baked
+  # into the image, so neither phase bundles it. 46 of the 48 specialized tools are named ONLY by
+  # documents the eval cases require: withholding those would not make the task harder, it would make it
+  # unsolvable and would gut the retrieval metric. The corpus is read-only by construction and carries
+  # no record id from the store at all, so sharing it leaks nothing the carve protects.
+  environments:
+    build:
+      bundle:
+        - { src: environment/build/data/, dest: /fixture/ }   # 8 carved + 100 authored records + manifest
+        - { src: environment/setup/, dest: /scripts/ }        # the shared loader (both phases)
+      setup_script: /scripts/setup.sh
+    eval:
+      bundle:
+        - { src: environment/eval/data/, dest: /fixture/ }    # the full store (768 records) + its manifest
+        - { src: environment/setup/, dest: /scripts/ }
+      setup_script: /scripts/setup.sh
+  # Declarations about the CARVE itself, read only by scripts/carve_guard.py. Redacted from the agent's
+  # view of this spec: the allowlist that builds it drops task_runner wholesale, which is why a record of
+  # what the carve withheld can live here and nowhere near the build share.
+  carve:
+    # Category coverage -- "the build share must show the agent one of every value the full store treats
+    # as a category" -- was the one carve invariant this task could not satisfy AT ALL, and the
+    # enumerations below are the exact gaps that remain. Naming each one is the point: a gap this list
+    # does not name still FAILS, so the waiver stays a record of a measured decision instead of aging into
+    # a general off switch for coverage the day banking's data next moves.
+    #
+    # THIS LIST WENT FROM 18 ENTRIES TO 8 when the build store gained authored synthetic records
+    # (scripts/banking_build_synthetic.py). Ten enumerations are now genuinely covered rather than
+    # waived: both account classes and all twelve levels, every bank-transaction type, both credit
+    # limits, both closure reasons, both replacement-order reasons, and every debit-card status and issue
+    # reason. Those were empty-collection gaps, and the collections are no longer empty.
+    #
+    # WHAT IS LEFT IS WHAT CANNOT BE COVERED WITHOUT COPYING THE EVAL CUSTOMERS' OWN DETAILS, which is
+    # the one thing the augmentation is forbidden to do. Five of the eight are not categories in any real
+    # sense -- a card's verification code, its last four digits, a cardholder's printed name, and a
+    # verification record's name, email and address are IDENTITIES. They are inferred as categories only
+    # because banking has eight debit cards and three verification records, and there is no structural
+    # rule that separates them from a genuine category; covering them would mean writing Kenji Tanaka's
+    # email and Ayan Wang's card into the build store. The sixth, a replacement order's shipping address,
+    # is the same thing. They are named one by one rather than silenced with a wildcard: a wildcard would
+    # also absorb a future gap in a NEW field of the same collection, without anyone being told.
+    #
+    # The seventh is a real category and is waived on plausibility instead: covering all eleven card types
+    # in the transaction history would mean these six customers holding eleven credit cards between them.
+    # Seven are covered; the missing five are premium and business tiers that would be padding.
+    coverage_waiver:
+      reason: >-
+        A strict carve-out of REAL records, plus authored synthetic records that invent nothing from the
+        eval environment. The carve withholds every record the 97 eval cases touch, adds the two records
+        a case is about only in prose, closes over the reference graph, and leaves 8 of the task's 768
+        real records -- 6 customers and 2 bank accounts, both belonging to one of them. That share left 15
+        of 17 collections empty, and an empty collection covers none of its categories however carefully
+        the records are chosen; it also left the build environment unable to support a state-based test of
+        the agent's own work, which is what the build phase is for. The augmentation adds 100 fabricated
+        records hanging off those same 6 customers, which closes 10 of the 18 gaps this waiver used to
+        carry. The 8 named below cannot be closed the same way: 6 of them are the eval customers' own
+        identities (card secrets, printed names, verification contact details, a shipping address), and
+        copying those into the build store is exactly the leak the carve exists to prevent, so the gap is
+        preferred to the fix. The last is the card-type mix in the transaction history, where covering
+        every value would mean six customers holding eleven credit cards. Recorded in full in
+        tasks/banking_support/environment/build/README.md and docs/banking_carve_plan.md.
+      enumerations:
+        - credit_card_orders.shipping_address
+        - credit_card_transaction_history.credit_card_type
+        - debit_cards.cardholder_name
+        - debit_cards.cvv
+        - debit_cards.last_4_digits
+        - verification_history.address
+        - verification_history.email
+        - verification_history.name
+  # The two braced values are filled in per ENVIRONMENT COPY -- see the same block in
+  # tasks/airline_rebooking/spec.yaml for why writing either literally silently pins every copy of the
+  # environment to the first one.
+  agent_env:
+    - { name: BANKING_TOOLS_URL,   value: "http://{workspace_container}:8080/tools" }
+    - { name: BANKING_TOOLS_TOKEN, value: "{tool_token}" }
+  # Evaluator-only admin token var (never handed to the agent) -- lets the orchestrator drive
+  # per-phase /admin/load and the per-sample /admin/reset + /admin/seed + /admin/state_hash for the DB
+  # half of task_success.
+  # Matches BANKING_ENV_ADMIN_TOKEN in docker-compose.yml.
+  env_admin_token_var: BANKING_ENV_ADMIN_TOKEN
+  # Tool-token var, read by the evaluator so the eval-time user simulator can call the CUSTOMER's own
+  # tools against the environment. Banking needs this where airline does not: 49 of its 97 cases have
+  # a golden action whose requestor is the user (applying for a card themselves, say), so a sim that
+  # can only talk could never reach the golden state no matter how good the artifact's advice was.
+  # This is the same token the agent already holds, so declaring it grants the evaluator nothing new.
+  env_tool_token_var: BANKING_ENV_TOKEN
+  # Where a per-copy tool token is WRITTEN (the compose file reads BANKING_ENV_TOKEN out of the
+  # environment), so parallel eval can give each copy of the environment its own. Same var as
+  # env_tool_token_var above, which is where the evaluator READS it; both are needed because the two
+  # answer different questions and a task may well answer only one of them.
+  lane_token_var: BANKING_ENV_TOKEN
+  # NOTE the SIGNATURES of those same customer-held tools are not declared here. The token above is a
+  # live capability of the running environment, so only the run can supply it; a signature is static
+  # per-case data and rides in each eval sample's `multi_turn_input.user_tools`. Two reasons that is the
+  # right home: task_runner also starts the BUILD phase's env, which has no customer simulator and would
+  # carry a field it never reads; and every other per-case fact about that simulator -- the task, the
+  # persona, the stop criteria, which tools are granted -- already lives in the sample.
+  #
+  # The signatures still duplicate what environment/tools.py defines, so they can still drift;
+  # tests/tasks/banking_support/test_user_tool_schemas.py now asserts every SAMPLE agrees with the live
+  # toolkit, because §4 of KNOWN_ISSUES.md records what unguarded duplication has already cost this task
+  # once. Measured on banking_support_b1.t0_l3_20260910_031639, before signatures reached the simulator:
+  # it called request_human_agent_transfer (no arguments) on 3 of 3 cases, submit_referral (user_id +
+  # account_type, both stated aloud) on 1 of 6, and apply_for_credit_card (card_type + customer_name +
+  # annual_income) on 0 of 19 -- because it had bare NAMES and its instructions forbid inventing values.
+  # Artifact deploy contract: the container name/port the host-side deployer runs the agent's
+  # artifact under. The deployer publishes this port and injects it as $PORT (the server must bind
+  # 0.0.0.0:$PORT -- do not hardcode). Declaring them makes teardown deterministic.
+  artifact_container: appsci-artifact-banking_support
+  artifact_port: 8080
+
+artifacts:
+  output_dir: /work/out
+  expected:
+    - { id: agent, kind: agent, primary: true, description: "the queryable banking customer-service agent" }
+    - { id: design_notes, kind: documentation, path: design_notes.md, required: false, description: "optional design write-up (diagnostic)" }
+
+user_personas:
+  - tasks/banking_support/user_personas/l1.yaml
+  - tasks/banking_support/user_personas/l2.yaml
+  - tasks/banking_support/user_personas/l3.yaml
+
+budgets:
+  build: { turns: null, tokens: null, usd: null, wall_clock_s: null }
+  latency_slo_ms: null
+
+evaluation_data:
+  dataset: tasks/banking_support/eval_data     # 97 cases cast offline from tau2-bench banking_knowledge
+  # The facts the agent could only get by ASKING (held-out; scores the elicitation diagnostic only, never
+  # the task score). This task needs one more than most: three of the bank's operating rules were moved
+  # out of the spec into the simulator specifically so they would have to be elicited, so without a rubric
+  # the one thing this task was redesigned to measure went unmeasured -- runs recorded status `no_rubric`.
+  elicitation_rubric: tasks/banking_support/elicitation_rubric.yaml
+  provenance: public
+  type: multi_turn
+  # Per-sample DB seeding is REQUIRED here (75/97 cases carry an initial_state). reset_env_per_sample
+  # turns on the generic per-sample env-reset seam: reset the banking task-env to a fresh fixture,
+  # apply the case's initial_state (+ read-log allowlist), then capture the post-run state hash so
+  # task_success can compute the DB/ACTION reward. (Cases run sequentially: shared mutable task-env.)
+  reset_env_per_sample: true
+  # One shared simulation budget: customer/agent messages cost one step; each tool request
+  # and result cost two. The environment enforces it during artifact replies as well as
+  # customer tool loops. Finish an already-started tool result before checking the ceiling.
+  # tau2's CLI default is 200. Our HTTP interface exposes individual requests, so parallel
+  # calls are counted individually (upstream can group them in a single tool-call message).
+  max_steps: 200
+  # The BINARY pass/fail, named so the harness can derive a PER-CASE outcome from it. task_success is
+  # tau2's own reward -- the basis component (DB state hash against the golden replay, or the golden
+  # actions found in the artifact's trace) times COMMUNICATE -- so every path through it returns
+  # strictly 0.0, 1.0, or None for "could not be measured", which is what makes the tau-bench pass^k
+  # estimator applicable without inventing a threshold. A None is excluded from pass^k rather than
+  # counted against the build, which is the honest reading of a case the harness could not measure.
+  #
+  # Still worth declaring separately even though final_score IS this objective: pass^k needs to know
+  # which individual cases passed in which trial -- a case that passes 2 of 4 trials contributes
+  # C(2,j)/C(4,j), not 0.5 -- and a task-wide mean cannot
+  # be taken apart again.
+  reward_objective: task_success
+  # Only task_success is calculated by default. The four diagnostics stay declared and implemented,
+  # but enabled: false skips their calculation and omits them from new reports. Set enabled: true on
+  # any diagnostic below to calculate it again. Weight 0 alone does NOT skip calculation.
+  # Keep their weights at 0 when enabling them: task_success is tau2's own banking reward, so mixing
+  # diagnostic scores into final_score would break that metric's comparability.
+  #
+  # All positive (higher = better). retrieval_recall measures exact set-overlap of the doc ids the env
+  # logged from the provided KB_search_* tools against the case's required_documents. NOTE this now
+  # UNDERCOUNTS by design: `shell` output is unstructured and cannot be doc-id logged, so an artifact
+  # that reads the corpus as files scores low recall while succeeding at the task. The metric is kept
+  # available as an opt-in diagnostic because it stays meaningful under a search-only variant. That seam
+  # has LANDED -- the per-sample reset hook reads the env's retrieved-docs, action-trace and
+  # seeded-state routes and hands them to the eval functions -- so the exact path is what a Docker run
+  # takes; the transcript-coverage judge is the fallback for a run whose env does not answer those
+  # routes, not a placeholder waiting on them. Each function stays fail-SAFE (returns None -> excluded
+  # from aggregation) when its inputs are absent, so a case the harness genuinely cannot measure
+  # degrades honestly rather than faking a pass. Weights sum to 1.0.
+  objectives:
+    # scoring_kind describes the implementation independently of enabled. retrieval_recall is hybrid:
+    # exact doc-id overlap when metadata is available, otherwise an LLM coverage judge.
+    - { name: task_success,            eval_function_path: banking_support.eval.task_success,            positive: true, weight: 1.0, scoring_kind: deterministic }
+    - { name: groundedness,            eval_function_path: banking_support.eval.groundedness,            positive: true, weight: 0.0, enabled: false, scoring_kind: llm_judge }
+    - { name: retrieval_recall,        eval_function_path: banking_support.eval.retrieval_recall,        positive: true, weight: 0.0, enabled: false, scoring_kind: hybrid }
+    - { name: verification_compliance, eval_function_path: banking_support.eval.verification_compliance, positive: true, weight: 0.0, enabled: false, scoring_kind: llm_judge }
+    - { name: no_fabrication,          eval_function_path: banking_support.eval.no_fabrication,          positive: true, weight: 0.0, enabled: false, scoring_kind: llm_judge }
+    # Diagnostic (report-only, weight 0.0) safety-dimension axes -- see tasks/banking_support/eval_safety.py.
+    # Distinct from the `no_fabrication` row above (this task's own, currently-disabled groundedness-style
+    # check); these are the standard cross-task S1 4.4/4.7 safety axes, always on like every other task.
+    - { name: safety_no_fabrication,       eval_function_path: banking_support.eval_safety.no_fabrication,       positive: true, weight: 0.0, scoring_kind: llm_judge }
+    - { name: safety_safe_by_construction, eval_function_path: banking_support.eval_safety.safe_by_construction, positive: true, weight: 0.0, scoring_kind: llm_judge }
+
+# Reference solution: a knowledge-grounded banking agent that retrieves before it answers, verifies
+# identity before account actions, and reaches the golden outcome through the tool API only. Declared
+# because the leakage detector hashes the directory this names to catch the reference turning up in an
+# agent's workspace -- leaving it out means that check never runs for this task, which was the state
+# here even though (unlike most tasks declaring a path) banking's reference directory really exists.
+# The evaluator ignores the field, and spec redaction drops it, so the agent never sees the pointer.
+# What the reference is and is not yet worth as a score is recorded in KNOWN_ISSUES.md section 3.
+gold_solution: { path: gold/banking_support/ }
+owner: "AppSci-Bench authors"
+co_owners: []

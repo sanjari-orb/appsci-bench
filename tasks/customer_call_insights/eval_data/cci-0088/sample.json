@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0088",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9033 (Castellane Import Traders) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send the security questionnaire, by tomorrow morning\"], \"risks\": [], \"commitments\": [\"send the security questionnaire, by tomorrow morning\"], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 33 (Timeline, M, corner 4: acknowledgement rule, ask + agree). Bianca asks for the questionnaire, Owen agrees -- the rep's agreement is what creates the commitment, landing in both lists with the stated deadline. Plain, transactional tone, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

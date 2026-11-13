@@ -1,0 +1,527 @@
+{
+  "presentation": {
+    "title": "Q2 FY26 Financial Review",
+    "theme": "default",
+    "aspectRatio": "16:9",
+    "metadata": {
+      "author": "Unknown",
+      "version": "1.0",
+      "date": ""
+    },
+    "slides": [
+      {
+        "slideNumber": 1,
+        "layout": "Blank Basic Layout / Photo full",
+        "elements": [
+          {
+            "type": "bullet_list",
+            "name": "CuadroTexto 3",
+            "items": [
+              "Q2 FY26 Financial Review",
+              "Board & Executive Review"
+            ],
+            "style": {
+              "fontSize": 32,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 7",
+            "items": [
+              "Reporting period: Fiscal Q2 FY26",
+              "Prepared by: Finance / FP&A",
+              "Audience: Board of Directors & Executive Staff",
+              "Confidential — Board Distribution"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 2,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Quarter at a Glance",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 5",
+            "content": "Q2 revenue of $51.0M came in +3.0% vs budget and +28.1% year over year. COMPANY_NAME_REDACTED reached operating profitability — operating income $0.26M vs a budgeted $1.4M loss — roughly one quarter ahead of plan.",
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "KPI 6",
+            "items": [
+              "$212.0M",
+              "ARR  (+$13.5M QoQ)"
+            ],
+            "style": {
+              "fontSize": 24,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "KPI 7",
+            "items": [
+              "114%",
+              "Net revenue retention"
+            ],
+            "style": {
+              "fontSize": 24,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "KPI 8",
+            "items": [
+              "$148.0M",
+              "Cash & equivalents"
+            ],
+            "style": {
+              "fontSize": 24,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "KPI 9",
+            "items": [
+              "1,180",
+              "Headcount"
+            ],
+            "style": {
+              "fontSize": 24,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 10",
+            "items": [
+              "Total revenue $51.0M — +$1.5M (+3.0%) vs budget; +28.1% YoY (vs $39.8M)",
+              "Gross margin 76.0% — +1.1 pts vs budget, on inference-cost optimization",
+              "Operating income $0.26M — ~$1.66M favorable to plan; first profitable quarter",
+              "FY26 revenue guidance raised: $202M → $208M"
+            ],
+            "style": {
+              "fontSize": 16,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 3,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Revenue",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Table 5",
+            "rows": [
+              [
+                "Revenue (USD M)",
+                "Actual",
+                "Budget",
+                "vs Budget",
+                "Prior Yr",
+                "YoY"
+              ],
+              [
+                "Subscription",
+                "$44.9M",
+                "$43.4M",
+                "+$1.5M ↑",
+                "$34.1M",
+                "+31.7%"
+              ],
+              [
+                "Services",
+                "$6.1M",
+                "$6.1M",
+                "—",
+                "$5.7M",
+                "+7.0%"
+              ],
+              [
+                "Total revenue",
+                "$51.0M",
+                "$49.5M",
+                "+$1.5M ↑",
+                "$39.8M",
+                "+28.1%"
+              ]
+            ]
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 6",
+            "items": [
+              "Total revenue $51.0M — +$1.5M (+3.0%) ahead of budget and +28.1% YoY, driven by subscription.",
+              "Subscription $44.9M (+$1.5M vs budget, +31.7% YoY): two large multi-year expansions closed earlier than planned, plus strong Automated QA attach on new platform bookings.",
+              "Services $6.1M — in line with budget, +7.0% YoY."
+            ],
+            "style": {
+              "fontSize": 16,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 4,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Gross Margin",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Table 5",
+            "rows": [
+              [
+                "USD M",
+                "Actual",
+                "Budget",
+                "Prior Yr",
+                "vs Budget"
+              ],
+              [
+                "Total revenue",
+                "$51.0M",
+                "$49.5M",
+                "$39.8M",
+                "+$1.5M ↑"
+              ],
+              [
+                "COGS",
+                "$12.24M",
+                "$12.4M",
+                "$10.3M",
+                "-$0.16M ↓"
+              ],
+              [
+                "Gross profit",
+                "$38.76M",
+                "$37.1M",
+                "$29.5M",
+                "+$1.66M ↑"
+              ],
+              [
+                "Gross margin",
+                "76.0%",
+                "74.9%",
+                "74.1%",
+                "+1.1 pts ↑"
+              ]
+            ]
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 6",
+            "items": [
+              "Gross margin expanded to 76.0% — +1.1 pts vs budget (74.9%) and +1.9 pts YoY (74.1%).",
+              "Driver: inference-cost optimization — model-serving and GPU-efficiency work lowered cost-to-serve on the real-time pipeline.",
+              "COGS $12.24M, $0.16M favorable to budget."
+            ],
+            "style": {
+              "fontSize": 16,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 5,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Operating Expense & Income",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Table 5",
+            "rows": [
+              [
+                "USD M",
+                "Actual",
+                "Budget",
+                "vs Budget",
+                "Prior Yr"
+              ],
+              [
+                "Sales & Marketing",
+                "$19.8M",
+                "$19.2M",
+                "+$0.6M ↑",
+                "$16.4M"
+              ],
+              [
+                "Research & Development",
+                "$13.4M",
+                "$13.9M",
+                "-$0.5M ↓",
+                "$11.6M"
+              ],
+              [
+                "General & Administrative",
+                "$5.3M",
+                "$5.4M",
+                "-$0.1M ↓",
+                "$4.3M"
+              ],
+              [
+                "Total operating expense",
+                "$38.5M",
+                "$38.5M",
+                "—",
+                "$32.3M"
+              ],
+              [
+                "Operating income",
+                "$0.26M",
+                "($1.4M)",
+                "+$1.66M ↑",
+                "($2.8M)"
+              ],
+              [
+                "Net income",
+                "$0.12M",
+                "($1.6M)",
+                "+$1.72M ↑",
+                "($3.2M)"
+              ]
+            ]
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 6",
+            "items": [
+              "Total opex $38.5M — flat vs budget; spend discipline held.",
+              "S&M $0.6M over budget — flagship CX-AI customer summit pulled forward from Q3 into Q2; R&D $0.5M under on slower senior engineering hiring.",
+              "Operating income $0.26M vs a budgeted $1.4M loss (~$1.66M favorable) — reached operating profitability roughly one quarter ahead of plan."
+            ],
+            "style": {
+              "fontSize": 16,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 6,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Cash & KPIs",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Table 5",
+            "rows": [
+              [
+                "KPI",
+                "Q2 FY26",
+                "Q1 FY26",
+                "QoQ Δ"
+              ],
+              [
+                "ARR",
+                "$212.0M",
+                "$198.5M",
+                "+$13.5M ↑"
+              ],
+              [
+                "Net revenue retention",
+                "114%",
+                "111%",
+                "+3 pts ↑"
+              ],
+              [
+                "Gross revenue retention",
+                "96%",
+                "95%",
+                "+1 pt ↑"
+              ],
+              [
+                "Cash & equivalents",
+                "$148.0M",
+                "$141.0M",
+                "+$7.0M ↑"
+              ],
+              [
+                "Headcount",
+                "1,180",
+                "1,135",
+                "+45"
+              ]
+            ]
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 6",
+            "items": [
+              "ARR $212.0M, +$13.5M QoQ; retention strengthened (NRR 114%, GRR 96%).",
+              "Cash & equivalents $148.0M (+$7.0M QoQ); headcount 1,180."
+            ],
+            "style": {}
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 7,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Guidance",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "KPI 5",
+            "items": [
+              "FY26 revenue guidance",
+              "$202M → $208M"
+            ],
+            "style": {
+              "fontSize": 13,
+              "bold": false,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 6",
+            "content": "Raised by $6M, reflecting Q2 revenue outperformance.",
+            "style": {
+              "fontSize": 15,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 7",
+            "items": [
+              "FY26 revenue guidance raised from $202M to $208M.",
+              "Reflects Q2 revenue beat and continued subscription momentum — multi-year expansions and Automated QA attach.",
+              "Holding opex discipline; full-year operating leverage intact.",
+              "Sustaining gross-margin gains from inference-cost optimization."
+            ],
+            "style": {
+              "fontSize": 16,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 8,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Watch Item",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 5",
+            "content": "WATCH ITEM · Q4 RENEWAL",
+            "style": {
+              "fontSize": 16,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 6",
+            "items": [
+              "A top-5 customer — approximately 9% of ARR — is up for renewal in Q4 FY26.",
+              "No churn signal today; surfaced for board visibility, not flagged as a risk to guidance.",
+              "No churn probability is assigned (none available), and the account is not named."
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      }
+    ]
+  }
+}

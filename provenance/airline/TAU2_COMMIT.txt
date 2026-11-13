@@ -1,0 +1,12 @@
+# Upstream tau2-bench release this seed is aligned to. Nothing parses this file; it is the audit
+# record the provenance docs point at. A bare sha did not say which RELEASE it was, hence the tag.
+tag     v1.0.1
+commit  fc0055dc4e0a316c3f83133267fbd6faaa770992
+date    2026-07-16
+
+# Previously pinned: 5ebebbe827b455b3ed04fcb9294235c6ef4e5fd6 (2026-06-10), which predates the
+# v1.0.1 tag but is IDENTICAL for airline. v1.0.1 changed banking_knowledge grading only -- its
+# changelog states "Other domains are unaffected" -- and its sole evaluator/environment change is an
+# additive strict_replay flag defaulting to existing behaviour. airline tasks.json has had two
+# commits ever: the 2025 release and 01e812d1 (2026-03-18, the tau3 task-quality pass), both of
+# which the previous pin already included. So this is a version stamp, not a re-vendor.

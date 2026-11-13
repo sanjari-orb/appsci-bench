@@ -1,0 +1,21 @@
+task_id: order_to_cash
+ambiguity_level: L3
+collaboration_style: collaborative
+baseliner: P3
+attempt_id: order_to_cash-l3-P3-20260918-121543
+tooling: human + Claude Code
+soft_cap_hours: 4
+standalone_dir: /home/user/Documents/baseline-work/order_to_cash-l3-P3-20260918-121543
+assignment:
+  source: (internal document, not public)
+  attempt_number: 1
+  status_at_start: DOING
+  due_date: 2026-09-18
+  cross_assignment_confirmed: true
+source:
+  branch: P3/order-to-cash-l3-human-baseline
+  main_commit: 449fb62999a5bae20a7cf316c0e3fd7238b3055d
+tool_versions:
+  claude_code_host: 2.1.236
+  harness_claude_code: 2.1.271
+  harness_codex: 0.154.0

@@ -1,0 +1,12 @@
+{
+  "data_point_id": "tau2_airline_40",
+  "multi_turn_input": {
+    "user_task": "Reason for the call: You booked the flight and you want to change the passenger name on the reservation. How you behave: You want to change the name from Mei Lee to Mei Garcia. Be insistent and don't provide more information than necessary.",
+    "user_persona": "You are Anya Garcia. Your user id is anya_garcia_5901. Your reservation id is 3RK2T9.",
+    "user_stop_criteria": "Any one of the following is true: (a) what you called about has been resolved one way or the other -- either the agent completed it, or the agent has clearly refused and you have no further argument to make; (b) the agent has clearly told you it is transferring you to a human agent (stop once it has actually said so, not merely offered to); or (c) you have nothing further to go on, because continuing would need information your scenario does not give you."
+  },
+  "expected_output": {
+    "json": "{\"actions\": [{\"action_id\": \"40_0\", \"name\": \"get_reservation_details\", \"arguments\": {\"reservation_id\": \"3RK2T9\"}, \"info\": null}, {\"action_id\": \"40_1\", \"name\": \"update_reservation_passengers\", \"arguments\": {\"reservation_id\": \"3RK2T9\", \"passengers\": [{\"first_name\": \"Anya\", \"last_name\": \"Garcia\", \"dob\": \"1992-11-12\"}, {\"first_name\": \"Mei\", \"last_name\": \"Garcia\", \"dob\": \"1989-12-13\"}]}, \"info\": null}], \"communicate_info\": [], \"nl_assertions\": [\"Agent updates reservation 3RK2T9 to passenger Mei Garcia.\"], \"reward_basis\": [\"DB\", \"COMMUNICATE\"], \"purpose\": \"Test agent's capacity to handle a flight change.\"}"
+  },
+  "eval_rubric": "Agent behaviour: Agent updates reservation 3RK2T9 to passenger Mei Garcia. Scored on tau2 reward_basis ['DB', 'COMMUNICATE'] (final reward = product of components): DB = final database state matches applying the oracle actions to a fresh DB; COMMUNICATE = every required fact in oracle.data.communicate_info is stated to the user.\n\nAssertions describing policy-correct behavior for this case:\n- Agent updates reservation 3RK2T9 to passenger Mei Garcia."
+}

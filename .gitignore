@@ -1,0 +1,77 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.harness-clis/
+venv/
+
+# Secrets / local config (commit .env.sample, never .env)
+.env
+
+# Editor
+*.swp
+*.swo
+
+# Downloaded PDFs — re-downloadable via arXiv IDs in .ai-work/papers/INDEX.md
+.ai-work/papers/*.pdf
+
+# macOS
+.DS_Store
+
+# local scratch (not committed)
+.ai-work/
+docs_local/
+
+# manual-check output (e.g. scripts/eval_orchestration_demo.py)
+scripts/_out/
+
+# Observability run data (events.db, artifact snapshots). Per-run, local,
+# potentially large, and may contain LLM transcripts — never commit.
+# Override the location with `--runs-dir` if you want it outside the repo.
+runs/
+
+# The sweep queue's own state (job + cell records, claim markers). Lives inside the repo on the jobs
+# host because that is where the worker runs, and it is NOT code -- but until it was ignored, its mere
+# presence made `git status --porcelain` non-empty, and the per-cell manifest derives `git_dirty` from
+# exactly that. So every cell on the jobs box was stamped dirty forever, for a reason with nothing to
+# do with the code: observed on the box as a single `?? experiments_state/` against an otherwise clean
+# tree at a known sha. A dirty flag that is always true carries no information, which is worse than
+# not having one -- it is the flag that tells you whether a sha reproduces a result.
+experiments_state/
+# Same reasoning, for the set-aside copies: `experiments_state.stale-<date>`,
+# `experiments_state.prev-<time>` and the like. Moving a state dir aside is the normal way to start a
+# sweep from a clean queue without destroying the previous one's records, so these accumulate on any
+# box someone has debugged on -- and one of them untracked is enough to make `git status --porcelain`
+# non-empty and stamp every subsequent cell `git_dirty`, which is the exact fault the line above
+# exists to prevent. (Also observed: `git add -A` swept one into a commit.)
+experiments_state.*/
+
+# The batch elicitation scorer's own summary (scripts/score_elicitation_batch.py --out). Results
+# data, not code: one JSON object per scored run, thousands of lines after a full sweep, and stale the
+# moment the next batch runs. One got committed and was half a PR's diff by line count, which is a
+# reviewer reading run output instead of the change. The numbers belong in the S3 mirror beside the
+# runs they describe -- this file is a local convenience for reading them back.
+elicitation_*.json
+
+# Per-attempt human-baseline state (logs, transcripts, scores). Created by
+# human_baseline/template/new_attempt.sh; not committed, same reasoning as runs/.
+human_baseline/template/.last_attempt
+
+# local Claude worktrees/state
+.claude/
+~$*
+
+dashboard.log
+*.egg-info/
+uv.lock
+
+# Local e2e run logs (scripts/run_o2c_e2e_optimize.sh and the other run_*.sh wrappers). Not code,
+# same reasoning as runs/.
+e2e_logs/
+
+# Scratch file some editors/hooks write while composing a commit message. It reached a branch
+# once (PR #175 review); ignoring it stops that being possible again.
+.git-commit-msg-tmp
+
+# Paper figures are regenerated from scripts/paper_plots, not committed.
+scripts/paper_plots/figures/

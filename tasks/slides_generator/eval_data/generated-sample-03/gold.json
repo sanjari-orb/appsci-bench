@@ -1,0 +1,285 @@
+{
+  "presentation": {
+    "title": "Digital Value Alignment Model",
+    "theme": "default",
+    "aspectRatio": "16:9",
+    "metadata": {
+      "author": "Unknown",
+      "version": "1.0",
+      "date": ""
+    },
+    "slides": [
+      {
+        "slideNumber": 1,
+        "layout": "TITLE",
+        "elements": [
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;101;p1",
+            "items": [
+              "Digital Value Alignment Model",
+              "(DVAM)"
+            ],
+            "style": {}
+          },
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;102;p1",
+            "items": [
+              "Leadership research briefing",
+              "Internal pilot discussion · 13 September 2026",
+              "Source: Nayab (2026)"
+            ],
+            "style": {}
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 2,
+        "layout": "OBJECT",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Google Shape;197;g9d3d14de9b_0_28",
+            "content": "13 Sep 2026",
+            "style": {}
+          },
+          {
+            "type": "text",
+            "name": "Google Shape;198;g9d3d14de9b_0_28",
+            "content": "2",
+            "style": {}
+          },
+          {
+            "type": "text",
+            "name": "Google Shape;199;g9d3d14de9b_0_28",
+            "content": "DVAM targets the seams where digital value is lost",
+            "style": {}
+          },
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;200;g9d3d14de9b_0_28",
+            "items": [
+              "Economics sets value goals. Finance models where value should be created and captured.",
+              "IT builds capability. Technology teams optimize what systems can deliver, at what cost and speed.",
+              "Management allocates resources. Leaders commit priorities—often before the three views are reconciled.",
+              "DVAM closes the gap. It connects the functions in one measurable loop instead of adding another governance layer."
+            ],
+            "style": {
+              "fontSize": 20,
+              "bold": true
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 3,
+        "layout": "OBJECT",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Google Shape;165;p2",
+            "content": "3",
+            "style": {}
+          },
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;167;p2",
+            "items": [
+              "Economic — value creation & capture. Where money enters, moves, and leaves; pricing, revenue, costs, demand, and unit economics.",
+              "IT / Technology — value enablement. What systems can deliver, at what cost and speed; infrastructure, data, automation, integration, and skills.",
+              "Management — value governance. Who decides, on what evidence, and how fast; strategy, resources, risk, and decision cadence.",
+              "Digital Value Core. Economic intent, technical capacity, and management action stay synchronized."
+            ],
+            "style": {
+              "fontSize": 19,
+              "bold": true
+            }
+          },
+          {
+            "type": "text",
+            "name": "Titel 2",
+            "content": "Three layers converge on one Digital Value Core",
+            "style": {}
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 4,
+        "layout": "OBJECT",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Google Shape;165;p2",
+            "content": "4",
+            "style": {}
+          },
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;167;p2",
+            "items": [
+              "1 · Discovery — Economics ↔ Management. Market and cost signals choose funded bets.",
+              "2 · Enablement — IT ↔ Management. Actual technical capacity limits credible commitments.",
+              "3 · Realization — IT ↔ Economics. Capability becomes efficiency, revenue, or lower unit cost.",
+              "4 · Feedback — all three layers. Actual results recalibrate the next planning cycle.",
+              "Closed circuit. Economics → Management → IT → Economics → Feedback."
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": true
+            }
+          },
+          {
+            "type": "text",
+            "name": "Titel 2",
+            "content": "Four loops turn alignment into an operating cycle",
+            "style": {}
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 5,
+        "layout": "TWO_OBJECTS",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Titel 1",
+            "content": "TEAI makes alignment measurable on a 0–100 scale",
+            "style": {}
+          },
+          {
+            "type": "bullet_list",
+            "name": "Textplatzhalter 2",
+            "items": [
+              "TEAI = (w₁·ITM + w₂·EP + w₃·MA) ÷ (w₁ + w₂ + w₃)",
+              "ITM · IT Maturity (0–100). Infrastructure reliability, data quality, and automation coverage.",
+              "EP · Economic Performance (0–100). Margin trend, cost per transaction, and revenue per digital touchpoint."
+            ],
+            "style": {
+              "fontSize": 20,
+              "bold": true
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Textplatzhalter 3",
+            "items": [
+              "MA · Management Agility (0–100). Decision cycle time, cross-functional communication, and resource reallocation speed.",
+              "w₁, w₂, w₃ · organization-set weights. Weights reflect which layer matters most or is currently constraining value.",
+              "The takeaway. TEAI is a weighted composite: no single strong layer can fully mask weak alignment across the other two."
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": true
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 6,
+        "layout": "TWO_OBJECTS",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Titel 1",
+            "content": "Read TEAI as a trend—not a cross-company benchmark",
+            "style": {}
+          },
+          {
+            "type": "bullet_list",
+            "name": "Textplatzhalter 2",
+            "items": [
+              "Measure quarterly. Use a short 5–7 question self-assessment for each layer, scored 0–100.",
+              "Set weights deliberately. Adjust them as the business matures or the binding constraint changes.",
+              "Track the components too. The composite signals alignment; ITM, EP, and MA show where intervention is needed."
+            ],
+            "style": {
+              "fontSize": 19,
+              "bold": true
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Textplatzhalter 3",
+            "items": [
+              "Rising TEAI. The three layers are converging.",
+              "Flat or falling TEAI. An early warning: technically sound but economically hollow, or economically promising but technically unsupported.",
+              "Use directionally. Self-assessment can be biased, weights are subjective, and differently weighted organizations are not directly comparable."
+            ],
+            "style": {
+              "fontSize": 19,
+              "bold": true
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 7,
+        "layout": "TWO_OBJECTS",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 1",
+            "content": "[TBR]: Techno-Economic Alignment Index\u000b",
+            "style": {}
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 2",
+            "content": "A 3-year TEAI trend isn't available from the source paper — DVAM is a conceptual framework, not a longitudinal study. We'd begin building that history with quarterly self-assessments once the pilot starts.",
+            "style": {
+              "bold": true
+            }
+          },
+          {
+            "type": "text",
+            "name": "Slide Number Placeholder 4",
+            "content": "Page 7",
+            "style": {}
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 8,
+        "layout": "OBJECT",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Google Shape;165;p2",
+            "content": "7",
+            "style": {}
+          },
+          {
+            "type": "bullet_list",
+            "name": "Google Shape;167;p2",
+            "items": [
+              "1 · Map the three layers. Name owners and current connection points.",
+              "2 · Establish a baseline TEAI. Score ITM, EP, and MA before changes.",
+              "3 · Assign loop owners. Assign accountability for each connection.",
+              "4 · Attach TEAI to planning. Review TEAI with budget or sprint decisions.",
+              "5 · Iterate the weights. Shift emphasis as constraints move; use TEAI directionally."
+            ],
+            "style": {
+              "fontSize": 17,
+              "bold": true
+            }
+          },
+          {
+            "type": "text",
+            "name": "Titel 2",
+            "content": "Pilot DVAM inside the existing planning cadence",
+            "style": {}
+          }
+        ],
+        "notes": ""
+      }
+    ]
+  }
+}

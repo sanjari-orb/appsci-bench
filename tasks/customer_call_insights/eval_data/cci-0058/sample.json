@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0058",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9003 (Brackenridge Textiles) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [], \"risks\": [], \"commitments\": [], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 3 (Check-in, M, corner 1: acknowledgement rule, offer direction). Marco offers a migration plan; Dana changes the subject to warehouse consolidation and never comes back to it -- an unacknowledged offer, so it belongs in neither list. Plain, businesslike tone throughout, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

@@ -1,0 +1,201 @@
+task_id: customer_call_insights
+name: Customer-Call Insights
+
+# Short customer ask the agent starts from. AGENT-FACING, verbatim: this and `interface_design` are
+# the only free-text fields that survive redaction into the agent's system prompt, so they carry the
+# PAIN only -- no field set, no field count, no vocabulary, no output shape. Everything a correct
+# reading depends on is elicited from the stakeholders (see TASK_SOP.md "Information boundary").
+description: >
+  "A sales/support org records customer calls, but the post-call notes reps write are inconsistent and
+   the useful signal often never reaches the CRM. Reps should not have to re-listen to a call to find
+   out what they promised, and a CS manager should not have to guess whether an account is in trouble.
+   We want something that reads a call and produces a structured record our team and our CRM can rely
+   on without a human retyping it."
+
+# `business_goals`, `dataset_files` and `technical_docs` are deliberately OMITTED. Despite what the
+# schema docstrings imply, all three are agent-facing (see appsci_bench/core/spec.py
+# _AGENT_SPEC_TOP_LEVEL_KEYS) and render into the agent's system prompt. Earlier revisions used them to
+# restate the ask, which named two of the four scored fields and telegraphed that a closed field
+# mapping exists. The pain lives in `description`; the resources are already declared under
+# `environment.resources`. `order_to_cash` omits the same three fields for the same reason.
+
+# Expected interface/action space. AGENT-FACING. Transport envelope ONLY -- per
+# docs/task_information_placement.md the action space is legitimately handed over (tool discovery is
+# not what this task measures). It must NOT say anything about the reply's field set, including the
+# fact that a closed one exists: that is the first thing the agent has to find out by asking.
+#
+# The `files` half is load-bearing, not decoration. The evaluator attaches the call as a file beside
+# `messages` (HttpArtifact.respond); an earlier revision said the transcript "arrives in the user
+# message", so the agent read only `messages` and returned an empty reading for every call -- scoring a
+# blind artifact 0.375 with a perfectly healthy environment. Do not shorten this back.
+interface_design: >
+  "ARTIFACT ARCHITECTURE: build the artifact as an HTTP service exposing GET /health and POST /respond,
+   where /respond accepts {\"messages\": [...]} and returns OpenAI-style
+   {\"choices\": [{\"message\": {\"role\": \"assistant\", \"content\": ...}}]}. The request body also
+   carries a top-level \"files\" array alongside \"messages\": one attachment per request, each entry
+   {\"file_type\": \"txt\", \"file_name\": ..., \"file_data\": \"<base64>\"}. The call to analyze is
+   that attachment -- the user message only names the call, so decode file_data to read the transcript.
+   The reply covers that one call. The service must bind 0.0.0.0 on the injected PORT -- do not
+   hardcode it. Deploy the service with deploy_artifact, then call complete."
+
+# Comprehensive GROUND-TRUTH definition lives in tasks/customer_call_insights/TASK_SOP.md (never
+# shown to the agent; source for personas/oracle). Summary: read one recorded customer call and
+# return a structured reading of it over four fields: next steps, commitments, risks, and the
+# customer's overall sentiment. Any of the three list-valued fields is empty for a call that
+# contains nothing of that kind, and reporting it empty is the correct answer -- inventing an item
+# to fill it is one of the two failures this task exists to catch. Sentiment is one of three values;
+# 'at risk' is deliberately NOT among them, because risk is already its own field. Scored per field:
+# set F1 on the three lists (a model matches which items correspond, the F1 arithmetic is computed in
+# code) and exact match on sentiment, four objectives at 0.25 each. Fabrication is caught by F1's
+# precision half and omission by its recall half, at equal weight -- that symmetry is intended:
+# inventing an item and losing a real commitment are equally wrong, so neither direction is the safe
+# one.
+#
+# NOTE: `task_sop` is not a schema field (removed -- nothing read it; level gating comes entirely
+# from hand-authored persona `domain_knowledge` + `known_docs`). Do not reintroduce it.
+
+task_source_type: internal
+
+environment:
+  docker_compose: tasks/customer_call_insights/environment/docker-compose.yml
+  # The recorded calls live in Postgres: bundled from seed_data/fixture/ to /fixture, loaded into the
+  # `calls` table by environment/db/setup.sh, which then deletes /fixture (it holds the author's label
+  # record). No /data mount -- the DB is the single access path. Calls are UNLABELED and the table has no
+  # column for what a call means, so the field set must be elicited. Eval calls arrive as a file on the
+  # request and never enter this DB.
+  #
+  # kpis.md is the only file under environment/sop/, mounted read-only at /sop by the orchestrator (which
+  # hardcodes the path -- not docker-compose.yml). crm_schema.md and extraction_rules.md were declared
+  # here once; both are gone deliberately. The CRM object model is L2's to explain, how to read a call is
+  # L1's. Do not restore them.
+  #
+  # `location` existence is unchecked by the framework -- see tests/tasks/customer_call_insights/
+  # test_environment.py. `name`/`type`/`description` are AGENT-FACING; keep them neutral pointers.
+  resources:
+    - { name: call_transcripts,   type: database,    location: "postgres://sandbox:sandbox@db:5432/calls", description: "Recorded customer calls; table: calls(call_id, account_id, account_name, occurred_at, transcript) -- transcript is plain text, no labels or annotations attached" }
+    - { name: kpis,               type: kpi,         location: "/sop/kpis.md",                            description: "What the team means by this working" }
+
+artifacts:
+  output_dir: /work/out
+  expected:
+    - { id: agent, kind: agent, primary: true, description: "the queryable call-insights agent" }
+    - { id: design_notes, kind: documentation, path: design_notes.md, required: false, description: "optional design write-up (diagnostic)" }
+
+user_personas:
+  - tasks/customer_call_insights/user_personas/l1.yaml
+  - tasks/customer_call_insights/user_personas/l2.yaml
+  - tasks/customer_call_insights/user_personas/l3.yaml
+
+budgets:
+  # wall_clock_s RAISED 10800 -> 14400 on 2026-11-01 for the kimi-k3 opt5 b0 rerun
+  # (experiments/sweeps/cci_rerun_1x3_kimik3_opt5_4h.yaml), which sets a 4-hour cell `timeout:`.
+  # Left at 10800, this inner clock would have stopped that build at 3h with the cell still allowing
+  # 4. With the default 3h cell timeout nothing changes: the outer clock still binds first, so only
+  # a sweep that asks for more than 3h sees the extra hour.
+  #
+  # wall_clock_s RAISED 7200 -> 10800 on 2026-09-17, with every other task that declared 7200.
+  # THIS IS THE LIMIT THE AGENT ENFORCES ON ITSELF: appsci_agent/core/agent.py reads
+  # budgets.build.wall_clock_s and breaks its own loop before starting a turn once elapsed >= it,
+  # with stop_reason budget_exceeded_time. It is a DIFFERENT clock from a sweep's `timeout:`, which
+  # is the worker's ceiling on the cell, and the inner one wins SILENTLY: the build reports
+  # no_submission with exit_code 0 and nothing names the limit it hit. Raising the cell timeout to
+  # 3h (#191) did not touch this. 10800 matches that cell default, so the two clocks now agree
+  # rather than one truncating the other.
+  #
+  # Because the loop tests elapsed BEFORE starting a turn and never during one, a build overruns the
+  # limit by however long its last turn runs. A record reading over 7200s was still stopped by 7200.
+  #
+  # THIS TASK HAS HIT IT. customer_call_insights_kimi-k3_b0_l3_20260917_072443 ran 8040s with the
+  # cell timeout already at 10800, so the worker did not kill it: it stopped itself. 7 of 40 turns
+  # used, 134,833 of its 2,000,000 parent tokens spent (mini-swe's 6.1M is invisible to that
+  # counter), 46 minutes of cell budget left, and an optimize that had just returned
+  # awaiting_verification at 0.98 which nothing then verified. Its last turn began at 7044s, 156s
+  # inside the old limit, and that one turn ran 986s.
+  #
+  # `tokens` RAISED 2000000 -> 20000000 on 2026-09-18, on every task that declared 2000000. Same
+  # silent-stop shape as the clock above: agent.py breaks its loop with stop_reason
+  # budget_exceeded_tokens, and the build reports no_submission with exit_code 0 naming no limit.
+  # What this ceiling counts is the PARENT agent loop's own calls only -- agent.py sums
+  # response.usage per turn -- so the sub-agent calls that are ~95% of a build's real token spend
+  # never reach it. Parent usage also grows per turn as context accumulates (measured on slides:
+  # ~42k/turn early, ~66k/turn by turn 25), so 2M bound a build at roughly 28 turns while
+  # `turns: 40` said 40. 20000000 puts this ceiling out of the way, leaving the turn and wall-clock
+  # limits as the ones that bind.
+  build: { turns: 40, tokens: 20000000, usd: 20, wall_clock_s: 14400 }
+
+evaluation_data:
+  dataset: tasks/customer_call_insights/eval_data
+  elicitation_rubric: tasks/customer_call_insights/elicitation_rubric.yaml
+  provenance: synthetic
+  # single_turn: the INPUT is a multi-turn call transcript (attached to the sample as a file), but the
+  # artifact answers it in one shot -- one query, one structured reply. There is no eval-time user
+  # simulation; nothing here drives a conversation.
+  type: single_turn
+  # Scoring kinds, and why the three list fields are `hybrid` rather than deterministic: their empty
+  # cases are decided by arithmetic with no model call (both-empty scores 1.0; items invented for an
+  # empty field score 0.0), but a non-empty-vs-non-empty comparison sends the item MATCHING to a model
+  # and computes F1 from its counts in code. `hybrid` is precisely "mechanical logic that calls a model
+  # on some path", so a caller selecting "metrics that call a model" must pick these up. All four live
+  # in tasks/customer_call_insights/eval.py.
+  #
+  # There is deliberately NO separate grounding objective: F1's precision half already penalizes a
+  # fabricated item, on the metric for the field it was fabricated into, so a judge re-asking "was this
+  # invented?" would score one mistake twice. (An earlier revision carried one built on
+  # make_transcript_judge, which could not have worked here -- this task attaches the call as a FILE and
+  # that helper is blind to file content by construction, so the judge was scoring plausibility against
+  # an absent transcript. See the eval.py module docstring.)
+  #
+  # Weights are equal across the four: each is 0.25.
+  objectives:
+    - { name: next_steps_f1,       eval_function_path: customer_call_insights.eval.next_steps_f1,       positive: true, weight: 0.25, scoring_kind: hybrid }
+    - { name: risks_f1,            eval_function_path: customer_call_insights.eval.risks_f1,            positive: true, weight: 0.25, scoring_kind: hybrid }
+    - { name: commitments_f1,      eval_function_path: customer_call_insights.eval.commitments_f1,      positive: true, weight: 0.25, scoring_kind: hybrid }
+    - { name: sentiment_accuracy,  eval_function_path: customer_call_insights.eval.sentiment_accuracy,  positive: true, weight: 0.25, scoring_kind: deterministic }
+    # Diagnostic safety axes (E14, S1 4.4/4.7) -- weight 0.0, never move final_score. See eval_safety.py.
+    - { name: safety_no_fabrication,       eval_function_path: customer_call_insights.eval_safety.no_fabrication,       positive: true, weight: 0.0, scoring_kind: llm_judge }
+    - { name: safety_safe_by_construction, eval_function_path: customer_call_insights.eval_safety.safe_by_construction, positive: true, weight: 0.0, scoring_kind: llm_judge }
+
+owner: "AppSci-Bench authors"
+co_owners: []
+
+# TaskRunner configuration for spinning up the task environment.
+# See docs/task_runner.md for full documentation.
+task_runner:
+  # Docker network (appsci-agent must be on the same network to communicate)
+  network_name: bench-network
+
+  # Workspace container name suffix. "cci-workspace" derives compose project "cci" and container
+  # "cci-workspace-1".
+  workspace_name: cci-workspace
+
+  # The task environment, declared once per RUN PHASE (docs/task_env_split.md). The build env is what
+  # the AppSci agent explores during the build phase; the eval env holds the records the eval cases are
+  # drawn from and is started only after the build one is torn down. Both come up from the same compose
+  # file under the same workspace_name, so they share a container name and network alias.
+  environments:
+    # Two literal (identical) blocks, not an alias: the `calls` table never holds an eval-case
+    # record -- eval calls arrive as a file attachment and never enter this DB -- so there is no
+    # build share to carve out.
+    build:
+      # Files to bundle and copy into the container. The fixture carries the author's label record
+      # alongside the transcripts; setup.sh loads only the transcripts into the DB, then deletes
+      # /fixture.
+      bundle:
+        - { src: seed_data/fixture/, dest: /fixture/ }
+        - { src: environment/db/, dest: /scripts/ }
+
+      # Bash script run after bundle extraction (container path). Creates the schema, loads the calls,
+      # removes the label record, and asserts the row count.
+      setup_script: /scripts/setup.sh
+    eval:
+      bundle:
+        - { src: seed_data/fixture/, dest: /fixture/ }
+        - { src: environment/db/, dest: /scripts/ }
+      setup_script: /scripts/setup.sh
+
+  # Artifact deploy contract: the container name/port the host-side deployer runs the agent's
+  # artifact under. The deployer publishes this port and injects it as $PORT (the server must bind
+  # 0.0.0.0:$PORT -- do not hardcode). Declaring them makes teardown deterministic; these match the
+  # defaults (appsci-artifact-<task_id>, 8080).
+  artifact_container: appsci-artifact-customer_call_insights
+  artifact_port: 8080

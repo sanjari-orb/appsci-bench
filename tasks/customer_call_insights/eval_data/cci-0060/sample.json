@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0060",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9005 (Castellan Foods Group) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send updated integration docs, today\", \"schedule a technical review call for the stalled API rollout, once the new year starts\", \"Renata to circulate an internal team survey about platform experience ahead of renewal\"], \"risks\": [\"ordering API rollout has stalled since the team was pulled onto holiday prep, with no one actively working it\"], \"commitments\": [\"send updated integration docs, today\", \"schedule a technical review call for the stalled API rollout, once the new year starts\"], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 5 (Check-in, XL, corner 21: same underlying thing mentioned three times, collapses to one item). The stalled API rollout comes up three separate times in different words (the initial delay, 'nobody's actively working it', 'sitting untouched for weeks') -- all the same underlying risk, recorded as one item, not three. Two distractor topics (soft foot traffic, seasonal staffing) carry no action. Three genuine next steps span the call with the technical-review-call promise separated from the survey by the staffing distractor. Renata's tone stays even and businesslike throughout ('it is what it is'), so NEUTRAL despite the stalled project.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

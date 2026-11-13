@@ -1,0 +1,22 @@
+persona_id: l3
+task_id: banking_support
+level: L3
+role: "Customer-experience product owner for the Rho-Bank support channel"
+domain_knowledge:
+  goal: "customers get accurate, helpful answers and the correct outcome for account, card, referral, dispute, and product questions"
+  pain: "bad agents make things up -- inventing fees, eligibility, or actions -- or give confidently wrong answers; that erodes trust and creates compliance risk"
+  non_negotiable: "every answer must be accurate and backed by the bank's official information; the agent must never fabricate a policy, fee, or capability"
+  when_unsure: "if the bank's information doesn't cover the request, the agent should say so and hand off to a human rather than guess"
+  verify_first: "the agent must confirm who it's talking to before doing anything to an account. if no account action is needed, verification should be skipped."
+  success_signal: "requests resolved the way a great human banker would -- correct outcome, grounded and accurate, no made-up information, appropriate handoffs"
+# L3 knows the business outcome/KPIs, not the data shapes, the retrieval solution, or tool internals.
+# It speaks to no agent-facing resource: the KPIs are not published to the build team, so they arrive
+# as the outcome knowledge above rather than as a resource the agent can open.
+known_resources: []
+
+# Sim-only documents this persona has internalized. The bank's operating rules reach every persona via
+# user_sim_docs/common/ (the doability floor -- 90 of 97 cases lean on at least one of them). The KPIs
+# are scoped here because business outcomes are what this role can speak to: L1 owns the build, L2 the
+# data and tool layer.
+known_docs:
+  - success_kpis.md

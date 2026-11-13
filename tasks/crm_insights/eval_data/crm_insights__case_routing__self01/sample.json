@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__case_routing__self01",
+  "single_turn_input": {
+    "text": "Use the case routing policy to determine the most suitable agent for the given case. Return only the Id of the agent.\n## Given Case\n- Case Subject: Unusable Hiking Boots After One Trip\n- Case Description: The pair of Hiking Waterproof Boots I bought started falling apart after a single day hike -- the sole is already separating from the upper on both boots. This looks like a manufacturing defect, not normal wear. Can someone look into a replacement or refund?"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xZXRIA2\", \"evidence_case_ids\": [\"500Ws000007ql8ZIAQ\", \"500Ws000007qtCbIAI\", \"500Ws000007rJ5NIAU\", \"500Ws000007rRxJIAU\"], \"task_category\": \"case_routing\", \"reward_metric\": \"exact_match\"}"
+  }
+}

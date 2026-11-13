@@ -1,0 +1,32 @@
+Call CALL-9003 — Brackenridge Textiles (ACC-4003) — 2026-03-02 13:00 UTC
+Participants: Marco Delgado (Account Manager, us) / Dana Filipek (Supply Chain Lead, customer)
+
+Marco: Dana, good to catch up. How's the integration holding up?
+
+Dana: Pretty well, no real issues lately.
+
+Marco: Glad to hear it. If you ever want to move to the newer API version, I could put together a migration plan for you.
+
+Dana: Oh, actually, speaking of APIs -- did you see the note about our warehouse consolidation next month?
+
+Marco: I hadn't heard about that -- tell me more.
+
+Dana: We're combining two of our regional warehouses into one, should simplify our ops a lot.
+
+Marco: That sounds like a good move. Any impact on your usage with us?
+
+Dana: Don't think so, mostly a physical logistics thing on our end.
+
+Marco: Good to know. Anything you need from us around that transition?
+
+Dana: Not that I can think of right now.
+
+Marco: Alright, well let me know if that changes.
+
+Dana: Will do. Otherwise things are steady.
+
+Marco: Good to hear. Anything else today?
+
+Dana: No, I think that covers it.
+
+Marco: Great, talk soon, Dana.

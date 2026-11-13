@@ -1,0 +1,123 @@
+task_id: crm_insights
+name: CRM Analyst/Manager Insights
+description: >
+  "Managers and analysts repeatedly ask questions about what's happening across accounts, cases,
+   and agents; answering means manual CRM digging. They want an agent that answers those questions
+   correctly and with supporting records from the CRM."
+task_source_type: open-source
+
+source:
+  benchmark: CRMArena
+  domain: crm-analyst
+  notes: >
+    Real (query, answer) pairs from Salesforce/CRMArena (HF), filtered to the 6 analyst/manager
+    task categories, scored against CRMArena's own checked-in CRM snapshot (crmarena_data.db) --
+    not a synthesized dataset. See tasks/crm_insights/seed_data/PROVENANCE.md for exactly what was
+    reused verbatim vs. self-derived (grounding evidence).
+
+environment:
+  docker_compose: tasks/crm_insights/environment/docker-compose.yml
+  resources:
+    - { name: crm_db, type: database, location: "postgres://sandbox:sandbox@db:5432/crm_insights", description: "8 tables mirroring a real Salesforce-style CRM schema (Case/Account/User/CaseHistory__c/Order/OrderItem/Issue__c/Product2)" }
+    - { name: schema_reference, type: knowledge_base, location: "/data/schema_reference.md", description: "Table/column reference for crm_db (schema only -- operational conventions like date windows and category tie-break rules are withheld; the agent must ask the persona)" }
+    - { name: kpis, type: kpi, location: "/data/kpis.md", description: "Success metrics: answer correctness, grounding" }
+
+user_personas:
+  - tasks/crm_insights/user_personas/l1.yaml
+  - tasks/crm_insights/user_personas/l2.yaml
+  - tasks/crm_insights/user_personas/l3.yaml
+
+budgets:
+  # wall_clock_s RAISED 7200 -> 10800 on 2026-09-17, with every other task that declared 7200.
+  # THIS IS THE LIMIT THE AGENT ENFORCES ON ITSELF: appsci_agent/core/agent.py reads
+  # budgets.build.wall_clock_s and breaks its own loop before starting a turn once elapsed >= it,
+  # with stop_reason budget_exceeded_time. It is a DIFFERENT clock from a sweep's `timeout:`, which
+  # is the worker's ceiling on the cell, and the inner one wins SILENTLY: the build reports
+  # no_submission with exit_code 0 and nothing names the limit it hit. Raising the cell timeout to
+  # 3h (#191) did not touch this. 10800 matches that cell default, so the two clocks now agree
+  # rather than one truncating the other.
+  #
+  # Because the loop tests elapsed BEFORE starting a turn and never during one, a build overruns the
+  # limit by however long its last turn runs. A record reading over 7200s was still stopped by 7200.
+  #
+  # NO BUILDS RECORDED FOR THIS TASK YET, so this is the shared value rather than a measured one.
+  # It is the safer direction to be wrong in: too high costs cell time on a build that was going to
+  # fail anyway, too low silently truncates one that was going to succeed.
+  #
+  # `tokens` RAISED 2000000 -> 20000000 on 2026-09-18, on every task that declared 2000000. Same
+  # silent-stop shape as the clock above: agent.py breaks its loop with stop_reason
+  # budget_exceeded_tokens, and the build reports no_submission with exit_code 0 naming no limit.
+  # What this ceiling counts is the PARENT agent loop's own calls only -- agent.py sums
+  # response.usage per turn -- so the sub-agent calls that are ~95% of a build's real token spend
+  # never reach it. Parent usage also grows per turn as context accumulates (measured on slides:
+  # ~42k/turn early, ~66k/turn by turn 25), so 2M bound a build at roughly 28 turns while
+  # `turns: 40` said 40. 20000000 puts this ceiling out of the way, leaving the turn and wall-clock
+  # limits as the ones that bind.
+  build: { turns: 40, tokens: 20000000, usd: 20, wall_clock_s: 10800 }
+  latency_slo_ms: 2000
+
+# TaskRunner configuration for spinning up the task environment.
+# See docs/task_runner.md for full documentation.
+task_runner:
+  network_name: bench-network
+  workspace_name: crm-insights-workspace
+  # The task environment, declared once per RUN PHASE (docs/task_env_split.md).
+  # NOT SPLIT BY DESIGN, not pending: unlike compliance_review, this task's answers aren't a hidden
+  # label baked into the data -- every answer is a computed aggregate over ordinary CRM records the
+  # agent must derive itself, so the full real snapshot is build-time-safe. What's held out is the
+  # eval QUESTIONS, not the data (see seed_data/PROVENANCE.md, "Why there's no disjoint build/eval
+  # split"). crm_db is genuinely the same store at build and eval time.
+  environments:
+    build: &crm_insights_env_not_yet_split
+      bundle:
+        - { src: seed_data/fixture/, dest: /fixture/ }        # DB fixture (8 CRMArena tables, JSONL)
+        - { src: environment/data/, dest: /data/ }            # Schema reference, kpis
+        - { src: environment/db/, dest: /scripts/ }           # Setup scripts
+      setup_script: /scripts/setup.sh
+    eval: *crm_insights_env_not_yet_split
+
+  # Injected into the appsci-agent container at build time and into every eval-phase artifact
+  # container, so the agent has a route to crm_db in BOTH the persona arm and the no-user arm. This
+  # mirrors order_to_cash, whose DSN entry has the same shape, and airline/banking, which declare a
+  # tool-API URL and token here instead; crm's equivalent is the DSN, because the store it explores is
+  # a real Postgres server on the shared Docker network rather than a service behind a token.
+  #
+  # WITHOUT THIS ENTRY THE AGENT HAS NO ROUTE TO THE CREDENTIALS. The DSN is written in three places
+  # and none of them reaches the agent: the `crm_db` resource carries it in `location`, which spec
+  # redaction strips wholesale (that field is where host paths live, see core/spec.py); RESOURCES.md
+  # states it and is mounted into no container; and docker-compose.yml sets DATABASE_URL only on the
+  # workspace service, which the agent can no longer shell into. In the persona arm the agent recovered
+  # by ASKING the stakeholder for the DSN; the no-user arm removes the stakeholder, so with the DSN in
+  # none of the mounted docs the no-user agent had no way in at all -- it fell back to fabricating
+  # answers with invented case ids, and grounding scored 0.00 across every build (the 0.03 opus-4.8
+  # no-user arm, 2026-09-23). That is the defect this fixes.
+  #
+  # THIS IS NOT A GRADED REQUIREMENT and giving it away costs no elicitation signal. Database access is
+  # a doability floor: the task is unplayable without it, the L2 persona already hands the full DSN
+  # over on request, and no rubric item scores whether the agent worked the connection string out for
+  # itself. What crm elicits is the operational conventions (date windows, handle-time and
+  # transfer-count rules, category tie-breaks), which live in user_sim_docs/ and are untouched here.
+  #
+  # The variable name matches what RESOURCES.md and the L2 persona already promise, so this makes those
+  # two true rather than requiring a reword. The value duplicates docker-compose.yml's credentials by
+  # hand, as order_to_cash's and airline's/banking's do -- change one and change the other, since
+  # nothing enforces that they agree and a mismatch surfaces as an authentication failure.
+  agent_env:
+    - { name: DATABASE_URL, value: "postgres://sandbox:sandbox@db:5432/crm_insights" }
+
+evaluation_data:
+  dataset: tasks/crm_insights/eval_data
+  provenance: curated                             # 30 real CRMArena (query, answer) pairs + 20 self-generated cases -- see PROVENANCE.md
+  type: single_turn
+  elicitation_rubric: tasks/crm_insights/elicitation_rubric.yaml
+  objectives:
+    # was: { name: answer_correctness, type: verifier, spec: "oracle/crm_insights/check_crmarena.py" }
+    - { name: answer_correctness, eval_function_path: crm_insights.eval.answer_correctness, positive: true, weight: 1.0, scoring_kind: llm_judge }
+    # was rubric "grounding": "Answer is supported by the cited CRM records (no unsupported claims)?" (scale 0-1)
+    - { name: grounding, eval_function_path: crm_insights.eval.grounding, positive: true, weight: 1.0, scoring_kind: llm_judge }
+    # Diagnostic safety axes (E14, S1 4.4/4.7) -- weight 0.0, never move final_score. See eval_safety.py.
+    - { name: safety_no_fabrication,       eval_function_path: crm_insights.eval_safety.no_fabrication,       positive: true, weight: 0.0, scoring_kind: llm_judge }
+    - { name: safety_safe_by_construction, eval_function_path: crm_insights.eval_safety.safe_by_construction, positive: true, weight: 0.0, scoring_kind: llm_judge }
+gold_solution: { path: gold/crm_insights/ }
+owner: "AppSci-Bench authors"
+co_owners: []

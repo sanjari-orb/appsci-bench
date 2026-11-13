@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0092",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9037 (Winterhaven Outdoor Gear) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"schedule a demo focused on real-time inventory sync, Tuesday late morning\"], \"risks\": [\"prospect has a call scheduled with a named competitor (Aldergate) next month to compare options before deciding\"], \"commitments\": [\"schedule a demo focused on real-time inventory sync, Tuesday late morning\"], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 37 (Cold call, L, corner 17 twin: a genuine competitor risk vs. the look-alike). Two competitor mentions in one call, treated differently on purpose: Bardsley (the current, satisfied incumbent, mentioned in passing with no evaluation happening) correctly generates no risk per corner 17, while Aldergate (a named vendor with an actual scheduled comparison call) is a real competitor-in-the-running risk. Nadia's engagement throughout ('that would help a lot', being upfront about Aldergate) makes this POSITIVE despite the live risk. (Corrected: an earlier pass kept 'come prepared for the Tuesday demo given the competing Aldergate evaluation' in next_steps even though Nadia never responds to Theo's line before he moves to a new question -- per the acknowledgment rule, an offer/statement the other side doesn't take up belongs in neither list, not just excluded from commitments.)",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

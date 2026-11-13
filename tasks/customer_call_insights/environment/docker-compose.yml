@@ -1,0 +1,52 @@
+# Docker Compose for the Customer-Call Insights task environment.
+#
+# The TaskRunner runs this as project "cci" (from task_runner.workspace_name), giving containers
+# "cci-workspace-1" and "cci-db-1". The service must stay named `workspace` and stay long-lived --
+# the TaskRunner waits on that container name and reaches it with `docker exec`.
+#
+# Schema and data loading are handled by the TaskRunner (bundle + db/setup.sh), not here.
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: calls
+      POSTGRES_USER: sandbox
+      POSTGRES_PASSWORD: sandbox
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sandbox -d calls"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - bench-network
+
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: calls
+      POSTGRES_USER: sandbox
+      POSTGRES_PASSWORD: sandbox
+      DATABASE_URL: postgres://sandbox:sandbox@db:5432/calls
+    volumes:
+      - workdir:/work
+    working_dir: /work
+    command: ["tail", "-f", "/dev/null"]
+    stdin_open: true
+    tty: true
+    networks:
+      - bench-network
+
+networks:
+  bench-network:
+    external: true
+
+volumes:
+  workdir:

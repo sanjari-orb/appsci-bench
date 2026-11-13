@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__best_region_identification__1045",
+  "single_turn_input": {
+    "text": "Which states resolved cases the quickest in the fall of 2021? Return only the two-letter abbreviation of the most matching state (eg. CA).\n\n(Today's date: 2021-04-28)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"MA\", \"evidence_case_ids\": [\"500Ws000007rGYvIAM\"], \"task_category\": \"best_region_identification\", \"reward_metric\": \"exact_match\"}"
+  }
+}

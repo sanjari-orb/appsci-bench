@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0093",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9038 (Halstead Office Supply Co) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send a pricing proposal for 25-40 users, by end of week\", \"Marcus to discuss the proposal internally with finance\"], \"risks\": [], \"commitments\": [\"send a pricing proposal for 25-40 users, by end of week\"], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 38 (Cold call, M, both sides' steps). The proposal is Priya's commitment with a stated deadline; Marcus's internal finance discussion is his own next step only, no deliverable owed by us for it. Businesslike throughout, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

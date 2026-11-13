@@ -1,0 +1,58 @@
+Call CALL-9002 — Solmark Financial Group (ACC-4002) — 2026-03-02 10:30 UTC
+Participants: Elena Bristow (Senior Account Manager, us) / Yusuf Adeyemi (VP of Operations, customer)
+
+Elena: Yusuf, thanks for making time for the quarterly review. How's everything landed on your end since we last talked?
+
+Yusuf: Really well, actually. The new dashboard rollout we talked about last quarter went smoothly, honestly smoother than I expected given how many teams touch it day to day.
+
+Elena: Glad to hear it. Did the team need any extra hand-holding getting onboarded, or did it mostly take care of itself once it was live?
+
+Yusuf: No, the training sessions your team ran covered it pretty thoroughly ahead of time. Nobody's raised issues since we flipped it on, which honestly says a lot.
+
+Elena: That's great to hear.
+
+Elena: And the API migration we were tracking -- that finished up on schedule too, correct? I remember we were a little nervous about the timeline there.
+
+Yusuf: Yes, that wrapped about three weeks ago, right around when we'd planned. Everything's been stable since, no incidents that anyone's flagged to me.
+
+Elena: Good. Usage numbers on our side look healthy too, for what it's worth -- steady month over month, no unusual dips or spikes worth flagging.
+
+Yusuf: That tracks with what we're seeing internally as well, so that's reassuring on both sides.
+
+Elena: Any feedback from the team on the new reporting features we shipped a couple months back?
+
+Yusuf: Mostly positive, honestly. A few people specifically mentioned they like finally having the export option built in.
+
+Elena: Great, that one took a while to actually ship, so it's genuinely nice to hear it landed well once it did.
+
+Yusuf: Yeah, for what it's worth, it was worth the wait from our side.
+
+Elena: Glad to hear that. Anything you're anticipating needing from us before next quarter kicks off?
+
+Yusuf: Honestly, nothing I can think of right now. We're in a pretty stable place across the board at the moment.
+
+Elena: That's always a nice place to be sitting in. How's the broader team doing otherwise, workload-wise, with everything going on?
+
+Yusuf: Busy, but manageable, all things considered. No real complaints from anyone that I've heard.
+
+Yusuf: It's been a pretty steady stretch honestly.
+
+Elena: Good to hear. I know last year around this exact time of year things were pretty hectic for you all.
+
+Yusuf: Definitely calmer this year, thankfully, for a whole bunch of reasons that aren't really about the platform.
+
+Elena: Well, I don't want to take up more of your time than we actually need if everything's running smoothly like this.
+
+Yusuf: I appreciate that. Honestly, this was a good, easy check-in, exactly the kind I like having.
+
+Elena: That's always the goal on our end. I'll send over the usual quarterly summary doc afterward, but that's really just for your own records, nothing you need to act on.
+
+Yusuf: Sounds good, I'll take a look whenever it lands.
+
+Elena: Anything else at all before we wrap up for today?
+
+Yusuf: No, I think that covers everything on my end.
+
+Elena: Great, thanks again for the time today, Yusuf, really appreciate it.
+
+Yusuf: Thanks, Elena, talk again next quarter.

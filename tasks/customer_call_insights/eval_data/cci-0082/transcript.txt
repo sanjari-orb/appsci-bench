@@ -1,0 +1,82 @@
+Call CALL-9027 — Sutcliffe Freight Systems (ACC-4027) — 2026-03-10 09:00 UTC
+Participants: Marco Ilyas (Technical Support Specialist, us) / Devika Rao (Warehouse Systems Lead, customer)
+
+Devika: Hi Marco, we've been having trouble with the scanner integration all morning, figured I'd get you on a call instead of going back and forth over email like usual.
+
+Marco: Good call, honestly, let's just work through it live together. What exactly are you seeing when you scan an item?
+
+Devika: The scan registers fine, but the item count in the dashboard doesn't update right away, sometimes not for a few minutes at a time.
+
+Marco: Okay, let's check a few things one at a time. Can you try refreshing the dashboard page first and then scanning again?
+
+Devika: Sure, one second... okay, tried that, still showing a delay before it updates.
+
+Marco: Alright, let's check if it's specific to one scanner or happening across all of them on the floor. Can you try a different scanner?
+
+Devika: Let me grab one from the other side of the warehouse... okay, trying it now... that one actually updated instantly.
+
+Devika: So it's not a dashboard-wide thing then, that's good at least.
+
+Marco: Interesting, that tells us it's likely a connectivity issue with the first scanner specifically, not a problem with the dashboard itself.
+
+Devika: That would make sense actually, now that you mention it, that one's been a little finicky before, now that I think about it.
+
+Marco: Let's check its network connection then. Can you look at the signal indicator on that specific unit?
+
+Devika: One moment... yeah, it's showing a weak signal, definitely lower bars than the others nearby it.
+
+Marco: That's almost certainly it then, weak signal would explain the delayed sync perfectly. Can you try moving it closer to the access point, or restarting it fully first?
+
+Devika: I'll restart it first, that's usually quicker... okay, give me a second... alright, it's back up now and showing full signal.
+
+Marco: Perfect, can you try scanning something with it now and see if the dashboard actually updates properly this time?
+
+Devika: Trying now... yep, updated instantly this time, no delay at all, that's much better.
+
+Marco: That's great, glad we found it together. Sounds like it was purely a local connectivity issue on that one unit specifically, nothing systemic.
+
+Devika: Makes sense given everything we just walked through. I'll keep an eye on it over the next few days just in case it happens again on that same unit.
+
+Marco: Good call on that. If it does act up again, let me know and we can look at relocating the access point itself rather than just restarting the scanner each time.
+
+Devika: Will do, appreciate you working through this live with me instead of the usual slower email back and forth on something like this.
+
+Marco: Anytime, this kind of thing is always faster to sort out together on a call rather than over email.
+
+Marco: While I have you, has anything else come up with the other scanners lately, even minor stuff?
+
+Devika: Not really, honestly, the rest of the fleet's been running fine as far as I know, this was really the one outlier.
+
+Marco: Good to hear that, glad it's isolated. How's the rest of the warehouse tech holding up generally, printers, handhelds, that sort of thing?
+
+Devika: All fine too, actually, no complaints from the floor team on any of that lately.
+
+Marco: Good. And the overall throughput numbers on your end, since the new season started -- anything unusual there worth flagging while we're talking?
+
+Devika: No, honestly pretty normal for this time of year, nothing that's caught my attention as unusual.
+
+Marco: That's good to hear, always worth checking in on that periodically anyway. Are your seasonal staff up to speed on using the scanners properly at this point?
+
+Devika: Mostly, yeah, there were a couple of early mistakes when they first started, but nothing since the first week or so.
+
+Marco: Glad that settled down quickly. If it'd ever help, I'm happy to send over a refresher guide for scanner troubleshooting sometime, just so your team has it on hand.
+
+Devika: Maybe, I'd have to see if the floor supervisors would actually use something like that before it's worth putting together.
+
+Marco: Fair enough, no pressure either way.
+
+Marco: That's great to hear across the board. Sounds like today was really just the one connectivity blip on that single scanner then.
+
+Devika: Exactly, and we found it and fixed it live, so honestly I can't complain about how this went.
+
+Marco: Glad it worked out that way. Before we wrap up, one last thing -- any concerns at all heading into next month's peak volume period?
+
+Devika: None that I can think of right now, honestly, we feel pretty prepared for it at this point.
+
+Marco: Anything else at all on your list for today while we're on?
+
+Devika: No, that's actually everything, this was really the main thing I had on my list for today.
+
+Marco: Great, glad we got it sorted quickly together. Have a good rest of your day, Devika.
+
+Devika: You too, thanks again Marco, appreciate the help as always.

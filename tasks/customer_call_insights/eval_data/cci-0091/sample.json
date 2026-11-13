@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0091",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9036 (Ambry Wholesale Foods) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send an email with information for the operations director to review\"], \"risks\": [], \"commitments\": [\"send an email with information for the operations director to review\"], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 36 (Cold call, S, minimal acknowledgement). A gatekeeper-only call -- the receptionist agrees to the email approach on the decision-maker's behalf, which is enough acknowledgement to create the commitment. Plain and short, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

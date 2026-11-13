@@ -1,0 +1,255 @@
+# Elicitation rubric -- customer_call_insights
+#
+# The facts the applied-science agent could only obtain by ASKING the stakeholders. HELD-OUT
+# ANSWER-KEY MATERIAL: never mounted, never shown to the agent. Schema:
+# schema/elicitation_rubric.schema.json. Design + authoring rules: docs/elicitation_score_design.md.
+#
+# Authored from the simulator's own material only (rule 6): user_sim_docs/output_contract.md and
+# user_sim_docs/reading_policy.md, walked section by section, plus the domain_knowledge each persona
+# (L1/L2/L3) declares. Each candidate was then tested against what the agent can read --
+# tasks/customer_call_insights/environment/ and the redacted spec -- and dropped where the fact was
+# already there.
+#
+# The two groups below follow the task's own information split, which is also the persona split:
+# L2 (sales-ops) holds the wire format and defers on semantics; L1 holds the reading policy and the
+# wire format; L3 holds neither and defers on both. An item is scored against the same rubric whatever
+# persona a run used -- a stakeholder who does not hold a fact cannot give it up, and the run scores
+# accordingly.
+#
+# Dropped by the agent-can-read-it test, recorded so the next author does not re-litigate them:
+#   - the four field NAMES as business concepts: l3's `what_we_want_captured` describes all four in
+#     prose ("what needs doing after the call", "warning signs"), so knowing the four things exist is
+#     handed by any conversation at all. Only their exact spellings and types are sim-only, which is
+#     what `reply_is_single_json_with_four_exact_keys_and_types` pins.
+#   - the Postgres location, columns and connection: environment/db/01_schema.sql is mounted and the
+#     `call_transcripts` resource description names the columns.
+#   - the HTTP interface and the base64 file attachment: stated to the agent verbatim in
+#     spec.interface_design.
+#   - that no labelled set exists, and that most calls are unremarkable: both readable from
+#     RESOURCES.md and discoverable from the fixture, and no objective scores the modelling choice they
+#     would steer (rule 3).
+#   - the latency budget and the monthly call volume: sim-only, but no objective scores either, so they
+#     fail rule 3.
+#   - "no invented detail" as a standalone principle: environment/sop/kpis.md states it, so only the
+#     SYMMETRY -- that dropping something agreed costs exactly as much -- is elicitable. That is why
+#     `grounding_cuts_both_ways` is phrased as the symmetry rather than as the no-invention half.
+
+task_id: customer_call_insights
+
+items:
+  # --- how the answer has to arrive (output_contract.md, and L2's domain_knowledge) --------------
+  - item_id: reply_is_single_json_with_four_exact_keys_and_types
+    fact: >
+      All four hold together as one wire-format bundle. The entire reply is one JSON object and
+      nothing else -- no sentence introducing it, no explanation after it, no code fence or heading
+      around it -- because the downstream job parses the whole reply, and any accompanying prose fails
+      that parse and the call is dropped outright rather than partially applied or flagged. It carries
+      exactly four keys, spelled exactly and with plurality as written: `next_steps`, `risks`,
+      `commitments`, `sentiment` (the first three plural, the fourth singular); a renamed or
+      re-pluralized key is not read by the consuming job at all, however correct the value behind it,
+      and keys beyond these four are ignored rather than rejected. The first three keys each hold an
+      array of short strings and the fourth holds a single string, not an array; every array element is
+      one distinct thing on its own, phrased as a brief phrase a reader takes in at a glance, so two
+      separate follow-ups are two elements, never one string joining them with "and." And each element
+      is written the way the consuming system will carry it, with none of the source call's apparatus --
+      no speaker attribution, no quotation marks, no turn or line reference.
+    objectives: [next_steps_f1, risks_f1, commitments_f1, sentiment_accuracy]
+    judge_hint: >
+      This item is all-or-nothing across its four parts: (1) the reply is JSON and only JSON, AND
+      breaking that loses the call entirely rather than degrading the answer -- a stakeholder who says
+      "return JSON" without that consequence has conveyed the format but not the stake, so credit this
+      part only if the whole-reply-is-parsed constraint came back in some form; (2) all four key names
+      with their exact plurality -- describing the four things in business prose ("what needs doing",
+      "what we promised") is NOT this part, that much any stakeholder will volunteer; (3) the
+      array-vs-scalar split AND the one-thing-per-element rule, not just "they are lists"; (4) that
+      elements carry no transcript apparatus. All four parts have to be conveyed for the item to count.
+
+  - item_id: empty_list_is_an_answer_absent_key_is_a_failure
+    fact: >
+      A field with nothing to report is reported as an empty array, and that is a complete and valid
+      reading rather than a failure to answer. Leaving the key out entirely is the opposite: the
+      consuming job treats an absent key as the system having failed and routes the call to a person to
+      redo by hand. So all four keys are always present, and emptiness is expressed in the value.
+    objectives: [next_steps_f1, risks_f1, commitments_f1]
+    judge_hint: >
+      The distinction between an empty value and a missing key, and that the two are treated
+      differently downstream. "Return an empty list when there is nothing" alone is half of it; the
+      item needs the consequence of omitting the key.
+
+  - item_id: three_sentiment_values_and_the_default
+    fact: >
+      The fourth field takes one of exactly three values, upper case and spelled exactly as written:
+      POSITIVE, NEUTRAL, NEGATIVE. Nothing else is accepted -- a lower-case version, a reworded
+      equivalent, or a fourth value invented to express risk or mixed feeling is rejected. NEUTRAL is
+      the default and the commonest answer: a businesslike call carrying no strong feeling either way
+      takes it, and the negative value is reserved for a customer who actually expressed something
+      negative.
+    objectives: [sentiment_accuracy]
+    judge_hint: >
+      All three spellings as written, plus that the middle one is the default rather than a midpoint
+      reached only when the other two are ruled out. Naming the concept -- "how the customer came
+      across", "a positive-to-negative read" -- is NOT this item: the vocabulary is the item, because
+      the field is scored by exact comparison against these three strings.
+
+  # --- what belongs in each list (reading_policy.md; L1 only) ------------------------------------
+  - item_id: next_step_three_part_test
+    fact: >
+      Something qualifies as needing doing only when all three of these hold together: it has not
+      happened yet; a specific side has taken it on, or both sides agreed to it; and the other side
+      responded to it. Failing any one of the three excludes it. A date is not among the requirements
+      -- an item with no date attached still qualifies -- and a date never stated must not be added to
+      one.
+    objectives: [next_steps_f1]
+    judge_hint: >
+      All three conditions, as conditions that must hold together. Two of three is not this item. The
+      date clarification is part of it but need not be quoted verbatim.
+
+  - item_id: next_steps_cover_both_sides
+    fact: >
+      The needs-doing list spans obligations on either side, not only the ones our side owes. Something
+      the customer has taken on belongs in it just as much, because knowing what is awaited from them
+      is exactly what the list is read for.
+    objectives: [next_steps_f1]
+    judge_hint: >
+      That the list is not restricted to our own obligations. An agent believing it collects only our
+      side's actions will drop every customer-owed item, so a reply conveying only "things that need
+      doing" without the both-sides scope is not this item.
+
+  - item_id: three_things_that_are_not_next_steps
+    fact: >
+      Three kinds of statement are specifically excluded from the needs-doing list. Work already
+      completed before or during the call, since nothing remains outstanding. An aspiration nobody has
+      taken on, where the call gives no sign anyone will act. And a constraint with no action attached
+      -- a fact about how long something takes, or what a process requires, describes the world rather
+      than naming a step.
+    objectives: [next_steps_f1]
+    judge_hint: >
+      All three exclusions. Each was a real mistake before it was written down, so an agent holding
+      two of the three still over-reports; a partial list is not this item.
+
+  - item_id: only_our_side_creates_a_promise
+    fact: >
+      The promises field is the narrower of the two lists: it holds only undertakings our own side
+      made, which the customer is now entitled to come back and ask about. Something the customer
+      undertook is never one, however firmly they committed to it. The test is whether we are the ones
+      answerable for it.
+    objectives: [commitments_f1]
+    judge_hint: >
+      The one-sided nature of the field, and that entitlement-to-expect is the test. An agent applying
+      this symmetrically will file every customer undertaking as a promise of ours.
+
+  - item_id: three_non_requirements_for_a_promise
+    fact: >
+      Three things are commonly but wrongly treated as prerequisites for an undertaking to count, and
+      none of them is. A stated deadline: an undertaking with no date attached still counts. Certainty:
+      a hedged undertaking counts, because saying we would look into something is itself something the
+      customer will follow up on. And an externally visible deliverable: undertaking to find something
+      out internally counts, because the customer is owed the answer.
+    objectives: [commitments_f1]
+    judge_hint: >
+      All three non-requirements. Each independently causes a real promise to be dropped, so two of
+      three is not this item.
+
+  - item_id: nothing_counts_until_the_other_side_responded
+    fact: >
+      An item enters either list only if the other side took it up; this is the rule most often missed.
+      Something one person floated and the other never picked up is not an agreement. Both directions
+      fail the same way: our side offers and the customer changes the subject or says nothing, so there
+      is neither a promise nor a step; the customer asks and our side never answers, so again neither,
+      because a request becomes a promise only when our side takes it on. Acceptance can be minimal --
+      a brief affirmative is enough -- but silence is not acceptance and neither is a change of
+      subject. Judged from the turns surrounding a statement, since an unaccepted offer looks identical
+      to a promise if only its own turn is read.
+    objectives: [next_steps_f1, commitments_f1]
+    judge_hint: >
+      The rule and that it applies in both directions. A reply covering only the offer-not-accepted
+      direction, or only the request-not-answered direction, is not this item -- they are separate
+      failures and an agent needs both.
+
+  - item_id: a_promise_appears_in_both_lists
+    fact: >
+      The two lists are two readings over the whole call rather than a division of it, and they overlap
+      deliberately: an undertaking by our side belongs in the needs-doing list AND in the promises list
+      simultaneously. Removing it from the first because it is already recorded in the second is a
+      mistake. The containment runs one way only -- everything in the promises list also belongs in the
+      needs-doing list, while the needs-doing list also holds items that are nobody's promise.
+    objectives: [next_steps_f1, commitments_f1]
+    judge_hint: >
+      Both the double-entry and its one-way direction. An agent treating the two lists as mutually
+      exclusive loses every promise from the needs-doing list, so a reply conveying only that the
+      fields are related is not this item.
+
+  # --- what counts as a warning sign (reading_policy.md; L1 only) --------------------------------
+  - item_id: seven_recognised_warning_signs
+    fact: >
+      The warning-signs field recognises exactly seven kinds of signal, and all seven are: a rival
+      vendor in contention, whether named or plainly alluded to; money reduced, withdrawn or stated to
+      be unavailable; the contact being unable to get a decision made, or the decider being opposed; a
+      grievance raised during the call and still unsettled when it ends; a date moving outward or a
+      rollout pushed back, on either side; our internal advocate moving role, team or employer; and
+      dissatisfaction stated outright about the product or the relationship. The signal has to concern
+      the account or the deal, not the call having been awkward to conduct.
+    objectives: [risks_f1]
+    judge_hint: >
+      All seven kinds. The wording need not match, but each of the seven has to be recognisable in the
+      answer -- six of seven is not this item, because the missing one is a whole class of signal the
+      agent will never report.
+
+  - item_id: four_look_alikes_that_are_not_warning_signs
+    fact: >
+      Four things resemble warning signs and are excluded, each having been wrongly recorded as one
+      before the boundary was written down. An ordinary internal approval step is how customers buy and
+      is not an authority problem, unless the call indicates the decider is unwilling or unreachable.
+      Discussing or pushing on price is a negotiation, not a money problem, unless the call states the
+      money is not there. A grievance raised and settled within the call does not carry forward. And
+      manner is not a signal: a curt, tired or impatient customer supplies one only if something they
+      actually said does.
+    objectives: [risks_f1]
+    judge_hint: >
+      All four exclusions, each with the condition that would flip it back into a real signal where the
+      policy gives one. These are the precise false positives this field is scored on, so a partial
+      list is not this item.
+
+  - item_id: warning_signs_are_observations_not_advice
+    fact: >
+      Each warning sign is phrased as the condition observed on the call, not as a recommendation and
+      not as a forecast. What to do about it, and what it is likely to lead to, both fall outside the
+      field: these entries have no owner and name a state of affairs rather than an action.
+    objectives: [risks_f1]
+    judge_hint: >
+      That the field holds observed conditions and excludes both advice and prediction. Either half
+      alone is not this item.
+
+  # --- how the customer came across (reading_policy.md; L1 only) ---------------------------------
+  - item_id: disposition_is_the_customer_overall_and_independent_of_risk
+    fact: >
+      The disposition read describes the customer, never our own representative, and characterises the
+      call taken as a whole rather than its sharpest moment -- one tense exchange inside an otherwise
+      constructive call does not set it. It is also independent of the warning-signs field, and the
+      value set deliberately offers nothing meaning "in danger", because danger is the other field's
+      business. Every combination genuinely occurs: a warm customer who is also weighing a rival, an
+      irritated one whose account is safe, a routine call that mentions a date slipping. A populated
+      warning-signs list must not drag the disposition downward, and a warm read must not suppress a
+      signal that was actually stated.
+    objectives: [sentiment_accuracy, risks_f1]
+    judge_hint: >
+      Three parts: whose disposition it is, that it is read across the whole call, and that it is
+      independent of the warning-signs field. The independence half is what stops the two fields being
+      collapsed, so an answer conveying only "how the customer seemed" is not this item.
+
+  # --- grounding (reading_policy.md; L1, and L3's framing of the same tension) -------------------
+  - item_id: grounding_cuts_both_ways
+    fact: >
+      Nothing enters a reading unless the call itself supports it, and this overrides every other rule
+      -- where a boundary above would admit an item the call does not bear out, it stays out. Nothing
+      is inferred from manner, from subject matter, or from what calls usually contain: a quiet field
+      stays empty rather than being completed to match the shape of a typical call, and no outside
+      knowledge of the account or the industry belongs in one. But the reverse error is exactly as
+      costly, not a lesser one: dropping something genuinely agreed is as damaging as inventing
+      something, because the customer raises it before we do. Neither padding a thin call nor holding
+      back to be safe is the cautious choice; both are failures of the same kind.
+    objectives: [next_steps_f1, risks_f1, commitments_f1]
+    judge_hint: >
+      The symmetry is the item. The no-invention half alone is not enough -- it is stated in a document
+      the agent was given -- so elicited requires that omission was conveyed as carrying equal cost,
+      rather than as the safe direction to err in.

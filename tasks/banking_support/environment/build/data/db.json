@@ -1,0 +1,1125 @@
+{
+  "accounts": {
+    "data": {
+      "01": {
+        "account_id": "01",
+        "class": "checking",
+        "current_holdings": "0",
+        "date_opened": "11/08/2025",
+        "level": "Blue Account",
+        "status": "OPEN",
+        "user_id": "123"
+      },
+      "02": {
+        "account_id": "02",
+        "class": "saving",
+        "current_holdings": "129.02",
+        "date_opened": "11/08/2025",
+        "level": "Bronze Account",
+        "status": "OPEN",
+        "user_id": "123"
+      },
+      "61f7a2c4d8e93016": {
+        "account_id": "61f7a2c4d8e93016",
+        "class": "saving",
+        "current_holdings": "6150.00",
+        "date_opened": "05/02/2023",
+        "level": "Silver Account",
+        "status": "OPEN",
+        "user_id": "126"
+      },
+      "biz_chk_601e851551": {
+        "account_id": "biz_chk_601e851551",
+        "class": "business_checking",
+        "current_holdings": "18430.55",
+        "date_opened": "02/09/2021",
+        "level": "Navy Blue",
+        "status": "OPEN",
+        "user_id": "601e851551"
+      },
+      "biz_chk_d97fb90fe8": {
+        "account_id": "biz_chk_d97fb90fe8",
+        "class": "business_checking",
+        "current_holdings": "7215.40",
+        "date_opened": "08/30/2023",
+        "level": "Cobalt Blue",
+        "status": "OPEN",
+        "user_id": "d97fb90fe8"
+      },
+      "chk_126": {
+        "account_id": "chk_126",
+        "class": "checking",
+        "current_holdings": "2418.77",
+        "date_opened": "03/12/2023",
+        "level": "Green Account",
+        "status": "OPEN",
+        "user_id": "126"
+      },
+      "chk_126_2": {
+        "account_id": "chk_126_2",
+        "class": "checking",
+        "current_holdings": "742.10",
+        "date_opened": "11/04/2024",
+        "level": "Bluest Account",
+        "status": "OPEN",
+        "user_id": "126"
+      },
+      "chk_3d91a520be": {
+        "account_id": "chk_3d91a520be",
+        "class": "checking",
+        "current_holdings": "836.40",
+        "date_opened": "07/19/2024",
+        "level": "Light Blue Account",
+        "status": "OPEN",
+        "user_id": "3d91a520be"
+      },
+      "chk_3d91a520be_2": {
+        "account_id": "chk_3d91a520be_2",
+        "class": "checking",
+        "current_holdings": "1204.15",
+        "date_opened": "02/03/2025",
+        "level": "Dark Green Account",
+        "status": "OPEN",
+        "user_id": "3d91a520be"
+      },
+      "chk_4db6fc36e8": {
+        "account_id": "chk_4db6fc36e8",
+        "class": "checking",
+        "current_holdings": "3892.61",
+        "date_opened": "09/06/2022",
+        "level": "Silver Account",
+        "status": "OPEN",
+        "user_id": "4db6fc36e8"
+      },
+      "chk_4db6fc36e8_2": {
+        "account_id": "chk_4db6fc36e8_2",
+        "class": "checking",
+        "current_holdings": "517.09",
+        "date_opened": "04/18/2024",
+        "level": "Purple Account",
+        "status": "OPEN",
+        "user_id": "4db6fc36e8"
+      },
+      "chk_601e851551": {
+        "account_id": "chk_601e851551",
+        "class": "checking",
+        "current_holdings": "5744.28",
+        "date_opened": "01/23/2021",
+        "level": "Evergreen Account",
+        "status": "OPEN",
+        "user_id": "601e851551"
+      },
+      "chk_d97fb90fe8": {
+        "account_id": "chk_d97fb90fe8",
+        "class": "checking",
+        "current_holdings": "1962.83",
+        "date_opened": "06/14/2023",
+        "level": "Light Green Account",
+        "status": "OPEN",
+        "user_id": "d97fb90fe8"
+      }
+    },
+    "notes": ""
+  },
+  "bank_account_transaction_history": {
+    "data": {
+      "btxn_08c5b2e7f149": {
+        "account_id": "chk_3d91a520be",
+        "amount": -64.19,
+        "date": "11/07/2025",
+        "description": "DEBIT CARD PURCHASE - TRADER JOES IRVINE CA",
+        "status": "posted",
+        "transaction_id": "btxn_08c5b2e7f149",
+        "type": "debit_card_purchase"
+      },
+      "btxn_0f52b8a6c913": {
+        "account_id": "chk_601e851551",
+        "amount": -200.0,
+        "date": "11/08/2025",
+        "description": "ATM WITHDRAWAL - RHO-BANK #0442 CUPERTINO CA",
+        "status": "posted",
+        "transaction_id": "btxn_0f52b8a6c913",
+        "type": "atm_withdrawal"
+      },
+      "btxn_1a4f8e026b7d": {
+        "account_id": "biz_chk_601e851551",
+        "amount": 5000.0,
+        "date": "11/13/2025",
+        "description": "WIRE TRANSFER IN - RETAINER GRANDVIEW LLC",
+        "status": "pending",
+        "transaction_id": "btxn_1a4f8e026b7d",
+        "type": "wire_transfer_in"
+      },
+      "btxn_1e6f8b0a2c54": {
+        "account_id": "chk_126",
+        "amount": -142.18,
+        "date": "11/03/2025",
+        "description": "BILL PAY - EVERSOURCE ENERGY",
+        "status": "posted",
+        "transaction_id": "btxn_1e6f8b0a2c54",
+        "type": "bill_pay"
+      },
+      "btxn_2b8d5c03fa61": {
+        "account_id": "chk_126",
+        "amount": -120.0,
+        "date": "11/11/2025",
+        "description": "ATM WITHDRAWAL - RHO-BANK #1183 BOSTON MA",
+        "status": "posted",
+        "transaction_id": "btxn_2b8d5c03fa61",
+        "type": "atm_withdrawal"
+      },
+      "btxn_2d70f6b39e14": {
+        "account_id": "biz_chk_d97fb90fe8",
+        "amount": -59.99,
+        "date": "11/07/2025",
+        "description": "DEBIT CARD PURCHASE - ADOBE SYSTEMS",
+        "status": "posted",
+        "transaction_id": "btxn_2d70f6b39e14",
+        "type": "debit_card_purchase"
+      },
+      "btxn_3c96e1d47b58": {
+        "account_id": "chk_601e851551",
+        "amount": 4200.0,
+        "date": "11/01/2025",
+        "description": "DIRECT DEPOSIT - CHEN DESIGN STUDIO DRAW",
+        "status": "posted",
+        "transaction_id": "btxn_3c96e1d47b58",
+        "type": "direct_deposit"
+      },
+      "btxn_3f81c04a92de": {
+        "account_id": "01",
+        "amount": 250.0,
+        "date": "11/10/2025",
+        "description": "DIRECT DEPOSIT - NORTHGATE CONSULTING PAYROLL",
+        "status": "posted",
+        "transaction_id": "btxn_3f81c04a92de",
+        "type": "direct_deposit"
+      },
+      "btxn_47b9d2f8c063": {
+        "account_id": "chk_d97fb90fe8",
+        "amount": 75.0,
+        "date": "11/05/2025",
+        "description": "EVERYONEPAY RECEIVED - R. ESPINOZA",
+        "status": "posted",
+        "transaction_id": "btxn_47b9d2f8c063",
+        "type": "everyonepay"
+      },
+      "btxn_4a7e2c95d183": {
+        "account_id": "chk_3d91a520be",
+        "amount": -80.0,
+        "date": "10/24/2025",
+        "description": "ATM WITHDRAWAL - 7-ELEVEN #2288 IRVINE CA",
+        "status": "posted",
+        "transaction_id": "btxn_4a7e2c95d183",
+        "type": "atm_withdrawal"
+      },
+      "btxn_59c2a7f4be80": {
+        "account_id": "chk_126",
+        "amount": -87.63,
+        "date": "11/06/2025",
+        "description": "DEBIT CARD PURCHASE - STAR MARKET BOSTON MA",
+        "status": "posted",
+        "transaction_id": "btxn_59c2a7f4be80",
+        "type": "debit_card_purchase"
+      },
+      "btxn_5d9f1a86c374": {
+        "account_id": "chk_3d91a520be_2",
+        "amount": -1500.0,
+        "date": "11/05/2025",
+        "description": "WIRE TRANSFER OUT - TUITION PAYMENT UCI",
+        "status": "posted",
+        "transaction_id": "btxn_5d9f1a86c374",
+        "type": "wire_transfer_out"
+      },
+      "btxn_5f1c8b40d267": {
+        "account_id": "biz_chk_d97fb90fe8",
+        "amount": -12.5,
+        "date": "11/11/2025",
+        "description": "OVERDRAFT PROTECTION TRANSFER FEE",
+        "status": "posted",
+        "transaction_id": "btxn_5f1c8b40d267",
+        "type": "overdraft_fee"
+      },
+      "btxn_6e0c9a41b752": {
+        "account_id": "chk_3d91a520be",
+        "amount": 3.5,
+        "date": "10/28/2025",
+        "description": "FEE REBATE - COURTESY REVERSAL ATM FEE",
+        "status": "posted",
+        "transaction_id": "btxn_6e0c9a41b752",
+        "type": "fee_rebate"
+      },
+      "btxn_71b3d5c9e802": {
+        "account_id": "chk_4db6fc36e8",
+        "amount": -20.0,
+        "date": "11/04/2025",
+        "description": "MONTHLY MAINTENANCE FEE",
+        "status": "posted",
+        "transaction_id": "btxn_71b3d5c9e802",
+        "type": "monthly_fee"
+      },
+      "btxn_7d29b6e105fa": {
+        "account_id": "01",
+        "amount": -250.0,
+        "date": "11/12/2025",
+        "description": "ACH TRANSFER OUT - RENT SHARE",
+        "status": "posted",
+        "transaction_id": "btxn_7d29b6e105fa",
+        "type": "ach_transfer_out"
+      },
+      "btxn_82e4c07b1d95": {
+        "account_id": "biz_chk_601e851551",
+        "amount": 9800.0,
+        "date": "11/03/2025",
+        "description": "ACH TRANSFER IN - CLIENT INVOICE 20411",
+        "status": "posted",
+        "transaction_id": "btxn_82e4c07b1d95",
+        "type": "ach_transfer_in"
+      },
+      "btxn_9c31e6b8407d": {
+        "account_id": "61f7a2c4d8e93016",
+        "amount": 4.61,
+        "date": "11/01/2025",
+        "description": "INTEREST CREDIT - SILVER SAVINGS",
+        "status": "posted",
+        "transaction_id": "btxn_9c31e6b8407d",
+        "type": "interest_credit"
+      },
+      "btxn_9e58c1740ab3": {
+        "account_id": "chk_d97fb90fe8",
+        "amount": 410.0,
+        "date": "11/09/2025",
+        "description": "CHECK DEPOSIT - CHECK 8820",
+        "status": "posted",
+        "transaction_id": "btxn_9e58c1740ab3",
+        "type": "check_deposit"
+      },
+      "btxn_a05e9d31c748": {
+        "account_id": "chk_126",
+        "amount": 3120.44,
+        "date": "10/31/2025",
+        "description": "DIRECT DEPOSIT - BEACON ANALYTICS PAYROLL",
+        "status": "posted",
+        "transaction_id": "btxn_a05e9d31c748",
+        "type": "direct_deposit"
+      },
+      "btxn_ae147b0293cd": {
+        "account_id": "chk_4db6fc36e8",
+        "amount": -164.55,
+        "date": "11/10/2025",
+        "description": "BILL PAY - DUKE ENERGY",
+        "status": "posted",
+        "transaction_id": "btxn_ae147b0293cd",
+        "type": "bill_pay"
+      },
+      "btxn_b8027e5a3f16": {
+        "account_id": "chk_4db6fc36e8_2",
+        "amount": 300.0,
+        "date": "11/12/2025",
+        "description": "ACH TRANSFER IN - SAVINGS SWEEP",
+        "status": "posted",
+        "transaction_id": "btxn_b8027e5a3f16",
+        "type": "ach_transfer_in"
+      },
+      "btxn_bc540e7a13d9": {
+        "account_id": "02",
+        "amount": 129.02,
+        "date": "11/08/2025",
+        "description": "MOBILE DEPOSIT - CHECK 1042",
+        "status": "posted",
+        "transaction_id": "btxn_bc540e7a13d9",
+        "type": "mobile_deposit"
+      },
+      "btxn_c62e08b4f9a1": {
+        "account_id": "chk_4db6fc36e8",
+        "amount": 2840.19,
+        "date": "10/31/2025",
+        "description": "DIRECT DEPOSIT - CAROLINA HEALTH PAYROLL",
+        "status": "posted",
+        "transaction_id": "btxn_c62e08b4f9a1",
+        "type": "direct_deposit"
+      },
+      "btxn_d18b3f6ae052": {
+        "account_id": "chk_3d91a520be",
+        "amount": -3.5,
+        "date": "10/24/2025",
+        "description": "OUT-OF-NETWORK ATM FEE",
+        "status": "posted",
+        "transaction_id": "btxn_d18b3f6ae052",
+        "type": "atm_fee"
+      },
+      "btxn_d5a71c9e6403": {
+        "account_id": "biz_chk_601e851551",
+        "amount": -3400.0,
+        "date": "11/06/2025",
+        "description": "ACH TRANSFER OUT - CONTRACTOR PAYMENT",
+        "status": "posted",
+        "transaction_id": "btxn_d5a71c9e6403",
+        "type": "ach_transfer_out"
+      },
+      "btxn_e740b19c26af": {
+        "account_id": "chk_126",
+        "amount": -45.0,
+        "date": "11/09/2025",
+        "description": "EVERYONEPAY SENT - J. OKONKWO",
+        "status": "posted",
+        "transaction_id": "btxn_e740b19c26af",
+        "type": "everyonepay"
+      },
+      "btxn_ec3806a1b5f2": {
+        "account_id": "chk_d97fb90fe8",
+        "amount": 2610.0,
+        "date": "10/30/2025",
+        "description": "DIRECT DEPOSIT - MISSION CREATIVE PAYROLL",
+        "status": "posted",
+        "transaction_id": "btxn_ec3806a1b5f2",
+        "type": "direct_deposit"
+      },
+      "btxn_f395c8206a41": {
+        "account_id": "chk_3d91a520be",
+        "amount": 640.0,
+        "date": "11/02/2025",
+        "description": "MOBILE DEPOSIT - CHECK 3391",
+        "status": "posted",
+        "transaction_id": "btxn_f395c8206a41",
+        "type": "mobile_deposit"
+      }
+    },
+    "notes": "type: one of - direct_deposit, debit_card_purchase, atm_withdrawal, atm_balance_inquiry, atm_fee, ach_transfer_in, ach_transfer_out, wire_transfer_in, wire_transfer_out, check_deposit, mobile_deposit, bill_pay, everyonepay, monthly_fee, overdraft_fee, fee_rebate, interest_credit\nstatus: posted or pending\namount: positive for credits, negative for debits"
+  },
+  "cash_back_disputes": {
+    "data": {
+      "dsp_a41c8e60b937": {
+        "dispute_id": "dsp_a41c8e60b937",
+        "status": "SUBMITTED",
+        "submitted_at": "11/13/2025",
+        "transaction_id": "txn_04a7c9e2b168",
+        "user_id": "d97fb90fe8"
+      }
+    },
+    "notes": "dispute_id: unique identifier for the dispute (format: dsp_ followed by 12-character hex)\nuser_id: the user_id who submitted the dispute\ntransaction_id: the transaction_id being disputed\nsubmitted_at: timestamp when the dispute was submitted\nstatus: dispute status - one of SUBMITTED, UNDER_REVIEW, APPROVED, DENIED"
+  },
+  "credit_card_account_flags": {
+    "data": {
+      "ccflag_601e851551_bizsilver_001": {
+        "applied_at": "03/28/2025",
+        "credit_card_account_id": "cc_601e851551_bizsilver",
+        "effective_date": "04/01/2025",
+        "expiration_date": "03/31/2026",
+        "flag_id": "ccflag_601e851551_bizsilver_001",
+        "flag_type": "annual_fee_waived",
+        "reason": "retention_offer",
+        "status": "ACTIVE",
+        "user_id": "601e851551"
+      }
+    },
+    "notes": "flag_id: unique identifier for the flag record (format: ccflag_[hash])\ncredit_card_account_id: the credit card account ID this flag applies to\nuser_id: the user_id of the cardholder\nflag_type: type of flag (annual_fee_waived, promotional_apr, rewards_bonus, other)\neffective_date: date the flag takes effect (MM/DD/YYYY)\nexpiration_date: date the flag expires (MM/DD/YYYY)\nreason: reason for applying this flag (retention_offer, loyalty_benefit, promotional, error_correction, other)\napplied_at: date the flag was applied (MM/DD/YYYY)\nstatus: flag status (ACTIVE, EXPIRED, CANCELLED)"
+  },
+  "credit_card_accounts": {
+    "data": {
+      "cc_126_bronze": {
+        "account_id": "cc_126_bronze",
+        "card_type": "Bronze Rewards Card",
+        "closed_date": "07/30/2025",
+        "current_balance": "$0.00",
+        "date_of_account_open": "08/22/2021",
+        "reward_points": "0 points",
+        "status": "CLOSED",
+        "user_id": "126"
+      },
+      "cc_126_silver": {
+        "account_id": "cc_126_silver",
+        "account_status": "ACTIVE",
+        "card_type": "Silver Rewards Card",
+        "credit_limit": "$15,000.00",
+        "current_balance": "$1,284.53",
+        "date_of_account_open": "06/04/2023",
+        "past_due_amount": "$0.00",
+        "reward_points": "9,410 points",
+        "status": "ACTIVE",
+        "user_id": "126"
+      },
+      "cc_4db6fc36e8_gold": {
+        "account_id": "cc_4db6fc36e8_gold",
+        "account_status": "ACTIVE",
+        "card_type": "Gold Rewards Card",
+        "credit_limit": "$5000.00",
+        "current_balance": "$2,047.88",
+        "date_of_account_open": "01/14/2021",
+        "past_due_amount": "$78.00",
+        "reward_points": "15,830 points",
+        "status": "ACTIVE",
+        "user_id": "4db6fc36e8"
+      },
+      "cc_601e851551_bizgold": {
+        "account_id": "cc_601e851551_bizgold",
+        "card_type": "Business Gold Rewards Card",
+        "current_balance": "$1,109.30",
+        "date_of_account_open": "05/06/2024",
+        "reward_points": "4,860 points",
+        "status": "ACTIVE",
+        "user_id": "601e851551"
+      },
+      "cc_601e851551_bizsilver": {
+        "account_id": "cc_601e851551_bizsilver",
+        "card_type": "Business Silver Rewards Card",
+        "current_balance": "$3,662.41",
+        "date_of_account_open": "03/17/2021",
+        "reward_points": "21,405 points",
+        "status": "ACTIVE",
+        "user_id": "601e851551"
+      },
+      "cc_d97fb90fe8_crypto": {
+        "account_id": "cc_d97fb90fe8_crypto",
+        "card_type": "Crypto-Cash Back",
+        "current_balance": "$418.62",
+        "date_of_account_open": "11/02/2024",
+        "reward_points": "1,204 points",
+        "status": "ACTIVE",
+        "user_id": "d97fb90fe8"
+      },
+      "cc_d97fb90fe8_eco": {
+        "account_id": "cc_d97fb90fe8_eco",
+        "card_type": "EcoCard",
+        "closed_date": "10/28/2025",
+        "current_balance": "$0.00",
+        "date_of_account_open": "05/09/2022",
+        "reward_points": "0 points",
+        "status": "CLOSED",
+        "user_id": "d97fb90fe8"
+      }
+    },
+    "notes": "account_id: unique identifier for the credit card account (format: cc_[user_id]_[card_type_abbrev])\nuser_id: the user_id of the cardholder\ncard_type: type of credit card (e.g., Gold Rewards Card, Silver Rewards Card, EcoCard, etc.)\nstatus: account status - ACTIVE, CLOSED\ndate_of_account_open: date when the credit card account was opened (MM/DD/YYYY format)\nclosed_date: date when the credit card account was closed (MM/DD/YYYY format), only present if status is CLOSED\ncurrent_balance: current outstanding balance on the card in USD\nreward_points: total accumulated reward points on the account"
+  },
+  "credit_card_applications": {
+    "data": {
+      "4e7b1a9c52d8f603": {
+        "annual_income": 98000.0,
+        "application_id": "4e7b1a9c52d8f603",
+        "card_type": "Platinum Rewards Card",
+        "customer_name": "Maria Elena Rodr\u00edguez",
+        "date": "11/11/2025",
+        "rho_bank_subscription": false,
+        "status": "PENDING"
+      }
+    },
+    "notes": "application_id: unique 16-character hex identifier for the application\ncard_type: the type of credit card applied for\ncustomer_name: full legal name of the applicant\nannual_income: annual income in USD\nrho_bank_subscription: whether the user has Rho-Bank+ subscription (true/false)\nstatus: application status - one of PENDING, APPROVED, or DENIED\ndate: date of the application (MM/DD/YYYY format)"
+  },
+  "credit_card_closure_reasons": {
+    "data": {
+      "clsr_126_bronze_001": {
+        "closure_reason": "simplifying_finances",
+        "credit_card_account_id": "cc_126_bronze",
+        "logged_at": "07/28/2025",
+        "record_id": "clsr_126_bronze_001",
+        "status": "LOGGED",
+        "user_id": "126"
+      },
+      "clsr_d97fb90fe8_eco_001": {
+        "closure_reason": "not_using_card",
+        "credit_card_account_id": "cc_d97fb90fe8_eco",
+        "logged_at": "10/26/2025",
+        "record_id": "clsr_d97fb90fe8_eco_001",
+        "status": "LOGGED",
+        "user_id": "d97fb90fe8"
+      }
+    },
+    "notes": "record_id: unique identifier for the closure reason record (format: clsr_[hash])\ncredit_card_account_id: the credit card account ID the customer wants to close\nuser_id: the user_id of the cardholder\nclosure_reason: reason for wanting to close (annual_fee, not_using_card, found_better_card, unhappy_with_rewards, simplifying_finances, negative_experience, other)\nlogged_at: date the reason was logged (MM/DD/YYYY)\nstatus: record status (LOGGED)"
+  },
+  "credit_card_orders": {
+    "data": {
+      "ccord_4db6fc36e8_gold_001": {
+        "credit_card_account_id": "cc_4db6fc36e8_gold",
+        "expected_delivery": "10/22/2025",
+        "expedited_shipping": false,
+        "order_date": "10/12/2025",
+        "order_id": "ccord_4db6fc36e8_gold_001",
+        "reason": "damaged",
+        "shipping_address": "892 Willow Creek Road, Charlotte, NC 28202",
+        "status": "DELIVERED",
+        "user_id": "4db6fc36e8"
+      },
+      "ccord_d97fb90fe8_crypto_001": {
+        "credit_card_account_id": "cc_d97fb90fe8_crypto",
+        "expected_delivery": "11/13/2025",
+        "expedited_shipping": true,
+        "order_date": "11/09/2025",
+        "order_id": "ccord_d97fb90fe8_crypto_001",
+        "reason": "lost",
+        "shipping_address": "4455 Mission Street, San Francisco, CA 94112",
+        "status": "SHIPPED",
+        "user_id": "d97fb90fe8"
+      }
+    },
+    "notes": "order_id: unique identifier for the credit card replacement order (format: ccord_[hash])\ncredit_card_account_id: the credit card account ID for the card being replaced\nuser_id: the user_id of the cardholder\nshipping_address: address where the new card should be shipped\nreason: reason for replacement (fraud_suspected, lost, stolen, damaged, expired, other)\nexpedited_shipping: whether expedited shipping was requested (boolean, optional)\norder_date: date the replacement was ordered (MM/DD/YYYY)\nexpected_delivery: expected delivery date (MM/DD/YYYY)\nstatus: order status (ORDERED, PROCESSING, SHIPPED, DELIVERED, CANCELLED)"
+  },
+  "credit_card_transaction_history": {
+    "data": {
+      "txn_04a7c9e2b168": {
+        "category": "Media",
+        "credit_card_type": "Crypto-Cash Back",
+        "merchant_name": "Netflix",
+        "rewards_earned": "$0.46 cash back",
+        "status": "COMPLETED",
+        "transaction_amount": "$22.99",
+        "transaction_date": "11/12/2025",
+        "transaction_id": "txn_04a7c9e2b168",
+        "user_id": "d97fb90fe8"
+      },
+      "txn_08d4c7b1e359": {
+        "category": "Entertainment",
+        "credit_card_type": "Gold Rewards Card",
+        "merchant_name": "Regal Cinemas",
+        "rewards_earned": "0 points",
+        "status": "DECLINED",
+        "transaction_amount": "$34.50",
+        "transaction_date": "11/09/2025",
+        "transaction_id": "txn_08d4c7b1e359",
+        "user_id": "4db6fc36e8"
+      },
+      "txn_1f7c9a24e63b": {
+        "category": "Electronics",
+        "credit_card_type": "Silver Rewards Card",
+        "merchant_name": "Apple",
+        "rewards_earned": "622 points",
+        "status": "PENDING",
+        "transaction_amount": "$249.00",
+        "transaction_date": "11/11/2025",
+        "transaction_id": "txn_1f7c9a24e63b",
+        "user_id": "126"
+      },
+      "txn_2e7a4d09b6f1": {
+        "category": "Software",
+        "credit_card_type": "Business Silver Rewards Card",
+        "merchant_name": "Amazon Web Services",
+        "rewards_earned": "1855 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$742.16",
+        "transaction_date": "11/01/2025",
+        "transaction_id": "txn_2e7a4d09b6f1",
+        "user_id": "601e851551"
+      },
+      "txn_37e0a9c142db": {
+        "category": "Transportation",
+        "credit_card_type": "EcoCard",
+        "merchant_name": "Bay Area Bike Share",
+        "rewards_earned": "72 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$29.00",
+        "transaction_date": "10/20/2025",
+        "transaction_id": "txn_37e0a9c142db",
+        "user_id": "d97fb90fe8"
+      },
+      "txn_4c8e1b7d9a20": {
+        "category": "Shopping",
+        "credit_card_type": "Gold Rewards Card",
+        "merchant_name": "Blue Ridge Outfitters",
+        "rewards_earned": "475 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$189.99",
+        "transaction_date": "11/05/2025",
+        "transaction_id": "txn_4c8e1b7d9a20",
+        "user_id": "4db6fc36e8"
+      },
+      "txn_5a06f2c8d413": {
+        "category": "Shipping",
+        "credit_card_type": "Business Gold Rewards Card",
+        "merchant_name": "FedEx",
+        "rewards_earned": "220 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$88.20",
+        "transaction_date": "11/07/2025",
+        "transaction_id": "txn_5a06f2c8d413",
+        "user_id": "601e851551"
+      },
+      "txn_6b19e5c04a7d": {
+        "category": "Dining",
+        "credit_card_type": "Silver Rewards Card",
+        "merchant_name": "Legal Sea Foods",
+        "rewards_earned": "296 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$118.40",
+        "transaction_date": "11/02/2025",
+        "transaction_id": "txn_6b19e5c04a7d",
+        "user_id": "126"
+      },
+      "txn_6c1e58b03fa9": {
+        "category": "Dining",
+        "credit_card_type": "Crypto-Cash Back",
+        "merchant_name": "Philz Coffee",
+        "rewards_earned": "$0.37 cash back",
+        "status": "COMPLETED",
+        "transaction_amount": "$18.75",
+        "transaction_date": "11/10/2025",
+        "transaction_id": "txn_6c1e58b03fa9",
+        "user_id": "d97fb90fe8"
+      },
+      "txn_70b3e9c15d48": {
+        "category": "Groceries",
+        "credit_card_type": "Gold Rewards Card",
+        "merchant_name": "Harris Teeter",
+        "rewards_earned": "359 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$143.87",
+        "transaction_date": "11/01/2025",
+        "transaction_id": "txn_70b3e9c15d48",
+        "user_id": "4db6fc36e8"
+      },
+      "txn_9d3b17e6c825": {
+        "category": "Green",
+        "credit_card_type": "EcoCard",
+        "merchant_name": "Rainforest Alliance",
+        "rewards_earned": "150 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$60.00",
+        "transaction_date": "10/14/2025",
+        "transaction_id": "txn_9d3b17e6c825",
+        "user_id": "d97fb90fe8"
+      },
+      "txn_9f2d6a1c4b83": {
+        "category": "Shopping",
+        "credit_card_type": "Gold Rewards Card",
+        "merchant_name": "Blue Ridge Outfitters",
+        "rewards_earned": "475 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$189.99",
+        "transaction_date": "11/05/2025",
+        "transaction_id": "txn_9f2d6a1c4b83",
+        "user_id": "4db6fc36e8"
+      },
+      "txn_a29e04c8b571": {
+        "category": "Shopping",
+        "credit_card_type": "Bronze Rewards Card",
+        "merchant_name": "Wayfair",
+        "rewards_earned": "0 points",
+        "status": "REFUNDED",
+        "transaction_amount": "$310.75",
+        "transaction_date": "07/12/2025",
+        "transaction_id": "txn_a29e04c8b571",
+        "user_id": "126"
+      },
+      "txn_b5107e2a8c96": {
+        "category": "Utilities",
+        "credit_card_type": "Gold Rewards Card",
+        "merchant_name": "Duke Energy",
+        "rewards_earned": "411 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$164.55",
+        "transaction_date": "11/10/2025",
+        "transaction_id": "txn_b5107e2a8c96",
+        "user_id": "4db6fc36e8"
+      },
+      "txn_c193b8e50a76": {
+        "category": "Operations",
+        "credit_card_type": "Business Silver Rewards Card",
+        "merchant_name": "Staples",
+        "rewards_earned": "547 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$218.94",
+        "transaction_date": "11/06/2025",
+        "transaction_id": "txn_c193b8e50a76",
+        "user_id": "601e851551"
+      },
+      "txn_c40a72e8d95b": {
+        "category": "Travel",
+        "credit_card_type": "Silver Rewards Card",
+        "merchant_name": "Delta Air Lines",
+        "rewards_earned": "1030 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$412.00",
+        "transaction_date": "11/04/2025",
+        "transaction_id": "txn_c40a72e8d95b",
+        "user_id": "126"
+      },
+      "txn_e85d13b7f0a2": {
+        "category": "Groceries",
+        "credit_card_type": "Silver Rewards Card",
+        "merchant_name": "Star Market",
+        "rewards_earned": "240 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$96.22",
+        "transaction_date": "11/08/2025",
+        "transaction_id": "txn_e85d13b7f0a2",
+        "user_id": "126"
+      },
+      "txn_f28c6b0794ad": {
+        "category": "Travel",
+        "credit_card_type": "Business Gold Rewards Card",
+        "merchant_name": "United Airlines",
+        "rewards_earned": "2609 points",
+        "status": "COMPLETED",
+        "transaction_amount": "$1,043.60",
+        "transaction_date": "10/29/2025",
+        "transaction_id": "txn_f28c6b0794ad",
+        "user_id": "601e851551"
+      }
+    },
+    "notes": "IMPORTANT: When adding new transactions, use the generate_transaction_id() helper function from src/tau2/domains/knowledge/utils.py to generate transaction IDs.\n\ntransaction_id: unique identifier for the transaction (format: txn_ followed by 12-character hex)\nuser_id: the user_id of the cardholder\ncredit_card_type: type of credit card used (e.g., Gold Rewards Card, Platinum Rewards Card, etc.)\nmerchant_name: name of the merchant where the transaction occurred\ntransaction_amount: amount of the transaction in USD\ntransaction_date: date of the transaction (MM/DD/YYYY format)\ncategory: transaction category (e.g., Groceries, Dining, Travel, Entertainment, Utilities, Shopping)\nstatus: transaction status - one of COMPLETED, PENDING, DECLINED, REFUNDED\nrewards_earned: points or cashback earned from the transaction"
+  },
+  "credit_limit_increase_requests": {
+    "data": {
+      "cli_4db6fc36e8_gold_001": {
+        "credit_card_account_id": "cc_4db6fc36e8_gold",
+        "decision_date": "11/07/2025",
+        "denial_reason": "past_due_balance",
+        "request_id": "cli_4db6fc36e8_gold_001",
+        "requested_increase_amount": "$2,500.00",
+        "status": "DENIED",
+        "submitted_date": "11/06/2025",
+        "user_id": "4db6fc36e8"
+      },
+      "cli_601e851551_bizsilver_001": {
+        "credit_card_account_id": "cc_601e851551_bizsilver",
+        "decision_date": "10/04/2025",
+        "increase_amount": "$5,000.00",
+        "new_limit": "$20,000.00",
+        "previous_limit": "$15,000.00",
+        "request_id": "cli_601e851551_bizsilver_001",
+        "requested_increase_amount": "$5,000.00",
+        "status": "APPROVED",
+        "submitted_date": "10/02/2025",
+        "user_id": "601e851551"
+      }
+    },
+    "notes": "request_id: unique identifier for the CLI request (format: cli_[hash])\ncredit_card_account_id: the credit card account ID the request is for\nuser_id: the user_id of the cardholder\nrequested_increase_amount: the dollar amount requested to increase the credit limit\nsubmitted_date: date the request was submitted (MM/DD/YYYY)\ndecision_date: date the decision was made (MM/DD/YYYY), if applicable\nprevious_limit: the credit limit before the increase (for approved requests)\nnew_limit: the new credit limit after the increase (for approved requests)\nincrease_amount: the actual increase amount (for approved requests)\ndenial_reason: coded reason for denial (for denied requests): 'insufficient_account_age', 'cooldown_period_active', 'pending_disputes', 'past_due_balance', 'high_utilization', 'insufficient_payment_history', 'requested_amount_exceeds_limit', 'other'\nstatus: request status (SUBMITTED, APPROVED, DENIED)"
+  },
+  "debit_card_orders": {
+    "data": {
+      "dcord_3d91a520be_001": {
+        "account_id": "chk_3d91a520be",
+        "card_design": "CLASSIC",
+        "delivery_fee": "$0",
+        "delivery_option": "STANDARD",
+        "design_fee": "$0",
+        "expected_delivery": "7-10 business days",
+        "order_date": "11/12/2025",
+        "order_id": "dcord_3d91a520be_001",
+        "shipping_address": "1456 University Avenue, Irvine, CA 92612",
+        "status": "PROCESSING",
+        "total_fee": "$0",
+        "user_id": "3d91a520be"
+      }
+    },
+    "notes": "order_id: unique identifier for the debit card order (format: dcord_[hash])\naccount_id: the checking account ID the debit card is linked to\nuser_id: the user_id of the cardholder\ndelivery_option: shipping speed (STANDARD, EXPEDITED, RUSH)\ncard_design: card design option (CLASSIC, PREMIUM, CUSTOM)\nshipping_address: address where the card should be shipped\ndelivery_fee: fee for shipping ($0 for STANDARD, $15 for EXPEDITED, $35 for RUSH)\ndesign_fee: fee for card design ($0 for CLASSIC, $10 for PREMIUM, $25 for CUSTOM)\ntotal_fee: total fees charged\norder_date: date the order was placed (MM/DD/YYYY)\nexpected_delivery: expected delivery timeframe\nstatus: order status (PENDING, PROCESSING, SHIPPED, DELIVERED, CANCELLED)"
+  },
+  "debit_cards": {
+    "data": {
+      "dbc_123_blue": {
+        "account_id": "01",
+        "card_id": "dbc_123_blue",
+        "cardholder_name": "MIA SMITH",
+        "cvv": "319",
+        "expiration_date": "11/30/2029",
+        "issue_date": "11/08/2025",
+        "issue_reason": "new_account",
+        "last_4_digits": "4407",
+        "status": "PENDING",
+        "user_id": "123"
+      },
+      "dbc_126_green": {
+        "account_id": "chk_126",
+        "card_id": "dbc_126_green",
+        "cardholder_name": "ALEX RIVIERA",
+        "cvv": "418",
+        "expiration_date": "03/31/2027",
+        "issue_date": "03/12/2023",
+        "issue_reason": "new_account",
+        "last_4_digits": "5192",
+        "status": "ACTIVE",
+        "user_id": "126"
+      },
+      "dbc_3d91a520be_darkgreen": {
+        "account_id": "chk_3d91a520be_2",
+        "card_id": "dbc_3d91a520be_darkgreen",
+        "cardholder_name": "LIU XIAOMING",
+        "cvv": "236",
+        "expiration_date": "02/28/2029",
+        "issue_date": "02/03/2025",
+        "issue_reason": "new_account",
+        "last_4_digits": "7745",
+        "status": "ACTIVE",
+        "user_id": "3d91a520be"
+      },
+      "dbc_3d91a520be_lightblue": {
+        "account_id": "chk_3d91a520be",
+        "card_id": "dbc_3d91a520be_lightblue",
+        "cardholder_name": "LIU XIAOMING",
+        "cvv": "902",
+        "expiration_date": "07/31/2028",
+        "issue_date": "07/19/2024",
+        "issue_reason": "new_account",
+        "last_4_digits": "3067",
+        "status": "FROZEN",
+        "user_id": "3d91a520be"
+      },
+      "dbc_3d91a520be_lightblue_2": {
+        "account_id": "chk_3d91a520be",
+        "card_id": "dbc_3d91a520be_lightblue_2",
+        "cardholder_name": "LIU XIAOMING",
+        "cvv": "573",
+        "expiration_date": "11/30/2029",
+        "issue_date": "11/12/2025",
+        "issue_reason": "lost",
+        "last_4_digits": "8214",
+        "status": "PENDING",
+        "user_id": "3d91a520be"
+      },
+      "dbc_4db6fc36e8_silver": {
+        "account_id": "chk_4db6fc36e8",
+        "card_id": "dbc_4db6fc36e8_silver",
+        "cardholder_name": "EMILY THOMPSON",
+        "cvv": "574",
+        "expiration_date": "09/30/2029",
+        "issue_date": "09/22/2025",
+        "issue_reason": "expired",
+        "last_4_digits": "6118",
+        "status": "ACTIVE",
+        "user_id": "4db6fc36e8"
+      },
+      "dbc_601e851551_evergreen": {
+        "account_id": "chk_601e851551",
+        "card_id": "dbc_601e851551_evergreen",
+        "cardholder_name": "BEI CHEN",
+        "cvv": "147",
+        "expiration_date": "06/30/2029",
+        "issue_date": "06/30/2025",
+        "issue_reason": "damaged",
+        "last_4_digits": "8830",
+        "status": "ACTIVE",
+        "user_id": "601e851551"
+      },
+      "dbc_d97fb90fe8_lightgreen": {
+        "account_id": "chk_d97fb90fe8",
+        "card_id": "dbc_d97fb90fe8_lightgreen",
+        "cardholder_name": "MARIA ELENA RODRIGUEZ",
+        "cvv": "681",
+        "expiration_date": "08/31/2029",
+        "issue_date": "08/21/2025",
+        "issue_reason": "stolen",
+        "last_4_digits": "2954",
+        "status": "ACTIVE",
+        "user_id": "d97fb90fe8"
+      }
+    },
+    "notes": "card_id: unique identifier for the debit card (format: dbc_[user_id]_[account_type])\naccount_id: the checking account this card is linked to\nuser_id: the user_id of the cardholder\ncardholder_name: name as printed on the card (uppercase)\nlast_4_digits: last 4 digits of the card number (for verification)\ncvv: 3-digit security code on the back of the card\nstatus: card status - ACTIVE, FROZEN, CANCELLED, EXPIRED, PENDING (awaiting activation), GRACE_PERIOD\nissue_date: date the card was issued (MM/DD/YYYY)\nexpiration_date: card expiration date (MM/DD/YYYY)\nissue_reason: why the card was issued - new_account, first_card, lost, stolen, fraud, expired, damaged, upgrade, bank_reissue"
+  },
+  "payment_history": {
+    "data": {
+      "pay_126_silver_202508": {
+        "amount": "$620.00",
+        "credit_card_account_id": "cc_126_silver",
+        "payment_date": "08/15/2025",
+        "payment_id": "pay_126_silver_202508",
+        "status": "ON_TIME",
+        "user_id": "126"
+      },
+      "pay_126_silver_202509": {
+        "amount": "$540.00",
+        "credit_card_account_id": "cc_126_silver",
+        "payment_date": "09/15/2025",
+        "payment_id": "pay_126_silver_202509",
+        "status": "ON_TIME",
+        "user_id": "126"
+      },
+      "pay_126_silver_202510": {
+        "amount": "$710.00",
+        "credit_card_account_id": "cc_126_silver",
+        "payment_date": "10/15/2025",
+        "payment_id": "pay_126_silver_202510",
+        "status": "ON_TIME",
+        "user_id": "126"
+      },
+      "pay_4db6fc36e8_gold_202508": {
+        "amount": "$310.00",
+        "credit_card_account_id": "cc_4db6fc36e8_gold",
+        "payment_date": "08/20/2025",
+        "payment_id": "pay_4db6fc36e8_gold_202508",
+        "status": "ON_TIME",
+        "user_id": "4db6fc36e8"
+      },
+      "pay_4db6fc36e8_gold_202509": {
+        "amount": "$295.00",
+        "credit_card_account_id": "cc_4db6fc36e8_gold",
+        "payment_date": "09/28/2025",
+        "payment_id": "pay_4db6fc36e8_gold_202509",
+        "status": "LATE",
+        "user_id": "4db6fc36e8"
+      },
+      "pay_4db6fc36e8_gold_202510": {
+        "amount": "$0.00",
+        "credit_card_account_id": "cc_4db6fc36e8_gold",
+        "payment_date": "10/20/2025",
+        "payment_id": "pay_4db6fc36e8_gold_202510",
+        "status": "MISSED",
+        "user_id": "4db6fc36e8"
+      },
+      "pay_601e851551_bizsilver_202510": {
+        "amount": "$1,200.00",
+        "credit_card_account_id": "cc_601e851551_bizsilver",
+        "payment_date": "10/18/2025",
+        "payment_id": "pay_601e851551_bizsilver_202510",
+        "status": "ON_TIME",
+        "user_id": "601e851551"
+      }
+    },
+    "notes": "payment_id: unique identifier for the payment record\ncredit_card_account_id: the credit card account ID the payment was for\nuser_id: the user_id of the cardholder\npayment_date: date the payment was due/made (MM/DD/YYYY)\namount: payment amount in dollars (e.g., '$250.00')\nstatus: payment status - 'ON_TIME' (paid on or before due date), 'LATE' (paid after due date), 'MISSED' (not paid)"
+  },
+  "referrals": {
+    "data": {
+      "2f6a9d1c8b405e73": {
+        "date": "10/30/2025",
+        "referral_id": "2f6a9d1c8b405e73",
+        "referral_status": "IN_PROGRESS",
+        "referred_account_type": "Silver Rewards Card",
+        "referrer_id": "d97fb90fe8"
+      },
+      "7b3e5c9a1d264f80": {
+        "date": "09/12/2025",
+        "referral_id": "7b3e5c9a1d264f80",
+        "referral_status": "REJECTED",
+        "referred_account_type": "Bronze Rewards Card",
+        "referrer_id": "d97fb90fe8"
+      },
+      "8c1d5e9f2a7b4306": {
+        "date": "09/28/2025",
+        "referral_id": "8c1d5e9f2a7b4306",
+        "referral_status": "COMPLETE",
+        "referred_account_type": "Gold Rewards Card",
+        "referrer_id": "126"
+      },
+      "b04a6e19c7d3f582": {
+        "date": "11/03/2025",
+        "referral_id": "b04a6e19c7d3f582",
+        "referral_status": "APPLIED",
+        "referred_account_type": "Silver Rewards Card",
+        "referrer_id": "4db6fc36e8"
+      },
+      "c58f0a3e7b9d1246": {
+        "date": "08/19/2025",
+        "referral_id": "c58f0a3e7b9d1246",
+        "referral_status": "ERROR",
+        "referred_account_type": "Platinum Rewards Card",
+        "referrer_id": "d97fb90fe8"
+      },
+      "e1d47b8c2f6a5930": {
+        "date": "11/07/2025",
+        "referral_id": "e1d47b8c2f6a5930",
+        "referral_status": "NO_PROGRESS",
+        "referred_account_type": "Gold Rewards Card",
+        "referrer_id": "601e851551"
+      }
+    },
+    "notes": "Referrer_id: user_id of the person who is doing the referring\nReferred_account_type: the account type that the person is being referred to apply for. The account types can be found in profile.json\nReferral_Status: one of COMPLETE, NO_PROGRESS, APPLIED, IN_PROGRESS, REJECTED, ERROR\nreferral_id: the id of the referral. Internal use, 16 digit hex.\ndate: date of the referral (MM/DD/YYYY format)\nCOMPLETE: has successfully opened a new account and met the criteria to get the referral bonus\nIN_PROGRESS: has successfully opened a new account and is in progress to get the referral bonus\nNO_PROGRESS: has not applied, no progress has been made yet\nAPPLIED: has sent in the application, waiting for a decision\nREJECTED: the user has too many referral processes going on.\nERROR: an error has occurred throughout the process\n\nDate: date that the entry was last updated."
+  },
+  "transaction_disputes": {
+    "data": {
+      "dsp_5b9e2c7a4f18": {
+        "address": "892 Willow Creek Road, Charlotte, NC 28202",
+        "card_action": "keep_active",
+        "card_last_4_digits": "6118",
+        "contacted_merchant": true,
+        "dispute_id": "dsp_5b9e2c7a4f18",
+        "dispute_reason": "duplicate_charge",
+        "eligible_for_provisional_credit": true,
+        "email": "pancake_enthusiast@outlook.com",
+        "full_name": "Emily Thompson",
+        "issue_noticed_date": "11/07/2025",
+        "partial_refund_amount": null,
+        "phone": "704-555-0183",
+        "provisional_credit_given": true,
+        "purchase_date": "11/05/2025",
+        "resolution_requested": "full_refund",
+        "status": "UNDER_REVIEW",
+        "submitted_at": "11/08/2025",
+        "transaction_id": "txn_9f2d6a1c4b83",
+        "user_id": "4db6fc36e8"
+      }
+    },
+    "notes": "dispute_id: unique identifier for the dispute\ntransaction_id: the transaction_id being disputed\nuser_id: the user_id who filed the dispute\ncard_action: action taken on card (keep_active, cancel_and_reissue)\ncard_last_4_digits: last 4 digits of the credit card\nfull_name: full name of the cardholder\nphone: contact phone number\nemail: contact email address\naddress: contact mailing address\ncontacted_merchant: whether user contacted merchant first (boolean)\npurchase_date: date of the disputed transaction (MM/DD/YYYY)\nissue_noticed_date: date user noticed the issue (MM/DD/YYYY)\ndispute_reason: reason for dispute (unauthorized_fraudulent_charge, duplicate_charge, incorrect_amount, goods_services_not_received, goods_services_not_as_described, canceled_subscription_still_charging, refund_never_processed)\nresolution_requested: requested resolution (full_refund, partial_refund)\npartial_refund_amount: amount for partial refund (if applicable)\neligible_for_provisional_credit: whether eligible for provisional credit (boolean)\nprovisional_credit_given: whether provisional credit was actually applied to the account (boolean, same as eligible_for_provisional_credit)\nsubmitted_at: date dispute was submitted (MM/DD/YYYY)\nstatus: dispute status (SUBMITTED, UNDER_REVIEW, APPROVED, DENIED)"
+  },
+  "users": {
+    "data": {
+      "123": {
+        "address": "742 Maple Street, Austin, TX 78701",
+        "date_of_birth": "03/15/1992",
+        "email": "mia.smith8574@gmail.com",
+        "name": "Mia Smith",
+        "phone_number": "512-555-0147",
+        "user_id": "123"
+      },
+      "126": {
+        "address": "24 Beacon Street, Boston, MA, 02114",
+        "date_of_birth": "09/21/1996",
+        "email": "alex_alex@gmail.com",
+        "name": "Alex Riviera",
+        "phone_number": "930-102-1332",
+        "user_id": "126"
+      },
+      "3d91a520be": {
+        "address": "1456 University Avenue, Irvine, CA 92612",
+        "date_of_birth": "04/09/1996",
+        "email": "pixel_dragon2000@gmail.com",
+        "name": "Liu Xiaoming",
+        "phone_number": "949-555-0418",
+        "user_id": "3d91a520be"
+      },
+      "4db6fc36e8": {
+        "address": "892 Willow Creek Road, Charlotte, NC 28202",
+        "date_of_birth": "08/15/1990",
+        "email": "pancake_enthusiast@outlook.com",
+        "name": "Emily Thompson",
+        "phone_number": "704-555-0183",
+        "user_id": "4db6fc36e8"
+      },
+      "601e851551": {
+        "address": "2890 Pacific Boulevard, Cupertino, CA 95014",
+        "date_of_birth": "10/18/1988",
+        "email": "noodle_wizard_88@hotmail.com",
+        "name": "Bei Chen",
+        "phone_number": "408-555-0932",
+        "user_id": "601e851551"
+      },
+      "d97fb90fe8": {
+        "address": "4455 Mission Street, San Francisco, CA 94112",
+        "date_of_birth": "09/28/1995",
+        "email": "sunflower_dreams2024@hotmail.com",
+        "name": "Maria Elena Rodr\u00edguez",
+        "phone_number": "415-555-0158",
+        "user_id": "d97fb90fe8"
+      }
+    },
+    "notes": ""
+  },
+  "verification_history": {
+    "data": {
+      "126_20251109": {
+        "address": "24 Beacon Street, Boston, MA, 02114",
+        "date_of_birth": "09/21/1996",
+        "email": "alex_alex@gmail.com",
+        "name": "Alex Riviera",
+        "phone_number": "930-102-1332",
+        "time_verified": "2025-11-09 10:41:00 EST",
+        "user_id": "126"
+      },
+      "601e851551_20251113": {
+        "address": "2890 Pacific Boulevard, Cupertino, CA 95014",
+        "date_of_birth": "10/18/1988",
+        "email": "noodle_wizard_88@hotmail.com",
+        "name": "Bei Chen",
+        "phone_number": "408-555-0932",
+        "time_verified": "2025-11-13 08:52:00 EST",
+        "user_id": "601e851551"
+      },
+      "d97fb90fe8_20251111": {
+        "address": "4455 Mission Street, San Francisco, CA 94112",
+        "date_of_birth": "09/28/1995",
+        "email": "sunflower_dreams2024@hotmail.com",
+        "name": "Maria Elena Rodr\u00edguez",
+        "phone_number": "415-555-0158",
+        "time_verified": "2025-11-11 16:07:00 EST",
+        "user_id": "d97fb90fe8"
+      }
+    },
+    "notes": "model should log the full user information as well as the current date for when the model verified the given user (allows us to verify whether models actually verified the user)"
+  }
+}

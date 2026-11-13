@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__blackrockmuniholdingsinvestmentqualityfund_04_07_2_36c33fd0__risk_averse",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'Risk-Averse Standard' policy (risk_averse). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"risk_averse\", \"compliant\": false, \"violations\": [{\"category\": \"Cap On Liability\", \"rule\": \"must_have\", \"present\": false, \"evidence_spans\": []}, {\"category\": \"Audit Rights\", \"rule\": \"must_have\", \"present\": false, \"evidence_spans\": []}, {\"category\": \"Insurance\", \"rule\": \"must_have\", \"present\": false, \"evidence_spans\": []}], \"needs_review\": []}"
+  }
+}

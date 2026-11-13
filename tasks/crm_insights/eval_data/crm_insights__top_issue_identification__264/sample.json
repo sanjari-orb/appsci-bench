@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__top_issue_identification__264",
+  "single_turn_input": {
+    "text": "What was the most frequent problem with the Air Zoom Pegasus during the Winter of 2021? The associated product Id is 01tWs000002wRLFIA2. Return only the issue Id of the most reported issue for this product.\n\n(Today's date: 2023-01-16)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"a1MWs0000012u2LMAQ\", \"evidence_case_ids\": [\"500Ws000007ql6yIAA\", \"500Ws000007r8Q4IAI\"], \"task_category\": \"top_issue_identification\", \"reward_metric\": \"exact_match\"}"
+  }
+}

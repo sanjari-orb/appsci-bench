@@ -1,0 +1,9 @@
+{
+  "data_point_id": "p2p-0003",
+  "single_turn_input": {
+    "text": "Review invoice INV-13350 (supplier Supplier_3, PO PO-000996) against its PO line and the supplier contract; decide whether to flag it for human review and give a short reason."
+  },
+  "expected_output": {
+    "json": "{\"flagged\": true, \"fault_type\": \"DUPLICATE\", \"reason\": \"duplicate of INV-3350 for PO line 1972 (double charge)\", \"duplicate_of\": \"INV-3350\"}"
+  }
+}

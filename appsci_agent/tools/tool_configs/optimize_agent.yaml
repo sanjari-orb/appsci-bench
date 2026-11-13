@@ -1,0 +1,55 @@
+name: optimize_agent
+
+description: |
+  Run one optimization cycle on your deployed candidate: a coding sub-agent runs your own eval
+  harness against it, reads what failed, and edits the candidate to fix the cause. Call this after
+  `eval_generator` has produced a runnable eval and your candidate is deployed, and keep calling it
+  until it tells you to stop.
+
+  One call = one measurement, then (usually) one sub-agent run:
+  1. The tool itself runs your eval harness against the deployed candidate and reports the scores
+     (repairing the harness through a sub-agent only if it will not start at all).
+  2. The score is recorded, stamped with the checkpoint the running container was built from, so it
+     can later be traced to the exact files that produced it.
+  3. If cases are failing, it diagnoses them and edits the candidate's code. The candidate is then
+     redeployed for you.
+
+  IMPORTANT -- a change is not measured in the same call that makes it. The eval queries the deployed
+  container, so an edit only becomes measurable once the artifact is rebuilt, which happens after the
+  sub-agent finishes. So when a call reports `awaiting_verification: true`, the change it just made
+  has NO score yet: call optimize_agent again to measure it. That next call keeps the change if the
+  score improved and rolls it back if it did not. Do NOT call `complete` while
+  `awaiting_verification` is true -- you would submit a candidate nothing has scored.
+
+  Stop when a call reports `saturated: true` (the scores have stopped moving) or
+  `budget_exhausted: true` (this run's allowance of optimization cycles is spent). Those are
+  different facts and are reported separately; running out of cycles is not evidence the candidate
+  cannot be improved. Every result carries `cycles_used` and `cycles_allowed` (null = no ceiling).
+
+  Preconditions: `eval_generator` must have produced a runnable `eval/` harness, and
+  `deploy_artifact` must have deployed the candidate you want scored. If the artifact directory has
+  changed since that deploy, redeploy first -- this tool keeps its own files outside the artifact
+  directory, so recording a score never counts as a change.
+
+parameters:
+  type: object
+  properties:
+    endpoint_url:
+      type: string
+      description: The deployed candidate endpoint to score. Defaults to the last one deploy_artifact deployed.
+    score_only:
+      type: boolean
+      description: >
+        Measure and record only -- no sub-agent is started to improve the candidate, so this
+        cannot change it. (One exception, and it does not change the candidate either: if the
+        harness will not start at all, a sub-agent gets one attempt at making it runnable, and any
+        edit it makes to the candidate is undone before measuring.) Use this when you changed the
+        candidate yourself and just want to see whether the score moved. Spends no cycle.
+    iteration_cycles_allowed:
+      type: integer
+      minimum: 0
+      description: >
+        Cap the total optimization cycles for this build session. Can only NARROW the ceiling the run
+        was configured with, never widen it, so passing a large number does not buy you more. Omit it
+        unless you deliberately want fewer changes attempted than you were allowed.
+  required: []

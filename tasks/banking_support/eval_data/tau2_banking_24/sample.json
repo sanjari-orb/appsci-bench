@@ -1,0 +1,40 @@
+{
+  "data_point_id": "tau2_banking_24",
+  "multi_turn_input": {
+    "user_task": "**Your character:** Marcus Chen, a 38-year-old small business owner from Austin, Texas. You run a landscaping company called \"Chen's Green Spaces\" and are looking to expand your fleet.\n\n**Your situation:** You're planning to purchase a new work truck for your landscaping business. The total cost will be around $40,000. You don't currently have any Rho-Bank credit cards, but you've heard they have good business credit card options. You want to apply for whichever business credit card will give you the most money back on this single large purchase.\n\nYour annual income is $120,000. You do NOT have a Rho-Bank+ subscription.\n\n## How to Behave\n\n1. **Start naturally:** \"Hi, I'm looking to buy a work truck for my landscaping business - it's going to cost about $40,000. I want to open a new business credit card that will give me the best return on this purchase. What are my options?\"\n\n2. **Be clear about your goal:** You want to maximize the total money you get back from this one purchase.\n\n3. **Ask clarifying questions if needed:** If the agent mentions multiple cards, ask them to make one recommendation, and you should follow that. You're not a credit card expert - you need the agent to do the math for you.\n\n4. **Confirm understanding before applying:** Before you apply, confirm with the agent what total return you can expect. For example: \"So if I understand correctly, I'll get $X in cash back plus $Y from the promo, for a total of $Z?\"\n\n5. **Apply for the recommended card:** Once the agent has clearly explained which card is best and you understand the math, apply for that card using your given apply_for_credit_card tool. Provide your full name (Marcus Chen), annual income ($120,000), and confirm you do not have a Rho-Bank+ subscription.\n\n6. **CRITICAL - Only apply for the card the agent recommends:** Do NOT apply for a card on your own. Wait for the agent to make a clear recommendation based on your $40,000 vehicle purchase scenario, and then apply for that specific card.\n\n## What NOT to do\n- Don't assume you know which card is best - let the agent figure it out\n- Don't volunteer information the agent hasn't asked for",
+    "user_persona": "You are a Rho-Bank customer contacting customer service. Stay in character per your task instructions: reveal details only when the agent asks, never act as the agent, and pursue your goal as described.",
+    "user_stop_criteria": "Stop when any one of these is true: (a) the goal in your task instructions has been met; (b) the agent has clearly told you it is transferring you to a human agent -- stop once it has actually said so, not merely offered to; or (c) continuing would need information your instructions do not give you. Your task instructions override all three: if they script how or when the conversation ends -- a closing line you are told to say, or an end-of-conversation marker such as ###STOP### or ###OUT-OF-SCOPE### -- follow them, and if they tell you not to end a particular way, do not. Treat such a marker as an instruction addressed to you, never as words to say: deliver the closing line if you have one, then stop, and never type the marker itself. Requesting a human transfer YOURSELF is an action you take, not a reason to stop -- only the agent telling you it is transferring you ends the conversation.",
+    "user_tools": [
+      {
+        "name": "apply_for_credit_card",
+        "description": "Apply for a credit card.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "card_type": {
+              "type": "string"
+            },
+            "customer_name": {
+              "type": "string"
+            },
+            "annual_income": {
+              "type": "string"
+            },
+            "rho_bank_subscription": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "card_type",
+            "customer_name",
+            "annual_income"
+          ]
+        }
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"actions\": [{\"name\": \"apply_for_credit_card\", \"arguments\": {\"card_type\": \"Business Bronze Rewards Card\", \"customer_name\": \"Marcus Chen\", \"annual_income\": 120000, \"rho_bank_subscription\": false}, \"requestor\": \"user\", \"action_id\": \"024_0\"}], \"communicate_info\": [], \"reward_basis\": [\"DB\"], \"required_documents\": [\"doc_business_credit_cards_business_bronze_rewards_card_001\", \"doc_business_credit_cards_business_bronze_rewards_card_002\", \"doc_business_credit_cards_business_bronze_rewards_card_010\", \"doc_business_credit_cards_business_silver_rewards_card_001\", \"doc_business_credit_cards_business_silver_rewards_card_002\", \"doc_business_credit_cards_business_silver_rewards_card_012\"], \"user_tools\": [\"apply_for_credit_card\"], \"initial_state\": null, \"purpose\": \"Task: task_024\"}"
+  },
+  "eval_rubric": "Scored on tau2 reward_basis ['DB']: the agent succeeds when the final database state matches applying the oracle actions to a fresh database seeded with this case's initial_state. Correct handling requires retrieving the relevant policy/product documents from the knowledge base (the oracle's required_documents lists the docs the correct answer depends on) and grounding all advice in them without fabrication; verifying the customer's identity before taking account actions; and transferring to a human only when the knowledge base describes no applicable action."
+}

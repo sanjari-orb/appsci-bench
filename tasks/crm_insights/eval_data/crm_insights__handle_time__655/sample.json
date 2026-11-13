@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__handle_time__655",
+  "single_turn_input": {
+    "text": "Which agent had the lowest average handle time over the past 6 months for those managing more than 1 case? Return only the Id of the agent.\n\n(Today's date: 2023-07-08)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xamrIAA\", \"evidence_case_ids\": [\"500Ws000007qtakIAA\", \"500Ws000007quOgIAI\"], \"task_category\": \"handle_time\", \"reward_metric\": \"exact_match\"}"
+  }
+}

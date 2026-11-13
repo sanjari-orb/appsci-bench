@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0071",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9016 (Marlowe Financial Advisors) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"revisit the renewal conversation with Tobias's VP next cycle\"], \"risks\": [\"VP has refused the renewal twice and is unwilling to revisit the conversation this cycle\"], \"commitments\": [], \"sentiment\": \"NEGATIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 16 (Renewal, M, authority risk true positive -- twin of cci-0070). Same shape as cci-0070, but here the VP has explicitly refused twice and won't reconsider -- unwillingness stated outright, not inferred, so this crosses into a real authority risk. Tobias's own frustration ('it's been a frustrating position for me to be stuck in the middle of') makes this NEGATIVE even though it isn't directed at us.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

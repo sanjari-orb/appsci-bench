@@ -1,0 +1,28 @@
+Call CALL-9004 — Millbrook Yarn Co (ACC-4004) — 2026-03-02 14:00 UTC
+Participants: Marco Delgado (Account Manager, us) / Priya Sundaram (Supply Chain Lead, customer)
+
+Marco: Priya, good to catch up.
+
+Marco: How's the integration holding up on your end these days?
+
+Priya: Pretty well, honestly. No real issues that anyone's flagged to me lately.
+
+Marco: Glad to hear it. If you ever want to move over to the newer API version, I could put together a migration plan for you, whenever the timing makes sense.
+
+Priya: Sure, that'd actually help -- we've been meaning to look into it but just haven't had the bandwidth to get to it ourselves.
+
+Marco: Great, I'll get a draft plan together on our side and send it your way so you have something concrete to react to.
+
+Priya: Appreciated, that makes it a lot easier for us to plan around on our end.
+
+Marco: In the meantime, anything else going on that I should know about?
+
+Priya: Not really, things are pretty steady otherwise, nothing worth flagging.
+
+Marco: Good to hear. I'll follow up once I've got that migration plan ready to share.
+
+Priya: Sounds good, I'll keep an eye out for it.
+
+Marco: Anything else at all today before we wrap up?
+
+Priya: No, I think that's everything on my end for now.

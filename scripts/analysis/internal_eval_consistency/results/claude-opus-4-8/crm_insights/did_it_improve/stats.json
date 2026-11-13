@@ -1,0 +1,136 @@
+{
+  "census": {
+    "counts": {
+      "fetch_failed": 0,
+      "mixed_cases": 0,
+      "mixed_limit": 0,
+      "no_scorable_captures": 0,
+      "no_scores": 0,
+      "run_dir_missing": 0
+    },
+    "skipped": {
+      "fetch_failed": [],
+      "mixed_cases": [],
+      "mixed_limit": [],
+      "no_scorable_captures": [],
+      "no_scores": [],
+      "run_dir_missing": []
+    },
+    "total": 0
+  },
+  "generated_at": "2026-09-21T06:49:22.632381+00:00",
+  "pooled": {
+    "beat_noise": 2,
+    "floor_unmeasured": 0,
+    "headline_improved": 0,
+    "headline_series": 0,
+    "headline_sign_test_p": null,
+    "headline_unchanged": 0,
+    "headline_worsened": 0,
+    "improved": 2,
+    "n_series": 3,
+    "sign_test_p": 1.0,
+    "unchanged": 0,
+    "worsened": 1
+  },
+  "provenance": {
+    "crm_insights_claude-opus-4-8_b0_l3_20260920_180551": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": false,
+      "headline_objective": null,
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "73f9cfed9c72bbfb1c1e777bffd34b7080c8c9c2"
+      ]
+    },
+    "crm_insights_claude-opus-4-8_b1_l3_20260920_183649": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": false,
+      "headline_objective": null,
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "73f9cfed9c72bbfb1c1e777bffd34b7080c8c9c2"
+      ]
+    },
+    "crm_insights_claude-opus-4-8_b2_l3_20260920_192604": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": false,
+      "headline_objective": null,
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "73f9cfed9c72bbfb1c1e777bffd34b7080c8c9c2"
+      ]
+    }
+  },
+  "report_commit": "b6074a684413d7d75411e73b23951f63b303d78c",
+  "report_tree_dirty": false,
+  "runs": {
+    "crm_insights_claude-opus-4-8_b0_l3_20260920_180551": {
+      "delta": -0.0296333333333334,
+      "delta_se": 0.025892899069478927,
+      "distinct_hashes": 3,
+      "first": 0.6547666666666667,
+      "headline_delta": null,
+      "headline_first": null,
+      "headline_last": null,
+      "headline_objective": null,
+      "last": 0.6251333333333333,
+      "n_points": 5,
+      "n_unmeasured": 0,
+      "noise_floor": 0.031087821838569958,
+      "run_id": "crm_insights_claude-opus-4-8_b0_l3_20260920_180551",
+      "spearman": -0.3999999999999999,
+      "steps_down": 0,
+      "steps_flat": 4,
+      "steps_up": 0,
+      "task_id": "crm_insights",
+      "zeros": 0
+    },
+    "crm_insights_claude-opus-4-8_b1_l3_20260920_183649": {
+      "delta": 0.7843,
+      "delta_se": 0.003092463958291706,
+      "distinct_hashes": 5,
+      "first": 0.0,
+      "headline_delta": null,
+      "headline_first": null,
+      "headline_last": null,
+      "headline_objective": null,
+      "last": 0.7843,
+      "n_points": 7,
+      "n_unmeasured": 0,
+      "noise_floor": 0.012250986354847794,
+      "run_id": "crm_insights_claude-opus-4-8_b1_l3_20260920_183649",
+      "spearman": 0.5225437283634242,
+      "steps_down": 1,
+      "steps_flat": 4,
+      "steps_up": 1,
+      "task_id": "crm_insights",
+      "zeros": 2
+    },
+    "crm_insights_claude-opus-4-8_b2_l3_20260920_192604": {
+      "delta": 0.5385666666666666,
+      "delta_se": 0.010563511621510011,
+      "distinct_hashes": 4,
+      "first": 0.0,
+      "headline_delta": null,
+      "headline_first": null,
+      "headline_last": null,
+      "headline_objective": null,
+      "last": 0.5385666666666666,
+      "n_points": 5,
+      "n_unmeasured": 0,
+      "noise_floor": 0.019667604497413154,
+      "run_id": "crm_insights_claude-opus-4-8_b2_l3_20260920_192604",
+      "spearman": 0.8944271909999159,
+      "steps_down": 0,
+      "steps_flat": 3,
+      "steps_up": 1,
+      "task_id": "crm_insights",
+      "zeros": 3
+    }
+  },
+  "synthetic": false
+}

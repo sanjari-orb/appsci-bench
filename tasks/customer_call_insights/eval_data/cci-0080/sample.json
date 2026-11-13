@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0080",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9025 (Amberline Retail Group) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"file the inventory filter bug with engineering as a priority fix\"], \"risks\": [], \"commitments\": [\"file the inventory filter bug with engineering as a priority fix\"], \"sentiment\": \"NEGATIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 25 (Problem, M, NEGATIVE with no risk -- annoyed about one bug, account in no danger). Owen is explicitly annoyed ('it's been driving me nuts all week', 'genuinely annoying') -- real stated dissatisfaction, so NEGATIVE. But he's equally explicit that this is isolated and renewal is unaffected ('no concerns there at all, this is just a single annoying bug'), so risks stays empty. The two are independent.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

@@ -1,0 +1,6 @@
+started_at: 2026-09-22T08:38:08.593522+00:00
+ended_at: 2026-09-22T16:16:00.000000+00:00 #started evaluation at 2026-09-22T16:16:00.000000+00:00 
+breaks: [[2026-09-22T11:01:00.000000+00:00, 2026-09-22T12:06:00.000000+00:00], 
+         [2026-09-22T15:30:00.000000+00:00, 2026-09-22T16:15:00.000000+00:00]]
+technical_issues: ["#NOTE evaluation died due to a host container crash with 40 samples evaluated, 
+# so the evaluation was not completed. The evaluation was restarted at 2026-09-23T08:15:00.000000+00:00 using a partial eval run with exactly the same artifact. "]

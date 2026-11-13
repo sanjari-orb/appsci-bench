@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0065",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9010 (Hollowell Media Group) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send an overview of our A/B testing capabilities\"], \"risks\": [\"customer is trialling a competitor's tool for a specific use case (lightweight A/B testing)\"], \"commitments\": [\"send an overview of our A/B testing capabilities\"], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 10 (Check-in, M, disposition independent of risk). Simone mentions trialling a rival tool in passing, unprompted -- a genuine competitor risk even though the call is warm throughout. Her enthusiasm ('enjoying using the platform', 'this was a nice chat') is unaffected by the risk, demonstrating the two are independent. The overview offer is accepted, landing in both lists.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

@@ -1,0 +1,3287 @@
+{
+  "task_id": "order_to_cash",
+  "results": [
+    {
+      "data_point_id": "p2p-0001",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "DUPLICATE",
+        "expected_fault_type": "DUPLICATE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0001",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0001",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0001",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "(1) Flag decision: The system flagged the invoice, matching the oracle's flagged=true. Correct. (2) Discrepancy type: The system identified fault_type DUPLICATE, matching the oracle. It also correctly named the duplicate_of as INV-3046. Correct. (3) Specificity/actionability: The reason states it is a duplicate of INV-3046 for PO line 1350 and warns of a double charge, even adding an actionable recommendation ('Do not pay'). It names the specific duplicated invoice and PO line, which is the key detail for a duplicate case. This is highly specific and actionable for an AP reviewer. (4) The reason names the exact discrepancy with the specific reference invoice and PO line, enabling immediate action. This falls in the excellent range."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0002",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "QTY_MISMATCH",
+        "expected_fault_type": "QTY_MISMATCH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0002",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0002",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0002",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "reasoning: (1) Flag decision: Agent flagged true, oracle says flagged true \u2014 matches. (2) Fault type: Agent says QTY_MISMATCH, matching the oracle's QTY_MISMATCH. Correct discrepancy type. (3) Specificity: The reason includes exact quantities (612 invoiced vs 496 PO) and the exact delta (116 units), plus an actionable recommendation to contact the vendor. This is highly specific and immediately actionable for an AP reviewer. This meets the Excellent tier criteria \u2014 names exact discrepancy with specific amounts. Minor note: it says the PO \"received 496\" which adds a detail not verified, but the core quantity comparison is accurate. (4) The response is excellent.\n\nscore: 0.97"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0003",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "DUPLICATE",
+        "expected_fault_type": "DUPLICATE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0003",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0003",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0003",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "(1) Flag decision: Oracle says flagged=true, fault_type=DUPLICATE. The agent flagged true with fault_type DUPLICATE \u2014 matches. (2) Discrepancy type: The agent correctly identifies it as a duplicate. (3) Specificity/actionability: The reason names the specific duplicate invoice (INV-3350) and the PO line (1972), and explains the risk (double charge). This aligns closely with the oracle reason and gives the AP reviewer clear, actionable detail. It lacks a dollar amount, but it precisely identifies the duplicate source and line, which is the key actionable info for a duplicate. This qualifies as excellent."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0004",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "QTY_MISMATCH",
+        "expected_fault_type": "QTY_MISMATCH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0004",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0004",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0004",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "The flag decision matches the oracle (flagged=true). The fault_type QTY_MISMATCH is correctly identified. The reason names the exact discrepancy with specific quantities (invoiced 226 vs PO 210) and correctly notes the 16-unit overage, matching the oracle's qty_delta of 16. It is specific and actionable, telling the reviewer to hold payment and contact the vendor. This meets the Excellent criteria."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0005",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "PRICE_DELTA",
+        "expected_fault_type": "PRICE_DELTA",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0005",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0005",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0005",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "(1) Flag decision: Oracle says flagged=true, agent flagged=true. Match. (2) Fault type: Oracle PRICE_DELTA, agent PRICE_DELTA. Correct discrepancy type identified. (3) Specificity: The reason includes exact unit price ($148.14), PO price ($137.08), total delta ($3,174.22), and references the $500 threshold plus an actionable instruction. This matches the oracle values precisely and gives an AP reviewer everything needed to act immediately. (4) This is an excellent, fully specific and actionable reason."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0006",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0006",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0006",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0006",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "reasoning: The oracle label indicates this invoice should NOT be flagged (flagged: false, fault_type: null, reason: \"matches PO and contract\"). The system correctly did NOT flag the invoice (flagged: false, fault_type: null). Per the special cases, when the system correctly does not flag a clean invoice, the score is 1.0. The reason provided (\"Invoice INV-1696 matches its PO line; no duplicate detected\") is appropriate and consistent with a clean invoice. The flag decision matches the oracle exactly.\n\nscore: 1.0"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0007",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "PRICE_DELTA",
+        "expected_fault_type": "PRICE_DELTA",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0007",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0007",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0007",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "reasoning: (1) Flag decision: Agent flagged true, oracle flagged true \u2014 matches. (2) Fault type: Agent says PRICE_DELTA, matching oracle. (3) Reason specificity: Agent gives exact unit prices ($424.97 vs $375.68), the total delta ($1,084.38), notes the 22-unit order, and references the $500 materiality threshold. This is highly specific and immediately actionable. All figures match the oracle. (4) This meets the Excellent tier \u2014 exact discrepancy named with specific amounts.\n\nscore: 1.0"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0008",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "TOTAL_MATH",
+        "expected_fault_type": "TOTAL_MATH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0008",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0008",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0008",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "The agent correctly flagged the invoice and identified the TOTAL_MATH discrepancy, matching the oracle. It provided specific amounts: the actual total ($52,760.19), expected total ($51,528.75), the qty\u00d7price basis (325\u00d7$158.55), and the exact overcharge of $1,231.44, which matches the oracle's total_delta precisely. This is fully actionable for an AP reviewer."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0009",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "PRICE_DELTA",
+        "expected_fault_type": "PRICE_DELTA",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0009",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0009",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0009",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The agent's flag decision (flagged=true) and fault_type (PRICE_DELTA) exactly match the oracle. The reason correctly identifies the price discrepancy with precise amounts: invoice unit price $219.53 vs PO price $179.10, matching the oracle exactly. It also provides the total delta ($16,172), quantity (400 units), notes the $500 threshold breach, and gives an actionable recommendation to hold for verification. This is highly specific and immediately actionable for an AP reviewer."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0010",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "OFF_CONTRACT_FEE",
+        "expected_fault_type": "OFF_CONTRACT_FEE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0010",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0010",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0010",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "The agent's flag decision (flagged=true, OFF_CONTRACT_FEE) exactly matches the oracle. The reason correctly identifies the discrepancy type as an off-contract fuel surcharge, names the specific fee ('fuel surcharge'), includes the exact amount ($363.46 matching the oracle's off_contract_fee of 363.46), explains it is not permitted under the contract, and provides an actionable recommendation. This is specific and immediately actionable for an AP reviewer."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0011",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "PRICE_DELTA",
+        "expected_fault_type": "PRICE_DELTA",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0011",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0011",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0011",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The agent correctly flagged the invoice with fault_type PRICE_DELTA, matching the oracle. The reason precisely identifies the price discrepancy with exact figures matching the ground truth: invoice unit price $379.28 vs PO price $370.94, total delta $2,435.28, and correctly notes it exceeds the $500 materiality threshold. It adds useful context (292 units) and actionable guidance for the reviewer. This is a complete, specific, and actionable reason."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0012",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "OFF_CONTRACT_FEE",
+        "expected_fault_type": "OFF_CONTRACT_FEE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0012",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0012",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0012",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "The flag decision matches the oracle (flagged=true, OFF_CONTRACT_FEE). The reason correctly identifies the discrepancy type as an off-contract handling fee, cites the exact amount ($241.16, matching the oracle's off_contract_fee), and clearly states the contract does not permit the charge. It is highly specific and actionable, telling the reviewer to remove the fee before payment."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0013",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "PRICE_DELTA",
+        "expected_fault_type": "PRICE_DELTA",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0013",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0013",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0013",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "reasoning: The oracle indicates the invoice should be flagged with fault_type PRICE_DELTA, unit price 153.69 vs PO 112.91, total delta $16352.78. (1) The agent flagged the invoice (matches oracle). (2) The fault_type is PRICE_DELTA, correctly identifying the discrepancy type. (3) The reason is highly specific: it gives the exact invoice unit price ($153.69), the PO price ($112.91), the total delta ($16,352.78), the quantity (401 units), and references the $500 threshold. This is fully actionable for an AP reviewer. This matches the \"Excellent\" tier with exact amounts. Deserves top score.\nscore: 1.0"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0014",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0014",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0014",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0014",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The oracle label indicates the invoice should NOT be flagged (flagged=false, trivial rounding of +$2.17 within the $3 tolerance). The system also correctly decided flagged=false with fault_type=null. Per the special-case rule, when the system correctly does not flag an invoice, the score is 1.0 regardless of reason detail. The system's reason is plausible and consistent with the correct no-flag outcome."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0015",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "QTY_MISMATCH",
+        "expected_fault_type": "QTY_MISMATCH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0015",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0015",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0015",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.98,
+      "metadata": {
+        "reasoning": "(1) Flag decision: Oracle says flagged=true, agent flagged=true. Match. (2) Fault type: Oracle QTY_MISMATCH, agent QTY_MISMATCH. Correct discrepancy type. (3) Specificity: The reason states specific amounts\u2014276 units invoiced vs 275 ordered, identifying the 1-unit overage, matching the oracle qty_delta of 1. It also gives actionable guidance (hold payment pending clarification). An AP reviewer could immediately understand and act on this. (4) The reason names the exact discrepancy with specific quantities and is fully actionable, placing it in the excellent range."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0016",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "QTY_MISMATCH",
+        "expected_fault_type": "QTY_MISMATCH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0016",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0016",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0016",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.98,
+      "metadata": {
+        "reasoning": "reasoning: (1) Flag decision: oracle says flagged=true, agent flagged=true \u2014 match. (2) Fault type: oracle QTY_MISMATCH, agent QTY_MISMATCH \u2014 correct discrepancy type. (3) Specificity: The reason names invoiced qty 346 vs PO qty 262, explicitly states the 84-unit overage, and gives actionable guidance (do not pay without correction/authorization). This includes exact amounts and the quantity delta matching the oracle. An AP reviewer could immediately act on this. Highly specific and actionable. Final: Excellent.\nscore: 0.98"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0017",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0017",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0017",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0017",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The oracle label indicates flagged=false with reason 'matches PO and contract'. The agent correctly decided not to flag the invoice (flagged=false, fault_type=null), matching the oracle. Per the special case rule, if the system correctly did NOT flag a clean invoice, the score is 1.0. The reason given ('Invoice matches its PO line; no duplicate detected') is consistent with the clean status. The flag decision matches the oracle exactly."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0018",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0018",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0018",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0018",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The system correctly did not flag the invoice, matching the oracle (flagged: false). Per the special-case rule, a correct non-flag decision scores 1.0. The reason is slightly imprecise\u2014it claims an exact PO match when there is actually a $22.15 delta below the materiality threshold\u2014but the decision and conclusion are correct."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0019",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "TOTAL_MATH",
+        "expected_fault_type": "TOTAL_MATH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0019",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0019",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0019",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "(1) Flag decision: Oracle says flagged=true, agent flagged=true. Match. (2) Fault type: Oracle says TOTAL_MATH, agent says TOTAL_MATH. Correct discrepancy type. (3) Specificity: The agent provides the invoice total ($22,856.39), the correct calculation (118 units \u00d7 $182.38 = $21,520.84), and the exact delta of $1,335.55, which matches the oracle's total_delta. This gives an AP reviewer everything needed to act immediately\u2014exact amounts and the math breakdown. (4) This is an excellent, fully actionable reason with specific amounts matching the oracle."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0020",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0020",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0020",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0020",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The agent correctly did not flag the clean invoice, matching the oracle label (flagged: false, fault_type: null). Per the special-case rule, a correct non-flag decision on a clean invoice scores 1.0. The provided reason is also consistent with the oracle ('matches PO and contract')."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0021",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "QTY_MISMATCH",
+        "expected_fault_type": "QTY_MISMATCH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0021",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0021",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0021",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "(1) Flag decision: The system flagged the invoice, matching the oracle's flagged=true. Correct. (2) Discrepancy type: The system identified QTY_MISMATCH, matching the oracle fault_type exactly. Correct. (3) Specificity: The reason states invoice bills 185 units vs PO 236 units, a shortage of 51 units. This matches the oracle's invoiced qty 185 != PO qty 236 and qty_delta -51 precisely, with specific amounts and clear actionability. An AP reviewer could immediately understand and act on this. (4) The reason names the exact discrepancy with specific amounts and delta, making it excellent quality."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0022",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0022",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0022",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0022",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The oracle label indicates the invoice should NOT be flagged (flagged: false, reason: matches PO and contract). The system correctly did NOT flag the invoice (flagged: false, fault_type: null). Per the special case rule, when the system correctly does not flag a clean invoice, the score is 1.0. The reason provided ('matches its PO line; no duplicate detected') is consistent with the clean status."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0023",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0023",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0023",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0023",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The oracle label is flagged=false (the $2.88 delta is within the $3 tolerance and immaterial). The system also returned flagged=false, correctly matching the oracle decision to not flag this clean invoice. Per the special-case rule, when the system correctly does NOT flag a clean invoice, the score is 1.0 regardless of reason detail. The provided reason ('matches its PO line; no duplicate detected') is consistent with the correct non-flag decision."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0024",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "TOTAL_MATH",
+        "expected_fault_type": "TOTAL_MATH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0024",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0024",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0024",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "(1) Flag decision: oracle says flagged=true, agent flagged=true. Match. (2) Fault type: oracle TOTAL_MATH, agent TOTAL_MATH. Correct discrepancy type identified. (3) Specificity: The agent provides the invoice total ($5,047.67), the computed correct total ($2,920.05 = 27 units \u00d7 $108.15), and the exact overcharge delta ($2,127.62), which matches the oracle's total_delta of 2127.62 exactly. This is highly specific and actionable\u2014an AP reviewer could immediately understand and act on it. The reason names the exact discrepancy with specific amounts. This falls in the Excellent range."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0025",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0025",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0025",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0025",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The oracle indicates flagged=false (invoice matches PO and contract). The system also returned flagged=false with fault_type=null, correctly identifying the clean invoice. Per the special case rule, correctly not flagging a clean invoice scores 1.0. The reason provided is consistent and confirms the match."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0026",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "OFF_CONTRACT_FEE",
+        "expected_fault_type": "OFF_CONTRACT_FEE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0026",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0026",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0026",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "The agent correctly flagged the invoice (matching the oracle flagged=true) and correctly identified the fault_type as OFF_CONTRACT_FEE. The reason names the exact discrepancy\u2014the $125.06 restocking fee not permitted by the contract\u2014matching the oracle's off_contract_fee of 125.06. It is specific (exact amount and charge name) and actionable (instructs removal before payment), so an AP reviewer could act immediately. This meets the Excellent tier."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0027",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0027",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0027",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0027",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The oracle label indicates the invoice should NOT be flagged (flagged: false, fault_type: null). The system correctly did not flag the invoice, and its reason ('matches its PO line; no duplicate detected') is consistent with the ground truth ('matches PO and contract'). Per the special case rule, a correct non-flag decision on a clean invoice scores 1.0."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0028",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "OFF_CONTRACT_FEE",
+        "expected_fault_type": "OFF_CONTRACT_FEE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0028",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0028",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0028",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "The flag decision and fault_type match the oracle (OFF_CONTRACT_FEE). The reason correctly identifies the discrepancy as an off-contract admin charge, cites the exact amount ($366.74) matching the oracle's off_contract_fee value, names the specific fee, and provides a clear actionable directive. An AP reviewer could immediately act on it."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0029",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "QTY_MISMATCH",
+        "expected_fault_type": "QTY_MISMATCH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0029",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0029",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0029",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "reasoning: (1) Flag decision: Agent flagged true, oracle flagged true \u2014 matches. (2) Fault type: Agent identifies QTY_MISMATCH, matching oracle exactly. (3) Reason specificity: The reason states specific amounts \u2014 135 invoiced units vs 180 PO units, and explicitly notes the 45-unit shortfall, which aligns with the oracle's qty_delta of -45. It also provides actionable guidance (hold payment, verify with vendor). This is highly specific and immediately actionable for an AP reviewer. This meets the Excellent tier: names the exact discrepancy with specific amounts.\n\nscore: 0.97"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0030",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "OFF_CONTRACT_ITEM",
+        "expected_fault_type": "OFF_CONTRACT_ITEM",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0030",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0030",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0030",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "The flag decision (flagged: true) matches the oracle. The fault_type OFF_CONTRACT_ITEM exactly matches the ground truth. The reason correctly identifies the specific off-contract item (ITEM-X11010, item_id 11010) as not being covered under supplier 9's contract, which precisely matches the oracle reason and off_contract_item value (11010). The reason names the exact discrepancy with the specific item identifier and is fully actionable for an AP reviewer. For an off-contract-item discrepancy, the item ID is the key actionable detail, and it is provided precisely; there are no relevant 'amounts' to include for this discrepancy type. This is an excellent, specific, and actionable reason."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0031",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0031",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0031",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0031",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The oracle label indicates the invoice should NOT be flagged (flagged: false), because the total delta of $0.31 is trivial rounding within the $3 tolerance. The system correctly did not flag the invoice (flagged: false, fault_type: null), matching the oracle decision. Per the special case rules, when the system correctly does NOT flag a clean (non-material) invoice, the score is 1.0. The reason states the invoice matches its PO line with no duplicate, which is consistent with the non-flagged decision. The decision is correct, so full marks apply."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0032",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "DUPLICATE",
+        "expected_fault_type": "DUPLICATE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0032",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0032",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0032",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "The oracle indicates flagged=true, fault_type=DUPLICATE, duplicate of INV-2933 for PO line 1832 (double charge). The agent correctly flagged the invoice and set fault_type to DUPLICATE. The reason accurately identifies the duplicate discrepancy, cites the specific duplicated invoice (INV-2933) and PO line (1832), explains the double-charge consequence, and gives clear action ('Do not pay'). This matches the oracle precisely and is immediately actionable. The key identifying details for a duplicate (which invoice it duplicates and which PO line) are present, so it falls in the excellent range."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0033",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0033",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0033",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0033",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The oracle label indicates the invoice should NOT be flagged (flagged=false) because the discrepancy is a trivial rounding difference (+$2.13) within the $3 tolerance. The system also decided flagged=false, matching the oracle correctly. Per the special case, a correctly non-flagged clean invoice scores 1.0. The system's reason states the invoice matches its PO line and no duplicate was detected, which is consistent with the decision not to flag. Although it doesn't mention the small rounding delta, no reason is strictly needed for a non-flagged invoice, and the decision aligns with the oracle."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0034",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "OFF_CONTRACT_FEE",
+        "expected_fault_type": "OFF_CONTRACT_FEE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0034",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0034",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0034",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "(1) Flag decision: The system flagged the invoice as true, matching the oracle label (flagged: true). Correct. (2) Discrepancy type: The system identified fault_type as OFF_CONTRACT_FEE, matching the oracle exactly. The reason correctly identifies the expediting fee as not permitted under the contract, matching the ground truth 'off-contract fee'. (3) Specificity/actionability: The reason includes the specific amount ($384.94) matching the oracle's off_contract_fee value, names the exact fee type ('expediting fee'), and states it is not permitted under the contract. It even provides an actionable recommendation to remove the fee. An AP reviewer could immediately understand and act on this. (4) Final: This meets the Excellent tier with correct discrepancy type, specific amount, and clear actionability."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0035",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "QTY_MISMATCH",
+        "expected_fault_type": "QTY_MISMATCH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0035",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0035",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0035",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.98,
+      "metadata": {
+        "reasoning": "The agent correctly flagged the invoice matching the oracle (flagged=true). The fault_type QTY_MISMATCH matches exactly. The reason precisely identifies the quantity mismatch with specific amounts: invoiced 17 units vs PO 14 units, correctly stating the 3-unit delta which matches the oracle qty_delta=3. It also gives actionable guidance to hold payment and contact the vendor. This is fully specific and actionable."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0036",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0036",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0036",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0036",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The oracle label indicates this invoice should NOT be flagged (flagged: false, matches PO and contract). The system correctly did not flag the invoice (flagged: false, fault_type: null). Per the special case rule, if the system correctly did NOT flag a clean invoice, the score is 1.0. The reason provided ('Invoice INV-6132 matches its PO line; no duplicate detected') is appropriate and consistent with a clean invoice."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0037",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "PRICE_DELTA",
+        "expected_fault_type": "PRICE_DELTA",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0037",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0037",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0037",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The agent's flag decision (true) matches the oracle. The fault type PRICE_DELTA is correct. The reason names the exact discrepancy with specific amounts: invoice unit price $311.37 vs PO $303.77, total delta $3,739.20 exceeding the $500 threshold \u2014 all matching the oracle precisely. It is fully actionable ('hold for price verification'). This meets the Excellent tier."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0038",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0038",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0038",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0038",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "The oracle indicates the invoice should NOT be flagged (trivial $2.49 rounding within $3 tolerance). The system correctly did not flag it (flagged: false, fault_type: null), matching the oracle decision. Per the special case rule, a correct non-flag scores near 1.0. The reason ('matches its PO line; no duplicate detected') is plausible and consistent with the correct outcome, though it slightly overstates a perfect match rather than acknowledging the trivial within-tolerance delta. This minor imprecision warrants a small deduction from a perfect score."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0039",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "PRICE_DELTA",
+        "expected_fault_type": "PRICE_DELTA",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0039",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0039",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0039",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "reasoning: The oracle indicates the invoice should be flagged with fault_type PRICE_DELTA and a total delta of $696.10. (1) Flag decision: agent flagged = true, matches oracle. (2) Fault type: agent identified PRICE_DELTA, correct. (3) Specificity: the reason includes the exact invoice unit price ($135.71), the PO price ($66.10), the total overage ($696.10), and references the $500 threshold, plus actionable guidance (\"do not pay until pricing is verified\"). This is highly specific and immediately actionable. All amounts match the oracle exactly. This meets the Excellent tier.\n\nscore: 1.0"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0040",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "OFF_CONTRACT_FEE",
+        "expected_fault_type": "OFF_CONTRACT_FEE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0040",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0040",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0040",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "(1) Flag decision: Oracle says flagged=true, fault_type=OFF_CONTRACT_FEE. The system flagged=true with fault_type=OFF_CONTRACT_FEE. Match. (2) Discrepancy type: The reason correctly identifies the off-contract admin charge as not permitted by the contract. Correct type. (3) Specificity: The reason names the exact amount ($520.91), identifies it as an 'admin charge', and states the contract does not permit it. It even provides an actionable recommendation (remove the charge before payment). An AP reviewer could immediately understand and act on this. This matches the Excellent tier. (4) The reason is specific, correct, and actionable."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0041",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "OFF_CONTRACT_FEE",
+        "expected_fault_type": "OFF_CONTRACT_FEE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0041",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0041",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0041",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "The flag decision matches the oracle (both flagged=true). The fault type OFF_CONTRACT_FEE is correctly identified. The reason names the exact discrepancy (expediting fee) with the specific amount ($371.72, matching the oracle) and clearly states it is not permitted under the contract, plus provides actionable guidance to remove/reject before payment. This is immediately understandable and actionable for an AP reviewer."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0042",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "TOTAL_MATH",
+        "expected_fault_type": "TOTAL_MATH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0042",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0042",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0042",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "The agent correctly flagged the invoice (oracle flagged=true) and identified the exact fault type TOTAL_MATH. The reason includes specific amounts: invoiced total $21,818.79 (matches oracle), the correct calculation 434 units \u00d7 $44.84 = $19,460.56, and the exact delta of $2,358.23 which precisely matches the oracle's total_delta of 2358.23. This is fully actionable for an AP reviewer with all relevant figures shown. Meets Excellent criteria."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0043",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0043",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0043",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0043",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The oracle indicates the invoice should NOT be flagged (trivial +$0.24 rounding within the $3 tolerance). The system also returned flagged=false, correctly matching the oracle decision. Per the scoring special case, a system that correctly does not flag a clean/immaterial invoice scores 1.0, and no discrepancy reason is required. The provided reason ('matches its PO line; no duplicate detected') is plausible and consistent with the correct decision."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0044",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0044",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0044",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0044",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The oracle indicates the invoice should NOT be flagged (flagged: false), because the price delta of $222.95 is below the $500 materiality threshold. The system also decided not to flag the invoice, so the flag decision matches the oracle. This is the correct outcome for a non-flagged invoice. Per the special case rule, a correct non-flagged decision scores 1.0. However, the system's reason claims 'Invoice matches its PO line; no duplicate detected,' which is somewhat inaccurate since there actually was a price delta of $222.95 (just below the materiality threshold). The invoice does not perfectly 'match' its PO line. Still, the flag decision itself is correct, and the special case guidance says a correct non-flagged invoice scores 1.0. Given the reasoning provided is slightly misleading about the exact match but reaches the correct conclusion, I'll score it at 1.0 per the special-case rule while noting the minor inaccuracy."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0045",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0045",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0045",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0045",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The system correctly did not flag the invoice, matching the oracle label (flagged: false). The invoice's only variance was a trivial rounding of $2.57, within the $3 tolerance. Per the special-case rule, a correct non-flag decision scores 1.0."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0046",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "OFF_CONTRACT_FEE",
+        "expected_fault_type": "OFF_CONTRACT_FEE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0046",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0046",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0046",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "The agent correctly matched the oracle flag decision (flagged=true) and fault_type (OFF_CONTRACT_FEE). The reason precisely identifies the off-contract discrepancy: the '$275.91 expediting fee...not permitted under the contract,' which matches the oracle's '\\'expediting fee\\' $275.91 not covered by contract.' It includes the exact fee amount, the specific fee name, and even actionable guidance (remove or obtain approval). This is fully specific and immediately actionable for an AP reviewer."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0047",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0047",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0047",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0047",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "(1) Flag decision: The oracle says flagged=false, and the system also decided flagged=false. The flag decision matches the oracle. (2) Since the invoice was correctly not flagged, no discrepancy reason is strictly needed. (3) However, the system's stated reason is somewhat inaccurate: it claims the invoice 'matches its PO line,' when in fact there is a price delta of $302.38, which is below the $500 materiality threshold. The correct rationale would note the sub-threshold delta rather than asserting a perfect match. Still, the system arrived at the correct non-flag decision. (4) Per the special case rule, a correctly non-flagged clean invoice scores 1.0. While the reason isn't perfectly precise about the sub-threshold delta, the decision is correct and the outcome aligns with the oracle."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0048",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "OFF_CONTRACT_ITEM",
+        "expected_fault_type": "OFF_CONTRACT_ITEM",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0048",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0048",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0048",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "reasoning: (1) Flag decision: The system flagged the invoice, matching the oracle's flagged=true. Correct. (2) Discrepancy type: The system identified OFF_CONTRACT_ITEM and correctly named the specific item ITEM-X11005 as not in the supplier contract, matching the oracle exactly. (3) Specificity/actionability: The reason names the exact item (ITEM-X11005), correctly identifies it as off-contract, and provides an actionable next step (verify coverage or obtain a contract amendment). This is highly specific and actionable for an AP reviewer. It lacks any dollar amounts, but for an off-contract item the key identifier is the item itself, which is provided. (4) The reason is excellent\u2014correct type, specific item, and actionable guidance.\n\nscore: 0.95"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0049",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0049",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0049",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0049",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The system correctly did NOT flag a clean invoice, matching the oracle label (flagged: false, fault_type: null). Per the special case rule, correctly not flagging a clean invoice scores 1.0. The system's reason appropriately affirms the PO match and absence of a duplicate."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0050",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "QTY_MISMATCH",
+        "expected_fault_type": "QTY_MISMATCH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0050",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0050",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0050",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "The agent correctly flagged the invoice (matching oracle flagged=true) and identified the correct fault_type QTY_MISMATCH. The reason provides specific quantities (53 invoiced vs 49 ordered) and the exact 4-unit overage matching the oracle qty_delta of 4, and is fully actionable ('hold payment and verify'). A minor clerical error exists where it labels the PO as 'PO INV-9929' (using the invoice number), but the substantive discrepancy detail is precise and correct."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0051",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "OFF_CONTRACT_FEE",
+        "expected_fault_type": "OFF_CONTRACT_FEE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0051",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0051",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0051",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "(1) Flag decision: The system flagged the invoice as true, matching the oracle which also has flagged=true. Correct. (2) Discrepancy type: The system identified fault_type OFF_CONTRACT_FEE, matching the oracle exactly. The reason correctly identifies a fuel surcharge not permitted under contract terms, matching the oracle's 'off-contract fee' identification. (3) Specificity: The reason includes the specific amount ($586.76) and names the exact discrepancy (fuel surcharge not permitted under contract). An AP reviewer could immediately understand and act on this. It even provides actionable guidance (hold payment until contract review). This meets the Excellent tier criteria with specific amount and exact discrepancy named. (4) Final: Correct flag, correct type, specific amount, and actionable."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0052",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0052",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": false,
+        "expected": false,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0052",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": null,
+      "metadata": {
+        "applicable": false
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0052",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The oracle label indicates the invoice should NOT be flagged (flagged: false), and the system correctly did not flag it. Per the special cases, when the system correctly does NOT flag a clean invoice, the score is 1.0. The system's reason (\"Invoice INV-4390 matches its PO line; no duplicate detected.\") correctly supports the non-flag decision. While it doesn't mention the trivial rounding delta of +$2.12, the invoice is within tolerance and not material, so no reason detail is required for a correctly non-flagged invoice."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0053",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "TOTAL_MATH",
+        "expected_fault_type": "TOTAL_MATH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0053",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0053",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0053",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "The agent correctly flagged the invoice (matching oracle flagged=true) and identified the correct fault_type TOTAL_MATH. The reason is highly specific: it states the invoiced total ($32,970.76), the expected computed total (72 \u00d7 $431.90 = $31,096.80), and the exact overage of $1,873.96, which matches the oracle total_delta exactly. This is immediately understandable and actionable for an AP reviewer, meeting the Excellent tier."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0054",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "PRICE_DELTA",
+        "expected_fault_type": "PRICE_DELTA",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0054",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0054",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0054",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "reasoning: (1) Flag decision: The oracle says flagged=true with fault_type PRICE_DELTA. The agent flagged=true with fault_type PRICE_DELTA. Match. (2) Discrepancy type: correctly identified as price delta/unit price mismatch. (3) Specificity: The reason states unit price $250.72 vs PO $241.66, the exact matching values from the oracle, plus the total delta of $4,203.84 matching the oracle's total_delta, references the $500 threshold, and includes quantity (464 units) and an actionable recommendation. This is highly specific and immediately actionable. (4) This meets the Excellent tier \u2014 exact discrepancy with specific amounts matching the oracle.\n\nscore: 1.0"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0055",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "TOTAL_MATH",
+        "expected_fault_type": "TOTAL_MATH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0055",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0055",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0055",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "The flag decision matches the oracle (both flagged=true). The fault_type TOTAL_MATH is correctly identified. The reason is highly specific and actionable: it provides the invoice total ($77,336.65), the qty\u00d7price computation (161 \u00d7 $472.90 = $76,136.90), and the exact overage of $1,199.75, which matches the oracle total_delta of 1199.75. An AP reviewer could immediately understand and act on this. This meets the Excellent tier."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0056",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "PRICE_DELTA",
+        "expected_fault_type": "PRICE_DELTA",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0056",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0056",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0056",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The agent's flag decision (flagged=true, PRICE_DELTA) matches the oracle exactly. The reason correctly identifies the discrepancy as a unit price mismatch and provides all specific amounts: invoice price $53.74, PO price $23.78, total delta $659.12 over 22 units, and references the $500 materiality threshold. These values match the oracle precisely. An AP reviewer could immediately understand and act on this without looking up further details."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0057",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "PRICE_DELTA",
+        "expected_fault_type": "PRICE_DELTA",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0057",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0057",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0057",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "(1) Flag decision: oracle says flagged=true, agent flagged=true \u2014 matches. (2) Fault type: oracle PRICE_DELTA, agent PRICE_DELTA \u2014 correct discrepancy type. (3) Specificity: agent provides exact unit price ($471.34 vs PO $445.72) and total delta ($10,324.86), plus notes the $500 threshold. This matches the oracle amounts precisely and is highly actionable for an AP reviewer. This falls in the Excellent range."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0058",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "QTY_MISMATCH",
+        "expected_fault_type": "QTY_MISMATCH",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0058",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0058",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0058",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.97,
+      "metadata": {
+        "reasoning": "(1) Flag decision: Oracle says flagged=true, agent flagged=true. Match. (2) Discrepancy type: Oracle says QTY_MISMATCH; agent says QTY_MISMATCH. Correct type identified. (3) Specificity: Agent gives specific amounts \u2014 invoiced 26 units vs PO 35 units, and correctly notes the 9-unit shortfall matching qty_delta of -9. It also adds actionable guidance to verify receipt. This is highly specific and actionable, allowing an AP reviewer to act immediately. This meets the Excellent tier."
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0059",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "OFF_CONTRACT_FEE",
+        "expected_fault_type": "OFF_CONTRACT_FEE",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0059",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0059",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0059",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 0.95,
+      "metadata": {
+        "reasoning": "reasoning: (1) The oracle says flagged=true with fault_type OFF_CONTRACT_FEE. The system flagged=true with fault_type OFF_CONTRACT_FEE \u2014 matches exactly. (2) The reason correctly identifies the discrepancy type: an expediting fee not permitted under the contract, matching the off-contract fee issue. (3) The reason includes the specific amount ($275.84) and names the exact fee (\"expediting fee\") that is not permitted under the contract. This gives an AP reviewer everything needed to act\u2014the specific fee, the exact amount, and the reason it's problematic. This is specific and actionable, placing it in the Excellent range. It's phrased as an action (\"Remove the ... fee\") rather than a pure discrepancy statement, but it clearly conveys the discrepancy with the exact amount.\n\nscore: 0.95"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0060",
+      "objective": "fault_classification",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted_fault_type": "PRICE_DELTA",
+        "expected_fault_type": "PRICE_DELTA",
+        "how": "normalized_string"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0060",
+      "objective": "flag_accuracy",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "predicted": true,
+        "expected": true,
+        "how": "boolean"
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0060",
+      "objective": "flag_fnr",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "applicable": true,
+        "predicted": true
+      },
+      "error": null
+    },
+    {
+      "data_point_id": "p2p-0060",
+      "objective": "reason_quality",
+      "repeat_index": 0,
+      "score": 1.0,
+      "metadata": {
+        "reasoning": "The agent's flag decision (flagged=true, PRICE_DELTA) matches the oracle exactly. The reason correctly identifies a price delta discrepancy and provides highly specific, actionable detail: invoice unit price $64.97 vs PO $59.68, the $5.29 per-unit difference, 143 units, the $756.47 total overage, and the $500 materiality threshold. These figures precisely match the oracle (total delta $756.47, prices 64.97 vs 59.68). An AP reviewer could act on this immediately. This is Excellent-tier."
+      },
+      "error": null
+    }
+  ],
+  "views": {
+    "matrix": {
+      "p2p-0001": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0002": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0003": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0004": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0005": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0006": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0007": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0008": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0009": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0010": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0011": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0012": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0013": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0014": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0015": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.98
+      },
+      "p2p-0016": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.98
+      },
+      "p2p-0017": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0018": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0019": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0020": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0021": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0022": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0023": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0024": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0025": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0026": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0027": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0028": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0029": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0030": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0031": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0032": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0033": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0034": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0035": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.98
+      },
+      "p2p-0036": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0037": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0038": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0039": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0040": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0041": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0042": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0043": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0044": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0045": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0046": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0047": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0048": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0049": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0050": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0051": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0052": {
+        "flag_accuracy": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0053": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0054": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0055": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0056": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0057": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 1.0
+      },
+      "p2p-0058": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.97
+      },
+      "p2p-0059": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 0.95
+      },
+      "p2p-0060": {
+        "fault_classification": 1.0,
+        "flag_accuracy": 1.0,
+        "flag_fnr": 1.0,
+        "reason_quality": 1.0
+      }
+    },
+    "per_data_point": [
+      {
+        "data_point_id": "p2p-0001",
+        "score": 0.99
+      },
+      {
+        "data_point_id": "p2p-0002",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0003",
+        "score": 0.99
+      },
+      {
+        "data_point_id": "p2p-0004",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0005",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0006",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0007",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0008",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0009",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0010",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0011",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0012",
+        "score": 0.99
+      },
+      {
+        "data_point_id": "p2p-0013",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0014",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0015",
+        "score": 0.996
+      },
+      {
+        "data_point_id": "p2p-0016",
+        "score": 0.996
+      },
+      {
+        "data_point_id": "p2p-0017",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0018",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0019",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0020",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0021",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0022",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0023",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0024",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0025",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0026",
+        "score": 0.99
+      },
+      {
+        "data_point_id": "p2p-0027",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0028",
+        "score": 0.99
+      },
+      {
+        "data_point_id": "p2p-0029",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0030",
+        "score": 0.99
+      },
+      {
+        "data_point_id": "p2p-0031",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0032",
+        "score": 0.99
+      },
+      {
+        "data_point_id": "p2p-0033",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0034",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0035",
+        "score": 0.996
+      },
+      {
+        "data_point_id": "p2p-0036",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0037",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0038",
+        "score": 0.98
+      },
+      {
+        "data_point_id": "p2p-0039",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0040",
+        "score": 0.99
+      },
+      {
+        "data_point_id": "p2p-0041",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0042",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0043",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0044",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0045",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0046",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0047",
+        "score": 0.98
+      },
+      {
+        "data_point_id": "p2p-0048",
+        "score": 0.99
+      },
+      {
+        "data_point_id": "p2p-0049",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0050",
+        "score": 0.99
+      },
+      {
+        "data_point_id": "p2p-0051",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0052",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0053",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0054",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0055",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0056",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0057",
+        "score": 1.0
+      },
+      {
+        "data_point_id": "p2p-0058",
+        "score": 0.994
+      },
+      {
+        "data_point_id": "p2p-0059",
+        "score": 0.99
+      },
+      {
+        "data_point_id": "p2p-0060",
+        "score": 1.0
+      }
+    ],
+    "per_metric": [
+      {
+        "objective": "fault_classification",
+        "score": 1.0,
+        "weight": 0.2,
+        "positive": true
+      },
+      {
+        "objective": "flag_accuracy",
+        "score": 1.0,
+        "weight": 0.3,
+        "positive": true
+      },
+      {
+        "objective": "flag_fnr",
+        "score": 1.0,
+        "weight": 0.3,
+        "positive": true
+      },
+      {
+        "objective": "reason_quality",
+        "score": 0.9806666666666666,
+        "weight": 0.2,
+        "positive": true
+      }
+    ]
+  },
+  "final_score": 0.9961333333333333,
+  "warnings": [],
+  "run_id": "run_744db8a4e3c6_18cb12ceab6501601",
+  "store_root": "/home/user/Documents/GitHub/otc-eval/appsci-bench-otc/human_baseline/attempts/order_to_cash-l3-P5-pilot-migration-20260812-124936/solution/order_to_cash-l3-P5-pilot-migration-20260812-124936/eval"
+}

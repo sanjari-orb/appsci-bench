@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__monthly_trend_analysis__132",
+  "single_turn_input": {
+    "text": "Are there any months in the past 4 quarters where the number of cases received for Enduro Training Ladder is significantly higher than in other months? The associated product Id is 01tWs000002wNvzIAE. Return only the month name.\n\n(Today's date: 2022-07-05)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"December\", \"evidence_case_ids\": [\"500Ws000007rJgRIAU\"], \"task_category\": \"monthly_trend_analysis\", \"reward_metric\": \"exact_match\"}"
+  }
+}

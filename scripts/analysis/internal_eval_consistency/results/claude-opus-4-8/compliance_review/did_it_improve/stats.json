@@ -1,0 +1,136 @@
+{
+  "census": {
+    "counts": {
+      "fetch_failed": 0,
+      "mixed_cases": 0,
+      "mixed_limit": 0,
+      "no_scorable_captures": 0,
+      "no_scores": 0,
+      "run_dir_missing": 0
+    },
+    "skipped": {
+      "fetch_failed": [],
+      "mixed_cases": [],
+      "mixed_limit": [],
+      "no_scorable_captures": [],
+      "no_scores": [],
+      "run_dir_missing": []
+    },
+    "total": 0
+  },
+  "generated_at": "2026-09-16T19:33:52.848231+00:00",
+  "pooled": {
+    "beat_noise": 0,
+    "floor_unmeasured": 0,
+    "headline_improved": 1,
+    "headline_series": 3,
+    "headline_sign_test_p": 1.0,
+    "headline_unchanged": 0,
+    "headline_worsened": 2,
+    "improved": 1,
+    "n_series": 3,
+    "sign_test_p": 1.0,
+    "unchanged": 0,
+    "worsened": 2
+  },
+  "provenance": {
+    "compliance_review_claude-opus-4-8_b0_l3_20260914_190804": {
+      "dirty_scoring_tree": false,
+      "headline_confirmed": true,
+      "headline_objective": "violation_set_f1",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "d1d6ea4f5b517ad9fab0910b621ac8a8bfcd2e06"
+      ]
+    },
+    "compliance_review_claude-opus-4-8_b1_l3_20260914_193301": {
+      "dirty_scoring_tree": false,
+      "headline_confirmed": true,
+      "headline_objective": "violation_set_f1",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "d1d6ea4f5b517ad9fab0910b621ac8a8bfcd2e06"
+      ]
+    },
+    "compliance_review_claude-opus-4-8_b2_l3_20260914_200421": {
+      "dirty_scoring_tree": false,
+      "headline_confirmed": true,
+      "headline_objective": "violation_set_f1",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "d1d6ea4f5b517ad9fab0910b621ac8a8bfcd2e06"
+      ]
+    }
+  },
+  "report_commit": "d1d6ea4f5b517ad9fab0910b621ac8a8bfcd2e06",
+  "report_tree_dirty": true,
+  "runs": {
+    "compliance_review_claude-opus-4-8_b0_l3_20260914_190804": {
+      "delta": -0.0020833333333333814,
+      "delta_se": 0.002674467755980224,
+      "distinct_hashes": 1,
+      "first": 0.36853033333333335,
+      "headline_delta": -0.006666666666666654,
+      "headline_first": 0.28981066666666666,
+      "headline_last": 0.283144,
+      "headline_objective": "violation_set_f1",
+      "last": 0.36644699999999997,
+      "n_points": 2,
+      "n_unmeasured": 0,
+      "noise_floor": 0.003275540667838951,
+      "run_id": "compliance_review_claude-opus-4-8_b0_l3_20260914_190804",
+      "spearman": -0.9999999999999998,
+      "steps_down": 0,
+      "steps_flat": 1,
+      "steps_up": 0,
+      "task_id": "compliance_review",
+      "zeros": 0
+    },
+    "compliance_review_claude-opus-4-8_b1_l3_20260914_193301": {
+      "delta": -0.008958333333333401,
+      "delta_se": 0.04184707473381834,
+      "distinct_hashes": 2,
+      "first": 0.37727,
+      "headline_delta": -0.01666666666666672,
+      "headline_first": 0.33254,
+      "headline_last": 0.3158733333333333,
+      "headline_objective": "violation_set_f1",
+      "last": 0.3683116666666666,
+      "n_points": 3,
+      "n_unmeasured": 0,
+      "noise_floor": 0.06360985661742125,
+      "run_id": "compliance_review_claude-opus-4-8_b1_l3_20260914_193301",
+      "spearman": -0.9999999999999998,
+      "steps_down": 0,
+      "steps_flat": 2,
+      "steps_up": 0,
+      "task_id": "compliance_review",
+      "zeros": 0
+    },
+    "compliance_review_claude-opus-4-8_b2_l3_20260914_200421": {
+      "delta": 0.011680333333333348,
+      "delta_se": 0.01298986362942702,
+      "distinct_hashes": 1,
+      "first": 0.314683,
+      "headline_delta": 0.021110666666666666,
+      "headline_first": 0.295366,
+      "headline_last": 0.3164766666666667,
+      "headline_objective": "violation_set_f1",
+      "last": 0.32636333333333334,
+      "n_points": 2,
+      "n_unmeasured": 0,
+      "noise_floor": 0.015909268860216874,
+      "run_id": "compliance_review_claude-opus-4-8_b2_l3_20260914_200421",
+      "spearman": 0.9999999999999998,
+      "steps_down": 0,
+      "steps_flat": 1,
+      "steps_up": 0,
+      "task_id": "compliance_review",
+      "zeros": 0
+    }
+  },
+  "synthetic": false
+}

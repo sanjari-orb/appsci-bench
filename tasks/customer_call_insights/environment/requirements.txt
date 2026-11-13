@@ -1,0 +1,5 @@
+# Customer-Call Insights task dependencies.
+# Installed in the workspace container for the DB loader and for the agent's own exploration.
+
+# Database
+psycopg2-binary>=2.9.9

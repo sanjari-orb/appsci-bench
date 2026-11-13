@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__case_routing__392",
+  "single_turn_input": {
+    "text": "Use the case routing policy to determine the most suitable agent for the given case. Return only the Id of the agent.\n## Given Case\n- Case Subject: Size Mismatch for Explorer Outdoor Jacket\n- Case Description: I recently purchased the Explorer Outdoor Jacket, but the size chart on the website does not match the actual size of the jacket I received. I ordered a medium based on the chart, but it fits more like a large. This is very frustrating as I need the jacket for an upcoming trip and don't have time for an exchange."
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xYl3IAE\", \"evidence_case_ids\": [\"500Ws000007r4BxIAI\", \"500Ws000007rFRcIAM\", \"500Ws000007rFUrIAM\", \"500Ws000007rGfKIAU\", \"500Ws000007rHA0IAM\", \"500Ws000007rHoJIAU\", \"500Ws000007rIR3IAM\", \"500Ws000007rJeqIAE\", \"500Ws000007rJi3IAE\", \"500Ws000007rK1OIAU\", \"500Ws000007rK1SIAU\", \"500Ws000007rQ3aIAE\", \"500Ws000007rQ3bIAE\", \"500Ws000007rQunIAE\", \"500Ws000007rSJvIAM\"], \"task_category\": \"case_routing\", \"reward_metric\": \"exact_match\"}"
+  }
+}

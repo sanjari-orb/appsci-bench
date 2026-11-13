@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0078",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9023 (Marrow Creek Publishing) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send the PDF export formatting bug to engineering for review\", \"customer to send a sample export showing the formatting issue\"], \"risks\": [], \"commitments\": [\"send the PDF export formatting bug to engineering for review\"], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 23 (Problem, M, corner 15: do not infer from tone). Elena mentions being tired from a long week, but says nothing negative about the product or relationship -- tiredness alone is not grounds for NEGATIVE. The bug report is escalated and acknowledged, landing in both lists with no risk attached (a minor formatting bug isn't one of the seven categories). (Corrected: an earlier pass dropped Elena's own acknowledged next step -- 'I'll send that over right after this call wraps up' / 'Perfect, once I have it...' -- keeping only the engineering-escalation item. Every acknowledged item belongs in next_steps regardless of which side owns it.)",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

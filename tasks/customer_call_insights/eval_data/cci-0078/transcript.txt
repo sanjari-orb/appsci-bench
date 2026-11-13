@@ -1,0 +1,26 @@
+Call CALL-9023 — Marrow Creek Publishing (ACC-4023) — 2026-03-08 13:00 UTC
+Participants: Damon Whitfield (Account Support Specialist, us) / Elena Sato (Managing Editor, customer)
+
+Elena: Hey Damon, sorry, it's been a genuinely long week and I'm a bit tired today, but I wanted to flag a small formatting bug in the export tool.
+
+Damon: No worries at all, take your time, just tell me what's happening whenever you're ready.
+
+Elena: When we export to PDF, the headers are misaligned on every other page. Started happening a couple days ago, wasn't there before that.
+
+Damon: Got it, that's odd. Let me take a look on my end -- can you send me a sample export so I can see it directly?
+
+Elena: Yeah, I'll send that over right after this call wraps up.
+
+Damon: Perfect, once I have it I'll get it in front of our engineering team to take a proper look.
+
+Elena: Appreciated, no huge rush on it though, just wanted it on the radar before it became a bigger problem.
+
+Damon: Understood, I'll follow up once I hear back from them either way.
+
+Elena: Sounds good, thanks for taking it seriously even though it's minor.
+
+Damon: Of course, that's what I'm here for. Anything else today?
+
+Elena: No, that's it, honestly just tired and ready for the weekend at this point.
+
+Damon: Totally get that feeling, have a good one, Elena.

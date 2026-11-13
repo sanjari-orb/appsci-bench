@@ -1,0 +1,29 @@
+name: deploy_artifact
+
+description: |
+  Deploy the artifact you have built into a healthy, reachable endpoint the evaluator can query.
+
+  Call this AFTER you have written, into your artifact output directory:
+    1. server.py (or app.py / main.py) -- your agentic endpoint exposing GET /health and POST /respond
+       (OpenAI-compatible chat completions: accepts {"messages": [...]}, returns a completion). Bind it
+       to the port in the PORT environment variable (read os.environ["PORT"]) -- do NOT hardcode a
+       port. The deployer sets PORT and publishes exactly that port; a server that binds a different
+       (hardcoded) port will fail health with "never became reachable".
+    2. Dockerfile -- whose CMD launches that server bound to 0.0.0.0 on $PORT (NOT 127.0.0.1 -- a
+       loopback bind is unreachable from the evaluator).
+    3. requirements.txt (optional) -- any pip dependencies your server needs.
+
+  You do NOT run docker yourself and you pass NO arguments: the orchestrator builds and runs your
+  artifact host-side under the container name / port declared for this task, injects the task's
+  environment, and health-checks it. This replaces hand-writing `docker build` / `docker run`.
+
+  On success you get back the endpoint_url, which is recorded automatically; when you are ready to
+  be evaluated, call complete (no arguments) and evaluation runs against this deployed endpoint. On
+  failure you get a descriptive reason naming the step that broke (missing file / build / run /
+  health, with the underlying output) -- fix your code and call deploy_artifact again. Redeploying
+  is safe and idempotent (any previous container is replaced).
+
+parameters:
+  type: object
+  properties: {}
+  required: []

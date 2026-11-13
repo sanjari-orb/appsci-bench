@@ -1,0 +1,156 @@
+# Elicitation rubric -- slides_generator
+#
+# The facts the applied-science agent could only obtain by ASKING the stakeholder. HELD-OUT ANSWER-KEY
+# MATERIAL: never mounted, never shown to the agent. Schema: schema/elicitation_rubric.schema.json.
+# Design + authoring rules: docs/elicitation_score_design.md.
+#
+# Authored from the simulator's material only (rule 6): user_sim_docs/common/output_contract.md walked
+# section by section, plus the domain_knowledge the L1/L2/L3 personas declare. No run of this task was
+# read before or during authoring. Each candidate was then tested against what the agent can read --
+# environment/sop/{pptx_format,request_intake}.md, environment/data/samples/, and the redacted spec.
+#
+# Dropped by that test, recorded so the next author does not re-litigate them:
+#   - the .pptx format itself (zip of OOXML, masters, layouts, placeholders, themes, speaker notes,
+#     aspect ratio as a presentation-level property): environment/sop/pptx_format.md explains all of it
+#     deliberately, so the mechanics are handed. What stays elicitable is what has to COME BACK.
+#   - the template attachment being named exactly `template.pptx` and being the one non-content
+#     attachment: environment/sop/request_intake.md states both.
+#   - a layout's names: they are the template author's own and readable from the mounted template.
+#   - the latency SLO and the daily request volume: both sim-only, but no objective scores either, so
+#     they fail authoring rule 3.
+task_id: slides_generator
+
+items:
+  # --- what has to come back (output_contract.md) ----------------------------------------------
+  - item_id: both_deliverables_in_one_response
+    fact: >
+      One request returns two things in the same response: the deck as a file, and the deck's content as
+      structured data. A response carrying only one of the two is not usable -- the structured data is
+      what lets the deck be diffed, checked or fed onward without re-parsing PowerPoint, and the file is
+      what someone actually presents. There is no second fetch for the other half.
+    objectives: [functional_success, output_format_compliance]
+    judge_hint: >
+      Both halves, and that BOTH are required. A stakeholder who asks only for a deck file, or only for
+      JSON, has not conveyed this item.
+
+  - item_id: pptx_must_be_real_and_editable
+    fact: >
+      The file has to be a genuinely editable `.pptx` that opens in PowerPoint -- never an image of
+      slides, never a flattened text dump, never a PDF. The team has to be able to open and edit it.
+    objectives: [functional_success, output_format_compliance]
+
+  - item_id: presentation_level_keys
+    fact: >
+      The structured data is one object under a `presentation` key describing the deck as a whole: its
+      `title`, the `theme` it was built on, the `aspectRatio`, a `metadata` block carrying author,
+      version and date, and `slides` -- an ordered list.
+    objectives: [output_format_compliance]
+    judge_hint: >
+      The presentation-level field names. Knowing that a deck HAS a title and a theme is not this item;
+      the field names and the fact that these specific ones come back every time are.
+
+  - item_id: slide_level_keys
+    fact: >
+      Each slide in the list carries `slideNumber`, the `layout` from the template it uses, and
+      `elements` -- the pieces of content sitting on it. A slide may also carry `notes` for speaker
+      notes. Every slide needs `slideNumber`, `layout`, and at least one element carrying real content.
+    objectives: [output_format_compliance, structure_clarity]
+
+  - item_id: element_types_and_their_content_keys
+    fact: >
+      Each element is named and typed by what it is, and the content key depends on the type: `text`
+      carries `content`, `bullet_list` carries `items`, `table` carries `rows`, and `image` carries
+      `sourceUrl` plus `altText`. An element with none of those content keys is treated as empty.
+    objectives: [output_format_compliance, structure_clarity]
+    judge_hint: >
+      All four types with the content key each one uses. Naming the types without saying which key
+      carries their content is not this item -- the pairing is what makes the data readable.
+
+  - item_id: slide_order_and_completeness_must_agree
+    fact: >
+      The slide order in the structured data matches the slide order in the file, and every slide in the
+      deck is present in the data. The two halves of the response describe the same deck, in the same
+      order, with nothing missing from either.
+    objectives: [output_format_compliance, functional_success]
+
+  - item_id: a_clear_error_beats_an_unusable_deck
+    fact: >
+      Four things are outright failed requests rather than partial successes: an empty presentation
+      object, structured data that cannot be read, a response with no `.pptx`, and a `.pptx` PowerPoint
+      will not open. In any of those cases a clear error is preferred to a deck that cannot be processed.
+    objectives: [functional_success]
+
+  # --- what a good deck is (what_good_looks_like, shared across the personas) ------------------
+  - item_id: no_invention_flag_gaps_instead
+    fact: >
+      Nothing beyond what the input provided may be invented as fact or figure. Where the input is
+      sparse the deck expands it sensibly rather than padding with filler, and where there is a real gap
+      the agent flags it instead of writing content to cover it.
+    objectives: [groundedness, content_coverage]
+
+  - item_id: every_stated_outcome_is_covered
+    fact: >
+      Every outcome stated in the input is covered in the deck -- nothing the requester flagged as
+      important may be dropped, and the deck is judged on covering what was asked for rather than on
+      being a reasonable deck about the topic.
+    objectives: [content_coverage, expectations_satisfaction, prompt_satisfaction]
+
+  - item_id: no_empty_placeholder_slides
+    fact: >
+      Every slide carries real content and earns its place: no empty placeholders, no filler slides. A
+      reader unfamiliar with the source material can follow the flow from the deck alone, without
+      needing the source to make sense of it.
+    objectives: [structure_clarity, content_narrative]
+
+  - item_id: template_is_locked_first_then_filled
+    fact: >
+      Every deck must obey the approved template the requester selects or uploads, every time. The order
+      matters: the visual theme is locked from the template first, and content is then fitted into it --
+      not content generated first and a template applied afterwards.
+    objectives: [template_adherence]
+    judge_hint: >
+      Two parts: the template is mandatory on every deck, and the theme is locked before content is
+      written. Being told to "use the template" conveys the first but not the second.
+
+  - item_id: template_match_is_measurable_not_incidental
+    fact: >
+      Matching the template means the same colour palette, the same font family and the same layout
+      conventions -- measurably the same, not "a template was used somewhere". A generic deck with the
+      logo dropped on it does not count; the deck has to look like it belongs on the team's letterhead.
+    objectives: [template_adherence, layout_quality]
+
+  - item_id: layout_hygiene_constraints
+    fact: >
+      No overlapping elements and nothing running off the slide, with consistent alignment, margins and
+      spacing across the deck.
+    objectives: [layout_quality]
+
+  # --- how requests arrive (input_flexibility, shared) ----------------------------------------
+  - item_id: accepted_input_types_and_attachment_limit
+    fact: >
+      Inputs range from sparse notes through a markdown or plain-text brief to up to 5 uploaded
+      documents, and the accepted upload types are docx, pdf, pptx, csv and xlsx. Each of those needs
+      its own extraction path -- text out of a document, tables out of a spreadsheet, text and structure
+      out of a prior deck.
+    objectives: [prompt_satisfaction, content_coverage]
+    judge_hint: >
+      The five accepted upload types and the five-document limit. The environment tells the agent that a
+      request is a brief plus attachments and that asking about types is its job, so "there are
+      attachments" is handed -- the specific types and the cap are not.
+
+  - item_id: an_unreadable_attachment_must_be_reported
+    fact: >
+      If an attachment cannot be read, the requester has to be told. A deck built from a document that
+      silently failed to load looks finished and is quietly wrong, which is worse than a visible failure.
+    objectives: [groundedness, functional_success]
+
+  # --- how long a deck should be (slide_count_guidance, L1 and L3) ----------------------------
+  - item_id: slide_counts_by_deck_type
+    fact: >
+      Expected length depends on the kind of deck: recurring QBRs and status reviews around 8 slides,
+      product pitches 8-12, research briefings 6-8, and sparse status updates 3-5. An explicit count from
+      the requester overrides all of it; absent one, the agent picks a sensible default.
+    objectives: [constraint_satisfaction, expectations_satisfaction]
+    judge_hint: >
+      All four deck types with their ranges, plus that an explicit request wins. A single number, or
+      "about eight slides" with no type breakdown, is not this item.

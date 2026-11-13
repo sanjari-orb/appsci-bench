@@ -1,0 +1,26 @@
+Call CALL-9020 — Cavendish Textile Mills (ACC-4020) — 2026-03-07 15:00 UTC
+Participants: Owen Delacroix (Billing Support Specialist, us) / Farah Nakamura (Accounts Payable Lead, customer)
+
+Farah: Hi Owen, we've got the same billing issue again -- charged for a module we cancelled, this is actually the second invoice in a row now.
+
+Owen: I'm sorry to hear that, let me look into it. Can you give me the invoice number?
+
+Farah: INV-91104, and honestly I flagged this exact thing last month too.
+
+Owen: I see that in the notes, yes.
+
+Owen: Let me check why it's recurring rather than just fixing this one instance again.
+
+Farah: I'd appreciate that, it's frustrating having to catch the same mistake twice.
+
+Owen: Completely understandable. I don't have a root cause yet, but I'm going to escalate this to our billing systems team to figure out why the cancellation isn't sticking.
+
+Farah: Okay, and what happens with this specific charge in the meantime?
+
+Owen: I'll hold off crediting it until I understand whether it'll just recur again next cycle, but I'll have an answer for you either way within a few days.
+
+Farah: Alright, I'd rather it be fixed properly than patched again for now.
+
+Owen: Completely agree, that's the right call. I'll follow up once I hear back from the systems team.
+
+Farah: Appreciated -- please do keep me posted either way, and thanks for jumping on this so quickly.

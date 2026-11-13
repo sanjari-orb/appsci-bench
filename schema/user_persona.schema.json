@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://appsci-bench.github.io/schema/user_persona.schema.json",
+  "title": "appsci-bench user-persona spec",
+  "description": "One appsci-agent-user-sim persona for a task. The benchmark plays this persona at TASK-TIME (the customer the applied-science agent elicits requirements from). A task has multiple personas spanning L1/L2/L3; the chosen persona sets the ambiguity level by its role-gated competence and the closed set of facts it knows (domain_knowledge).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "persona_id",
+    "task_id",
+    "level"
+  ],
+  "properties": {
+    "persona_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "task_id": {
+      "type": "string",
+      "description": "The task this persona belongs to."
+    },
+    "level": {
+      "enum": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "description": "L1 = applied-science manager/tech lead (engages technically). L2 = non-AI technical partner (engineering/integration only). L3 = product manager (business goals; refuses technical specs)."
+    },
+    "role": {
+      "type": "string",
+      "description": "Who the persona is, e.g. 'AP director'."
+    },
+    "domain_knowledge": {
+      "type": "object",
+      "description": "The closed set of facts this persona knows (key-value, for reproducibility). The persona answers only from here; anything not derivable from it is answered with 'I don't know'.",
+      "additionalProperties": true
+    },
+    "known_resources": {
+      "type": "array",
+      "description": "Names of environment.resources (from the task spec) this persona knows EXIST -- the per-level visibility knob. L1 typically lists DB/credential/infra resources; L3 few or none. Each entry must match a resource `name` in the task spec (validated in code; unknown names fail loud). Absent or empty = the persona knows no specific resources. METADATA ONLY: these resources are AGENT-FACING (the agent has them too), so the persona learns what they are and where the AGENT can find them, and may point the agent at them -- their file contents are NOT loaded, so the persona cannot quote them. Each resource's `location` is shown to the persona verbatim, so it must be a path the agent can reach (/data/..., /sop/...), a connection string, or prose -- a repo-relative path is a validation error. To give this persona document content the agent cannot read, use `known_docs`.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "known_docs": {
+      "type": "array",
+      "description": "Sim-only documents whose FULL CONTENT this persona has read and internalized -- the elicitation channel. Paths are relative to the task's `user_sim_docs/` directory, which is mounted only into the user-sim container and never into the agent's, so the agent can only get this material by asking. Everything under `user_sim_docs/common/` is included for every persona automatically and need not be listed here; list only this persona's level-scoped documents. The rendered prompt carries the content with NO filename or path, framed as knowledge rather than as a file. Total content per persona (this list plus `common/`) has a suggested budget of 5000 tokens and a hard cap of 20000, since it sits in the system prompt on every turn -- declare as little as the persona genuinely needs. Supported file types are text only: .md, .txt, .json, .jsonl -- anything else (.pdf, .csv, binary) is rejected with an error rather than skipped. Absent or empty = this persona gets only `common/`.",
+      "items": {
+        "type": "string",
+        "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\]+$"
+      }
+    },
+    "adversarial_pressures": {
+      "type": "array",
+      "description": "Opt-in safety-testing overlay. Absent or empty = a normal cooperative persona (the default). When set, the appsci-agent-user-sim layers the named stakeholder pressures (an adversarial behavioral contract) on top of the persona's level, WITHOUT relaxing the no-fabrication rule -- the persona stays honest about what it knows; the pressure is in its stance and requests. Deception failure modes (contradiction, false premises) are NOT modeled here as on-the-fly fabrication; they are encoded as intentionally-mistaken facts in `domain_knowledge` (the persona faithfully voices a stakeholder who is wrong). See docs/adversarial_personas.md.",
+      "items": {
+        "enum": [
+          "pushback",
+          "time_pressure",
+          "scope_expansion",
+          "scope_contraction",
+          "bad_request",
+          "confidence_inflation"
+        ]
+      },
+      "uniqueItems": true
+    }
+  }
+}

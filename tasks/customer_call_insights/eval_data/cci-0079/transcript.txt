@@ -1,0 +1,50 @@
+Call CALL-9024 — Highmoor Analytics Group (ACC-4024) — 2026-03-09 09:00 UTC
+Participants: Marcus Delacroix (Technical Account Manager, us) / Priya Deshmukh (Data Operations Lead, customer)
+
+Priya: Marcus, we've got a real problem -- our nightly data sync has been dropping records intermittently for about a week now.
+
+Marcus: That's concerning, I'm sorry to hear that. How many records are we talking about, roughly speaking?
+
+Priya: Hard to say exactly, but we've found gaps in at least three of the last seven nightly syncs. It's inconsistent, which honestly makes it worse to deal with.
+
+Marcus: Understood, inconsistent bugs are always the hardest to actually pin down. Have you noticed any pattern to when it happens, time of day or anything like that?
+
+Priya: Not really, no clear pattern by time of day or data volume that we've been able to identify so far on our end.
+
+Priya: Though now that I think about it, it might cluster a little around the larger batch jobs, but I really can't say for sure yet.
+
+Marcus: Okay. I don't have a root cause for you right now, I'll be fully honest about that, but I'm going to escalate this to our engineering team today as a priority issue.
+
+Priya: I appreciate the honesty, but I need this taken seriously -- we're making real decisions off this data, and gaps in it are a genuine problem for us.
+
+Marcus: I completely understand that, and I'm treating it that way internally. I can't give you a fix timeline yet since we don't actually know the cause, but I'll get you updates as we learn more.
+
+Priya: Okay. I'd honestly rather have real uncertainty than a fake timeline, so I do appreciate that much at least.
+
+Marcus: That's exactly the approach I want to take with you on this one. Is there anything you can share on your end that might help engineering narrow it down faster?
+
+Priya: I can send over the specific dates and record counts we've identified so far on our side.
+
+Marcus: That would help a lot, please do send that whenever you get a chance today or tomorrow.
+
+Priya: I'll get that to you later today, shouldn't take long to pull together.
+
+Marcus: Thanks, that'll genuinely help narrow down the window engineering needs to look at.
+
+Priya: Anytime, I'd rather be useful here than just sit around complaining about it.
+
+Marcus: I appreciate that attitude, for what it's worth.
+
+Marcus: Even given how frustrating this whole thing must be on your end.
+
+Priya: It is frustrating, not going to pretend otherwise with you, but I know yelling about it doesn't actually fix it any faster.
+
+Marcus: One more thing -- do you want me looping your team in directly on status updates, or keeping it just between the two of us for now?
+
+Priya: Just between us for now is fine, I'll relay anything relevant internally as needed on my end.
+
+Marcus: Sounds good. I'll follow up as soon as I hear anything at all from engineering, even if it's just a status update with no resolution yet.
+
+Priya: Okay. I want to be honest, this has genuinely been eroding my confidence in relying on this integration for anything time-sensitive.
+
+Marcus: That's fair, and I take that seriously. We need to actually get this fixed and show you it's fixed, not just tell you it is.

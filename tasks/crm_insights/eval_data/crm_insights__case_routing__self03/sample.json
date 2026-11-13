@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__case_routing__self03",
+  "single_turn_input": {
+    "text": "Use the case routing policy to determine the most suitable agent for the given case. Return only the Id of the agent.\n## Given Case\n- Case Subject: Sole Separated on Velocity Basketball Shoes Within Warranty Period\n- Case Description: The sole on my Velocity Basketball Shoes came completely apart from the upper after about two months of normal use. I believe this is covered under the product warranty -- how do I file a claim for a replacement pair?"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xaLRIAY\", \"evidence_case_ids\": [\"500Ws000007r8JjIAI\", \"500Ws000007rHrYIAU\", \"500Ws000007rK7vIAE\"], \"task_category\": \"case_routing\", \"reward_metric\": \"exact_match\"}"
+  }
+}

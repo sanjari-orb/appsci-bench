@@ -1,0 +1,728 @@
+{
+  "presentation": {
+    "title": "Alphabet Q2 2026",
+    "theme": "default",
+    "aspectRatio": "16:9",
+    "metadata": {
+      "author": "Unknown",
+      "version": "1.0",
+      "date": ""
+    },
+    "slides": [
+      {
+        "slideNumber": 1,
+        "layout": "Accueil",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Espace réservé du texte 3 — replacement",
+            "content": "Alphabet Q2 2026",
+            "style": {
+              "fontSize": 32,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Espace réservé du texte 4 — replacement",
+            "content": "22 July 2026",
+            "style": {
+              "fontSize": 12,
+              "bold": false,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Espace réservé du texte 5 — replacement",
+            "content": "Broad-based growth, Cloud acceleration, and a step-change in AI capital intensity.\nAlphabet earnings release • 22 July 2026",
+            "style": {
+              "fontSize": 14,
+              "bold": false,
+              "color": "#EBEBEB"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 2,
+        "layout": "Défaut avec contenu",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Titre 3",
+            "content": "Growth accelerated without sacrificing operating margin",
+            "style": {
+              "fontSize": 22,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Espace réservé du numéro de diapositive 1",
+            "content": "2",
+            "style": {
+              "fontSize": 8,
+              "bold": false,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 1 label",
+            "content": "REVENUE",
+            "style": {
+              "fontSize": 10,
+              "bold": true,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 1 value",
+            "content": "$119.8B",
+            "style": {
+              "fontSize": 28,
+              "bold": true,
+              "color": "#BC141C"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 1 delta",
+            "content": "+24% YoY",
+            "style": {
+              "fontSize": 13,
+              "bold": true,
+              "color": "#BC141C"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 2 label",
+            "content": "OPERATING INCOME",
+            "style": {
+              "fontSize": 10,
+              "bold": true,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 2 value",
+            "content": "$40.8B",
+            "style": {
+              "fontSize": 28,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 2 delta",
+            "content": "+30% YoY",
+            "style": {
+              "fontSize": 13,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 3 label",
+            "content": "OPERATING MARGIN",
+            "style": {
+              "fontSize": 10,
+              "bold": true,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 3 value",
+            "content": "34%",
+            "style": {
+              "fontSize": 28,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 3 delta",
+            "content": "+2 pts YoY",
+            "style": {
+              "fontSize": 13,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 4 label",
+            "content": "DILUTED EPS",
+            "style": {
+              "fontSize": 10,
+              "bold": true,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 4 value",
+            "content": "$9.11",
+            "style": {
+              "fontSize": 28,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "KPI 4 delta",
+            "content": "+294% YoY¹",
+            "style": {
+              "fontSize": 13,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Headline interpretation",
+            "items": [
+              "The operating quarter was genuinely strong.",
+              "OPERATING RESULT  Revenue +24%; operating income +30%; margin +2 pts.",
+              "NON-OPERATING DISTORTION  A $98.0B net gain on equity securities drove most of the $112.1B net-income headline.",
+              "IMPLICATION  Use operating income and cash flow—not EPS—to judge repeatable economics."
+            ],
+            "style": {
+              "fontSize": 20,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Source line",
+            "content": "Sources: Alphabet Q2 2026 earnings release; Form 10-Q. $ in billions; GAAP except where noted. ¹ Primarily securities gains.",
+            "style": {
+              "fontSize": 8,
+              "bold": false,
+              "color": "#707070"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 3,
+        "layout": "Défaut avec contenu",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Titre 3",
+            "content": "Services supplied the scale; Cloud supplied the acceleration",
+            "style": {
+              "fontSize": 22,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Espace réservé du numéro de diapositive 1",
+            "content": "3",
+            "style": {
+              "fontSize": 8,
+              "bold": false,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 4",
+            "content": "Segment performance",
+            "style": {
+              "fontSize": 12,
+              "bold": true,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Segment readout",
+            "items": [
+              "READ-THROUGH",
+              "Services remains the scale engine.",
+              "Cloud is the acceleration and profit engine.",
+              "Other Bets’ operating loss widened year over year."
+            ],
+            "style": {
+              "fontSize": 10,
+              "bold": true,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Source line",
+            "content": "Sources: Alphabet Q2 2026 earnings release; Form 10-Q. Other Bets operating loss cross-checked to filing-derived series.",
+            "style": {
+              "fontSize": 8,
+              "bold": false,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Segment performance table",
+            "rows": [
+              [
+                "Business",
+                "Q2 result",
+                "YoY / comparison"
+              ],
+              [
+                "Google Services",
+                "$94.5B revenue",
+                "+15% YoY"
+              ],
+              [
+                "Google Cloud",
+                "$24.8B revenue",
+                "+82% YoY"
+              ],
+              [
+                "Other Bets",
+                "–$1.8B operating loss",
+                "vs –$1.2B a year ago"
+              ]
+            ]
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 4,
+        "layout": "Défaut avec contenu",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Titre 3",
+            "content": "Services delivered broad double-digit growth, anchored by Search",
+            "style": {
+              "fontSize": 22,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Espace réservé du numéro de diapositive 1",
+            "content": "4",
+            "style": {
+              "fontSize": 8,
+              "bold": false,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 4",
+            "content": "Year-over-year revenue growth",
+            "style": {
+              "fontSize": 12,
+              "bold": true,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Services context",
+            "items": [
+              "$94.5B",
+              "Google Services revenue",
+              "“Our popular AI features are driving Search query growth.”",
+              "Search remained the anchor, while subscriptions and YouTube ads both sustained double-digit growth."
+            ],
+            "style": {
+              "fontSize": 31,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Source line",
+            "content": "Source: Alphabet Q2 2026 earnings release and earnings-call remarks, 22 Jul 2026.",
+            "style": {
+              "fontSize": 8,
+              "bold": false,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Services growth table",
+            "rows": [
+              [
+                "Services component",
+                "YoY growth",
+                "Quarter read-through"
+              ],
+              [
+                "Search & other",
+                "+17%",
+                "Primary growth anchor"
+              ],
+              [
+                "Subscriptions, platforms & devices",
+                "+15%",
+                "Broad-based strength"
+              ],
+              [
+                "YouTube ads",
+                "+13%",
+                "Sustained double-digit growth"
+              ]
+            ]
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 5,
+        "layout": "Défaut avec contenu",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Titre 3",
+            "content": "Cloud converted AI demand into both growth and profit",
+            "style": {
+              "fontSize": 22,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Espace réservé du numéro de diapositive 1",
+            "content": "5",
+            "style": {
+              "fontSize": 8,
+              "bold": false,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Source line",
+            "content": "Sources: Alphabet Q2 2026 earnings release, Form 10-Q and earnings-call remarks. Margin calculated from reported segment figures.",
+            "style": {
+              "fontSize": 8,
+              "bold": false,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Cloud table label",
+            "content": "Reported and calculated metrics",
+            "style": {
+              "fontSize": 12,
+              "bold": true,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Cloud operating table",
+            "rows": [
+              [
+                "Metric",
+                "Q2 2026",
+                "Comparison / status"
+              ],
+              [
+                "Revenue",
+                "$24.8B",
+                "+82% YoY"
+              ],
+              [
+                "Operating income",
+                "$8.8B",
+                "$2.8B a year ago"
+              ],
+              [
+                "Operating margin*",
+                "35.6%",
+                "Calculated from reported figures"
+              ],
+              [
+                "Gemini Enterprise adoption",
+                "~90% of Fortune 100",
+                "Management context"
+              ],
+              [
+                "Gemini API throughput",
+                "22B tokens/min",
+                "Management context"
+              ],
+              [
+                "Gemini App MAU",
+                "950M",
+                "Management context"
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "name": "Cloud interpretation",
+            "content": "Growth was led by enterprise AI infrastructure, AI solutions, and core GCP services.",
+            "style": {
+              "fontSize": 13,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 6,
+        "layout": "Défaut avec contenu",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Titre 3",
+            "content": "The $112B net-income headline is mostly non-operating",
+            "style": {
+              "fontSize": 22,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Espace réservé du numéro de diapositive 1",
+            "content": "6",
+            "style": {
+              "fontSize": 8,
+              "bold": false,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 4",
+            "content": "Earnings quality ($B, except EPS)",
+            "style": {
+              "fontSize": 12,
+              "bold": true,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Source line",
+            "content": "Sources: Alphabet Q2 2026 earnings release; Form 10-Q. Net income rounded; securities gains largely unrealized; EPS contribution calculated.",
+            "style": {
+              "fontSize": 8,
+              "bold": false,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Earnings quality table",
+            "rows": [
+              [
+                "Measure",
+                "Q2 2026",
+                "Read-through"
+              ],
+              [
+                "Operating income",
+                "$40.8B",
+                "Core operating signal"
+              ],
+              [
+                "Other income, net",
+                "$98.0B",
+                "Mainly non-operating"
+              ],
+              [
+                "Net income",
+                "$112.1B",
+                "Headline materially distorted"
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "name": "Earnings conclusion",
+            "content": "BOTTOM LINE",
+            "style": {
+              "fontSize": 10,
+              "bold": true,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Earnings conclusion body",
+            "content": "Use operating income and cash flow—not headline net income—to judge the quarter’s repeatable economics.",
+            "style": {
+              "fontSize": 16,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 7,
+        "layout": "Défaut avec contenu",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Titre 3",
+            "content": "AI Infrastructure Investment Funded by New Capital",
+            "style": {
+              "color": "#3F3F3F"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Espace réservé du numéro de diapositive 1",
+            "content": "7",
+            "style": {
+              "fontSize": 8,
+              "bold": false,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 4",
+            "content": "Capital raised in the quarter",
+            "style": {
+              "fontSize": 12,
+              "bold": true,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Source line",
+            "content": "Sources: Alphabet Q2 2026 earnings release and Form 10-Q. Capital actions and balances as of 30 June 2026.",
+            "style": {
+              "fontSize": 8,
+              "bold": false,
+              "color": "#707070"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Capital raised table",
+            "rows": [
+              [
+                "Capital action",
+                "Amount",
+                "Purpose"
+              ],
+              [
+                "Class A/C stock + mandatory convertible preferred",
+                "$49.6B",
+                "General corporate purposes, incl. AI-infrastructure capex"
+              ],
+              [
+                "Senior unsecured notes",
+                "$20.3B",
+                "General corporate purposes"
+              ],
+              [
+                "ATM program authorized",
+                "up to $40.0B",
+                "Primarily employee equity-grant tax obligations; no shares sold as of 6/30/26"
+              ]
+            ]
+          },
+          {
+            "type": "table",
+            "name": "Capital position table",
+            "rows": [
+              [
+                "Capital position",
+                "Value"
+              ],
+              [
+                "Cash, cash equivalents & marketable securities (6/30/26)",
+                "$242.5B (up from $126.8B at 12/31/25)"
+              ],
+              [
+                "Long-term debt (6/30/26)",
+                "$98.2B"
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "name": "Cash implication",
+            "content": "Dividends declared — $0.22/share common; $12.15/share (~$0.60/depositary share) mandatory convertible preferred.",
+            "style": {
+              "fontSize": 13,
+              "bold": true,
+              "color": "#3F3F3F"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 8,
+        "layout": "Remerciements",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Titre 3 — replacement",
+            "content": "Cloud is the accelerator; cash conversion is the watchpoint",
+            "style": {
+              "fontSize": 22,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Q2 synthesis table",
+            "rows": [
+              [
+                "Q2 takeaway",
+                "What it means"
+              ],
+              [
+                "What improved",
+                "Revenue growth accelerated and operating margin expanded."
+              ],
+              [
+                "What drove it",
+                "Cloud revenue grew 82% and operating income reached $8.8B."
+              ],
+              [
+                "What to watch",
+                "Track Cloud growth and margin, plus capex-to-operating-cash-flow."
+              ]
+            ]
+          }
+        ],
+        "notes": ""
+      }
+    ]
+  }
+}

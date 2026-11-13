@@ -1,0 +1,3 @@
+run_id,build,deploy,content_hash,is_submission,internal,external
+compliance_review_claude-opus-4-8_b1_l3_20260914_193301,b1,1,f2d0c2c9,0,0.9889,0.3773
+compliance_review_claude-opus-4-8_b1_l3_20260914_193301,b1,2,372576e5,0,1.0000,0.3760

@@ -1,0 +1,591 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://appsci-bench.github.io/schema/task_spec.schema.json",
+  "title": "appsci-bench task spec",
+  "description": "The specification a task author fills in for one applied-science task. It captures the full task (description + the environment the applied-science agent builds against), who the applied-science agent talks to (personas), and how the resulting artifact is evaluated (evaluation_data: dataset pointer + objectives). Validate with `python -m appsci_bench.core.spec <task_id>`.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "name",
+    "description",
+    "task_source_type",
+    "environment",
+    "user_personas",
+    "evaluation_data",
+    "owner"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "description": "Stable snake_case id; matches the tasks/<task_id>/ directory."
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable task name."
+    },
+    "description": {
+      "type": "string",
+      "description": "Short, human-readable summary -- the customer ask the agent starts from. Keep it non-leaking (no metric thresholds or solution detail). The full ground truth lives in the task's own authoring docs on disk; personas reveal scoped subsets of it."
+    },
+    "business_goals": {
+      "type": "array",
+      "description": "High-level business objectives for this task. Used as context when rendering user persona Jinja templates.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dataset_files": {
+      "type": "array",
+      "description": "Data files available to the agent for this task. Used as context when rendering user persona Jinja templates.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "description"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "File name or identifier."
+          },
+          "description": {
+            "type": "string",
+            "description": "What this file contains and how it should be used."
+          }
+        }
+      }
+    },
+    "technical_docs": {
+      "type": "array",
+      "description": "Technical documentation available for this task. Used as context when rendering user persona Jinja templates.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "description"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Document name or identifier."
+          },
+          "description": {
+            "type": "string",
+            "description": "What this document covers."
+          }
+        }
+      }
+    },
+    "interface_design": {
+      "type": "string",
+      "description": "Description of the expected interface/action space for the solution. This includes the action/tool names, tool descriptions, and tool arguments that the artifact is expected to expose. Used as context when rendering user persona Jinja templates."
+    },
+    "task_source_type": {
+      "enum": [
+        "internal",
+        "open-source"
+      ],
+      "description": "internal = authored by us on synthetic/curated data. open-source = derived from a public agentic benchmark (offline-converted into our evaluation_data; see `source`). The open-source set is not limited to any single benchmark."
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Provenance for open-source tasks. The conversion from the upstream benchmark to our evaluation_data is OFFLINE/asynchronous; this block is for recording/auditing, not a live runtime dependency.",
+      "properties": {
+        "benchmark": {
+          "type": "string",
+          "description": "e.g. tau-bench, tau2-bench, CRMArena (first adopted: tau-bench)."
+        },
+        "domain": {
+          "type": "string",
+          "description": "e.g. retail, airline, telecom."
+        },
+        "url": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string",
+          "description": "e.g. 'offline-converted from the upstream benchmark; converter not in this PR; recorded for audit'."
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "What the benchmark exposes to the applied-science agent so it can BUILD a artifact: a sandbox (a Docker container) holding the customer's resources -- DBs, knowledge bases, APIs, docs, sample data. Each task's RESOURCES.md stays as author-facing documentation; it is not a spec field, because the agent container is never given it (the resource list below is what the agent is told).",
+      "properties": {
+        "docker_compose": {
+          "type": "string",
+          "description": "Path to docker-compose.yml for starting the task containers. This is the only build input the runner reads: it runs `docker compose up -d --build`, so the Dockerfile path and image name belong in the compose file's own build block. Example: 'tasks/order_to_cash/environment/docker-compose.yml'."
+        },
+        "resources": {
+          "type": "array",
+          "description": "Optional structured listing of the resources in the container. Each resource has a unique `name` within the task (enforced in code, not by this schema) so personas can reference it via `known_resources`.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "type",
+              "location"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Stable identifier for this resource, unique within the task's resources (e.g. oltp_db, contract_terms_doc). Referenced by user personas' known_resources."
+              },
+              "type": {
+                "enum": [
+                  "database",
+                  "knowledge_base",
+                  "api",
+                  "docs",
+                  "sample_data",
+                  "live_traces",
+                  "kpi",
+                  "other"
+                ],
+                "description": "Resource kind. live_traces = representative requests typically made to the agent; kpi = success metrics that define customer success. These (and other resources here) are AGENT-FACING -- shared by the customer to guide the build -- and are distinct from the hidden held-out eval set in evaluation_data."
+              },
+              "location": {
+                "type": "string",
+                "description": "Where it lives in the container (path, URL, connection hint)."
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "access_control": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Controls which environment resources the applied-science agent can access. User personas have access to all resources; this field restricts only the agent.",
+          "properties": {
+            "grants": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Resource types/ids from environment.resources that the agent can access. If omitted, agent can access all resources."
+            },
+            "denies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Resource types/ids explicitly denied to the agent."
+            }
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The artifact(s) the applied-science agent produces. The PRIMARY artifact is a queryable system (kind=agent, driven via MCP/completions). A submission may ALSO include additional FILE artifacts (design notes, reports, a generated deck) as their own entities. Kinds are extensible to dataset / model / report later -- OUT OF SCOPE for v1. File artifacts are read from output_dir in the task environment.",
+      "properties": {
+        "output_dir": {
+          "type": "string",
+          "description": "Path in the environment where file artifacts are written, e.g. /work/out."
+        },
+        "expected": {
+          "type": "array",
+          "description": "Declared artifacts for this task (>=1; exactly one primary agent).",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "agent",
+                  "output",
+                  "documentation"
+                ],
+                "description": "agent = the primary queryable system (scored on system metrics). output = a file produced by RUNNING the system, e.g. a generated slide deck (scored on system metrics). documentation = a support document the agent wrote, e.g. design notes / validation (diagnostic only -- never in the headline, never penalized if absent)."
+              },
+              "primary": {
+                "type": "boolean",
+                "description": "Exactly one artifact (the queryable agent) should be primary; it drives the headline."
+              },
+              "path": {
+                "type": "string",
+                "description": "For kind=file: filename under output_dir."
+              },
+              "required": {
+                "type": "boolean",
+                "description": "Whether the artifact must be produced. File artifacts are typically optional."
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "user_personas": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Pointers to user-persona spec files (each its own file; see schema/user_persona.schema.json). A task should provide multiple personas spanning L1/L2/L3. The persona the applied-science agent is paired with controls how much of `description` is revealed and which `environment` resources it may access -- i.e. the persona sets the ambiguity level. The benchmark binds one persona per run; the agent is NOT told which level it is talking to -- recognizing the working relationship is part of the task (ambiguity). Each persona reveals only from its own domain_knowledge (scoped per level), so technical detail does not leak through a non-technical persona.",
+      "items": {
+        "type": "string",
+        "description": "Path to a persona file, e.g. tasks/<id>/personas/l3_pm_collaborative.yaml"
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Resource limits.",
+      "properties": {
+        "build": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Cap on the applied-science agent's build phase (eliciting + building the artifact).",
+          "properties": {
+            "turns": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "tokens": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "usd": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "wall_clock_s": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          }
+        },
+        "latency_slo_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Target per-request latency for the artifact at eval time -- used to score how fast the tested agent runs."
+        }
+      }
+    },
+    "evaluation_data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset"
+      ],
+      "description": "Everything the evaluator needs to score the handed-off artifact: the dataset's turn `type` + run controls (`max_turns`, `repeat`), the `dataset` pointer to its EvalSamples, and the `objectives` that score them. See schema/dataset.schema.json + schema/objective.schema.json. Ground truth -- never shown to the applied-science agent; stored out-of-file (it can be large).",
+      "properties": {
+        "dataset": {
+          "type": "string",
+          "description": "Pointer to the held-out dataset: a directory holding one subdirectory per data_point_id, each with a sample.json (the EvalSample shape -- data_point_id + single_turn_input/multi_turn_input + optional expected_output/eval_rubric; schema: dataset.schema.json's $defs/eval_sample) and any files it references. Read by the loader (appsci_bench/eval/dataset.py). Never shown to the applied scientist."
+        },
+        "elicitation_rubric": {
+          "type": "string",
+          "description": "Optional pointer (repo-root-relative, resolved like `dataset`) to this task's elicitation rubric: the list of facts the agent had to obtain by ASKING the build-time customer simulator, with the true answers written out. Schema: schema/elicitation_rubric.schema.json. HELD-OUT ANSWER-KEY MATERIAL -- it must live at the top level of the task directory (tasks/<id>/elicitation_rubric.yaml), never under environment/, which is mounted into the agent container. Sitting in evaluation_data is what keeps the pointer itself out of the agent-facing view (build_agent_spec drops this whole block). Optional on purpose: a task without one reports the elicitation diagnostic as no_rubric and is otherwise unaffected. See docs/elicitation_score_design.md."
+        },
+        "provenance": {
+          "enum": [
+            "synthetic",
+            "public",
+            "curated"
+          ]
+        },
+        "type": {
+          "enum": [
+            "single_turn",
+            "multi_turn"
+          ],
+          "description": "Turn type of the eval dataset (see schema/dataset.schema.json): single_turn = one query per sample; multi_turn = the artifact agent user sim drives a conversation."
+        },
+        "max_turns": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Max artifact-agent turns during user simulation (multi_turn). Default 10."
+        },
+        "max_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Shared multi-turn simulation budget, replacing max_turns. Customer/agent text consumes one step; each environment tool request/result consumes two. Banking uses 200. Cannot be combined with max_turns."
+        },
+        "repeat": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How many times each data point is rerun for stability (scores averaged across repeats). Default 1."
+        },
+        "reset_env_per_sample": {
+          "type": "boolean",
+          "description": "When true (and the task has a running task-environment), the evaluator resets the env to a fresh fixture before each sample and captures its post-run state hash after, delivered to eval functions as final_state (e.g. for a DB-state score). Cases run sequentially when enabled. Default false."
+        },
+        "reward_objective": {
+          "type": "string",
+          "description": "Name of the objective that is this task's BINARY pass/fail reward, e.g. 'task_success'. Optional. When set, the eval report carries a per-data-point pass/fail view derived from it, and the experiment layer computes pass^k (tau-bench's reliability metric: the chance all k of k sampled trials pass) across repeated eval trials of one artifact. The named objective MUST return only 0.0 or 1.0 -- this is checked at aggregation time and a non-binary objective yields no pass/fail rather than a thresholded imitation of one. NOTE that scoring_kind: deterministic does not imply binary: F1-style and accuracy-style objectives are deterministic and continuous, and thresholding one to manufacture a pass would produce a reliability curve that really tracks the threshold. Tasks without a genuinely binary reward should leave this unset and report mean and spread across trials instead."
+        },
+        "objectives": {
+          "type": "array",
+          "minItems": 1,
+          "description": "The declared metrics, each binding a name to an importable per-data-point eval function with a direction (positive), a weight, optional enabled (defaults to true), and optional scoring_kind declaring how it is scored. See schema/objective.schema.json (hand-synced with this inline copy -- the spec validator cannot $ref cross-file).",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "eval_function_path",
+              "positive",
+              "weight"
+            ],
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "eval_function_path": { "type": "string", "minLength": 1 },
+              "positive": { "type": "boolean" },
+              "weight": { "type": "number", "minimum": 0 },
+              "enabled": {
+                "type": "boolean",
+                "default": true,
+                "description": "Whether to calculate and report this objective by default. False skips evaluation without removing its declaration or implementation. Weight zero still calculates and reports the metric. At least one objective must be enabled."
+              },
+              "scoring_kind": {
+                "enum": ["deterministic", "llm_judge", "hybrid"],
+                "description": "How this metric is scored: 'deterministic' (no model call), 'llm_judge' (the score comes from a model call), 'hybrid' (mechanical logic that calls a model on some path). Declared by hand, then checked against the eval function by tests/appsci_bench/eval/test_scoring_kind_declarations.py. Optional: absent = UNDECLARED, not deterministic. See schema/objective.schema.json."
+              }
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "not": {
+            "required": [
+              "max_turns",
+              "max_steps"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "max_steps"
+            ]
+          },
+          "then": {
+            "properties": {
+              "type": {
+                "const": "multi_turn"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          }
+        }
+      ]
+    },
+    "gold_solution": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional pointer to a curated reference/gold solution for the task, used for human-baseline curation (a reference artifact humans compare against). Task-authoring metadata; the evaluator does not consume it.",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "owner": {
+      "type": "string",
+      "description": "Who authored this task. Drives the no-self-baseline rule (A.7)."
+    },
+    "co_owners": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "task_runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Configuration for the TaskRunner which spins up the task environment. Defines Docker network settings, container naming, data bundling, and setup scripts. See docs/task_runner.md for full documentation.",
+      "required": [
+        "network_name",
+        "workspace_name",
+        "environments"
+      ],
+      "properties": {
+        "network_name": {
+          "type": "string",
+          "description": "Docker network name for container communication. Both task containers and appsci-agent must be on this network to communicate. Example: 'bench-network'."
+        },
+        "workspace_name": {
+          "type": "string",
+          "description": "Container name suffix for the workspace container. Used by appsci-agent to identify the container for docker exec commands. Example: 'o2c-workspace'."
+        },
+        "environments": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "The task environment, declared once per RUN PHASE. The build env serves the build phase and is torn down when the agent submits; the eval env is started for the eval phase only and holds the records the eval cases are drawn from. Both phases come up from the same docker_compose under the same workspace_name, so they share a container name and network alias -- the artifact needs no re-pointing across the handover. See docs/task_env_split.md.",
+          "required": [
+            "build",
+            "eval"
+          ],
+          "properties": {
+            "build": {
+              "$ref": "#/$defs/task_env_phase",
+              "description": "The environment the AppSci agent explores during the build phase. Must contain no record any eval case touches."
+            },
+            "eval": {
+              "description": "The environment the artifact is scored against. Holds the task's FULL store -- the build phase's share is a subset carved out of it, not a counterpart to it. Use the literal string 'none' for a task whose eval phase needs no environment at all (e.g. slides_generator, whose eval inputs travel as attachments on the case) -- declared explicitly rather than omitted, because a missing block is indistinguishable from an author who forgot.",
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/task_env_phase"
+                },
+                {
+                  "const": "none"
+                }
+              ]
+            }
+          }
+        },
+        "carve": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Declarations about the task's CARVE -- the build/eval split of its data, as opposed to the wiring that loads it. Read only by scripts/carve_guard.py (and the same code in CI); the harness ignores it at run time. It sits beside `environments` because it qualifies that declaration, and inside the spec rather than beside the build share because the build share is AGENT-FACING: a record of what the carve withheld must not live anywhere a phase's bundle can reach (docs/task_env_carve_spec.md lists that among the mistakes that produce a wrong number instead of an error). Spec redaction keeps an allowlist of agent-facing fields and drops `task_runner` wholesale, so nothing declared here can reach the agent.",
+          "properties": {
+            "coverage_waiver": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "reason",
+                "enumerations"
+              ],
+              "description": "The task owner's recorded decision to accept a build share that cannot show one of every category, for the enumerations it NAMES. Category coverage is the one carve invariant a strict carve-out can be UNABLE to satisfy: banking_support's leaves 8 of its 768 records, so 15 of its 17 collections are empty in the build share and no choice of records changes that. A waived run still reports every uncovered value, in full -- the waiver suppresses the failure, never the finding -- and a gap this block does not name still FAILS, so a waiver cannot age into a general off switch for coverage. There is deliberately NO equivalent for disjointness or referential closure: those are the threat bar and the schema-integrity bar, and a task that cannot meet them has a broken carve rather than a hard one, so the vocabulary for waiving them does not exist. See docs/task_env_split.md and tasks/README.md, 'Waiving coverage'.",
+              "properties": {
+                "reason": {
+                  "type": "string",
+                  "minLength": 40,
+                  "description": "Why the gaps are accepted, in enough detail for a reviewer to judge it: the carve rule being followed, and what it measurably leaves behind. A minimum length is enforced because a waiver reading 'n/a' is a silent skip wearing a label, which is the one thing this field must never become."
+                },
+                "enumerations": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "description": "WHICH enumerations' non-coverage is accepted, each named 'collection.field' exactly as scripts/carve_guard.py reports it, so a reviewer copies a reported gap in without translating it. A coverage gap not named here fails the carve even with a valid reason above: the reason explains gaps the author measured, and a list is what stops it also excusing one that appears by accident later. At least one entry is required -- a waiver that names nothing accepts nothing, so it is not a waiver. Expect the list to change when the task's data does; the guard reports an entry that no longer matches a gap as dead weight, and sorts what it asks you to add.",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[^.\\s][^.]*\\.[^.\\s][^.]*$",
+                    "description": "One enumeration, as 'collection.field' -- e.g. 'credit_card_accounts.status'. The collection is the store collection the guard parsed, the field the low-cardinality field it inferred as a category; a bare field name is rejected because it does not identify a gap."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "agent_env": {
+          "type": "array",
+          "description": "Optional environment variables injected into the appsci-agent container (and thus into the artifact it deploys). Use for task-env connection info the agent cannot read from the static spec, e.g. airline's AIRLINE_TOOLS_URL / AIRLINE_TOOLS_TOKEN.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "value"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Environment variable name. Example: 'AIRLINE_TOOLS_URL'."
+              },
+              "value": {
+                "type": "string",
+                "description": "Environment variable value. May contain the placeholders {workspace_container} and {tool_token}, which are filled in per copy of the task environment -- the eval phase can run several copies at once so cases do not share a store, and these two facts are the only ones that differ between them. Write them as placeholders, not literals: a literal container name hands every copy's artifact copy 0's address and they all transact on one store. Example: 'http://{workspace_container}:8080/tools'."
+              }
+            }
+          }
+        },
+        "env_admin_token_var": {
+          "type": "string",
+          "description": "Name of the env var (set on the workspace container) holding the task-env's evaluator-only ADMIN token. Required only when evaluation_data.reset_env_per_sample is true: the orchestrator recovers this token via `docker inspect` to drive per-case /admin/reset + /admin/state_hash. Task-agnostic. Example: 'AIRLINE_ENV_ADMIN_TOKEN'."
+        },
+        "env_tool_token_var": {
+          "type": "string",
+          "description": "Name of the env var on the task-env container holding the TOOL bearer token. Declared only by tasks whose eval-time user simulator must call user-held tools against the environment: the evaluator reads the token from the container to build that executor. Unlike env_admin_token_var this token is also handed to the agent (via agent_env), so naming it here grants the evaluator nothing the artifact does not already hold."
+        },
+        "lane_token_var": {
+          "type": "string",
+          "description": "Name of the env var the task's docker-compose file reads (as ${VAR}) to set the workspace container's TOOL token. Distinct from env_tool_token_var, which is where the evaluator READS that token; this is where it can WRITE one. Declaring it lets parallel eval give each copy of the environment its own token, so an artifact that hardcoded the token instead of reading agent_env gets a 401 rather than silently transacting against a copy it was not assigned. Example: 'AIRLINE_ENV_TOKEN'.",
+          "examples": ["AIRLINE_ENV_TOKEN"]
+        },
+        "artifact_container": {
+          "type": "string",
+          "description": "Docker container name under which the artifact is deployed (by the host-side deploy service and the eval-only pipeline). Declaring it per-task makes teardown deterministic instead of recovering the name from the submitted URL. Optional; defaults to 'appsci-artifact-<task_id>'. Example: 'appsci-artifact-airline_rebooking'."
+        },
+        "artifact_port": {
+          "type": "integer",
+          "description": "Container port the artifact server binds (0.0.0.0:<port>) and that the deploy service publishes to the host for health checks and eval. Optional; defaults to 8080."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "task_env_phase": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One phase's environment: the data bundled into the workspace container, the script that makes it live, and an optional check that it did.",
+      "required": [
+        "bundle",
+        "setup_script"
+      ],
+      "properties": {
+        "bundle": {
+          "type": "array",
+          "minItems": 1,
+          "description": "List of source-to-destination mappings for bundling files into the container. Files are packaged into a tar.gz, copied into the container, and extracted. Point a phase at its own data directory (e.g. 'environment/build/data/') so the other phase's records never enter this container.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "src",
+              "dest"
+            ],
+            "properties": {
+              "src": {
+                "type": "string",
+                "description": "Source path relative to the task directory. Example: 'environment/build/data/'."
+              },
+              "dest": {
+                "type": "string",
+                "description": "Destination path inside the container (absolute). Example: '/fixture/'."
+              }
+            }
+          }
+        },
+        "setup_script": {
+          "type": "string",
+          "description": "Container path to the bash script that runs after bundle extraction and makes the DB/KB/API live for this phase (e.g. loads data into PostgreSQL). End it with assertions that the data actually landed -- record counts above zero for each expected collection -- because a service can answer its health check while holding nothing, so container health is not evidence that the load worked. A failing setup script aborts the run. Example: '/scripts/setup.sh'."
+        }
+      }
+    }
+  }
+}

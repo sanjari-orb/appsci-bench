@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__bizzingoinc_20120322_8_k_ex_10_17_7504499_ex_10_17_f4ea8122__procurement_clean",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'Procurement Clean Standard' policy (procurement_clean). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"procurement_clean\", \"compliant\": false, \"violations\": [{\"category\": \"Exclusivity\", \"rule\": \"must_not_have\", \"present\": true, \"evidence_spans\": [\"Notwithstanding the foregoing, during the term and for a period of one (1) year thereafter, Theismann shall not use,  permit the use of, or license to others the Property in connection with the advertisement, promotion, and sale of any network or Internet service,  including but limited to all computer/video games, CD-ROMs, and/or interactive video of any form, except for a pre-existing license by Theismann.\", \"Theismann represents and warrants that, except as otherwise disclosed herein, he has not granted nor will he grant during the Term  and for a period of one (1) year thereafter to any other party any right, permission, or license to use the Property in connection with  the advertisement, sale, or promotion of the Network or in connection with networks that are identical or substantially similar to the  Network.\"]}], \"needs_review\": [{\"category\": \"Volume Restriction\", \"evidence_spans\": [\"Make four (4) public appearance for the purpose of promoting the Network, which may include autograph sessions, dinner  appearances, and/or other appearances not described in 4(a) above, with each such session not exceeding two (2) hours.\", \"Make himself available for four (4) sessions for production of photographs, or radio, television, video or other multi-media  programming for use in Bizzingo's advertising or promotional materials, with each such session not exceeding eight (8) hours.\"]}]}"
+  }
+}

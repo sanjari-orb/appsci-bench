@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0079",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9024 (Highmoor Analytics Group) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"escalate the intermittent data-sync record drops to engineering and provide status updates as they're learned\", \"customer to send specific dates and record counts for the affected syncs\"], \"risks\": [\"nightly data sync has been intermittently dropping records for about a week with no identified root cause\", \"customer states the recurring sync issues have been eroding her confidence in relying on the integration\"], \"commitments\": [\"escalate the intermittent data-sync record drops to engineering and provide status updates as they're learned\"], \"sentiment\": \"NEGATIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 24 (Problem, L, corner 10: a date is not required). Marcus's commitment carries no date at all ('I can't give you a fix timeline yet') and still counts fully as a commitment -- certainty was never a requirement. Priya's explicit statement that this is 'eroding my confidence' makes this NEGATIVE despite her measured, cooperative tone throughout. (Corrected: an earlier pass dropped two grounded items -- Priya's acknowledged offer to send sync-gap dates/record counts ('That would help a lot, please do send that' / 'I'll get that to you later today'), and her explicit stated-dissatisfaction risk ('this has genuinely been eroding my confidence in relying on this integration') as a second, distinct risk category alongside the unresolved-complaint risk, matching how cci-0076 splits an analogous pair of signals.)",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

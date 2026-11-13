@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__handle_time__651",
+  "single_turn_input": {
+    "text": "In February 2021, determine the agent with the longest handle time who managed any cases. Return only the Id of the agent.\n\n(Today's date: 2022-09-23)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xa6vIAA\", \"evidence_case_ids\": [\"500Ws000007qoPwIAI\", \"500Ws000007rEfAIAU\"], \"task_category\": \"handle_time\", \"reward_metric\": \"exact_match\"}"
+  }
+}

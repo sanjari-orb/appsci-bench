@@ -1,0 +1,203 @@
+# appsci-bench task spec — FILL-IN TEMPLATE  (validate: python -m appsci_bench.core.spec <task_id>)
+# See docs/task_spec_reference.md. This file is kept VALID so you can copy it and validate as you go;
+# replace template_task / placeholder strings with your task's real values.
+
+task_id: template_task              # snake_case; must match the tasks/<task_id>/ directory name
+name: Template Task                 # human-readable task name
+
+# Short customer ask the agent starts from. No metric thresholds / solution detail.
+description: >
+  "<one or two sentences: the desired outcome + a pain, in the customer's voice>"
+
+# Business goals for this task (passed to persona templates)
+business_goals:
+  - "<goal 1: what success looks like from a business perspective>"
+  - "<goal 2>"
+
+# Data files available for this task (passed to persona templates)
+dataset_files:
+  - { name: "<filename>", description: "<what this file contains>" }
+
+# Technical documentation available (passed to persona templates)
+technical_docs:
+  - { name: "<doc name>", description: "<what this doc covers>" }
+
+# Expected interface/action space for the solution (passed to persona templates)
+interface_design: >
+  "<description of what the system should do and return>"
+
+task_source_type: internal          # internal | open-source
+# source: { benchmark: tau-bench, domain: retail, notes: "offline-converted (converter not in this PR)" }
+
+environment:
+  docker_compose: tasks/<task_id>/environment/docker-compose.yml
+  # Requirement docs (policy / rules / KPIs the compliant artifact must obey) live under
+  # environment/sop/ and mount read-only at /sop; sample data lives under environment/data/ and
+  # mounts at /data. Same convention as tasks/airline_rebooking and tasks/order_to_cash.
+  resources:
+    - { name: <unique_name>, type: database,    location: "<connection string>", description: "<what tables/data>" }
+    - { name: kpis,          type: kpi,         location: "/sop/kpis.md", description: "Success metrics that define customer success" }
+    - { name: <docs_name>,   type: docs,        location: "/sop/<doc>.md", description: "<requirement doc available to agent>" }
+    - { name: <samples>,     type: sample_data, location: "/data/<samples>.jsonl", description: "<labeled example inputs the agent may learn from>" }
+
+# The artifact(s) the agent produces. kind: agent (primary queryable system) | output (a file a run
+# produces, e.g. a deck -> scored) | documentation (design notes/validation -> diagnostic only).
+artifacts:
+  output_dir: /work/out
+  expected:
+    - { id: agent, kind: agent, primary: true, description: "<the queryable system artifact>" }
+    - { id: design_notes, kind: documentation, path: design_notes.md, required: false, description: "optional design write-up (diagnostic)" }
+
+user_personas:                      # the bound persona is NOT disclosed to the agent (part of the ambiguity)
+  - tasks/<task_id>/user_personas/l3.yaml
+  - tasks/<task_id>/user_personas/l2.yaml
+  - tasks/<task_id>/user_personas/l1.yaml
+
+budgets:
+  # wall_clock_s RAISED 7200 -> 10800 on 2026-09-17, with every other task that declared 7200.
+  # THIS IS THE LIMIT THE AGENT ENFORCES ON ITSELF: appsci_agent/core/agent.py reads
+  # budgets.build.wall_clock_s and breaks its own loop before starting a turn once elapsed >= it,
+  # with stop_reason budget_exceeded_time. It is a DIFFERENT clock from a sweep's `timeout:`, which
+  # is the worker's ceiling on the cell, and the inner one wins SILENTLY: the build reports
+  # no_submission with exit_code 0 and nothing names the limit it hit. Raising the cell timeout to
+  # 3h (#191) did not touch this. 10800 matches that cell default, so the two clocks now agree
+  # rather than one truncating the other.
+  #
+  # Because the loop tests elapsed BEFORE starting a turn and never during one, a build overruns the
+  # limit by however long its last turn runs. A record reading over 7200s was still stopped by 7200.
+  #
+  # For a NEW TASK this is a starting point, not a measurement. Check it against what your builds
+  # actually take before trusting it, and record what you found here: the 7200 this replaces was
+  # copied unexamined into slides_generator and customer_call_insights, and silently truncated real
+  # builds on both for weeks.
+  #
+  # `tokens` RAISED 2000000 -> 20000000 on 2026-09-18, on every task that declared 2000000. Same
+  # silent-stop shape as the clock above: agent.py breaks its loop with stop_reason
+  # budget_exceeded_tokens, and the build reports no_submission with exit_code 0 naming no limit.
+  # What this ceiling counts is the PARENT agent loop's own calls only -- agent.py sums
+  # response.usage per turn -- so the sub-agent calls that are ~95% of a build's real token spend
+  # never reach it. Parent usage also grows per turn as context accumulates (measured on slides:
+  # ~42k/turn early, ~66k/turn by turn 25), so 2M bound a build at roughly 28 turns while
+  # `turns: 40` said 40. 20000000 puts this ceiling out of the way, leaving the turn and wall-clock
+  # limits as the ones that bind.
+  build: { turns: 40, tokens: 20000000, usd: 20, wall_clock_s: 10800 }
+  latency_slo_ms: 2000
+
+evaluation_data:
+  # Pointer to the held-out eval dataset: a directory holding one subdirectory per data_point_id,
+  # each with a sample.json (schema/dataset.schema.json $defs/eval_sample -- data_point_id +
+  # single_turn_input/multi_turn_input + optional expected_output/eval_rubric) and any files it
+  # references by file_path (relative to that same subdirectory). Never shown to the agent.
+  dataset: tasks/<task_id>/eval_data
+  provenance: synthetic             # synthetic | public | curated
+  type: single_turn                 # single_turn (one query/sample) | multi_turn (artifact agent user sim drives a conversation)
+  # max_turns: 10                   # multi_turn only; omit to take the default (10)
+  # repeat: 1                       # rerun each sample this many times, scores averaged for stability; omit to take the default (1)
+  objectives:
+    # Each objective binds a metric name to an importable per-data-point eval function:
+    #   fn(*, data_point_id: str, conversation, expected_output=None, eval_rubric=None, **kwargs) -> (score: float in [0,1], metadata: dict)
+    # `eval_function_path` is dotted, relative to `tasks/` -- "<task_id>.eval.<fn_name>" imports
+    # tasks/<task_id>/eval.py and resolves its <fn_name> attribute. `positive: true` means higher
+    # score is better (set false for something like a violation rate). `weight` combines objectives
+    # into the task's headline score. `scoring_kind` declares HOW it is scored: deterministic (no model
+    # call) | llm_judge (score comes from a model call) | hybrid (calls a model on some path). Declare it
+    # on every objective -- nothing verifies it against your eval function, so keeping it honest is on you.
+    #
+    # For your own deterministic checks, appsci_bench.eval.helpers has common building blocks
+    # (resolve_scalar, text_similarity, json_field_match). For LLM-judged axes, reach for
+    # make_transcript_judge (conversation-only judging) or make_file_similarity_judge (judges a
+    # produced file's content), or a prebuilt judge from appsci_bench.eval.helpers.judges (e.g.
+    # process_compliance_judge) -- see appsci_bench/eval/README.md's "which level to reach for".
+    - { name: <metric_name>, eval_function_path: <task_id>.eval.<fn_name>, positive: true, weight: 1.0, scoring_kind: deterministic }
+
+# TaskRunner configuration for spinning up the task environment.
+# See docs/task_runner.md for full documentation.
+task_runner:
+  # Docker network (appsci-agent must be on the same network to communicate)
+  network_name: bench-network
+
+  # Workspace container name suffix (used for docker exec commands)
+  workspace_name: <task_abbrev>-workspace    # e.g., o2c-workspace for order_to_cash
+
+  # The task environment, declared once per RUN PHASE. Two environments run SEQUENTIALLY: the build
+  # env the AppSci agent explores, and then -- after that one is torn down -- the eval env the
+  # artifact is scored against. Both come up from the same compose file under the same
+  # workspace_name, so they share a container name and network alias; the only difference is which
+  # data is loaded. Read docs/task_env_split.md before authoring these.
+  #
+  # THE RULE: the build env must contain no record any eval case touches. Otherwise the agent can
+  # read the data it is about to be scored on and shape its artifact around those specific rows
+  # rather than around the requirements it elicited.
+  #
+  # How to choose the split:
+  #   * Aim for roughly 20% of records in the build env -- but referential closure and the rule above
+  #     take precedence, and on a densely cross-referenced store they will hold it well under that.
+  #   * Choose the build share for CATEGORY COVERAGE, not proportion: at least one instance of every
+  #     value of every enumerated field. At a fifth of the data the proportions cannot match.
+  #   * The carve must be referentially closed -- every record the build share references is also in
+  #     the build share. Nothing is exempt, including reference data like catalogues or timetables.
+  #   * You do NOT author an eval dataset. The eval env keeps the task's full store, so that side is a
+  #     file move -- but it must be ONE unambiguous whole, because a state-based scoring oracle replays
+  #     against exactly what the eval env loaded.
+  #   * Identifier collisions are impossible while you carve rather than generate, since the build share
+  #     is a subset of what the eval env holds. That only becomes a rule if generation is ever allowed.
+  #   * Verifying that no eval-case record leaked into the build share is YOUR job as task owner.
+  environments:
+    build:
+      # Files to bundle and copy into the container. Point each phase at its OWN data directory so
+      # the other phase's records never enter this container.
+      bundle:
+        - { src: environment/build/fixture/, dest: /fixture/ }   # this phase's DB fixture
+        - { src: environment/data/, dest: /data/ }               # Runtime data (KB docs, examples)
+        - { src: environment/db/, dest: /scripts/ }              # Setup scripts (shared)
+      # Bash script to run after bundle extraction (container path, e.g., /scripts/setup.sh).
+      # This script should initialize all resources (load DB fixtures, set up APIs, etc.)
+      # and clean up any sensitive fixture files (e.g., rm -rf /fixture) before the agent runs.
+      #
+      # END IT WITH ASSERTIONS THAT THE DATA LANDED -- record counts above zero for each collection you
+      # expect. A service can answer its health check while holding nothing (airline's starts empty by
+      # design), so "the container is up" is not evidence the load worked, and a load that half-applied
+      # otherwise shows up only as a run of zeros. A failing setup script aborts the run, which is the
+      # right outcome: there is nothing worth measuring against missing data.
+      setup_script: /scripts/setup.sh
+
+    eval:
+      bundle:
+        - { src: environment/eval/fixture/, dest: /fixture/ }    # the task's FULL store
+        - { src: environment/data/, dest: /data/ }
+        - { src: environment/db/, dest: /scripts/ }
+      setup_script: /scripts/setup.sh
+
+    # If your task's eval phase needs no environment at all -- every case carries its own inputs and
+    # nothing in the eval path touches a container -- write this instead of an eval block:
+    #   eval: none
+    # Declare it explicitly; an omitted block is indistinguishable from an author who forgot.
+
+  # Connection details injected into the agent container and into the artifact it deploys. Omit the
+  # block entirely if your task needs none (order_to_cash reaches its database by a fixed URL).
+  #
+  # WRITE THE BRACED PLACEHOLDERS, NOT LITERALS. The eval phase can run several COPIES of the task
+  # environment at once, one eval case in each, so that a task which resets its store per case is not
+  # forced to score one case at a time. These two values are the only ones that differ between copies,
+  # and a literal container name hands every copy's artifact copy 0's address: they then all transact
+  # on one store and the score is wrong and plausible. The harness refuses `--eval-lanes N` (N > 1)
+  # for a task that has written a literal, so the failure is a message rather than a bad number.
+  #
+  # agent_env:
+  #   - { name: <TASK>_TOOLS_URL,   value: "http://{workspace_container}:8080/tools" }
+  #   - { name: <TASK>_TOOLS_TOKEN, value: "{tool_token}" }
+
+  # Set this if you used {tool_token} above. It names the env var your docker-compose file reads for
+  # the workspace container's tool token, written in the `${VAR:-default}` form so a single-environment
+  # run keeps the static default:
+  #
+  #   environment:
+  #     <TASK>_ENV_TOKEN: ${<TASK>_ENV_TOKEN:-<task>-tool-token-local}
+  #
+  # Parallel eval then gives each copy of the environment its own token, which is what turns "the
+  # artifact ignored the address we gave it" into a 401 on the copy it was handed.
+  #
+  # lane_token_var: <TASK>_ENV_TOKEN
+
+owner: "<name>"
+co_owners: []

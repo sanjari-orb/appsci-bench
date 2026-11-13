@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0094",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9039 (Corvid Distribution Network) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send updated pricing tiers for the three new locations, by the 15th\", \"configure the platform for all three new warehouse locations, by the 20th\", \"set up combined invoicing for all three warehouse locations\"], \"risks\": [], \"commitments\": [\"send updated pricing tiers for the three new locations, by the 15th\", \"configure the platform for all three new warehouse locations, by the 20th\", \"set up combined invoicing for all three warehouse locations\"], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 39 (Expansion, L, two dated commitments). Both items carry stated deadlines and are acknowledged, landing in both lists. Farid's enthusiasm about the expansion ('appreciate how quickly this is coming together') makes this POSITIVE. (Corrected: an earlier pass dropped a clean customer-asks/rep-agrees item -- Farid's combined-invoice request ('if that's an option') and Elena's acceptance ('That's absolutely an option, I'll set it up that way') -- which belongs in both next_steps and commitments like the other two items in this call.)",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

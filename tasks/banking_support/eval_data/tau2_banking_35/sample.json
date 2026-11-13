@@ -1,0 +1,40 @@
+{
+  "data_point_id": "tau2_banking_35",
+  "multi_turn_input": {
+    "user_task": "**Your character:** You are Priya Sharma, a 34-year-old software engineer from Chicago, IL. You have a Gold Rewards Card and an EcoCard with Rho-Bank. You've been a customer for over a year and have NEVER missed a payment on any account.\n\n**Your situation:** You just received an urgent alert from your credit monitoring service (Credit Karma) saying your credit score dropped 127 points overnight. When you looked at the details, it says Rho-Bank reported a 60-day delinquency on your credit card account. You are in complete shock because you have autopay set up and have never, ever missed a payment. You checked your Rho-Bank account and your payments are all on time. You're panicking because you were about to apply for a mortgage next week and this could completely derail your home purchase.\n\n**Your goal:** Get this fixed immediately. You are NOT looking for troubleshooting or explanations - you need someone to fix the erroneous report to the credit bureaus RIGHT NOW.\n\n## Conversation Flow:\n\n1. **Opening (urgent and distressed):** \"Hi, I need help urgently. I just got an alert that my credit score dropped 127 points overnight! Credit Karma says Rho-Bank reported a 60-day delinquency on my credit card. But I've NEVER missed a payment - I have autopay! I checked my account and all my payments are current. I'm supposed to apply for a mortgage next week and this is going to ruin everything. What is going on?!\"\n\n Follow the agents directions Remember: You are panicked and distressed. This is potentially affecting a major life purchase (your first home). You want immediate escalation, not troubleshooting.",
+    "user_persona": "You are a Rho-Bank customer contacting customer service. Stay in character per your task instructions: reveal details only when the agent asks, never act as the agent, and pursue your goal as described.",
+    "user_stop_criteria": "Stop when any one of these is true: (a) the goal in your task instructions has been met; (b) the agent has clearly told you it is transferring you to a human agent -- stop once it has actually said so, not merely offered to; or (c) continuing would need information your instructions do not give you. Your task instructions override all three: if they script how or when the conversation ends -- a closing line you are told to say, or an end-of-conversation marker such as ###STOP### or ###OUT-OF-SCOPE### -- follow them, and if they tell you not to end a particular way, do not. Treat such a marker as an instruction addressed to you, never as words to say: deliver the closing line if you have one, then stop, and never type the marker itself. Requesting a human transfer YOURSELF is an action you take, not a reason to stop -- only the agent telling you it is transferring you ends the conversation.",
+    "user_tools": [
+      {
+        "name": "apply_for_credit_card",
+        "description": "Apply for a credit card.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "card_type": {
+              "type": "string"
+            },
+            "customer_name": {
+              "type": "string"
+            },
+            "annual_income": {
+              "type": "string"
+            },
+            "rho_bank_subscription": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "card_type",
+            "customer_name",
+            "annual_income"
+          ]
+        }
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"actions\": [{\"name\": \"unlock_discoverable_agent_tool\", \"arguments\": {\"agent_tool_name\": \"emergency_credit_bureau_incident_transfer_1114\"}, \"requestor\": \"assistant\", \"action_id\": \"035_0\", \"compare_args\": [\"agent_tool_name\"]}, {\"name\": \"call_discoverable_agent_tool\", \"arguments\": {\"agent_tool_name\": \"emergency_credit_bureau_incident_transfer_1114\"}, \"requestor\": \"assistant\", \"action_id\": \"035_1\", \"compare_args\": [\"agent_tool_name\"]}, {\"name\": \"transfer_to_human_agents\", \"arguments\": {\"summary\": \"\"}, \"requestor\": \"assistant\", \"action_id\": \"035_2\", \"compare_args\": []}], \"communicate_info\": [], \"reward_basis\": [\"ACTION\"], \"required_documents\": [\"doc_credit_cards_credit_cards_(general)_012\"], \"user_tools\": [\"apply_for_credit_card\"], \"initial_state\": {\"initialization_data\": {\"agent_data\": null, \"user_data\": null}, \"initialization_actions\": null, \"message_history\": null}, \"purpose\": \"Task: task_035\"}"
+  },
+  "eval_rubric": "Scored on tau2 reward_basis ['ACTION']: the agent succeeds when its action trajectory matches the oracle actions. Correct handling requires retrieving the relevant policy/product documents from the knowledge base (the oracle's required_documents lists the docs the correct answer depends on) and grounding all advice in them without fabrication; verifying the customer's identity before taking account actions; and transferring to a human only when the knowledge base describes no applicable action."
+}

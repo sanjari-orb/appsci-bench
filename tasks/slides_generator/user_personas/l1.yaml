@@ -1,0 +1,88 @@
+persona_id: l1
+task_id: slides_generator
+level: L1
+role: "Applied-science manager overseeing the slides-generator build"
+# L1 is the widest level: it holds L3's business framing, L2's integration contract, AND the
+# method/architecture material neither of the others has. That is the gradient -- level varies what is
+# known, not only how it is said. The output shape itself reaches every level through
+# user_sim_docs/common/, so it is not restated here.
+domain_knowledge:
+  business_pain: |
+    Manual deck-building is slow:
+    - Teams spend hours or days creating decks for recurring meetings, product pitches, and research briefings.
+    - The process is repetitive, and the content often overlaps with previous decks.
+    - Teams often have to reformat content to fit the corporate template, which is time-consuming
+  what_good_looks_like: |
+    A good deck holds up against these checks:
+    - Every stated outcome from the input is covered, and nothing beyond what was provided is
+      invented as fact or figure
+    - Someone unfamiliar with the source can follow the flow; every slide carries real content,
+      never an empty placeholder
+    - Visual match to the template is measurable, not incidental -- same palette, font family,
+      layout conventions, not just "some template was used"
+    - No overlapping or off-slide elements, consistent alignment/margins/spacing, and a clear,
+      consistent typographic hierarchy per slide -- this is checkable geometrically from the deck's
+      own shape positions, so treat it as testable, not just a look-and-feel call
+    - Narrative and instruction-following matter too, but are harder to pin down objectively than
+      the above -- flag that trade-off if it comes up
+  input_flexibility: |
+    Accepted inputs, roughest to most structured:
+    - Sparse notes -- agent expands sensibly rather than padding with filler; flags big gaps
+      instead of inventing content
+    - A markdown (.md) or plain-text (.txt) prompt
+    - Up to 5 uploaded documents (docx, pdf, pptx, csv or xlsx) -- agent extracts and synthesizes content, flags gaps, and generates a deck.
+    Each of those types needs its own extraction path -- text out of a document, tables out of a
+    spreadsheet, text and structure out of a prior deck -- so that is a per-format code path, not one
+    reader. Extraction failures have to surface rather than be swallowed: a quiet parse failure
+    propagates into everything downstream while the response still looks successful, which is the
+    silent-propagation problem under known_limitations showing up at the input boundary.
+  slide_count_guidance: |
+    By deck type:
+    - Recurring QBRs / status reviews: ~8 slides
+    - Product pitches: 8-12 slides
+    - Research briefings: 6-8 slides
+    - Sparse status updates: 3-5 slides
+    The user can set an explicit count; when they don't, the agent should just use a sensible
+    default.
+  template_expectations: |
+    Every deck must obey the approved template the user selects or uploads, every time. The agent locks
+    the visual theme from the template first, then fits content into it.
+    A template.pptx is always among the attachments, named exactly that, and it is the one attachment
+    that is not a content source -- every other attachment is.
+    Filling the template's placeholders is what makes a slide inherit the design; a free-floating text
+    box drawn in roughly the right place does not -- it will not pick up the fonts or colours, and it
+    will not move if the template changes.
+  pptx_mechanics: |
+    A .pptx is a zip of XML (OOXML) -- generating it well-formed by hand is error-prone; python-pptx is
+    installed and works over presentation -> slides -> shapes. A template carries the design separately
+    from content: a slide master sets the shared look, named slide layouts under it arrange empty
+    placeholders, and the theme holds the palette and font set. Layout names are the template author's
+    own, so they differ per template, and each slide records which layout it was built on by name.
+    Rendering to PDF or images needs a converter such as LibreOffice, not the format itself -- useful for
+    looking at what was produced rather than only at its structure.
+  deployment_pipeline: |
+    - Artifact runs as an HTTP service, synchronous response (no async/polling in v1)
+    - Accepts a text prompt plus attached files, returns the structured data and the rendered file in
+      the same call
+    - SLO: 30-60s end to end, longer allowed for larger inputs
+  volume_expectations: "Up to ~50 requests per day. Not high-throughput -- design for this, revisit if real usage grows."
+  agentic_patterns: "Knows about multi-step reasoning, context expansion trade-offs, token economics, grounding strategies for ambiguous inputs."
+  synthesis_vs_fidelity: "Synthesis (reframing the source material for the audience) vs. fidelity (mirroring the source structure); both valid depending on use case."
+  multi_domain_challenges: "Inputs are domain-agnostic; ranges from sparse prompts to dense research papers; subjectivity in what constitutes a good deck."
+  agentic_architecture: |
+    Literature converges on a staged pipeline wrapped in feedback loops, not a single forward pass:
+    - Parse: convert the source into a structured representation, preserving text/tables/figures
+    - Outline: fix section ordering, length, and storyline arc before content is written
+    - Summarize: distill content into punchy bullets under the outline's structure
+    - Extract figures: pull images/visuals that reinforce the narrative
+    - Lay out & render: arrange text/figures into slides, then render
+    Two feedback loops wrap this: a verification-adjustment loop (checks generated content against
+    the source for omissions/inaccuracies) and a visual inspection loop (checks the rendered output,
+    not the intermediate representation, for overflow/overlap/imbalance).
+  format_challenge: "PowerPoint's native format is XML (OOXML), which is awkward for an agent to generate/edit directly. Many published approaches instead work in an intermediate format like HTML during generation/editing, then export to XML/pptx at the end -- a design choice worth weighing here too."
+  known_limitations: "Quality vs. aesthetics is a real trade-off, not fully solved by staging. Self-improvement is only as good as the verifier judging it -- a weak verifier caps the system regardless of generator strength. Parsing errors on complex source docs propagate silently downstream. Feedback loops add model calls and render cycles, raising cost and latency."
+  evaluation_difficulty: "No universal criteria define a good presentation; the field is reference-free and training-free at the deck level here (no custom models, no slide-by-slide reference comparisons). Relevant literature metrics: coverage via cosine similarity, LLM-as-judge for coherence/organization, layout/color quality, constraint satisfaction (slide count, aspect ratio)."
+  stop_conditions: "Design agreed and validated on sample requests; agent has a concrete plan for each input type."
+known_resources:
+  - samples
+  - kpis

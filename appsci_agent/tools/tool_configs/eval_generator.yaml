@@ -1,0 +1,37 @@
+name: eval_generator
+
+description: |
+  Generate a runnable internal evaluation harness for the candidate artifact, grounded in a
+  handoff file that captures your own understanding of the task and what counts as a correct
+  response.
+
+  Precondition: `{handoff_path}` must already exist -- a plain-language writeup
+  of the task, the candidate's interface, and how to judge a response. It should NOT already
+  contain specific test cases, scenarios, or a scoring script -- that's this tool's job, not the
+  handoff's. If it doesn't exist yet, ask mini_swe_agent to write it first, then call this tool.
+  Calling this before the handoff exists fails with instructions rather than guessing at your
+  intent.
+
+  Produces (by delegating to mini_swe_agent, grounded in the handoff file):
+  - `<artifact_dir>/eval/eval_data.json` -- a list of test cases. For a single request/response
+    candidate, each case has an id, scenario, ground truth, and metrics. For a multi-turn
+    candidate, each case instead has an id, persona/task/stop_criteria describing the simulated
+    user, plus ground truth and metrics for judging the outcome.
+  - `<artifact_dir>/eval/run.py` -- for single-turn cases, queries the candidate's `/respond`
+    endpoint once per case; for multi-turn cases, drives an actual conversation with the candidate
+    (simulating the user's turns from its persona, stopping on stop_criteria or a hard turn cap)
+    before judging the outcome. Either way it prints one aggregate JSON result
+    `{"headline_metric": <0..1>, "metrics_breakdown": [{"metric_name": <str>, "score": <0..1>},
+    ...], "cases": [...]}` -- the first two are a fixed, enforced contract; cases is additional
+    per-task debugging detail, documented in the eval's own README.md.
+  - `<artifact_dir>/eval/README.md` -- explains what the eval covers and how to run it
+
+  You can call this again after updating the handoff to regenerate the eval.
+
+parameters:
+  type: object
+  properties:
+    context:
+      type: string
+      description: Additional guidance on what the eval should emphasize or cover
+  required: []

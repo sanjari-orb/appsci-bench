@@ -1,0 +1,8 @@
+# Build your adapter image first; see harnesses/README.md.
+# command is Docker CMD argv, not a shell string. The image's ENTRYPOINT applies.
+name: custom
+image: my-harness:latest
+command: ["/usr/local/bin/run-harness"]
+# Additional required host environment variables for this harness, by NAME only.
+# Never put credential values in this file or in command.
+passthrough_env: []

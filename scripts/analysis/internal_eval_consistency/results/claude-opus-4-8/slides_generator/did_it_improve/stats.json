@@ -1,0 +1,136 @@
+{
+  "census": {
+    "counts": {
+      "fetch_failed": 0,
+      "mixed_cases": 0,
+      "mixed_limit": 0,
+      "no_scorable_captures": 0,
+      "no_scores": 0,
+      "run_dir_missing": 0
+    },
+    "skipped": {
+      "fetch_failed": [],
+      "mixed_cases": [],
+      "mixed_limit": [],
+      "no_scorable_captures": [],
+      "no_scores": [],
+      "run_dir_missing": []
+    },
+    "total": 0
+  },
+  "generated_at": "2026-11-05T18:23:38.803252+00:00",
+  "pooled": {
+    "beat_noise": 2,
+    "floor_unmeasured": 0,
+    "headline_improved": 1,
+    "headline_series": 3,
+    "headline_sign_test_p": 1.0,
+    "headline_unchanged": 0,
+    "headline_worsened": 2,
+    "improved": 1,
+    "n_series": 3,
+    "sign_test_p": 1.0,
+    "unchanged": 0,
+    "worsened": 2
+  },
+  "provenance": {
+    "slides_generator_claude-opus-4-8_b0_l3_20260917_095134": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": true,
+      "headline_objective": "expectations_satisfaction",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "73f9cfed9c72bbfb1c1e777bffd34b7080c8c9c2"
+      ]
+    },
+    "slides_generator_claude-opus-4-8_b1_l3_20260917_105454": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": true,
+      "headline_objective": "expectations_satisfaction",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "4a229509de1554b324179f20dfb47e5e00818638"
+      ]
+    },
+    "slides_generator_claude-opus-4-8_b2_l3_20260917_114447": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": true,
+      "headline_objective": "expectations_satisfaction",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "73f9cfed9c72bbfb1c1e777bffd34b7080c8c9c2"
+      ]
+    }
+  },
+  "report_commit": "4a229509de1554b324179f20dfb47e5e00818638",
+  "report_tree_dirty": true,
+  "runs": {
+    "slides_generator_claude-opus-4-8_b0_l3_20260917_095134": {
+      "delta": -0.028957918050941278,
+      "delta_se": 0.019208009685916988,
+      "distinct_hashes": 3,
+      "first": 0.7693023255813953,
+      "headline_delta": -0.08250000000000002,
+      "headline_first": 0.8341666666666666,
+      "headline_last": 0.7516666666666666,
+      "headline_objective": "expectations_satisfaction",
+      "last": 0.740344407530454,
+      "n_points": 4,
+      "n_unmeasured": 0,
+      "noise_floor": 0.019206022736825226,
+      "run_id": "slides_generator_claude-opus-4-8_b0_l3_20260917_095134",
+      "spearman": -0.7999999999999998,
+      "steps_down": 1,
+      "steps_flat": 2,
+      "steps_up": 0,
+      "task_id": "slides_generator",
+      "zeros": 0
+    },
+    "slides_generator_claude-opus-4-8_b1_l3_20260917_105454": {
+      "delta": 0.02287258090746458,
+      "delta_se": 0.004788544569489254,
+      "distinct_hashes": 5,
+      "first": 0.7428274554902462,
+      "headline_delta": 0.016000000000000014,
+      "headline_first": 0.7248333333333333,
+      "headline_last": 0.7408333333333333,
+      "headline_objective": "expectations_satisfaction",
+      "last": 0.7657000363977108,
+      "n_points": 8,
+      "n_unmeasured": 0,
+      "noise_floor": 0.005719647517646492,
+      "run_id": "slides_generator_claude-opus-4-8_b1_l3_20260917_105454",
+      "spearman": 0.7142857142857143,
+      "steps_down": 0,
+      "steps_flat": 6,
+      "steps_up": 1,
+      "task_id": "slides_generator",
+      "zeros": 0
+    },
+    "slides_generator_claude-opus-4-8_b2_l3_20260917_114447": {
+      "delta": -0.01848837209302323,
+      "delta_se": 0.009105277335482335,
+      "distinct_hashes": 1,
+      "first": 0.6286046511627906,
+      "headline_delta": -0.03916666666666668,
+      "headline_first": 0.7441666666666666,
+      "headline_last": 0.705,
+      "headline_objective": "expectations_satisfaction",
+      "last": 0.6101162790697674,
+      "n_points": 2,
+      "n_unmeasured": 0,
+      "noise_floor": 0.011151641719230061,
+      "run_id": "slides_generator_claude-opus-4-8_b2_l3_20260917_114447",
+      "spearman": -0.9999999999999998,
+      "steps_down": 1,
+      "steps_flat": 0,
+      "steps_up": 0,
+      "task_id": "slides_generator",
+      "zeros": 0
+    }
+  },
+  "synthetic": false
+}

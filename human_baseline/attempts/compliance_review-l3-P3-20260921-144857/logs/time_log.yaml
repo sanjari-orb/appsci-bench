@@ -1,0 +1,11 @@
+started_at: '2026-09-21T12:57:24.975452+00:00'
+start_time_basis: 'Approximate: first observable L3 simulator session start; the first question followed.'
+ended_at: null
+breaks: []
+technical_issues:
+  - stage: elicitation
+    description: 'A UTF-8 input error left the question about message-content format unanswered.'
+    time_impact: unknown
+  - stage: deployment_and_checkpoint
+    description: 'The first deployed artifact failed the session-client conformance probe; Claude corrected it before scoring. The 1h and 2h checkpoints ran at 2026-09-21T15:06:35Z and 2026-09-21T15:50:23Z, respectively, after their nominal marks.'
+    time_impact: 'Checkpoint timing delayed; no separate pause duration inferred.'

@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__cardax_inc_08_19_2014_ex_10_1_collaboration_agreem_b7ffa185__ip_protective",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'IP-Protective Standard' policy (ip_protective). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"ip_protective\", \"compliant\": false, \"violations\": [{\"category\": \"Ip Ownership Assignment\", \"rule\": \"must_have\", \"present\": false, \"evidence_spans\": []}, {\"category\": \"Joint Ip Ownership\", \"rule\": \"must_not_have\", \"present\": true, \"evidence_spans\": [\"The Parties will jointly own all inventions and other Intellectual Property Rights jointly made under this Agreement that are directly resulting from work conducted under this Agreement in accordance with the Development Plan and related specifically to the Product or the Compound Formulation, including any patents, patent applications and other Intellectual Property Rights related to such inventions, if any, unless otherwise expressly set forth herein.\"]}], \"needs_review\": []}"
+  }
+}

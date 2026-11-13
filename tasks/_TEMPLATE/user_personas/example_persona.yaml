@@ -1,0 +1,18 @@
+# Persona (appsci agent user sim) — validate against schema/user_persona.schema.json
+persona_id: <snake_case>
+task_id: <task_id>
+level: L3                          # L1 manager/tech-lead | L2 technical partner | L3 product manager
+role: "<who they are>"
+domain_knowledge:                  # the closed set of facts the persona knows (answers only from here)
+  key: value
+# known_resources:                 # optional: names from the task spec's environment.resources this
+#   - <resource_name>              # persona can speak to. L1 lists DB/infra; L3 few/none. Unknown
+#   - <another_resource_name>      # names fail loud at load time.
+# known_docs:                      # optional: documents ONLY this persona can read, from
+#   - policy.md                    # tasks/<id>/user_sim_docs/ (paths relative to it). The agent
+#   - rules/escalation.md          # cannot open these -- it must ask. Anything in
+#                                  # user_sim_docs/common/ is included automatically, no listing
+#                                  # needed. Aim under 5k tokens per persona (hard cap 20k) and
+#                                  # never name these files anywhere the agent can see.
+#                                  # Types: .md .txt .json .jsonl (text only).
+#                                  # Guide: tasks/README.md

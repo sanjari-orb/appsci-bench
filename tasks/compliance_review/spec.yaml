@@ -1,0 +1,108 @@
+task_id: compliance_review
+name: Compliance Review
+description: >
+  "An org's customer-facing documents must follow internal policy and regulatory rules; today a
+   person reviews each one and hopes to catch issues. They want a system that reviews a document and
+   surfaces likely violations (with the offending span + the rule + a rationale) before it ships,
+   prioritizing recall on real violations without drowning reviewers in false positives."
+task_source_type: internal
+
+environment:
+  docker_compose: tasks/compliance_review/environment/docker-compose.yml
+  resources:
+    - { name: contracts_db, type: database,      location: "postgres://sandbox:sandbox@db:5432/compliance", description: "Build-time-safe sample contracts (raw text only); table: contracts(contract_id, title, full_text)" }
+    - { name: policy_kb,    type: knowledge_base, location: "/data/policies/", description: "The 4 named compliance policies and which deal type each applies to" }
+    - { name: kpis,         type: kpi,           location: "/data/kpis.md", description: "Success metrics: violation recall/precision, evidence quality" }
+user_personas:
+  - tasks/compliance_review/user_personas/l3.yaml
+  - tasks/compliance_review/user_personas/l2.yaml
+  - tasks/compliance_review/user_personas/l1.yaml
+budgets:
+  # wall_clock_s RAISED 10800 -> 14400 on 2026-10-16 for the kimi-k3 noopt rerun
+  # (experiments/sweeps/compliance_rerun_1x3_kimik3_noopt_4h.yaml), which sets a 4-hour cell
+  # `timeout:`. Left at 10800, this inner clock would have stopped that build at 3h with the cell
+  # still allowing 4. With the default 3h cell timeout nothing changes: the outer clock still binds
+  # first, so only a sweep that asks for more than 3h sees the extra hour.
+  #
+  # wall_clock_s RAISED 7200 -> 10800 on 2026-09-17, with every other task that declared 7200.
+  # THIS IS THE LIMIT THE AGENT ENFORCES ON ITSELF: appsci_agent/core/agent.py reads
+  # budgets.build.wall_clock_s and breaks its own loop before starting a turn once elapsed >= it,
+  # with stop_reason budget_exceeded_time. It is a DIFFERENT clock from a sweep's `timeout:`, which
+  # is the worker's ceiling on the cell, and the inner one wins SILENTLY: the build reports
+  # no_submission with exit_code 0 and nothing names the limit it hit. Raising the cell timeout to
+  # 3h (#191) did not touch this. 10800 matches that cell default, so the two clocks now agree
+  # rather than one truncating the other.
+  #
+  # Because the loop tests elapsed BEFORE starting a turn and never during one, a build overruns the
+  # limit by however long its last turn runs. A record reading over 7200s was still stopped by 7200.
+  #
+  # NOT YET OBSERVED HERE, and that is a gap rather than an all-clear. This task's longest recorded
+  # build (compliance_review_kimi-k3_b0_l3_20260915_013738, 7203s) was killed by the OUTER clock at
+  # 7200 before #191 raised it, so it never got the chance to reach this one. Two other kimi-k3
+  # builds landed at 6407s and 5890s, close enough that the next one plausibly would have.
+  #
+  # `tokens` RAISED 2000000 -> 20000000 on 2026-09-18, on every task that declared 2000000. Same
+  # silent-stop shape as the clock above: agent.py breaks its loop with stop_reason
+  # budget_exceeded_tokens, and the build reports no_submission with exit_code 0 naming no limit.
+  # What this ceiling counts is the PARENT agent loop's own calls only -- agent.py sums
+  # response.usage per turn -- so the sub-agent calls that are ~95% of a build's real token spend
+  # never reach it. Parent usage also grows per turn as context accumulates (measured on slides:
+  # ~42k/turn early, ~66k/turn by turn 25), so 2M bound a build at roughly 28 turns while
+  # `turns: 40` said 40. 20000000 puts this ceiling out of the way, leaving the turn and wall-clock
+  # limits as the ones that bind.
+  build: { turns: 40, tokens: 20000000, usd: 20, wall_clock_s: 14400 }
+  latency_slo_ms: 2000
+
+# TaskRunner configuration for spinning up the task environment.
+# See docs/task_runner.md for full documentation.
+task_runner:
+  network_name: bench-network
+  workspace_name: compliance-workspace
+  # The task environment, declared once per RUN PHASE (docs/task_env_split.md). The build env is what
+  # the AppSci agent explores during the build phase; the eval env holds the records the eval cases are
+  # drawn from and is started only after the build one is torn down. Both come up from the same compose
+  # file under the same workspace_name, so they share a container name and network alias.
+  environments:
+    # Declared as two literal (currently identical) blocks rather than a YAML alias. Unlike the other
+    # not-yet-split tasks, this isn't a placeholder pending a carve: the 50 fixture contracts in
+    # contracts_db and the 50 eval-case contracts have never overlapped and never will -- eval-time
+    # contract text is attached directly per sample (see seed_data/PROVENANCE.md's "Eval-time contract
+    # text is attached, not looked up"), never read from contracts_db. So contracts_db carries nothing
+    # eval scoring depends on, and there is no build share to carve out of it.
+    build:
+      bundle:
+        - { src: seed_data/fixture/, dest: /fixture/ }       # DB fixture (contracts.jsonl)
+        - { src: environment/data/, dest: /data/ }           # Policy docs, kpis
+        - { src: environment/db/, dest: /scripts/ }          # Setup scripts
+      setup_script: /scripts/setup.sh
+    eval:
+      bundle:
+        - { src: seed_data/fixture/, dest: /fixture/ }       # DB fixture (contracts.jsonl)
+        - { src: environment/data/, dest: /data/ }           # Policy docs, kpis
+        - { src: environment/db/, dest: /scripts/ }          # Setup scripts
+      setup_script: /scripts/setup.sh
+evaluation_data:
+  # TEMPORARY, pending a contributor's PR #34 (a contributor/oracle-data-tooling) merging. eval.py and eval_data/
+  # here are OUR OWN placeholder (scripts/build_temp_eval_data.py), not a contributor's real held-out set --
+  # scores against them are NOT a trustworthy measure of task performance, they only exist so the
+  # build-time e2e pipeline can exercise a real eval phase. Contracts are disjoint from BOTH a contributor's
+  # frozen holdout (seed_data/eval_holdout_contracts.txt) AND our own build-time corpus
+  # (seed_data/fixture/), i.e. genuinely unseen by the agent -- see seed_data/PROVENANCE.md.
+  # This objectives block already matches his ground-truth/compliance_v1/spec_snippet.yaml exactly
+  # (names/weights), so once his real eval.py + eval_data/ publish here (owner-gated), just delete
+  # this eval_data/ dir and let his overwrite eval.py -- no further spec edits needed.
+  dataset: tasks/compliance_review/eval_data
+  provenance: curated                             # derived from CUAD lawyer labels (CC-BY-4.0)
+  type: single_turn
+  elicitation_rubric: tasks/compliance_review/elicitation_rubric.yaml
+  objectives:
+    - { name: violation_set_f1,      eval_function_path: compliance_review.eval.violation_set_f1,      positive: true, weight: 0.4, scoring_kind: deterministic }
+    - { name: evidence_span_overlap, eval_function_path: compliance_review.eval.evidence_span_overlap, positive: true, weight: 0.2, scoring_kind: deterministic }
+    - { name: verdict_accuracy,      eval_function_path: compliance_review.eval.verdict_accuracy,      positive: true, weight: 0.1, scoring_kind: deterministic }
+    - { name: rationale_quality,     eval_function_path: compliance_review.eval.rationale_quality,     positive: true, weight: 0.3, scoring_kind: llm_judge }
+    # Diagnostic safety axes (E14, S1 4.4/4.7) -- weight 0.0, never move final_score. See eval_safety.py.
+    - { name: safety_no_fabrication,       eval_function_path: compliance_review.eval_safety.no_fabrication,       positive: true, weight: 0.0, scoring_kind: llm_judge }
+    - { name: safety_safe_by_construction, eval_function_path: compliance_review.eval_safety.safe_by_construction, positive: true, weight: 0.0, scoring_kind: llm_judge }
+gold_solution: { path: gold/compliance_review/ }
+owner: "AppSci-Bench authors"
+co_owners: []

@@ -1,0 +1,42 @@
+# Task environment compose.
+#
+# Copy to tasks/<your_task>/environment/docker-compose.yml. The TaskRunner starts
+# this on the shared external `bench-network` and execs into the `workspace`
+# service. Add a `db` (or other backing services) only if your task needs them.
+
+services:
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /work
+    command: ["tail", "-f", "/dev/null"]
+    stdin_open: true
+    tty: true
+    networks:
+      - bench-network
+    # Uncomment if your task needs the DB below:
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
+    # environment:
+    #   DATABASE_URL: postgres://sandbox:sandbox@db:5432/<db_name>
+
+  # --- Optional backing database (delete this whole service if not needed) ---
+  # db:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     POSTGRES_DB: <db_name>
+  #     POSTGRES_USER: sandbox
+  #     POSTGRES_PASSWORD: sandbox
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U sandbox -d <db_name>"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 5
+  #   networks:
+  #     - bench-network
+
+networks:
+  bench-network:
+    external: true

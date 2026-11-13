@@ -1,0 +1,9 @@
+{
+  "data_point_id": "p2p-0036",
+  "single_turn_input": {
+    "text": "Review invoice INV-6132 (supplier Supplier_4, PO PO-000105) against its PO line and the supplier contract; decide whether to flag it for human review and give a short reason."
+  },
+  "expected_output": {
+    "json": "{\"flagged\": false, \"fault_type\": null, \"reason\": \"matches PO and contract; 'fuel surcharge' $238.19 is permitted by the contract\", \"permitted_fee\": 238.19}"
+  }
+}

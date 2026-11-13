@@ -1,0 +1,100 @@
+started_at: 2026-09-18T12:05:03Z   # UTC; problem-solving clock starts here, after environment setup
+ended_at: 2026-09-20T15:55:00Z
+outcome: submitted
+final_score: 0.68                  # task_success, 34/50 cases; logs/final_report.json
+time_accounting:
+  problem_solving_total: 2h07m     # 12:05:03Z->12:36:52Z (0h31m) + 11:29:28Z->11:57:33Z on 09-20 (1h36m)
+  problem_solving_ended_at: 2026-09-20T11:57:33Z
+  soft_cap_status: under           # 2h07m of the 4h cap; 1h53m of budget deliberately left unused
+  final_scoring_wall_clock: 3h55m  # 11:57:33Z -> 15:52:32Z, EXCLUDED from the cap per PROTOCOL.md section 4
+  note: >
+    PROTOCOL.md section 4 excludes scoring from the timing cap, and that exclusion is doing real work
+    here: counted naively, wall-clock from first start to last artifact would read about six hours and
+    look like a badly over-cap attempt. The problem-solving clock stopped when the fifty-case run was
+    launched, because nothing after that point changed the artifact. Reflection and write-up time is
+    also outside the cap and is not claimed as problem solving.
+    Scoring was far slower than its own early rate suggested: the first twelve cases averaged 1.2
+    minutes each, the remaining thirty-eight about six. Anyone budgeting a run on this task should
+    assume roughly four hours for fifty cases, not the forty minutes an early sample implies.
+  budget_left_unused_deliberately: >
+    About 1h53m of problem-solving budget was left on the table, and not because the work ran out. The
+    fifty-case run produced a per-case failure taxonomy precise enough to fix most of what failed. Using
+    it that way would have fitted the artifact to the held-out set and made the resulting number
+    incomparable to an agent's, which PROTOCOL.md section 7 rules out for a scored baseline. 0.68 is
+    therefore reported as final, and the diagnosis is written up as findings rather than spent on
+    another scoring round.
+soft_cap_reached_at: null          # 4h soft cap, break-adjusted -> 2026-09-20T13:49:35Z; 3h30 notification -> 13:19:35Z
+breaks:
+  - from: 2026-09-18T12:36:52Z
+    to: 2026-09-18T14:59:45Z       # 2h22m break; soft cap shifts to 18:27:56Z, 3h30 notify 17:57:56Z
+    reason: baseliner break (gym), voluntary
+    worked_before_break: 0h31m     # 12:05:03Z -> 12:36:52Z; 3h28m of the 4h soft cap remaining
+    state_at_break: >
+      Elicitation complete and closed out at 19 turns. Requirements written up in the standalone
+      workspace. No artifact code written yet beyond the untouched scaffold, and no scoring
+      checkpoint has been run. Next step on return is the agent loop.
+  - from: 2026-09-18T16:07:49Z
+    to: 2026-09-20T11:29:28Z       # 43h21m break; soft cap now 2026-09-20T13:49:35Z, 3h30 notify 13:19:35Z
+    reason: baseliner unavailable, voluntary; resuming after 2026-09-19
+    worked_before_break: 1h39m     # cumulative; 2h20m of the 4h soft cap remaining
+    state_at_break: >
+      Artifact is built, deployed and scoring. Three real checkpoints are logged. The artifact is
+      complete enough to score end to end and no work is half-applied: the last change was three
+      prompt corrections, and the 10-sample checkpoint that followed them is the current number.
+      What has NOT happened is the final score over all fifty cases, which is the number the
+      attempt reports. One diagnosed defect remains unfixed, described in RESUME.md in the
+      standalone workspace. Both container environments were torn down deliberately, so nothing is
+      left running across the break; bringing the environment back is a five-second command.
+
+technical_issues:
+  - at: 2026-09-18T11:55:00Z
+    issue: >
+      Environment setup friction, resolved before the clock started, so no problem-solving time was
+      consumed. Docker was not running. The local setup script then aborted partway through, at the
+      step that installs the agent-harness CLIs, because Node.js is absent from this host; that step
+      is only needed for running the automated agent harnesses and is irrelevant to a human baseline.
+      Because the script aborted, it never reached its final step and the two shared container images
+      were left two days stale. Re-ran the script with the harness-CLI step skipped so the images
+      rebuilt.
+    resolved_by: P4 + Claude Code
+    extra_time_granted: false
+  - at: 2026-09-18T12:20:00Z
+    issue: >
+      The standard elicitation entry point could not be used as shipped, for two reasons, and neither
+      cost meaningful time. First, it drives an interactive prompt that needs a real terminal, so a
+      Claude Code session cannot type into it; second, this host carries only gateway credentials
+      under the vendor-specific variable names, and that entry point expects the shared model-config
+      names, so the stakeholder simulator would have had no model to call. Worked around by running
+      the same simulator as a local service and asking it over its documented HTTP interface, with the
+      gateway credentials mapped exactly as the repo's own setup script maps them. Same simulator,
+      same persona, same task spec, same one-question-at-a-time conversation, and every exchange is
+      logged to the attempt transcript. Two deliberate differences from the shipped entry point: the
+      simulator's rendered system prompt is not printed or read, since it carries the stakeholder's
+      private fact set that an agent under test never sees; and the conversation is driven by Claude
+      Code rather than typed by hand, which is within the disclosed tooling for this study.
+    resolved_by: P4 + Claude Code
+    extra_time_granted: false
+  - at: 2026-09-18T15:26:00Z
+    issue: >
+      The iterative dev-loop helper deploys the artifact with the task's agent environment copied
+      straight out of the task spec, without substituting the two placeholders the spec leaves for the
+      runner to fill in. The artifact therefore received a literal placeholder as the tool-API address
+      and another as its token, so every tool call failed and the agent politely told the customer the
+      reservation system was down. The scoring path is unaffected: it takes its environment from the
+      task runner, which does perform the substitution, so checkpoints and the final score inject the
+      real values. The workaround was to build and run the artifact container by hand on the shared
+      network with the correct address and token. Roughly fifteen minutes of problem-solving time was
+      spent, and the timer was NOT paused for it, since diagnosing it is ordinary work. Worth a
+      separate fix in the harness so the next baseliner does not lose the same quarter hour.
+    resolved_by: P4 + Claude Code
+    extra_time_granted: false
+notes:
+  - >
+      Eval-time user simulator runs through a gateway alias rather than the first-party model id the
+      public leaderboard uses. The setup script reports this as NEAR-parity: the same underlying
+      model, but what the gateway routes the alias to cannot be verified from this host. Scores from
+      this attempt are comparable to other runs made through the same gateway; treat cross-comparison
+      with published leaderboard numbers as carrying that caveat.
+  - >
+      S3 run mirroring was deliberately skipped, so this attempt stays local and is not loadable by
+      run id from the shared mirror. It can be uploaded later if wanted.

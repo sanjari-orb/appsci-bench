@@ -1,0 +1,9 @@
+{
+  "data_point_id": "p2p-0058",
+  "single_turn_input": {
+    "text": "Review invoice INV-6050 (supplier Supplier_2, PO PO-000027) against its PO line and the supplier contract; decide whether to flag it for human review and give a short reason."
+  },
+  "expected_output": {
+    "json": "{\"flagged\": true, \"fault_type\": \"QTY_MISMATCH\", \"reason\": \"invoiced qty 26 != PO qty 35 (quantity mismatch); 'expediting fee' $79.54 is permitted by the contract\", \"qty_delta\": -9, \"permitted_fee\": 79.54}"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0086",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9031 (Ferrow Building Materials) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"get Phase Two configuration scheduled ahead of the agreed start date\", \"Malik to have his team prepped internally by the Phase Two start date\"], \"risks\": [], \"commitments\": [\"get Phase Two configuration scheduled ahead of the agreed start date\"], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 31 (Timeline, L, corner 8: constraint discriminated in a call with other real content). The two-week procurement lead time is a stated fact about hardware logistics with no action attached -- correctly excluded even though the rest of the call has genuine agreed items. Configuration scheduling is ours (both lists); team prep is Malik's own next step. Malik's 'I appreciate how organized it's been' makes this POSITIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

@@ -1,0 +1,47 @@
+# Docker build context excludes. All images build from the repo root, so this shrinks the context
+# uploaded to the daemon and prevents secrets/large data from leaking into images via a stray `COPY`.
+#
+# Do NOT add anything the Dockerfiles copy: pyproject.toml, requirements.txt, appsci_agent/,
+# appsci_bench/, shared/, schema/, scripts/, environments/, and tasks/ (the airline env image copies
+# tasks/airline_rebooking/environment/db/db.json).
+
+# VCS / tooling
+.git
+.gitignore
+.github
+
+# Per-run observability data (large; may contain LLM transcripts) and local scratch
+runs/
+tmp/
+.ai-work/
+.claude/
+.pytest_cache/
+.harness-clis/
+docs_local/
+
+# Secrets (never ship a real .env; .env.sample is harmless but not needed in any image)
+.env
+.env.*
+
+# Not needed in any image (build-time / reference / test only)
+docs/
+tests/
+gold/
+provenance/
+human_baseline/
+sample_artifact/
+
+# Python caches / build artifacts
+**/__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+build/
+dist/
+
+# Editor / OS cruft + repo scratch files
+.DS_Store
+*.swp
+pr19.txt
+pr42.txt
+summary.txt

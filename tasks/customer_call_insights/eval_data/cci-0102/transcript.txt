@@ -1,0 +1,80 @@
+Call CALL-9047 — Holbrook Manufacturing Consortium (ACC-4047) — 2026-03-16 13:00 UTC
+Participants: Priya Achterberg (Senior Account Manager, us) / Idris Vantongeren (VP of Operations, customer)
+
+Idris: Priya, I want to keep this measured, but I need to be direct -- our quality-control data feed has had recurring errors for going on six weeks now.
+
+Priya: I appreciate you staying measured about it, and I take it just as seriously either way.
+
+Priya: Can you walk me through the specifics of what's happening?
+
+Idris: Certain batch records come through with mismatched timestamps, which throws off our own compliance reporting downstream.
+
+Priya: That's a serious knock-on effect, I understand why that's a real concern for your team. How often is this happening, roughly speaking?
+
+Idris: A few times a week, inconsistent timing, we haven't found a clean pattern on our side either.
+
+Priya: Understood. Before we go further on this, has anything else on the platform been affected, or is it isolated to the quality-control feed specifically?
+
+Idris: Isolated to that feed, as far as we can tell, everything else has actually been running fine throughout this whole period.
+
+Priya: That's useful to know, at least it's contained to one area rather than spreading. Has this affected any external reporting you're required to submit, beyond just internal compliance?
+
+Idris: Not yet, thankfully, but if it keeps going it's only a matter of time before it does, and that's a real regulatory exposure for us.
+
+Idris: That's not a small thing to have hanging over us.
+
+Priya: I understand the stakes there, that raises the urgency for me on this considerably. Has this been escalated to our engineering team before today, or is this the first time it's coming to us formally?
+
+Idris: It's been raised twice through regular support, but nothing's actually resolved it so far, just temporary workarounds each time.
+
+Priya: That's not good enough, honestly, and I'm going to change how this gets handled starting today. I'll escalate this directly to our senior data engineering lead, not the standard queue.
+
+Idris: I'd appreciate that. I also need a written root-cause analysis once you actually have one, not just a status update.
+
+Priya: Noted -- I'll get you that written analysis once engineering has actually identified the cause, not before.
+
+Idris: When can I expect an initial response, even if it's not the full analysis yet?
+
+Priya: I'll have an initial update to you within three business days.
+
+Idris: Alright. Separately, and I want to be upfront about this, we've begun a formal evaluation of Castellane Systems as a potential alternative given the pattern here.
+
+Priya: I appreciate you telling me directly rather than letting me find out later. Is that evaluation active right now, or preliminary?
+
+Idris: Active, honestly, we've had two calls with them already and a demo scheduled for next week.
+
+Priya: Good to know, that's useful for me as I push this internally. Is there anything specific you'd want to see from us to change that trajectory?
+
+Idris: A real fix, mostly, not just reassurance. And honestly, more proactive communication than we've gotten so far throughout this whole thing.
+
+Priya: That's fair, and I'll make sure both of those happen from my end going forward. I'll also set up a call with our VP of Engineering directly, given the history here.
+
+Idris: That would help, yes, I'd want someone with real authority on the call, not just support staff relaying messages back and forth.
+
+Priya: Understood, I'll get that scheduled for sometime next week. While we're on the topic of leadership visibility, would it help to have our CS leadership looped in as well, or is engineering enough for now?
+
+Idris: Engineering's the priority right now, honestly, I don't think we need another layer just yet, let's see how the technical side goes first.
+
+Priya: Makes sense, I'll keep it focused there for now then and revisit if needed.
+
+Idris: I'll need to update my own leadership on this as well, given the compliance angle and the vendor evaluation underway.
+
+Priya: That's completely fair, and I'd rather you have solid information to share with them than nothing concrete.
+
+Idris: I'll do that update on my end regardless of how this call goes.
+
+Priya: Got it. I'll get engineering moving on this right away.
+
+Idris: And I'll send over specific examples of the mismatched records to help the investigation move faster.
+
+Priya: That would genuinely help narrow things down for engineering.
+
+Idris: I'll get those to you after this call wraps up.
+
+Priya: Appreciated. I know this has been a hard six weeks, and I don't want to pretend otherwise.
+
+Idris: It has been, but I appreciate you not trying to talk me out of that. Let's leave it there for today.
+
+Priya: Will do, I'll follow up within three business days as promised.
+
+Idris: Thank you for taking it seriously, that matters more than you might think at this point.

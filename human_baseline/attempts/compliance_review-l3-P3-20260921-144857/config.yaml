@@ -1,0 +1,18 @@
+task_id: compliance_review
+ambiguity_level: L3
+experimental_condition: L3-collaborative
+persona_id: l3
+collaboration_style: collaborative
+baseliner: P3
+attempt_id: compliance_review-l3-P3-20260921-144857
+tooling: human + Claude Code
+soft_cap_hours: 4
+standalone_dir: /home/user/Documents/baseline-work/compliance_review-l3-P3-20260921-144857
+assignment_url: (internal document, not public)
+cross_assignment_ok: true
+source:
+  branch: P3/compliance-review-l3-human-baseline
+  main_commit: b6c5f8f8574ba5f5e82ca91e17f7f165810a20b8
+  harness_commit: b6c5f8f8574ba5f5e82ca91e17f7f165810a20b8
+tool_versions:
+  claude_code: 2.1.267

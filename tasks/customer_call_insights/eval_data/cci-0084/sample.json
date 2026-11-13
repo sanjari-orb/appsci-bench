@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0084",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9029 (Northgate Utilities Co) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"put together a revised migration plan with concrete dates, by end of week\", \"set up a call to walk through the revised migration plan once it's ready\"], \"risks\": [\"migration has slipped past the original April target due to our own implementation team being pulled onto another account\"], \"commitments\": [\"put together a revised migration plan with concrete dates, by end of week\", \"set up a call to walk through the revised migration plan once it's ready\"], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 29 (Timeline, M, slipping timeline, our own side). Unlike cci-0083, this delay is explicitly ours ('our implementation team got pulled onto another priority customer's launch'), and Femi's response carries two concrete, acknowledged commitments. Astrid is direct and businesslike even while pushing for accountability ('I do need a real plan, not just an apology'), so NEUTRAL rather than NEGATIVE -- she never states personal frustration, just a clear expectation.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__handle_time__654",
+  "single_turn_input": {
+    "text": "Who had the highest average handle time over the past 3 months among agents handling more than 2 cases? Return only the Id of the agent.\n\n(Today's date: 2021-04-20)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xZnaIAE\", \"evidence_case_ids\": [\"500Ws000007qtHUIAY\", \"500Ws000007rEybIAE\", \"500Ws000007rRXWIA2\"], \"task_category\": \"handle_time\", \"reward_metric\": \"exact_match\"}"
+  }
+}

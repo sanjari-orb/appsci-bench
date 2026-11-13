@@ -1,0 +1,61 @@
+# Elicitation rubric -- <task_id>
+#
+# The facts the applied-science agent could only obtain by ASKING the build-time customer simulator.
+# Copy this file to tasks/<task_id>/elicitation_rubric.yaml, replace the two example items, and point at
+# it from your spec:
+#
+#     evaluation_data:
+#       elicitation_rubric: tasks/<task_id>/elicitation_rubric.yaml
+#
+# HELD-OUT ANSWER-KEY MATERIAL. It stays at the TOP LEVEL of the task directory -- never under
+# environment/, which is bind-mounted into the agent's container. A guard test fails if it moves there.
+#
+# Schema: schema/elicitation_rubric.schema.json
+# Reasoning and full definitions: docs/elicitation_score_design.md
+# How to write one: tasks/README.md, "Ship an elicitation rubric"
+#
+# TWO QUESTIONS decide whether something belongs here:
+#   1. Could a perfect artifact exist without this fact?  If yes, leave it out.
+#   2. Could the agent have read it in a file you mounted? If yes, leave it out -- or re-phrase it at the
+#      granularity that is genuinely sim-only. This is where rubrics usually go wrong.
+#
+# WRITE IT FROM YOUR SOURCE MATERIAL: user_sim_docs/, your personas' domain_knowledge, the agent-facing
+# mount, and your objectives. Not from a run's transcript -- reading one while authoring steers inclusion
+# both ways and turns the rubric into a description of one conversation instead of a measure of any.
+#
+# It is worth recording, in a comment here, the candidates you DROPPED because the agent could already
+# read them. That saves the next author re-litigating them.
+
+task_id: <task_id>
+
+items:
+  # An ATOMIC item: one fact, pinned to concrete values. Note that the fact carries the values
+  # themselves, not a description of them -- the judge decides whether the TRUTH arrived, so the truth
+  # has to be here.
+  - item_id: response_error_codes          # lowercase, digits and underscores; unique in this file
+    fact: >
+      The three status values the downstream queue accepts, spelled exactly: ACCEPTED, NEEDS_REVIEW,
+      REJECTED. Anything else -- including a lower-case or reworded version of the same idea -- is
+      rejected by the queue.
+    objectives: [classification_correctness]   # must name real objectives of THIS task
+    # Name one your task actually PRICES where you can. An objective your spec gives weight 0 is
+    # still computed and reported, but its absence cannot move the task score -- so an item that
+    # rests only on such an objective has to be declared in the task's rubric test, with the
+    # reason. See airline_rebooking for a case where that is the right answer anyway.
+    judge_hint: >
+      Optional. Author guidance on what counts as conveying this item. Use it where a partial answer
+      could look like a pass: "all three values, spelled as written; naming the categories informally is
+      not this item".
+
+  # A BUNDLED item: several facts judged as one unit, because items are all-or-nothing. The fact STATES
+  # ITS OWN COMPLETENESS -- "all four conditions", not "the cancellation rules" -- so the judge can tell
+  # whether everything came back. Bundle when criticality would otherwise overflow the fifty-item cap.
+  - item_id: cancellation_eligibility
+    fact: >
+      A booking can be cancelled if any one of exactly four conditions holds: it was made within the last
+      24 hours, the provider cancelled it, it is a business-tier booking, or the customer holds insurance
+      covering the stated reason. Any single condition is enough; if none holds, cancellation is refused.
+    objectives: [task_success, policy_compliance]
+    judge_hint: >
+      All four conditions, and that they are alternatives rather than requirements. Three of four is not
+      this item -- an agent missing one will refuse a cancellation it should have allowed.

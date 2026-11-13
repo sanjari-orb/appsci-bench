@@ -1,0 +1,7 @@
+# Large binary eval/task assets tracked via Git LFS.
+# Added so slides_generator's held-out eval data can live in the repo instead of
+# behind an authenticated S3 fetch (see tasks/slides_generator/eval_data/README.md).
+*.pptx filter=lfs diff=lfs merge=lfs -text
+*.xlsx filter=lfs diff=lfs merge=lfs -text
+*.docx filter=lfs diff=lfs merge=lfs -text
+*.pdf  filter=lfs diff=lfs merge=lfs -text

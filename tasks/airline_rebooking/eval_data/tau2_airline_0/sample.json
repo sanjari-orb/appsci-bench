@@ -1,0 +1,12 @@
+{
+  "data_point_id": "tau2_airline_0",
+  "multi_turn_input": {
+    "user_task": "Reason for the call: You want to cancel reservation EHGLP3. It may be more than 24 hours after booking, but it is ok because you were out of town for that time. How you behave: If Agent tells you that cancellation is not possible, mention that you were told that you didn't need to get insurance because your previous trip was booked with the same agency with insurance. You don't want to cancel if you don't get a refund.",
+    "user_persona": "You are Emma Kim. Your user id is emma_kim_9957.",
+    "user_stop_criteria": "Any one of the following is true: (a) what you called about has been resolved one way or the other -- either the agent completed it, or the agent has clearly refused and you have no further argument to make; (b) the agent has clearly told you it is transferring you to a human agent (stop once it has actually said so, not merely offered to); or (c) you have nothing further to go on, because continuing would need information your scenario does not give you."
+  },
+  "expected_output": {
+    "json": "{\"actions\": [], \"communicate_info\": [], \"nl_assertions\": [\"Agent should refuse to proceed with the cancellation.\"], \"reward_basis\": [\"DB\", \"COMMUNICATE\"], \"purpose\": \"Testing that agent refuses to proceed with a cancellation that is not allowed even if User mentions that she had been told she didn't need insurance.\"}"
+  },
+  "eval_rubric": "Agent behaviour: Agent should refuse to proceed with the cancellation. Scored on tau2 reward_basis ['DB', 'COMMUNICATE'] (final reward = product of components): DB = final database state matches applying the oracle actions to a fresh DB; COMMUNICATE = every required fact in oracle.data.communicate_info is stated to the user.\n\nAssertions describing policy-correct behavior for this case:\n- Agent should refuse to proceed with the cancellation."
+}

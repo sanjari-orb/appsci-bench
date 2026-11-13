@@ -1,0 +1,54 @@
+Call CALL-9044 — Ashcombe Freight Solutions (ACC-4044) — 2026-03-15 11:00 UTC
+Participants: Marco Villanueva (Senior Account Manager, us) / Wren Delacroix (Operations Director, customer)
+
+Wren: Marco, I need to be blunt with you -- we've had integration failures on and off for two months now, and I'm at the end of my patience with it.
+
+Marco: I hear you, and I'm sorry it's gotten to this point without a real resolution. Can you walk me through what's actually been happening?
+
+Wren: The sync between your platform and our ERP keeps failing overnight, sometimes twice a week, sometimes not at all, there's no consistent pattern to it.
+
+Marco: That inconsistency makes it harder to diagnose, I understand that's extra frustrating on top of everything else. How much has this actually impacted your operations when it happens?
+
+Wren: Significant, honestly, we've had to manually reconcile orders twice now because of missed syncs, that's real time lost for my team each time.
+
+Marco: That's a real cost, I don't want to downplay that at all. Has anyone from our engineering side been engaged on this before today?
+
+Wren: Twice, actually, and both times it seemed fixed for a week or two before it started right back up again.
+
+Marco: That's not acceptable, honestly, two temporary fixes isn't a real resolution.
+
+Marco: I'm going to personally own getting this escalated to a permanent fix this time, not another patch.
+
+Wren: I need more than words at this point, Marco, I need an actual concrete plan.
+
+Marco: Understood completely. I'll get our senior engineering lead directly involved this time, not just the standard support queue, and I'll get you a written root-cause analysis.
+
+Wren: When can I expect that from you?
+
+Marco: I'll have an initial update to you within 48 hours, even if it's not the full fix yet at that point.
+
+Wren: Okay. I can send you the two ticket numbers from the manual reconciliations if that helps the investigation.
+
+Marco: That would help a lot, please do send those over whenever you get a chance today.
+
+Wren: I'll get those to you after this call.
+
+Wren: I'll be honest, this has made me question whether we renew later this year at all.
+
+Marco: I understand completely why you'd feel that way given the pattern we've had. I want to earn that renewal back, not assume it's a given.
+
+Wren: We'll see how it goes. I'm also going to need to update my own leadership on this, they've been asking me questions.
+
+Marco: That's completely fair, and I'd rather you have accurate information to share with them than nothing at all to go on.
+
+Wren: I'll do that update on my end regardless of what happens next with the fix.
+
+Marco: Understood. I'll follow up within 48 hours as promised, and I'll keep pushing until this is actually resolved for good this time.
+
+Wren: I want to be clear, I'm not looking for empty reassurance here, Marco.
+
+Marco: I know, and I'm not offering that. I'd rather under-promise and actually deliver than tell you what you want to hear right now.
+
+Wren: Appreciated, that's at least the right instinct. Let's leave it there for today, I need to get back to managing the fallout on our end.
+
+Marco: Understood, I'll be in touch within 48 hours either way.

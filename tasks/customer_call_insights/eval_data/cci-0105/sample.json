@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0105",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9050 (Wraithmoor Insurance Brokers) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"reconvene after Odette's board meeting next month\"], \"risks\": [], \"commitments\": [], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 50 (Admin, M, corner 9: mutual agreement, nothing owed by us). Mirrors task_sop.md's own worked example ('let's talk again after your board meeting') almost exactly -- a step for both sides, but no deliverable owed by us, so commitments stays empty. Plain, even tone throughout, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

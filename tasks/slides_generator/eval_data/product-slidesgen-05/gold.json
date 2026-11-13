@@ -1,0 +1,327 @@
+{
+  "presentation": {
+    "title": "Project Keystone",
+    "theme": "default",
+    "aspectRatio": "16:9",
+    "metadata": {
+      "author": "Unknown",
+      "version": "1.0",
+      "date": ""
+    },
+    "slides": [
+      {
+        "slideNumber": 1,
+        "layout": "Blank Basic Layout / Photo full",
+        "elements": [
+          {
+            "type": "bullet_list",
+            "name": "TextBox 4",
+            "items": [
+              "Project Keystone",
+              "Transcription Pipeline Consolidation"
+            ],
+            "style": {
+              "fontSize": 32,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 5",
+            "items": [
+              "Team Kickoff & Alignment",
+              "Project lead: NAME_REDACTED (Speech/ML)",
+              "Stakeholders: Speech/ML · Platform · Analytics",
+              "Confidential — Internal"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 2,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Why Now",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 5",
+            "items": [
+              "We run three transcription pipelines in parallel — batch, real-time, and partner",
+              "Maintaining three separate stacks is costly and slows the team down",
+              "New ML engineers have to ramp on three systems before they're productive",
+              "Conversation data has no single source of truth",
+              "Project Keystone consolidates the three into one pipeline"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 3,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Goals",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 5",
+            "items": [
+              "Cut maintenance load — operate one pipeline instead of three",
+              "Faster onboarding for new ML engineers",
+              "A single source of truth for conversation data",
+              "[Success-metric targets — TBD: to be defined with the team]"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 4,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Scope",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 5",
+            "items": [
+              "In scope: consolidate the batch, real-time, and partner pipelines into one",
+              "Phased cutover — not big-bang (sequence below)",
+              "Historical backfill in scope — sequenced after cutover",
+              "Out of scope for kickoff: Finance / cost sign-off — revisit at the later cost review"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Shape 6",
+            "items": [
+              "Batch",
+              "first"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Shape 7",
+            "content": "Real-time",
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Shape 8",
+            "items": [
+              "Partner",
+              "last"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 11",
+            "content": "[Milestone dates — TBD]   ·   rough horizon: next couple of quarters — no firm dates yet",
+            "style": {
+              "fontSize": 15,
+              "bold": false,
+              "color": "#8A8F98"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 5,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Owners & Stakeholders",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Table 5",
+            "rows": [
+              [
+                "Area",
+                "Lead"
+              ],
+              [
+                "Project lead — Speech/ML",
+                "NAME_REDACTED"
+              ],
+              [
+                "Platform",
+                "NAME_REDACTED"
+              ],
+              [
+                "Analytics",
+                "NAME_REDACTED"
+              ],
+              [
+                "Finance",
+                "Out of kickoff scope — revisit at cost review"
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "name": "TextBox 6",
+            "content": "Additional workstream owners to be named as scope firms up.",
+            "style": {
+              "fontSize": 14,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 6,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Risks & Mitigations",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Table 5",
+            "rows": [
+              [
+                "Risk",
+                "Approach / status"
+              ],
+              [
+                "Migration risk",
+                "Phased cutover — batch first, partner last; historical backfill after cutover"
+              ],
+              [
+                "GPU inference cost",
+                "[Cost figure — TBD]; quantifying it is part of this alignment effort"
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "name": "TextBox 6",
+            "content": "These two are the team's stated worries; mitigations and the cost figure are early next steps.",
+            "style": {
+              "fontSize": 15,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 7,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Next Steps",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 5",
+            "items": [
+              "Align the team on scope and sequencing (this meeting)",
+              "Define success metrics and targets with the team",
+              "Quantify the current GPU inference cost",
+              "Draft the phased migration plan and milestone dates",
+              "Cost / Finance review — later (out of kickoff scope)"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 6",
+            "content": "Monday is alignment only — no budget decision yet.",
+            "style": {
+              "fontSize": 15,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,75 @@
+# slides_generator — L3 domain knowledge (agent-facing extract)
+
+Role: Product manager / business stakeholder overseeing the slides-generator deployment
+
+## business_pain
+
+Manual deck-building is slow:
+- Teams spend hours or days creating decks for recurring meetings, product pitches, and research briefings.
+- The process is repetitive, and the content often overlaps with previous decks.
+- Teams often have to reformat content to fit the corporate template, which is time-consuming
+
+## what_good_looks_like
+
+You know a good deck when you see one, and a bad one gives itself away fast:
+- It covers everything you asked for -- nothing you flagged as important got dropped, and it
+  never pads with content you didn't provide
+- You can hand it to someone unfamiliar with the topic and they follow the story without help
+  -- every slide earns its place, none feel like filler
+- It looks like it belongs on your team's letterhead -- same colors, same fonts, same overall
+  feel as the template, not a generic deck with a logo slapped on
+- It looks clean -- nothing overlapping, nothing spilling off the edge, nothing crammed in or
+  oddly spaced; you shouldn't have to squint or guess what to read first
+- It respects what you asked for and left out, and it's pitched right for whoever's in the room
+  -- a board deck shouldn't read like a status update
+- It flows -- a beginning that sets up why this matters, a middle that makes the case, an end
+  that lands the point, not just slides in the right order
+
+## input_flexibility
+
+Accepted inputs, roughest to most structured:
+- Sparse notes -- agent expands sensibly rather than padding with filler; flags big gaps
+  instead of inventing content
+- A markdown (.md) or plain-text (.txt) prompt
+- Up to 5 uploaded documents (docx, pdf, pptx, csv or xlsx) -- agent extracts and synthesizes content, flags gaps, and generates a deck.
+If something we attach can't be read, we need to be told. A deck built off a document that
+silently failed to load looks finished and is quietly wrong -- that is worse for us than an
+error, because nobody catches it until it is in front of an audience.
+
+## audience_variety
+
+Presentations target executives, clients, board, internal teams  each with different expectations for depth, tone, and detail.
+
+## fidelity_vs_synthesis_trade_off
+
+Balance between mirroring the source structure (fidelity) and reframing for the audience (synthesis).
+
+## slide_count_guidance
+
+By deck type:
+- Recurring QBRs / status reviews: ~8 slides
+- Product pitches: 8-12 slides
+- Research briefings: 6-8 slides
+- Sparse status updates: 3-5 slides
+The user can set an explicit count; when they don't, the agent should just use a sensible
+default.
+
+## template_expectations
+
+Every deck must obey the approved template the user selects or uploads, every time. The agent locks
+the visual theme from the template first, then fits content into it.
+We always attach the template we want the deck to look like -- it comes in as template.pptx, and it
+is there for the look, not as material to put on the slides. Everything else we attach is content.
+
+## scope_priorities
+
+Business decks are the MVP focus. The deliverable has to be something the team can open and edit,
+never a picture of slides or flattened text.
+Two things come back from every request, together: the deck itself, and its content as structured
+data our own tooling reads afterwards -- diffing against last quarter's, pulling the figures out for
+a check. Getting only one of the two is not usable for us. What that data has to look like is a
+question for whoever builds against it, not something we specify.
+
+## quality_cost_trade_offs
+
+Faster turnaround, lower latency, or a simpler output format may reduce output richness. We should try to maintain the quality of the output while optimizing for speed and efficiency.

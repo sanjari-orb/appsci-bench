@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0082",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9027 (Sutcliffe Freight Systems) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [], \"risks\": [], \"commitments\": [], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 27 (Problem, XL, corner 19: long call, entirely empty). A long collaborative troubleshooting session that fully resolves live -- the root cause (one scanner's weak signal) is found and fixed on the call itself. The offered refresher guide is deliberately left unaccepted ('maybe, I'd have to see') rather than a clean acceptance, so it correctly stays out of both lists despite the length of the call. Devika's 'I can't complain about how this went' makes this POSITIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

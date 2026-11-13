@@ -1,0 +1,12 @@
+run_id,build,deploy,content_hash,is_submission,internal,external
+airline_rebooking_claude-opus-4-8_b0_l3_20260910_214941,b0,1,4220f8ec,0,0.5000,0.5600
+airline_rebooking_claude-opus-4-8_b0_l3_20260910_214941,b0,2,40045fed,0,0.8750,0.5800
+airline_rebooking_claude-opus-4-8_b0_l3_20260910_214941,b0,3,2b49b5e3,0,1.0000,0.5400
+airline_rebooking_claude-opus-4-8_b1_l3_20260911_023444,b1,1,c570b03e,0,0.8514,0.6400
+airline_rebooking_claude-opus-4-8_b1_l3_20260911_023444,b1,2,980ee7e2,0,0.9742,0.6400
+airline_rebooking_claude-opus-4-8_b1_l3_20260911_023444,b1,3,f334dfb5,0,0.9471,0.6000
+airline_rebooking_claude-opus-4-8_b1_l3_20260911_023444,b1,4,980ee7e2,0,0.9375,0.6200
+airline_rebooking_claude-opus-4-8_b1_l3_20260911_023444,b1,5,81f9f616,0,0.9490,0.6600
+airline_rebooking_claude-opus-4-8_b1_l3_20260911_023444,b1,6,1b2d4676,0,0.9747,0.6400
+airline_rebooking_claude-opus-4-8_b2_l3_20260911_061010,b2,1,fc2213ce,0,0.5000,0.4600
+airline_rebooking_claude-opus-4-8_b2_l3_20260911_061010,b2,2,1ecd6077,0,1.0000,0.6600

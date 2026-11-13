@@ -1,0 +1,54 @@
+Call CALL-9014 — Thackeray Health Systems (ACC-4014) — 2026-03-06 09:00 UTC
+Participants: Priya Chandrasekar (Senior Account Manager, us) / Owen Feldstein (VP of IT, customer)
+
+Priya: Owen, thanks for the time today. Wanted to talk through where things stand ahead of the June renewal while we still have some runway.
+
+Owen: Sure, happy to get into it. I'll be straightforward with you -- the renewal is going to depend a lot on how the next quarter goes for us, uptime-wise especially.
+
+Priya: That's fair, and I appreciate you being direct about it rather than leaving it unsaid. Has uptime been a real issue recently on your end?
+
+Owen: We had a rough patch in Q1, a couple of outages that hit at genuinely bad times for us, so leadership is watching Q3 closely before committing to anything long-term.
+
+Owen: It's put them on edge more than I'd like, honestly.
+
+Priya: Understood, that makes complete sense given what happened. We've made some real changes on our infrastructure side since then that should help going forward, for what it's worth.
+
+Owen: Good to know, we'll be watching for that over the coming months. Separately, and I want to be upfront about this too since I'd rather you hear it from me, we've had a team quietly evaluating Meridian's platform as a backup option given the outages.
+
+Priya: I appreciate you telling me directly rather than letting that surface later on its own. Is that an active evaluation right now, or more of a contingency thing for later?
+
+Owen: More contingency for now, honestly, but if Q3 doesn't go well it could become more serious than that pretty quickly.
+
+Priya: That's fair, and I'd genuinely rather know that now so we can actually earn the renewal properly rather than assume it. Is there anything specific you'd want to see from us over the next quarter?
+
+Owen: Mostly just stability, honestly. No more surprise outages, and clear, proactive communication if anything does come up rather than us finding out after the fact.
+
+Priya: That's completely fair, and it's exactly what we're focused on internally right now. I'll make sure the reliability improvements stay visible to you as they roll out over the quarter.
+
+Owen: Appreciated, that visibility would help a lot on my end when I'm reporting up to leadership.
+
+Priya: Makes sense, I'll keep that in mind going forward. Let's talk usage for a second too -- aside from the outages, how has the day-to-day experience been for your team?
+
+Owen: Actually pretty good, honestly. Outside of the outage windows, people generally like working with the platform.
+
+Priya: Good to hear that distinction, it helps to know the underlying experience is solid even with the reliability issues layered on top.
+
+Priya: That's actually a useful thing for me to carry back internally too.
+
+Owen: Yeah, that's a fair way to put it. It's really the trust piece that's been dented, not the day-to-day usability.
+
+Priya: That's a really useful distinction, thank you for laying it out that clearly. I think that gives us a clear target for the quarter.
+
+Owen: Agreed. That's really all I wanted to flag today, honestly, I think we've covered the important pieces.
+
+Priya: Before we wrap up, one more thing on my end -- is there anyone else on your team I should be looping in on this, given how much is riding on Q3?
+
+Owen: Not really, it's mainly me and leadership on this one, I'll keep them updated as we go.
+
+Priya: Good to know. Are we still on the timeline you mentioned earlier?
+
+Owen: That's right, assuming nothing dramatic changes between now and then on either side.
+
+Priya: Really appreciate the transparency, Owen, I know that wasn't necessarily an easy thing to bring up. Talk again soon.
+
+Owen: Appreciate that, talk soon, Priya.

@@ -1,0 +1,12 @@
+{
+  "data_point_id": "tau2_airline_16",
+  "multi_turn_input": {
+    "user_task": "Reason for the call: For your upcoming trip from ATL to PHL, you want to change for the cheapest flight in Economy cabin class (not Basic Economy) and for the day after the original reservation. How you behave: You are happy with original payment for refund.",
+    "user_persona": "Your name is Aarav Garcia. Your user id is aarav_garcia_1177.",
+    "user_stop_criteria": "Any one of the following is true: (a) what you called about has been resolved one way or the other -- either the agent completed it, or the agent has clearly refused and you have no further argument to make; (b) the agent has clearly told you it is transferring you to a human agent (stop once it has actually said so, not merely offered to); or (c) you have nothing further to go on, because continuing would need information your scenario does not give you."
+  },
+  "expected_output": {
+    "json": "{\"actions\": [{\"action_id\": \"16_0\", \"name\": \"update_reservation_flights\", \"arguments\": {\"reservation_id\": \"M05KNL\", \"cabin\": \"economy\", \"flights\": [{\"flight_number\": \"HAT110\", \"date\": \"2024-05-24\"}, {\"flight_number\": \"HAT172\", \"date\": \"2024-05-24\"}], \"payment_id\": \"gift_card_8887175\"}, \"info\": null}], \"communicate_info\": [], \"nl_assertions\": [\"Agent updates M05KNL to economy with the following flights: HAT110 and HAT172 on 2024-05-24.\", \"Agent uses payment id gift_card_8887175.\"], \"reward_basis\": [\"DB\", \"COMMUNICATE\"], \"purpose\": \"Test finding cheapest Economy cabin class (not Basic Economy) flight on the next day.\"}"
+  },
+  "eval_rubric": "Agent behaviour: Agent updates M05KNL to economy with the following flights: HAT110 and HAT172 on 2024-05-24. Agent uses payment id gift_card_8887175. Scored on tau2 reward_basis ['DB', 'COMMUNICATE'] (final reward = product of components): DB = final database state matches applying the oracle actions to a fresh DB; COMMUNICATE = every required fact in oracle.data.communicate_info is stated to the user.\n\nAssertions describing policy-correct behavior for this case:\n- Agent updates M05KNL to economy with the following flights: HAT110 and HAT172 on 2024-05-24.\n- Agent uses payment id gift_card_8887175."
+}

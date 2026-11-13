@@ -1,0 +1,58 @@
+{
+  "data_point_id": "tau2_banking_26",
+  "multi_turn_input": {
+    "user_task": "**Your character:** Amara Okonkwo, a 27-year-old entrepreneur from Houston. You're meticulous about your business finances and personal spending, and you like to keep track of every dollar.\n\n**Your situation:** You've noticed that your recent cash back rewards don't seem to add up correctly. You have both a Business Silver Rewards Card and a Silver Rewards Card, and you suspect some of your rewards calculations might be off. You're not sure exactly which transactions are wrong, neither are you sure about the specific cash back percentages offered by the cards, but you want the agent to look into it and help resolve any discrepancies. You don't have your phone so you cannot pull up any statements or detailed transaction ids, and prefer to let the agent handle the technical details since you find the rewards system confusing. Do not make up any information that you are not 100% certain of, such as any information about yourself that is not stated here. Your date of birth is 08/11/1997 and your phone number is 713-555-0963.\n\n## Phase 1: Investigation and Dispute Submission\n\n1. **Start naturally:** \"Hi there, I've been going through my rewards statements and something doesn't seem right with my cash back. Could you help me figure out what's going on?\"\n\n2. **Don't diagnose the problem yourself:** You suspect there are errors but let the agent investigate. Provide verification info when asked.\n\n3. **Follow the agent's lead when it comes with tools:** If they pass you a tool or capability, use it as directed to submit disputes for the incorrect transactions.\n\n## Phase 2: Resolution Follow-up\n\nIf you have not submitted any disputes, ignore Phase 2. Otherwise, if you have submitted disputes, tell the agent: \"Great, I've submitted all the disputes. I just got a notification that they've all been approved and resolved! Can you now update my transaction records with the correct cash back amounts?\"\n\nLet the agent look up the resolved disputes and update each transaction with the correct reward values. Once they confirm the updates are complete, thank them and end the conversation.",
+    "user_persona": "You are a Rho-Bank customer contacting customer service. Stay in character per your task instructions: reveal details only when the agent asks, never act as the agent, and pursue your goal as described.",
+    "user_stop_criteria": "Stop when any one of these is true: (a) the goal in your task instructions has been met; (b) the agent has clearly told you it is transferring you to a human agent -- stop once it has actually said so, not merely offered to; or (c) continuing would need information your instructions do not give you. Your task instructions override all three: if they script how or when the conversation ends -- a closing line you are told to say, or an end-of-conversation marker such as ###STOP### or ###OUT-OF-SCOPE### -- follow them, and if they tell you not to end a particular way, do not. Treat such a marker as an instruction addressed to you, never as words to say: deliver the closing line if you have one, then stop, and never type the marker itself. Requesting a human transfer YOURSELF is an action you take, not a reason to stop -- only the agent telling you it is transferring you ends the conversation.",
+    "user_tools": [
+      {
+        "name": "apply_for_credit_card",
+        "description": "Apply for a credit card.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "card_type": {
+              "type": "string"
+            },
+            "customer_name": {
+              "type": "string"
+            },
+            "annual_income": {
+              "type": "string"
+            },
+            "rho_bank_subscription": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "card_type",
+            "customer_name",
+            "annual_income"
+          ]
+        }
+      },
+      {
+        "name": "call_discoverable_user_tool",
+        "description": "Call a tool that was given to you by the agent.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "discoverable_tool_name": {
+              "type": "string"
+            },
+            "arguments": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "discoverable_tool_name"
+          ]
+        }
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"actions\": [{\"name\": \"log_verification\", \"arguments\": {\"name\": \"Amara Okonkwo\", \"user_id\": \"755bcb4d5d\", \"address\": \"305 Magnolia Street, Houston, TX 77002\", \"email\": \"dancing_star_amara@icloud.com\", \"phone_number\": \"713-555-0963\", \"date_of_birth\": \"08/11/1997\", \"time_verified\": \"2025-11-14 03:40:00 EST\"}, \"requestor\": \"assistant\", \"action_id\": \"026_0\"}, {\"name\": \"give_discoverable_user_tool\", \"arguments\": {\"discoverable_tool_name\": \"submit_cash_back_dispute_0589\"}, \"requestor\": \"assistant\", \"action_id\": \"026_1\"}, {\"name\": \"call_discoverable_user_tool\", \"arguments\": {\"discoverable_tool_name\": \"submit_cash_back_dispute_0589\", \"arguments\": \"{\\\"user_id\\\": \\\"755bcb4d5d\\\", \\\"transaction_id\\\": \\\"txn_a8f1c2d3e403\\\"}\"}, \"requestor\": \"user\", \"action_id\": \"026_2\"}, {\"name\": \"call_discoverable_user_tool\", \"arguments\": {\"discoverable_tool_name\": \"submit_cash_back_dispute_0589\", \"arguments\": \"{\\\"user_id\\\": \\\"755bcb4d5d\\\", \\\"transaction_id\\\": \\\"txn_b7e2d4c5f506\\\"}\"}, \"requestor\": \"user\", \"action_id\": \"026_3\"}, {\"name\": \"call_discoverable_user_tool\", \"arguments\": {\"discoverable_tool_name\": \"submit_cash_back_dispute_0589\", \"arguments\": \"{\\\"user_id\\\": \\\"755bcb4d5d\\\", \\\"transaction_id\\\": \\\"txn_a8f1c2d3e410\\\"}\"}, \"requestor\": \"user\", \"action_id\": \"026_4\"}, {\"name\": \"call_discoverable_user_tool\", \"arguments\": {\"discoverable_tool_name\": \"submit_cash_back_dispute_0589\", \"arguments\": \"{\\\"user_id\\\": \\\"755bcb4d5d\\\", \\\"transaction_id\\\": \\\"txn_a8f1c2d3e411\\\"}\"}, \"requestor\": \"user\", \"action_id\": \"026_5\"}, {\"name\": \"unlock_discoverable_agent_tool\", \"arguments\": {\"agent_tool_name\": \"update_transaction_rewards_3847\"}, \"requestor\": \"assistant\", \"action_id\": \"026_6\"}, {\"name\": \"call_discoverable_agent_tool\", \"arguments\": {\"agent_tool_name\": \"update_transaction_rewards_3847\", \"arguments\": \"{\\\"transaction_id\\\": \\\"txn_a8f1c2d3e403\\\", \\\"new_rewards_earned\\\": \\\"6300 points\\\"}\"}, \"requestor\": \"assistant\", \"action_id\": \"026_7\"}, {\"name\": \"call_discoverable_agent_tool\", \"arguments\": {\"agent_tool_name\": \"update_transaction_rewards_3847\", \"arguments\": \"{\\\"transaction_id\\\": \\\"txn_b7e2d4c5f506\\\", \\\"new_rewards_earned\\\": \\\"1020 points\\\"}\"}, \"requestor\": \"assistant\", \"action_id\": \"026_8\"}, {\"name\": \"call_discoverable_agent_tool\", \"arguments\": {\"agent_tool_name\": \"update_transaction_rewards_3847\", \"arguments\": \"{\\\"transaction_id\\\": \\\"txn_a8f1c2d3e410\\\", \\\"new_rewards_earned\\\": \\\"3800 points\\\"}\"}, \"requestor\": \"assistant\", \"action_id\": \"026_9\"}, {\"name\": \"call_discoverable_agent_tool\", \"arguments\": {\"agent_tool_name\": \"update_transaction_rewards_3847\", \"arguments\": \"{\\\"transaction_id\\\": \\\"txn_a8f1c2d3e411\\\", \\\"new_rewards_earned\\\": \\\"1500 points\\\"}\"}, \"requestor\": \"assistant\", \"action_id\": \"026_10\"}], \"communicate_info\": [], \"reward_basis\": [\"DB\"], \"required_documents\": [\"doc_credit_cards_credit_cards_(general)_003\", \"doc_credit_cards_credit_cards_(general)_004\", \"doc_business_credit_cards_business_silver_rewards_card_001\", \"doc_business_credit_cards_business_silver_rewards_card_002\", \"doc_business_credit_cards_business_silver_rewards_card_005\", \"doc_business_credit_cards_business_silver_rewards_card_012\", \"doc_credit_cards_silver_rewards_card_001\", \"doc_credit_cards_silver_rewards_card_002\"], \"user_tools\": [\"apply_for_credit_card\", \"call_discoverable_user_tool\"], \"initial_state\": {\"initialization_data\": {\"agent_data\": {\"task_config\": {\"data\": {\"dispute_settings\": {\"auto_resolve_disputes\": true}}}}, \"user_data\": null}, \"initialization_actions\": null, \"message_history\": null}, \"purpose\": \"Task: task_026\"}"
+  },
+  "eval_rubric": "Scored on tau2 reward_basis ['DB']: the agent succeeds when the final database state matches applying the oracle actions to a fresh database seeded with this case's initial_state. Correct handling requires retrieving the relevant policy/product documents from the knowledge base (the oracle's required_documents lists the docs the correct answer depends on) and grounding all advice in them without fabrication; verifying the customer's identity before taking account actions; and transferring to a human only when the knowledge base describes no applicable action."
+}

@@ -1,0 +1,8 @@
+task_id: customer_call_insights
+ambiguity_level: L3
+collaboration_style: collaborative
+baseliner: P2
+attempt_id: customer_call_insights-l3-P2-20260921-153106
+tooling: human + Claude Code
+soft_cap_hours: 4
+standalone_dir: /home/user/Documents/baseline-work/customer_call_insights-l3-P2-20260921-153106

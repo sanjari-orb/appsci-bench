@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0090",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9035 (Brackenfield Legal Group) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [], \"risks\": [], \"commitments\": [], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 35 (Cold call, M, empty; no risk since there's no account). Wendy declines further contact and the rep respects it -- nothing outstanding. She names the competitor she switched to, but per the spec's own note, a cold call structurally can't carry a competitor risk: there's no existing deal here for a competitor to be 'in the running' against. Businesslike throughout, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

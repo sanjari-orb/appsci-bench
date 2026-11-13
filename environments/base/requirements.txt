@@ -1,0 +1,3 @@
+# Shared Python deps baked into appsci-base:v0.
+# Task images inherit these; add task-specific deps in tasks/<id>/environment/requirements.txt.
+loguru~=0.7.3

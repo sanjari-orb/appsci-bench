@@ -1,0 +1,28 @@
+name: talk_to_user
+
+description: |
+  Send a message to the user (customer/stakeholder) to gather requirements or ask clarifying questions.
+
+  Use this tool to:
+  - Ask about success criteria and what outcomes matter most
+  - Clarify ambiguous requirements or edge cases
+  - Understand constraints, preferences, and priorities
+  - Learn about domain-specific terminology or concepts
+
+  Guidelines:
+  - Ask focused questions—don't dump a list of 20 questions at once
+  - The user won't do your job for you—they provide requirements, not solutions
+  - The user may not know technical implementation details
+  - Be respectful of the user's time; ask meaningful questions
+
+parameters:
+  type: object
+  properties:
+    question:
+      type: string
+      description: The question or message to send to the user
+    context:
+      type: string
+      description: Optional context explaining why you're asking this question
+  required:
+    - question

@@ -1,0 +1,27 @@
+persona_id: l3
+task_id: airline_rebooking
+level: L3
+role: "Customer-experience product owner for the reservations channel"
+domain_knowledge:
+  goal: "callers get a correct, policy-compliant outcome for booking, changing, cancelling, and refund/compensation requests"
+  pain: "customers are often wrong about their status or what they're owed, and bad agents either break policy or give wrong answers"
+  non_negotiable: "the agent must never do something the airline doesn't allow; when a request can't be honored it should say no or hand off to a human"
+  records_correct: "whatever the agent does must leave the reservation records correct"
+  success_signal: "requests resolved the way a great human agent would, with no policy violations and accurate information to the customer"
+  test_records_note: "if they want something real to try it on, these are the test customers in the practice environment. Looking up a customer shows you their bookings."
+  # ONLY ids, comma-separated, nothing else: tests/appsci_bench/core/test_usersim_docs_repo_guards.py
+  # splits this field and asserts every entry is a real key of the BUILD store (and of
+  # no other), which is what keeps it honest when the seed is regenerated.
+  test_record_ids: "nora_castillo_9412, owen_delgado_9137, priya_venkat_9268, quinn_okafor_9503, rafael_moreau_9821, TRN001"
+# L3 knows the business outcome/KPIs, not the policy rule tables or the DB/tool internals. The
+# test-record ids above are a deliberate exception and are NOT a hole in that: which records
+# happen to exist is not what this task withholds -- the operating policy is -- and nothing in the
+# environment enumerates users or reservations, so a persona that cannot name one leaves the agent
+# unable to call a single read tool. Withholding stays where it belongs: L3 still holds no rule
+# tables, no tool signatures, and no record schema. It speaks
+# to no agent-facing resource: the KPIs are no longer published to the build team, so they arrive as
+# a sim-only document below instead of as a resource the agent can open.
+# Sim-only documents this product owner has internalized. (The rules for changing a reservation and
+# for goodwill compensation reach every persona via common/ and need no entry here.)
+known_docs:
+  - success_kpis.md

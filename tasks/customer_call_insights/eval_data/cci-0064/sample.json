@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0064",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9009 (Copperfield Insurance Brokers) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [], \"risks\": [], \"commitments\": [], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 9 (Check-in, M, corner 7: unowned aspiration). The QBR is floated for 'at some point next year' with both sides agreeing to just revisit it later -- nobody takes it on now, so it stays out of next_steps entirely. Plain, routine tone throughout, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

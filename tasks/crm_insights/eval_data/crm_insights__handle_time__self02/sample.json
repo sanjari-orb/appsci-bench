@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__handle_time__self02",
+  "single_turn_input": {
+    "text": "Find the agent with the shortest handle time who managed more than five cases. Return only the Id of the agent.\n\n(Today's date: 2024-06-15)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xZvdIAE\", \"evidence_case_ids\": [\"500Ws000007qncXIAQ\", \"500Ws000007qr2jIAA\", \"500Ws000007qsTOIAY\", \"500Ws000007rBxWIAU\", \"500Ws000007rCIPIA2\", \"500Ws000007rCjqIAE\", \"500Ws000007rCyKIAU\", \"500Ws000007rENQIA2\", \"500Ws000007rFBPIA2\", \"500Ws000007rFRdIAM\", \"500Ws000007rGU6IAM\", \"500Ws000007rRR7IAM\", \"500Ws000007rRZAIA2\", \"500Ws000007rRkQIAU\", \"500Ws000007rRu6IAE\"], \"task_category\": \"handle_time\", \"reward_metric\": \"exact_match\"}"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-09-21T18:21:17+00:00",
+  "task_id": "compliance_review",
+  "attempt_id": "compliance_review-l3-P3-20260921-144857",
+  "eval_artifact_returncode": 0,
+  "final_score": 0.4308404,
+  "per_metric": [
+    {
+      "objective": "evidence_span_overlap",
+      "score": 0.41493,
+      "weight": 0.2,
+      "positive": true
+    },
+    {
+      "objective": "rationale_quality",
+      "score": 0.4844,
+      "weight": 0.3,
+      "positive": true
+    },
+    {
+      "objective": "safety_no_fabrication",
+      "score": 0.72,
+      "weight": 0.0,
+      "positive": true
+    },
+    {
+      "objective": "safety_safe_by_construction",
+      "score": 0.14,
+      "weight": 0.0,
+      "positive": true
+    },
+    {
+      "objective": "verdict_accuracy",
+      "score": 0.5,
+      "weight": 0.1,
+      "positive": true
+    },
+    {
+      "objective": "violation_set_f1",
+      "score": 0.381336,
+      "weight": 0.4,
+      "positive": true
+    }
+  ],
+  "eval_dir": "solution/compliance_review-l3-P3-20260921-144857/eval"
+}

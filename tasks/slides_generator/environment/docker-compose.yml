@@ -1,0 +1,43 @@
+version: "3.9"
+
+# Workspace container for the slides_generator task, brought up by the benchmark
+# orchestrator (TaskRunner). The service MUST be named `workspace` so the derived
+# container name is `slides-workspace-1` (project `slides`), which the orchestrator
+# waits for. It is kept alive with `tail -f /dev/null`.
+#
+# slides_generator is a fully generative task: there is NO database service.
+# Eval data is vendored in the repo via Git LFS and read on the HOST at eval time;
+# it is never mounted here, so no eval-data env is passed into this container.
+#
+# The single `workdir:/work` volume below is the ONLY volume, and it is writable scratch space.
+# /data and /sop are deliberately NOT volumes: TaskRunner extracts them from the build phase's tar
+# bundle into the container filesystem (see spec.yaml task_runner.environments.build.bundle). Do not
+# add a bind mount for them -- that declaration must stay the only thing deciding what can enter this
+# container, and a mount here would make this file a competing second source of truth.
+#
+# For manual local exploration of the image only, see the git history of this file
+# for the previous single-service layout.
+
+services:
+  workspace:
+    image: appsci-bench/slides_generator:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - workdir:/work
+    working_dir: /work
+    command: ["tail", "-f", "/dev/null"]
+    stdin_open: true
+    tty: true
+    networks:
+      - bench-network
+
+networks:
+  bench-network:
+    external: true
+
+volumes:
+  workdir:

@@ -1,0 +1,8 @@
+task_id: airline_rebooking
+ambiguity_level: L3
+collaboration_style: collaborative
+baseliner: P4
+attempt_id: airline_rebooking-l3-P4-20260918-135410
+tooling: human + Claude Code
+soft_cap_hours: 4
+standalone_dir: /home/user/Documents/baseline-work/airline_rebooking-l3-P4-20260918-135410

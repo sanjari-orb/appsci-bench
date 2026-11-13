@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__inmodeltd_20190729_f_1a_ex_10_9_11743243_ex_10_9_m_3fc33aea__risk_averse",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'Risk-Averse Standard' policy (risk_averse). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"risk_averse\", \"compliant\": true, \"violations\": [], \"needs_review\": []}"
+  }
+}

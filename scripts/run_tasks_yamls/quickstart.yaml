@@ -1,0 +1,15 @@
+# The first run to try: one task, one build, a few evaluation cases.
+#
+#   ./scripts/run_tasks.sh scripts/run_tasks_yamls/quickstart.yaml
+#
+# order_to_cash is single-turn, so it needs only an Anthropic key (no simulated end user at eval
+# time). The build is the long part: the builder interviews the simulated user, builds and optimizes
+# its agent, then hands it over. Expect tens of minutes to a few hours. The 3-hour limit matches the
+# paper's runs. Raise `limit` (or remove it) to score more of the held-out cases; the paper uses all
+# of them.
+timeout: 10800
+observability: true
+runs:
+  - task: order_to_cash
+    personas: l3
+    limit: 5

@@ -1,0 +1,14 @@
+Call CALL-9026 — Kestwick Home Furnishings (ACC-4026) — 2026-03-09 14:00 UTC
+Participants: Nina Aldrich (Technical Support Specialist, us) / Rosalind Byrne (Office Coordinator, customer)
+
+Rosalind: Hi, I can't get into my account this morning, it keeps saying my session expired every time I try.
+
+Nina: Let's fix that quickly.
+
+Nina: Can you try clearing your browser cache and logging in again?
+
+Rosalind: Okay, one second... that worked, I'm in now, thank goodness.
+
+Nina: Great, glad that did it. Anything else today?
+
+Rosalind: No, that's all, thank you -- have a good day.

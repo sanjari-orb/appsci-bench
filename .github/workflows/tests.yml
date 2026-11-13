@@ -1,0 +1,38 @@
+name: tests
+
+# Run the pytest suite on every PR and on pushes to main so regressions
+# get caught before they merge.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Tests only need to read the repo; restrict the token to least privilege.
+permissions:
+  contents: read
+
+# Cancel an in-progress run when new commits are pushed to the same PR/branch.
+concurrency:
+  group: tests-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: python -m pytest -q

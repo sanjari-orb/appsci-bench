@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-08-12T13:47:54.665118+00:00",
+  "task_id": "order_to_cash",
+  "attempt_id": "order_to_cash-l3-P5-pilot-migration-20260812-124936",
+  "eval_artifact_returncode": 0,
+  "final_score": 0.9961333333333333,
+  "per_metric": [
+    {
+      "objective": "fault_classification",
+      "score": 1.0,
+      "weight": 0.2,
+      "positive": true
+    },
+    {
+      "objective": "flag_accuracy",
+      "score": 1.0,
+      "weight": 0.3,
+      "positive": true
+    },
+    {
+      "objective": "flag_fnr",
+      "score": 1.0,
+      "weight": 0.3,
+      "positive": true
+    },
+    {
+      "objective": "reason_quality",
+      "score": 0.9806666666666666,
+      "weight": 0.2,
+      "positive": true
+    }
+  ],
+  "eval_dir": "/home/user/Documents/GitHub/otc-eval/appsci-bench-otc/human_baseline/attempts/order_to_cash-l3-P5-pilot-migration-20260812-124936/solution/order_to_cash-l3-P5-pilot-migration-20260812-124936/eval"
+}

@@ -1,0 +1,45 @@
+jinja2~=3.1
+pyyaml~=6.0
+jsonschema~=4.26
+litellm==1.91.3
+tenacity~=9.1
+python-dotenv~=1.2
+pydantic~=2.13
+fastapi~=0.136
+# Required by Starlette for multipart form parsing; FastAPI does not depend on it. Without it the
+# quickstart's `-F file=@sweep.yaml` submit returns 400. See pyproject.toml for the full note.
+python-multipart~=0.0.9
+uvicorn~=0.49
+httpx~=0.28
+mini-swe-agent==2.4.5
+python-pptx>=1.0
+python-docx>=1.1
+openpyxl>=3.1
+# PDF text extraction for the eval file-content judges (helpers/files.py). BSD-licensed;
+pypdf>=5.0
+boto3~=1.34
+
+# Recompresses embedded images in vision-judge PDF renders (helpers/render.py). Already transitive
+# via litellm, but imported directly here -- same rationale as rank_bm25/numpy/openai below.
+pillow>=10.0
+
+# Retrieval runtime for the banking_support environment (vendored tau2 knowledge pipeline).
+# These are declared in pyproject.toml too, and must be HERE as well: CI installs from this file, not
+# from pyproject, so a dependency that exists only there is absent in CI. rank_bm25 has no other route
+# in and the whole test suite failed on importing it; numpy and openai arrive transitively via litellm
+# today, but this code imports them directly, so relying on someone else's dependency tree is a
+# latent version of the same break.
+rank_bm25>=0.2.2,<1.0
+numpy>=1.26,<3.0
+openai>=1.40
+
+# Figures for the analysis scripts (scripts/analysis/*). Declared here for the same reason the
+# retrieval block above is: CI installs from this file, and the checkpoint-trend tests exercise the
+# figure path, so a dependency that exists only in pyproject is absent in CI -- which is exactly how
+# this was found. Both analysis scripts already imported it lazily inside the drawing function; that
+# keeps a bare `pip install` usable for everything except drawing, and it also meant nothing failed
+# until a test asked for a PNG.
+matplotlib>=3.8,<4.0
+
+# dev dependencies
+pytest~=9.0

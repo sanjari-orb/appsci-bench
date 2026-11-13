@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0057",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9002 (Solmark Financial Group) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [], \"risks\": [], \"commitments\": [], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 2 (Check-in, L, corner 19: long call, entirely empty). Everything discussed (dashboard rollout, migration, training, reporting features) was already delivered before or during prior work -- none of it is outstanding for this call. The closing summary doc is routine record-keeping, not a new deliverable. Yusuf's warmth throughout ('this was a good, easy check-in') makes this POSITIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

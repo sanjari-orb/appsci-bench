@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0075",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9020 (Cavendish Textile Mills) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"determine why the cancelled module keeps reappearing on Farah's invoice and follow up within a few days\"], \"risks\": [\"billing error for a cancelled module has recurred for the second consecutive invoice cycle and is not yet resolved\"], \"commitments\": [\"determine why the cancelled module keeps reappearing on Farah's invoice and follow up within a few days\"], \"sentiment\": \"NEGATIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 20 (Problem resolution, M, unresolved complaint -- twin of cci-0074). Same underlying issue as cci-0074, but this time it's a recurring, unresolved pattern: Owen escalates rather than fixing it on the spot, and it's still open when the call ends. Farah's explicit frustration ('it's frustrating having to catch the same mistake twice') makes this NEGATIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "data_point_id": "tau2_airline_31",
+  "multi_turn_input": {
+    "user_task": "Reason for the call: Your cat is really sick and you need to get back home sooner to take care of it. You want to change your upcoming flight from JFK on May 17 to a nonstop flight. What you do not know: You do not know your reservation id. How you behave: You are willing to do the change only if it costs less than $100. You do not want to buy a new flight.",
+    "user_persona": "Your name is Daiki Lee. Your user id is daiki_lee_6144.",
+    "user_stop_criteria": "Any one of the following is true: (a) what you called about has been resolved one way or the other -- either the agent completed it, or the agent has clearly refused and you have no further argument to make; (b) the agent has clearly told you it is transferring you to a human agent (stop once it has actually said so, not merely offered to); or (c) you have nothing further to go on, because continuing would need information your scenario does not give you."
+  },
+  "expected_output": {
+    "json": "{\"actions\": [], \"communicate_info\": [], \"nl_assertions\": [\"Agent doesn't book any flight.\"], \"reward_basis\": [\"DB\", \"COMMUNICATE\"], \"purpose\": \"Test for flight change. Flight cannot be changed.\"}"
+  },
+  "eval_rubric": "Agent behaviour: Agent doesn't book any flight. Scored on tau2 reward_basis ['DB', 'COMMUNICATE'] (final reward = product of components): DB = final database state matches applying the oracle actions to a fresh DB; COMMUNICATE = every required fact in oracle.data.communicate_info is stated to the user.\n\nAssertions describing policy-correct behavior for this case:\n- Agent doesn't book any flight."
+}

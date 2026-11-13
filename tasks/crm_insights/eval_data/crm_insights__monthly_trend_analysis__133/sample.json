@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__monthly_trend_analysis__133",
+  "single_turn_input": {
+    "text": "In the last 9 months, is there a significant spike in the number of cases for Revolution Fitness Tracker in any particular month? The associated product Id is 01tWs000002wS61IAE. Return only the month name.\n\n(Today's date: 2023-09-07)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"December\", \"evidence_case_ids\": [\"500Ws000007rBpQIAU\", \"500Ws000007rKMOIA2\", \"500Ws000007rQd9IAE\"], \"task_category\": \"monthly_trend_analysis\", \"reward_metric\": \"exact_match\"}"
+  }
+}

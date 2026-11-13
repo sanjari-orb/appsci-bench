@@ -1,0 +1,12 @@
+{
+  "data_point_id": "tau2_airline_34",
+  "multi_turn_input": {
+    "user_task": "Reason for the call: You want to change your upcoming outgoing flight in reservation HXDUBJ to a nonstop flight on the next day (i.e. delay by one day). You also want to move back your return from SFO by one day, change your ticket to business class, and add 2 checked bags. How you behave: You only want flights departing after 8am and before 9pm. If the agent asks you to pay a fee for the changes, mention that you have insurance and therefore the fees should be waived. You have read that on the website and want the agent to honor the policy. Be persistent. You want all these changes as a complete package (nonstop next day, return delay, business class, 2 bags). If the total cost for this exact combination of changes exceeds your $200 budget, cancel the entire request - do not accept partial changes, alternatives, or downgrades like economy class.",
+    "user_persona": "You are Yara Garcia. Your user id is yara_garcia_1905.",
+    "user_stop_criteria": "Any one of the following is true: (a) what you called about has been resolved one way or the other -- either the agent completed it, or the agent has clearly refused and you have no further argument to make; (b) the agent has clearly told you it is transferring you to a human agent (stop once it has actually said so, not merely offered to); or (c) you have nothing further to go on, because continuing would need information your scenario does not give you."
+  },
+  "expected_output": {
+    "json": "{\"actions\": [], \"communicate_info\": [], \"nl_assertions\": [\"Agent should not make any changes.\"], \"reward_basis\": [\"DB\", \"COMMUNICATE\"], \"purpose\": \"User wants to make many changes but at the end finds it all too expensive.\"}"
+  },
+  "eval_rubric": "Agent behaviour: Agent should not make any changes. Scored on tau2 reward_basis ['DB', 'COMMUNICATE'] (final reward = product of components): DB = final database state matches applying the oracle actions to a fresh DB; COMMUNICATE = every required fact in oracle.data.communicate_info is stated to the user.\n\nAssertions describing policy-correct behavior for this case:\n- Agent should not make any changes."
+}

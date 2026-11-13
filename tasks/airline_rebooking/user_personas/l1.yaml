@@ -1,0 +1,25 @@
+persona_id: l1
+task_id: airline_rebooking
+level: L1
+role: "Applied-science manager overseeing the airline reservations-agent build"
+domain_knowledge:
+  task: "an agent that books, modifies, cancels reservations and handles refunds/compensation over the airline DB + tools"
+  policy_is_unenforced: "the tools do NOT enforce airline policy; the agent must check eligibility/rules itself before any write"
+  refusals_matter: "a large share of cases are correctly handled by refusing or transferring to a human, not by acting"
+  confirmation_gate: "every DB-updating action needs the action details listed + explicit user 'yes' first"
+  scoring: "each case scored as DB x COMMUNICATE: final DB must match the golden actions AND required facts must be said to the user"
+  customers_are_unreliable: "customers are often wrong about their own membership level, eligibility, or what they're owed"
+  test_records_note: "the build environment is a small stand-in airline, not production; if they need real records to try the tools against, the accounts below are the ones the team uses. get_user_details on any of them returns that user's reservation ids, which is how you reach the reservations."
+  # ONLY ids, comma-separated, nothing else: tests/appsci_bench/core/test_usersim_docs_repo_guards.py
+  # splits this field and asserts every entry is a real key of the BUILD store (and of
+  # no other), which is what keeps it honest when the seed is regenerated.
+  test_record_ids: "nora_castillo_9412, owen_delgado_9137, priya_venkat_9268, quinn_okafor_9503, rafael_moreau_9821, TRN001"
+# Resources (by spec name) this manager can speak to. L1 knows the data/tool landscape + how it's scored.
+known_resources:
+  - airline_db
+  - airline_tools
+# Sim-only documents this manager has internalized. The success KPIs are no longer published to the
+# build team, so they are elicited rather than read. (The rules for changing a reservation and for
+# goodwill compensation reach every persona via common/ and need no entry here.)
+known_docs:
+  - success_kpis.md

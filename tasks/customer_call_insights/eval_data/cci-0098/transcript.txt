@@ -1,0 +1,52 @@
+Call CALL-9043 — Fennimore Design Studio (ACC-4043) — 2026-03-15 09:00 UTC
+Participants: Dev Anand (Account Manager, us) / Priya Nair (Creative Director, customer)
+
+Dev: Priya, great to catch up. I heard you're interested in the premium design module -- tell me what's got you excited about it.
+
+Priya: Honestly, we've been growing fast and our current tools just aren't cutting it anymore for what we actually need day to day.
+
+Priya: Especially over the last couple of months, it's really accelerated for us.
+
+Dev: That's great to hear, congrats on the growth, that's always a good problem to have. What specifically about the premium module caught your attention?
+
+Priya: The collaborative editing piece mostly, we've got more people touching projects now and it's getting messy without something like that.
+
+Dev: Makes complete sense, that's exactly what it's built to solve. Would you want to move forward with adding it to your plan today?
+
+Priya: Yes, definitely, I'm honestly really excited about this, it's going to change how we work day to day.
+
+Dev: Love the enthusiasm, genuinely. Let me get the upgrade configured on our end and add it to your account along with updated billing.
+
+Priya: Perfect, when do you think that could actually be ready to go?
+
+Dev: I can have it live and billing updated by the end of the week.
+
+Priya: That works great, we can start using it right away once it's live then.
+
+Dev: Exactly the plan. One thing I should ask, just so I understand the account holistically -- how are you planning to fund this internally?
+
+Priya: Actually, that's a good question -- the budget that was originally earmarked for this got reallocated to a different initiative last month, so I'm going to need to find funding elsewhere now.
+
+Dev: Ah, I appreciate you being upfront about that rather than letting it surprise us later. Is that going to be a blocker, or do you have another path forward?
+
+Priya: I think I can make it work from a different budget line on our end, just wanted you to know it's not as straightforward as I made it sound at first.
+
+Dev: Understood, thanks for the transparency, that's genuinely helpful to know going forward. I'll get that module configured and billing updated as discussed.
+
+Priya: Appreciated. I'll figure out the funding side myself, that's really on us to sort out internally.
+
+Dev: Sounds good, that division makes sense. This is honestly still really exciting for us to get set up despite the budget shuffle on your end.
+
+Priya: Agreed, still excited, just wanted to be upfront about the funding wrinkle.
+
+Dev: Appreciate that upfrontness, genuinely. While I have you, how's the rest of the team feeling about the workflow changes lately, separate from this?
+
+Priya: Really good, actually, morale's been high since we streamlined a few things last month.
+
+Dev: Great to hear that's trending the right way too.
+
+Dev: Anything else before we wrap up today?
+
+Priya: No, I think that covers it, thanks Dev.
+
+Dev: Of course, happy to help however I can, glad we got the module piece sorted today.

@@ -1,0 +1,26 @@
+Call CALL-9019 — Hallowell Print Solutions (ACC-4019) — 2026-03-07 13:00 UTC
+Participants: Renata Silva (Billing Support Specialist, us) / Marcus Ojo (Office Manager, customer)
+
+Marcus: Hi Renata.
+
+Marcus: I think there's an error on our last invoice -- we were charged for a module we cancelled two months ago.
+
+Renata: Let me pull that up. Can you give me the invoice number?
+
+Marcus: INV-88213.
+
+Renata: Thanks, one moment... you're right, that module should have come off after the cancellation went through. I can see the error now.
+
+Marcus: Okay, good, I wasn't imagining it then.
+
+Renata: Not at all, my apologies for that. I've corrected the invoice and removed the charge on our end right now.
+
+Marcus: Great, that's all I needed, thank you for sorting it out quickly.
+
+Renata: Of course.
+
+Renata: Just so you know, I've also double-checked the account to make sure no other cancelled modules are still showing up anywhere.
+
+Marcus: Appreciate you double-checking that, good to know it was just the one.
+
+Renata: Exactly, just the one. Sorry again for the mix-up. Anything else I can help with today? -- glad we could sort it out quickly for you.

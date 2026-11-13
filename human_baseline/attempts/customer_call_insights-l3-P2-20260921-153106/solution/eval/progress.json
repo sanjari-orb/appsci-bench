@@ -1,0 +1,9 @@
+{
+  "run_id": "run_d5d593eaed03_18d78229c80db8d01",
+  "task_id": "customer_call_insights",
+  "cases_scored": 50,
+  "cases_total": 50,
+  "partial": true,
+  "final_score_so_far": 0.455,
+  "last_data_point_id": "cci-0105"
+}

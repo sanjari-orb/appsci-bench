@@ -1,0 +1,519 @@
+{
+  "presentation": {
+    "title": "Migrating Our Legacy Data Pipeline to a Managed Service: The Case for Q3–Q4 Investment",
+    "theme": "default",
+    "aspectRatio": "16:9",
+    "metadata": {
+      "author": "Unknown",
+      "version": "1.0",
+      "date": ""
+    },
+    "slides": [
+      {
+        "slideNumber": 1,
+        "layout": "Cover",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 1",
+            "content": "Migrating Our Legacy Data Pipeline to a Managed Service: The Case for Q3–Q4 Investment\u000b",
+            "style": {
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 2",
+            "content": "NAME_REDACTED, Platform Engineering Lead · COMPANY_NAME_REDACTED",
+            "style": {
+              "bold": true,
+              "color": "#00D9C6"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Subtitle 3",
+            "content": "Prepared for VP Engineering & Finance · Budget Review",
+            "style": {
+              "color": "#9AA3B2"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 2,
+        "layout": "Bulleted Content",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 1",
+            "content": "The Problem: Our Legacy Pipeline Is Now the Bottleneck\u000b",
+            "style": {
+              "fontSize": 28,
+              "bold": true,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 2",
+            "content": "14 P1/P2 incidents in the trailing 12 months, mostly disk-capacity exhaustion and job-scheduler deadlocks.",
+            "style": {
+              "fontSize": 18,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 3",
+            "content": "Platform engineering fields 46 on-call pages/month on this cluster — more than any other system we own.",
+            "style": {
+              "fontSize": 19,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 4",
+            "content": "•  Uptime over the same period: 98.2%, below our 99.5% internal target.",
+            "style": {
+              "fontSize": 17,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 5",
+            "content": "The cluster is at capacity: adding a new data source today requires manually re-partitioning existing jobs, which has already delayed two other teams' launches this year.",
+            "style": {
+              "color": "#0B0E14"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 3,
+        "layout": "Cover",
+        "elements": [
+          {
+            "type": "text",
+            "name": "title",
+            "content": "The Cost of Doing Nothing",
+            "style": {
+              "fontSize": 36,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "metric-value-0",
+            "content": "$840K",
+            "style": {
+              "fontSize": 54,
+              "bold": true,
+              "color": "#FF6B35"
+            }
+          },
+          {
+            "type": "text",
+            "name": "metric-label-0",
+            "content": "Current annual ops cost",
+            "style": {
+              "fontSize": 15,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "metric-note-0",
+            "content": "Infra + on-call + incident remediation",
+            "style": {
+              "fontSize": 12,
+              "bold": false,
+              "color": "#9AA3B2"
+            }
+          },
+          {
+            "type": "text",
+            "name": "metric-value-1",
+            "content": "14",
+            "style": {
+              "fontSize": 54,
+              "bold": true,
+              "color": "#00D9C6"
+            }
+          },
+          {
+            "type": "text",
+            "name": "metric-label-1",
+            "content": "P1/P2 incidents",
+            "style": {
+              "fontSize": 15,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "metric-note-1",
+            "content": "Trailing 12 months",
+            "style": {
+              "fontSize": 12,
+              "bold": false,
+              "color": "#9AA3B2"
+            }
+          },
+          {
+            "type": "text",
+            "name": "metric-value-2",
+            "content": "98.2%",
+            "style": {
+              "fontSize": 54,
+              "bold": true,
+              "color": "#2D5FFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "metric-label-2",
+            "content": "Uptime",
+            "style": {
+              "fontSize": 15,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "metric-note-2",
+            "content": "Below our 99.5% target",
+            "style": {
+              "fontSize": 12,
+              "bold": false,
+              "color": "#9AA3B2"
+            }
+          },
+          {
+            "type": "text",
+            "name": "consequence",
+            "content": "The cluster's hardware refresh is due in Q1 of next year. Deferring this migration past Q4 means either paying for a hardware refresh we intend to retire, or running past-end-of-life hardware into next year's peak season.",
+            "style": {
+              "fontSize": 17,
+              "bold": false,
+              "color": "#FFFFFF"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 4,
+        "layout": "Two-Phase Comparison",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 1",
+            "content": "Our Proposed Approach: Two-Phase Migration\u000b",
+            "style": {
+              "fontSize": 31,
+              "bold": true,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 2",
+            "content": "PHASE 1 · Q3",
+            "style": {
+              "bold": true,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 3",
+            "content": "PHASE 2 · Q4",
+            "style": {
+              "bold": true,
+              "color": "#2D5FFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 4",
+            "content": "Migrate the data-ingestion and storage layer.",
+            "style": {
+              "fontSize": 20,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 5",
+            "content": "Existing on-prem jobs read/write through a compatibility shim — no downstream interface change.",
+            "style": {
+              "fontSize": 18,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 6",
+            "content": "Shim runs in parallel with the legacy path for two full weeks before cutover.",
+            "style": {
+              "fontSize": 18,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 7",
+            "content": "Migrate the orchestration/transform layer.",
+            "style": {
+              "fontSize": 20,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 8",
+            "content": "Decommission the on-prem cluster once the shim is no longer needed.",
+            "style": {
+              "fontSize": 18,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 9",
+            "content": "Transform logic moves as-is — no rewrite. Logic modernization is a separate, later effort.",
+            "style": {
+              "fontSize": 22,
+              "color": "#0B0E14"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 5,
+        "layout": "Investment Table",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 4",
+            "content": "Investment & Payback\u000b",
+            "style": {
+              "bold": true,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 5",
+            "content": "2.9 quarters",
+            "style": {
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 6",
+            "content": "Payback period",
+            "style": {
+              "bold": true,
+              "color": "#0B0E14"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 7",
+            "content": "Total one-time migration cost ($310,000) ÷ quarterly savings ($430,000 annual savings / 4)",
+            "style": {
+              "fontSize": 19,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Investment & Payback Table",
+            "rows": [
+              [
+                "Line item",
+                "Value"
+              ],
+              [
+                "Current annual ops cost",
+                "$840,000 / yr"
+              ],
+              [
+                "Migration cost — Phase 1 (Q3)",
+                "$190,000"
+              ],
+              [
+                "Migration cost — Phase 2 (Q4)",
+                "$120,000"
+              ],
+              [
+                "Total one-time migration cost",
+                "$310,000"
+              ],
+              [
+                "Projected annual run cost post-migration",
+                "$410,000 / yr"
+              ],
+              [
+                "Projected annual savings",
+                "$430,000 / yr"
+              ]
+            ]
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 6,
+        "layout": "Cover",
+        "elements": [
+          {
+            "type": "text",
+            "name": "title",
+            "content": "Risks & Mitigations",
+            "style": {
+              "fontSize": 36,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "risk-title-0",
+            "content": "Cutover risk",
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "risk-body-0",
+            "content": "Shim runs in parallel with the legacy path for two full weeks before cutover, with automatic rollback to on-prem if error rates exceed 0.5%.",
+            "style": {
+              "fontSize": 16,
+              "bold": false,
+              "color": "#9AA3B2"
+            }
+          },
+          {
+            "type": "text",
+            "name": "risk-title-1",
+            "content": "Data-loss risk during migration",
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "risk-body-1",
+            "content": "All historical data is copied (not moved) until Phase 2 sign-off; the on-prem cluster is not decommissioned until 30 days after Phase 2 completes.",
+            "style": {
+              "fontSize": 16,
+              "bold": false,
+              "color": "#9AA3B2"
+            }
+          },
+          {
+            "type": "text",
+            "name": "risk-title-2",
+            "content": "Team ramp-up risk",
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "risk-body-2",
+            "content": "Two platform engineers complete the managed service's certification track in Q3 before Phase 1 begins.",
+            "style": {
+              "fontSize": 16,
+              "bold": false,
+              "color": "#9AA3B2"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 7,
+        "layout": "The Ask",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 4",
+            "content": "The Ask\u000b",
+            "style": {
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 5",
+            "content": "$310,000",
+            "style": {
+              "fontSize": 48,
+              "bold": true,
+              "color": "#FF6B35"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 6",
+            "content": "total investment across Q3–Q4",
+            "style": {
+              "color": "#9AA3B2"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 7",
+            "content": "Approve $310,000 across Q3 (Phase 1) and Q4 (Phase 2).",
+            "style": {
+              "fontSize": 18,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 8",
+            "content": " Payback in 2.9 quarters; $430,000/yr in ongoing savings thereafter.",
+            "style": {
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 9",
+            "content": "Decision needed by end of Q2 to hit the Q3 start date and avoid the Q1 hardware refresh.",
+            "style": {
+              "fontSize": 21,
+              "color": "#FFFFFF"
+            }
+          }
+        ],
+        "notes": ""
+      }
+    ]
+  }
+}

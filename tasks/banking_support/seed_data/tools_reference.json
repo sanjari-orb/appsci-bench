@@ -1,0 +1,492 @@
+[
+  {
+    "tool_type": "read",
+    "role": "agent",
+    "function": {
+      "name": "KB_search_bm25",
+      "description": "Search the knowledge base using BM25 sparse keyword retrieval. Returns the most relevant document excerpts for the query. No API key required.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "k": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "read",
+    "role": "agent",
+    "function": {
+      "name": "KB_search_dense",
+      "description": "Search the knowledge base using dense embedding retrieval (OpenAI text-embedding-3-large). Needs an embeddings key (BANKING_EMBED_API_KEY or OPENAI_API_KEY); returns a guidance message and no results when none is configured, so prefer KB_search_bm25 or grep if no key is available.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "k": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "read",
+    "role": "agent",
+    "function": {
+      "name": "shell",
+      "description": "Run a read-only shell command (e.g. grep, cat) in a sandbox over the knowledge-base corpus exported as files. Available only when the sandbox runtime is present; reports unavailable otherwise.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "command"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "write",
+    "role": "agent",
+    "function": {
+      "name": "call_discoverable_agent_tool",
+      "description": "Call an agent discoverable tool that you have previously unlocked.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "agent_tool_name": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "agent_tool_name"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "write",
+    "role": "agent",
+    "function": {
+      "name": "change_user_email",
+      "description": "Change the email address for a user.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "new_email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id",
+          "new_email"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "read",
+    "role": "agent",
+    "function": {
+      "name": "get_credit_card_accounts_by_user",
+      "description": "Get all credit card accounts for a user.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "read",
+    "role": "agent",
+    "function": {
+      "name": "get_credit_card_transactions_by_user",
+      "description": "Get all credit card transactions for a user.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "read",
+    "role": "agent",
+    "function": {
+      "name": "get_current_time",
+      "description": "Get the current time. Use this to get the current timestamp for logging verification records.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  {
+    "tool_type": "read",
+    "role": "agent",
+    "function": {
+      "name": "get_referrals_by_user",
+      "description": "Get all referrals made by a user.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "read",
+    "role": "agent",
+    "function": {
+      "name": "get_user_information_by_email",
+      "description": "Get the information (date of birth, email, phone number, address) for a user by their email.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "read",
+    "role": "agent",
+    "function": {
+      "name": "get_user_information_by_id",
+      "description": "Get the information (date of birth, email, phone number, address) for a user by their user id.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "read",
+    "role": "agent",
+    "function": {
+      "name": "get_user_information_by_name",
+      "description": "Get the information (date of birth, email, phone number, address) for a user by their name. Case Sensitive.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "customer_name"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "generic",
+    "role": "agent",
+    "function": {
+      "name": "give_discoverable_user_tool",
+      "description": "Pass a tool to the user so they can execute it themselves.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "discoverable_tool_name": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "discoverable_tool_name"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "read",
+    "role": "agent",
+    "function": {
+      "name": "list_discoverable_agent_tools",
+      "description": "List all agent discoverable tools that you have called.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  {
+    "tool_type": "write",
+    "role": "agent",
+    "function": {
+      "name": "log_verification",
+      "description": "Log a verification record after successfully verifying a user's identity.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "date_of_birth": {
+            "type": "string"
+          },
+          "time_verified": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "user_id",
+          "address",
+          "email",
+          "phone_number",
+          "date_of_birth",
+          "time_verified"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "generic",
+    "role": "agent",
+    "function": {
+      "name": "transfer_to_human_agents",
+      "description": "Transfer the user to a human agent.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "summary": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "summary"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "generic",
+    "role": "agent",
+    "function": {
+      "name": "unlock_discoverable_agent_tool",
+      "description": "Unlock an agent discoverable tool that was found in the knowledge base.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "agent_tool_name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "agent_tool_name"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "write",
+    "role": "user",
+    "function": {
+      "name": "apply_for_credit_card",
+      "description": "Apply for a credit card.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "card_type": {
+            "type": "string"
+          },
+          "customer_name": {
+            "type": "string"
+          },
+          "annual_income": {
+            "type": "string"
+          },
+          "rho_bank_subscription": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "card_type",
+          "customer_name",
+          "annual_income"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "write",
+    "role": "user",
+    "function": {
+      "name": "call_discoverable_user_tool",
+      "description": "Call a tool that was given to you by the agent.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "discoverable_tool_name": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "discoverable_tool_name"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "read",
+    "role": "user",
+    "function": {
+      "name": "list_discoverable_user_tools",
+      "description": "List all tools that have been given to you by the agent.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  {
+    "tool_type": "write",
+    "role": "user",
+    "function": {
+      "name": "request_human_agent_transfer",
+      "description": "Request to be transferred to a human agent for assistance.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  {
+    "tool_type": "write",
+    "role": "user",
+    "function": {
+      "name": "submit_referral",
+      "description": "Submit a referral request to refer someone to open an account.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "account_type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id",
+          "account_type"
+        ]
+      }
+    }
+  },
+  {
+    "tool_type": "write",
+    "role": "user",
+    "function": {
+      "name": "submit_transaction",
+      "description": "Submit a credit card transaction.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "credit_card_type": {
+            "type": "string"
+          },
+          "merchant_name": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id",
+          "credit_card_type",
+          "merchant_name",
+          "amount",
+          "category"
+        ]
+      }
+    }
+  }
+]

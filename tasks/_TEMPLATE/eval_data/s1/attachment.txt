@@ -1,0 +1,2 @@
+Example attachment referenced by s1/sample.json's single_turn_input.files[0] via file_path.
+Put whatever the agent needs to see for this sample here -- a doc, a data dump, an image, etc.

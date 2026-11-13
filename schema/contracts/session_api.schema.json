@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://appsci-bench.github.io/schema/contracts/session_api.schema.json",
+  "title": "appsci-bench artifact-agent session-API contract (versioned)",
+  "description": "Meta-schema validating each versioned contract document at schema/contracts/session_api.v<N>.json. Each file is the complete, self-contained contract for one version: the served session API (create/query/delete), payload type defs, framing, and conformance note. The evaluator loads the latest version by default and broadcasts it to the appsci agent as part of its build context; it can load an older version to negotiate compatibility. Add a version = add a file; nothing in the file is pinned by Python signatures.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "summary", "endpoints", "framing", "conformance", "payloads"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Contract version. Each file pins one value; bump on any shape change so evaluator and artifact can negotiate compatibility."
+    },
+    "summary": { "type": "string" },
+    "doc": { "type": "string", "description": "repo-relative path to the human-readable contract doc" },
+    "endpoints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["create_session", "query_session", "delete_session"],
+      "properties": {
+        "create_session": { "$ref": "#/$defs/endpoint" },
+        "query_session": { "$ref": "#/$defs/endpoint" },
+        "delete_session": { "$ref": "#/$defs/endpoint" }
+      }
+    },
+    "framing": { "type": "string" },
+    "conformance": { "type": "string" },
+    "payloads": {
+      "type": "object",
+      "required": ["$defs"],
+      "properties": {
+        "$defs": {
+          "type": "object",
+          "required": ["File", "ArtifactAgentQuery", "ArtifactAgentOutput"],
+          "description": "Machine-readable JSON-Schema defs for the wire payloads (single source of truth for their shape)."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input", "output"],
+      "properties": {
+        "input": { "type": ["string", "null"] },
+        "output": { "type": "string" }
+      }
+    }
+  }
+}

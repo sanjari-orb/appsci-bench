@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0061",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9006 (Ashford Rail Logistics) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send the usage report, by Friday\", \"set up a call for the 15th to go over next steps\", \"Devon to send the new billing contact's info, by tomorrow\"], \"risks\": [], \"commitments\": [\"send the usage report, by Friday\", \"set up a call for the 15th to go over next steps\"], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 6 (Check-in, S, length/content decorrelation: a brisk 8-turn call carrying 3 items). Two of the three items are Nina's undertakings (report, call setup) and land in both lists; the billing-contact update is Devon's own action and stays next-steps-only. Plain, transactional close, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

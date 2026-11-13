@@ -1,0 +1,136 @@
+{
+  "census": {
+    "counts": {
+      "fetch_failed": 0,
+      "mixed_cases": 0,
+      "mixed_limit": 0,
+      "no_scorable_captures": 0,
+      "no_scores": 0,
+      "run_dir_missing": 0
+    },
+    "skipped": {
+      "fetch_failed": [],
+      "mixed_cases": [],
+      "mixed_limit": [],
+      "no_scorable_captures": [],
+      "no_scores": [],
+      "run_dir_missing": []
+    },
+    "total": 0
+  },
+  "generated_at": "2026-09-16T19:33:46.836065+00:00",
+  "pooled": {
+    "beat_noise": 0,
+    "floor_unmeasured": 3,
+    "headline_improved": 1,
+    "headline_series": 3,
+    "headline_sign_test_p": 1.0,
+    "headline_unchanged": 1,
+    "headline_worsened": 1,
+    "improved": 1,
+    "n_series": 3,
+    "sign_test_p": 1.0,
+    "unchanged": 1,
+    "worsened": 1
+  },
+  "provenance": {
+    "airline_rebooking_claude-opus-4-8_b0_l3_20260910_214941": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": true,
+      "headline_objective": "task_success",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "b618715706fa153047fdad859fc07d22e5e363fc"
+      ]
+    },
+    "airline_rebooking_claude-opus-4-8_b1_l3_20260911_023444": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": true,
+      "headline_objective": "task_success",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "b618715706fa153047fdad859fc07d22e5e363fc"
+      ]
+    },
+    "airline_rebooking_claude-opus-4-8_b2_l3_20260911_061010": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": true,
+      "headline_objective": "task_success",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "b618715706fa153047fdad859fc07d22e5e363fc"
+      ]
+    }
+  },
+  "report_commit": "d1d6ea4f5b517ad9fab0910b621ac8a8bfcd2e06",
+  "report_tree_dirty": true,
+  "runs": {
+    "airline_rebooking_claude-opus-4-8_b0_l3_20260910_214941": {
+      "delta": 0.0,
+      "delta_se": null,
+      "distinct_hashes": 3,
+      "first": 0.56,
+      "headline_delta": 0.0,
+      "headline_first": 0.56,
+      "headline_last": 0.56,
+      "headline_objective": "task_success",
+      "last": 0.56,
+      "n_points": 4,
+      "n_unmeasured": 0,
+      "noise_floor": null,
+      "run_id": "airline_rebooking_claude-opus-4-8_b0_l3_20260910_214941",
+      "spearman": -0.31622776601683794,
+      "steps_down": 1,
+      "steps_flat": 0,
+      "steps_up": 2,
+      "task_id": "airline_rebooking",
+      "zeros": 0
+    },
+    "airline_rebooking_claude-opus-4-8_b1_l3_20260911_023444": {
+      "delta": -0.020000000000000018,
+      "delta_se": null,
+      "distinct_hashes": 5,
+      "first": 0.64,
+      "headline_delta": -0.020000000000000018,
+      "headline_first": 0.64,
+      "headline_last": 0.62,
+      "headline_objective": "task_success",
+      "last": 0.62,
+      "n_points": 7,
+      "n_unmeasured": 0,
+      "noise_floor": null,
+      "run_id": "airline_rebooking_claude-opus-4-8_b1_l3_20260911_023444",
+      "spearman": -0.05613608914238398,
+      "steps_down": 3,
+      "steps_flat": 1,
+      "steps_up": 2,
+      "task_id": "airline_rebooking",
+      "zeros": 0
+    },
+    "airline_rebooking_claude-opus-4-8_b2_l3_20260911_061010": {
+      "delta": 0.22000000000000003,
+      "delta_se": null,
+      "distinct_hashes": 2,
+      "first": 0.46,
+      "headline_delta": 0.22000000000000003,
+      "headline_first": 0.46,
+      "headline_last": 0.68,
+      "headline_objective": "task_success",
+      "last": 0.68,
+      "n_points": 3,
+      "n_unmeasured": 0,
+      "noise_floor": null,
+      "run_id": "airline_rebooking_claude-opus-4-8_b2_l3_20260911_061010",
+      "spearman": 0.9999999999999998,
+      "steps_down": 0,
+      "steps_flat": 0,
+      "steps_up": 2,
+      "task_id": "airline_rebooking",
+      "zeros": 0
+    }
+  },
+  "synthetic": false
+}

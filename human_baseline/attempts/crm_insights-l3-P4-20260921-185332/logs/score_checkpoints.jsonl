@@ -1,0 +1,11 @@
+{"mark": "1h", "timestamp": "2026-09-21T17:27:32.254276+00:00", "limit": 5, "eval_artifact_returncode": 2}
+{"mark": "1h", "timestamp": "2026-09-21T17:29:17.793554+00:00", "limit": 5, "eval_artifact_returncode": 0}
+{"mark": "batch-seed11", "timestamp": "2026-09-21T17:41:21.204002+00:00", "limit": 16, "sample_seed": 11, "eval_artifact_returncode": 0, "final_score": 0.559375, "judge_rate_limit_errors": 0}
+{"mark": "batch-seed22", "timestamp": "2026-09-21T17:43:52.941807+00:00", "limit": 16, "sample_seed": 22, "eval_artifact_returncode": 0, "final_score": 0.550625, "judge_rate_limit_errors": 0}
+{"mark": "batch-seed33", "timestamp": "2026-09-21T17:46:17.608749+00:00", "limit": 16, "sample_seed": 33, "eval_artifact_returncode": 0, "final_score": 0.8084375, "judge_rate_limit_errors": 0}
+{"mark": "cover-seed11", "timestamp": "2026-09-21T17:51:55.510062+00:00", "limit": 16, "sample_seed": 11, "eval_artifact_returncode": 0, "final_score": 0.296875, "judge_rate_limit_errors": 78}
+{"mark": "postminfix-seed11", "timestamp": "2026-09-21T17:57:08.693139+00:00", "limit": 16, "sample_seed": 11, "eval_artifact_returncode": 2, "final_score": null, "judge_rate_limit_errors": 0}
+{"mark": "postminfix-seed22", "timestamp": "2026-09-21T17:59:10.832239+00:00", "limit": 16, "sample_seed": 22, "eval_artifact_returncode": 2, "final_score": null, "judge_rate_limit_errors": 0}
+{"mark": "improved-seed11", "timestamp": "2026-09-21T18:07:33.670036+00:00", "limit": 16, "sample_seed": 11, "eval_artifact_returncode": 0, "final_score": 0.7709375, "judge_rate_limit_errors": 0}
+{"mark": "improved-seed22", "timestamp": "2026-09-21T18:10:52.002563+00:00", "limit": 16, "sample_seed": 22, "eval_artifact_returncode": 0, "final_score": 0.71875, "judge_rate_limit_errors": 0}
+{"mark": "improved-seed33", "timestamp": "2026-09-21T18:14:17.812697+00:00", "limit": 16, "sample_seed": 33, "eval_artifact_returncode": 0, "final_score": 0.8165625000000001, "judge_rate_limit_errors": 0}

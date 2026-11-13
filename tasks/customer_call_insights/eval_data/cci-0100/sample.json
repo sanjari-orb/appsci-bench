@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0100",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9045 (Bellrose Textiles Group) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"request a full account review of support response times and report initial findings within a week\", \"Farid to send the two delayed ticket numbers for the review\"], \"risks\": [\"support response times have slowed noticeably (3-4 days versus same-day) on at least two recent tickets, not yet resolved\"], \"commitments\": [\"request a full account review of support response times and report initial findings within a week\"], \"sentiment\": \"NEGATIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 45 (Escalation, M, unresolved complaint). The review commitment carries a stated deadline; Farid sending ticket numbers is his own contribution to it, not something owed to him. The slowdown is still open when the call ends -- an unresolved-complaint risk. 'Not what we signed up for' and 'affects my confidence' make this NEGATIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

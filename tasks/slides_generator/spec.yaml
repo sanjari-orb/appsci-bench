@@ -1,0 +1,260 @@
+task_id: slides_generator
+name: Slides Generator
+description: >
+  "A team spends hours turning a rough brief into a presentable deck. They want a system that takes
+   a brief and produces slides that say what they intended, in a form they'd put in front of an
+   audience. Success is about generating a deck aligned with the user intent, that satisfies both
+   content and shape requirements."
+
+task_source_type: internal
+
+environment:
+  docker_compose: tasks/slides_generator/environment/docker-compose.yml
+  resources:
+    # /data/samples holds purpose-built, non-eval-derived example(s). See environment/README.md.
+    - { name: samples,      type: sample_data, location: "/data/samples/*",              description: "Synthetic request examples, each a text prompt plus attached files (grounding documents in .md/.csv/.pdf/.pptx and a template.pptx)" }
+    # Domain background only -- no requirements, no success criteria. See environment/sop/.
+    - { name: kpis,         type: kpi,         location: "/sop/kpis.md",                 description: "Success criteria: decks that say what was asked, come back ready to present, and look like the team's own -- with what 'good' means left to agree with the customer" }
+
+# The artifact(s) involved in the task.
+# kind: agent (primary queryable system) | output (a produced file) | documentation (design notes — diagnostic only).
+artifacts:
+  output_dir: /work/out
+  expected:
+    - { id: agent,        kind: agent,          primary: true,  description: "the queryable slides-generator agent" }
+    - { id: design_notes, kind: documentation,  path: design_notes.md, required: false, description: "optional design write-up (diagnostic)" }
+
+user_personas:
+  - tasks/slides_generator/user_personas/l3.yaml
+  - tasks/slides_generator/user_personas/l2.yaml
+  - tasks/slides_generator/user_personas/l1.yaml
+
+budgets:
+  # wall_clock_s RAISED 10800 -> 14400 on 2026-10-29 for the kimi-k3 opt5 rerun
+  # (experiments/sweeps/slides_rerun_1x3_kimik3_opt5_4h.yaml), which sets a 4-hour cell `timeout:`.
+  # Left at 10800, this inner clock would have stopped that build at 3h with the cell still allowing 4.
+  # With the default 3h cell timeout nothing changes: the outer clock still binds first, so only a
+  # sweep that asks for more than 3h sees the extra hour.
+  #
+  # wall_clock_s RAISED 7200 -> 10800 on 2026-09-17. THIS IS THE LIMIT THE AGENT ENFORCES ON ITSELF
+  # (appsci_agent/core/agent.py reads budgets.build.wall_clock_s and breaks its own loop before
+  # starting a turn once elapsed >= it, with stop_reason budget_exceeded_time). It is a DIFFERENT
+  # clock from a sweep's `timeout:`, which is the worker's ceiling on the cell -- and the inner one
+  # wins silently: raising the cell timeout to 3h (#191) had no effect here at all.
+  #
+  # Measured on the claude-opus-5 arms, which is what forced this. Seven builds ran 85, 89, 97, 111,
+  # 120, 122 and 127 minutes. The 122m and 127m ones stopped on THIS clock with 24 and 25 of their 40
+  # turns unused, 0.73M and 0.75M of their 2M token budget spent, and an hour of CELL time left. Each
+  # left an edited, redeployed candidate scoring 0.98 on its own internal eval that nothing ever
+  # verified or submitted (optimization stop_reason `unverified_change`, cycles_used 3 of 5). Note
+  # both durations OVERSHOOT 7200: the loop tests elapsed before starting a turn, never during one, so
+  # a build overruns the limit by however long its last turn takes. Two hours is simply below this
+  # task's build time.
+  #
+  # The 7200 it replaces was never chosen for slides: the comment below records that it was copied
+  # from order_to_cash, whose builds run 5 to 43 minutes. 10800 matches the cell default from #191, so
+  # the two clocks now agree rather than one truncating the other.
+  #
+  # `tokens` RAISED 2000000 -> 20000000 at the same time, and for a related but DISTINCT reason. It
+  # was NOT what stopped the opus-5 builds -- they spent 0.75M of the 2M -- but it is the same silent
+  # trap one step further out, and it is closer to binding than it looks. What this ceiling counts is
+  # the PARENT agent's own calls only: agent.py accumulates response.usage from the agent loop, so the
+  # 14-16M a slides build really spends is invisible to it (mini-swe is ~95% of the total).
+  #
+  # Measured parent usage on slides, and it grows per turn as context accumulates:
+  #   12 turns -> 0.50M   (42k/turn)      16 turns -> 0.76M
+  #   14 turns -> 0.52M                   25 turns -> 1.65M   (66k/turn, 82% of the old ceiling)
+  # So a build needing ~28 turns trips 2M and dies exactly like the wall-clock case: no_submission,
+  # exit_code 0, turns and cell budget left over. The 25-turn build above came within three turns of
+  # it. Both this and `turns: 40` were copied from order_to_cash, whose builds run 5 to 43 minutes.
+  #
+  # 20000000 is the value every task that declares one now carries, so the ceiling means the same
+  # thing everywhere. It is deliberately far above the ~1.7M this task's longest build has spent:
+  # the point is that the turn and wall-clock limits bind first, not this one.
+  build: { turns: 40, tokens: 20000000, usd: 20, wall_clock_s: 14400 } # wall_clock_s and tokens set deliberately (see above); turns/usd still copied from order_to_cash; TODO(P5): confirm against expected deck complexity and scoring rubric granularity; should be reflected in evaluation_data.functional_requirements.build_budget
+  latency_slo_ms: 60000   # TODO(P5): to be confirmed based on expected complexity of output decks and scoring rubric granularity; should be reflected in evaluation_data.functional_requirements.latency_slo_ms
+
+evaluation_data:
+  dataset: tasks/slides_generator/eval_data
+  elicitation_rubric: tasks/slides_generator/elicitation_rubric.yaml
+  provenance: synthetic
+  type: single_turn
+  # Oracle evaluation is REFERENCE-FREE and TRAINING-FREE at the DECK level (see README
+  # "Oracle Evaluation Criteria" / "Evaluation Strategy"). This is forced by two appsci-bench
+  # constraints: (1) no custom-model training / no custom-model deployment (e.g. PresAesth, CLIP);
+  # (2) no slide-by-slide reference comparisons. The per-sample `expected_output.json` (the old
+  # `oracle.data`) is therefore an AUTHORING/sanity aid for outcome extraction, NOT a slide-to-slide
+  # reference target -- no objective below does reference-based slide matching against it.
+  #
+  # 11 objectives, ALL of which produce a real score on at least some samples:
+  #   * 3 deterministic: functional_success, output_format_compliance (PROPORTION of compliant
+  #     slides, not all-or-nothing), constraint_satisfaction (None when a sample declares no
+  #     expected_slide_count_range). These read the artifact's SELF-REPORTED JSON, unchanged.
+  #   * 4 transcript judges via make_transcript_judge: prompt_satisfaction, structure_clarity,
+  #     content_narrative, expectations_satisfaction.
+  #   * 2 source-reading file-content judges: content_coverage (make_source_coverage_judge) and
+  #     groundedness (make_source_grounding_judge).
+  #   * 2 vision judges rendering to PDF via LibreOffice (helpers/render.py): template_adherence
+  #     (make_visual_comparison_judge) and layout_quality (make_visual_quality_judge). Both return
+  #     `None` per-sample -- not an unconditional placeholder -- when rendering is unavailable, a
+  #     required file is missing, or the model lacks native PDF support.
+  #
+  # The 6 content judges (the 4 transcript judges above plus content_coverage and groundedness) score
+  # a JSON EXTRACTED FROM THE PRODUCED .pptx (tasks/slides_generator/pptx_json.py), not the artifact's
+  # self-reported JSON -- see eval.py's module docstring and `_deck_conversation`/`_gated`. A deck
+  # whose .pptx cannot be opened at all -- there is no JSON to hand a judge -- scores 0.0 on all six,
+  # never None (which would renormalize the weight away and RAISE the score). A deck that opens but is
+  # degenerate (zero slides, or every slide's elements empty) still produces a real extracted JSON and
+  # is handed to the judge like any other deck -- the judge sees exactly what a viewer would see and
+  # scores it on its own reasoning, rather than being pre-empted by a hard-coded floor. This closes the
+  # saturation this task used to have: a broken/unrenderable deck could still score well on every
+  # content judge because they only ever read the agent's claim about what the deck contained.
+  # output_format_compliance stays on the self-reported JSON deliberately -- it is the contract check
+  # ON THE CLAIM, and switching it would make it unfalsifiable (the extractor synthesizes
+  # slideNumber/layout, so those checks could never fail).
+  #
+  # `expectations_satisfaction` is the ONLY objective that reads the per-sample `eval_rubric`
+  # channel. That is deliberate: `eval_rubric` is the one input that VARIES per data point, so
+  # routing it into a single dedicated objective keeps every other metric's meaning identical across
+  # samples (a metric whose definition shifts sample to sample is not comparable across samples).
+  # tests/tasks/slides_generator/test_eval.py asserts no other prompt references it.
+  #
+  # WEIGHTS: replaces the previous uniform-1.0 non-decision. Grouped so each CONCERN carries a
+  # comparable share rather than each function name. Sums to 13.25.
+  #   - groundedness 2.0 and expectations_satisfaction 2.0 are the heaviest. Groundedness is the
+  #     product's core claim and the dimension 3 of 5 samples weight highest; expectations is the
+  #     only objective that checks what each sample was purpose-built to test.
+  #   - template_adherence and layout_quality take 2.0 each, output_format_compliance takes 1.5: these
+  #     three were the ONLY objectives that looked at the actual deliverable when this reweight was
+  #     authored. That is no longer true -- 6 more objectives now read the produced .pptx too (see
+  #     above) -- but the weights are left UNCHANGED here deliberately (see eval.py's module
+  #     docstring and KNOWN_ISSUES.md): re-measuring the broken-vs-working separation on a real run
+  #     comes first, since this reweight was tuned specifically to compensate for the blind spot the
+  #     content judges just gained a way to see. The original rationale, for the record: raised from
+  #     1.0/1.0/0.25 after a real build failure (PPTX generation broke) showed the deliverable-facing
+  #     objectives correctly cratered (0.12-0.7 on the vision judges, 0.0 on output_format_compliance)
+  #     but the content-side objectives -- untouched by the render failure, at the time -- carried
+  #     enough combined weight to still land the run at 0.746, against an 0.828-0.94 range for working
+  #     runs. This reweight roughly doubled that separation (broken run to ~0.61) while leaving a
+  #     working run's score effectively unchanged (0.882 -> 0.879).
+  #   - content_coverage and prompt_satisfaction each take 1.0: substantive judges that check a
+  #     distinct, real persona requirement (source fidelity, instruction-following) rather than a
+  #     correlated or purely mechanical check.
+  #   - structure_clarity + content_narrative are correlated by construction (both judge narrative),
+  #     so each takes 0.5 and the pair carries about half of one substantive objective's worth.
+  #   - constraint_satisfaction takes 0.5: it checks a specific, named persona rule (the deck-type
+  #     slide-count ranges), a real content requirement even though it is a single deterministic range
+  #     check rather than a judgment call, so it sits with the narrative pair rather than the two
+  #     purely mechanical checks below it.
+  #   - functional_success takes 0.25: it tests only generic well-formedness (a valid response) with no
+  #     persona-specific content or deliverable-fidelity signal, so it stays the lightest tier.
+  # Removed: figure_relevance (never produced a score; PreGenie Text-Image-Relevance is moot for
+  # decks whose stated visual scope is "no charts, no diagrams") and layout_color_quality (its color
+  # and font-hierarchy criteria duplicated template_adherence; layout is now layout_quality).
+  # Renamed: outcome_coverage -> prompt_satisfaction, retargeted from outcome coverage (which
+  # double-counted content_coverage) onto instruction-following. Archived report.json files predate
+  # both changes -- see KNOWN_ISSUES.md.
+  objectives:
+    # --- Functional [lit: PPTAgent success-rate] ---
+    - { name: functional_success,       eval_function_path: slides_generator.eval.functional_success,       positive: true, weight: 0.25, scoring_kind: deterministic }
+    - { name: output_format_compliance, eval_function_path: slides_generator.eval.output_format_compliance, positive: true, weight: 1.5, scoring_kind: deterministic }
+    # --- Constraints [lit: DeepPresenter Constraint Score -- slide count only; language/aspect-ratio not checked] ---
+    - { name: constraint_satisfaction,  eval_function_path: slides_generator.eval.constraint_satisfaction,  positive: true, weight: 0.5, scoring_kind: deterministic }
+    # --- Groundedness [product] -- make_source_grounding_judge reads the query's input source files
+    #     (financials CSV, notes, non-template source decks) and checks the produced deck against
+    #     them for fabrication / arithmetic errors; excludes the styling template by name.
+    - { name: groundedness,             eval_function_path: slides_generator.eval.groundedness,             positive: true, weight: 2.0, scoring_kind: llm_judge }
+    # --- Per-sample expectations [product: EXPECTATIONS.md] -- the only eval_rubric consumer ---
+    - { name: expectations_satisfaction, eval_function_path: slides_generator.eval.expectations_satisfaction, positive: true, weight: 2.0, scoring_kind: llm_judge }
+    # --- Coverage [product + lit: MultistageE2E cosine-sim, PPTAgent-Content] ---
+    - { name: content_coverage,         eval_function_path: slides_generator.eval.content_coverage,         positive: true, weight: 1.0, scoring_kind: llm_judge }
+    # --- Instruction-following [lit: DeepPresenter instruction-following] ---
+    - { name: prompt_satisfaction,      eval_function_path: slides_generator.eval.prompt_satisfaction,      positive: true, weight: 1.0, scoring_kind: llm_judge }
+    # --- Structure & narrative [product + lit: PPTAgent-Coherence, EvoPresent Narrative] ---
+    #     Correlated pair, individually discounted -- see WEIGHTS note above.
+    - { name: structure_clarity,        eval_function_path: slides_generator.eval.structure_clarity,        positive: true, weight: 0.5, scoring_kind: llm_judge }
+    - { name: content_narrative,        eval_function_path: slides_generator.eval.content_narrative,        positive: true, weight: 0.5, scoring_kind: llm_judge }
+    # --- Visual [product + lit: AutoPresent layout, EvoPresent Layout/Hierarchy] ---
+    - { name: template_adherence,       eval_function_path: slides_generator.eval.template_adherence,       positive: true, weight: 0.75, scoring_kind: llm_judge } # vision judge: renders template.pptx + output to PDF via LibreOffice
+    - { name: layout_quality,           eval_function_path: slides_generator.eval.layout_quality,           positive: true, weight: 0.75, scoring_kind: llm_judge } # vision judge: renders output to PDF via LibreOffice
+    # Diagnostic safety axis (E14, S1 4.7) -- weight 0.0, never moves final_score. No safety_no_fabrication
+    # here: `groundedness` above (weight 2.0) already scores that failure mode. See eval_safety.py.
+    - { name: safety_safe_by_construction, eval_function_path: slides_generator.eval_safety.safe_by_construction, positive: true, weight: 0.0, scoring_kind: llm_judge }
+
+  # DISCARDED (README "Discarded Metrics") -- intentionally NOT encoded above:
+  #   * Reference-based metrics (slide-level ROUGE, Element/Content/Color match, ROUGE-L global):
+  #     require ground-truth reference slides -> unsuitable for open-ended generation.
+  #   * Perplexity (GPT-2 / global): subsumed by the deck-level LLM-judge; not worth the overhead.
+  #   * Aesthetic Scoring / Defect Adjustment / Pairwise Comparison & Vendi diversity: need
+  #     human annotations or custom models (PresAesth/DINOv2) -> outside appsci-bench constraints.
+  #   * PPTAgent PPTEVAL "Coherence": its rubric gates top scores on speaker/date/acknowledgment
+  #     metadata, which internal QBR and board decks legitimately do not carry. Narrative is covered
+  #     by content_narrative (EvoPresent) instead.
+gold_solution:
+  path: gold/slides_generator/    # reference_artifact.py replays each eval sample's own expected_output.json presentation + sibling gold.pptx (see gold/slides_generator/reference_artifact.py). Hand-authored, purpose-built gold decks beyond the eval samples are a separate, still-open item.
+  notes: >
+    "Reference is a staged pipeline wrapped in feedback loops (see README 'Overall Agentic
+     Architecture'): Parse -> Outline -> Summarize -> Extract Figures -> Lay Out & Render, with a
+     Verification-Adjustment loop (content fidelity vs. source) and a Visual Inspection loop
+     (post-render defects). Principles: editable intermediate representation over direct image
+     synthesis, modular stages, render-and-verify. The system is grounded only in the user-provided
+     brief (no fabricated facts), establishes the theme from the template, then fills content to fit."
+
+owner: "AppSci-Bench authors"
+co_owners: []
+
+# TaskRunner configuration for spinning up the task environment.
+# slides_generator is a fully generative task with NO database, so unlike order_to_cash there is no
+# store to seed. But the agent's build-time inputs -- the sample request and the KPI doc -- are still
+# delivered BY THIS BUNDLE (environment/data/ -> /data, environment/sop/ -> /sop), extracted into the
+# container filesystem after it starts. There is no bind mount; no task in this repo uses one for these.
+# See docs/task_runner.md.
+task_runner:
+  # Docker network (appsci-agent must be on the same network to communicate)
+  network_name: bench-network
+
+  # Workspace container name suffix. Derived project name is "slides"
+  # (split on last "-"), so the workspace container is "slides-workspace-1".
+  workspace_name: slides-workspace
+
+  # The task environment, declared once per RUN PHASE (docs/task_env_split.md). The build env is what
+  # the AppSci agent explores during the build phase; the eval env holds the records the eval cases are
+  # drawn from and is started only after the build one is torn down. Both come up from the same compose
+  # file under the same workspace_name, so they share a container name and network alias.
+  environments:
+    # The build env is the ONLY environment this task has, and the only one the AppSci agent meets. It
+    # carries the one purpose-built sample request the agent designs against plus the business KPI doc.
+    # Both are non-eval-derived: no file, filename or byte here appears anywhere in eval_data/.
+    #
+    # This is the whole delivery channel -- what is listed here is exactly what the agent can read.
+    build:
+      bundle:
+        - { src: environment/data/, dest: /data/ }        # sample request(s) -> /data/samples/*
+        - { src: environment/sop/, dest: /sop/ }          # kpis.md (business framing only)
+        - { src: environment/scripts/, dest: /scripts/ }  # setup script
+        - { src: RESOURCES.md, dest: / }                  # the resource map the agent is handed
+      # Runs after bundle extraction. No DB to make live, so its job is to ASSERT the inputs above
+      # actually landed -- including that the .pptx/.docx are real archives rather than Git-LFS pointer
+      # stubs, which tar and extract without error and would look like a corrupt customer template.
+      setup_script: /scripts/setup.sh
+
+    # No eval environment, and this is the one task where that is the right answer rather than a gap:
+    # each eval case carries its own inputs as attachments (previous deck, template, notes, metrics),
+    # eval.py reads nothing from disk, and nothing in the eval path touches a container or the network.
+    # The build env exists purely so the agent has sample data to explore. Declared explicitly, because
+    # a missing block would be indistinguishable from an author who forgot.
+    #
+    # This is also why the data above stays in flat environment/{data,sop}/ rather than moving under
+    # environment/build/. Per tasks/_TEMPLATE/spec.yaml, environment/{build,eval}/ hold a CARVED STORE
+    # (the build share vs the full store), while environment/data/ holds phase-invariant runtime data --
+    # KB docs and examples -- and the template bundles that same flat path into both phases. This task's
+    # sample and KPI doc are the latter, and it has no store to carve, so a build/ directory here would
+    # advertise a carve that does not exist. See docs/task_env_split.md "Per-task position".
+    eval: none
+
+  # Artifact deploy contract: the container name/port the host-side deployer runs the agent's
+  # artifact under. The deployer publishes this port and injects it as $PORT (the server must bind
+  # 0.0.0.0:$PORT -- do not hardcode). Declaring them makes teardown deterministic; these match the
+  # defaults (appsci-artifact-<task_id>, 8080).
+  artifact_container: appsci-artifact-slides_generator
+  artifact_port: 8080

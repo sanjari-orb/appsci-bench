@@ -1,0 +1,13 @@
+category,metric,value,unit,note
+current_state,annual_ops_cost,840000,USD,legacy on-prem pipeline: infra + on-call + incident remediation
+current_state,p1_p2_incidents_ttm,14,count,trailing 12 months
+current_state,oncall_pages_per_month,46,count,average across platform engineering rotation
+current_state,uptime,98.2,percent,trailing 12 months
+migration,one_time_cost_q3,190000,USD,phase 1 - data layer cutover
+migration,one_time_cost_q4,120000,USD,phase 2 - orchestration + decommission
+migration,one_time_cost_total,310000,USD,sum of phase 1 and phase 2
+projected,annual_run_cost_post_migration,410000,USD,managed service subscription + reduced on-call
+projected,annual_savings,430000,USD,current_state.annual_ops_cost minus projected.annual_run_cost_post_migration
+projected,payback_period_quarters,2.9,quarters,one_time_cost_total divided by (annual_savings / 4)
+projected,target_uptime,99.9,percent,managed service SLA
+projected,oncall_pages_per_month,14,count,projected after migration (70% reduction)

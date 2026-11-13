@@ -1,0 +1,5 @@
+build_id,build_limit_s,standard_limit_s,reason
+airline_rebooking_kimi-k3_b0_l3_20261016_160638,14400,10800,rerun of a 3-hr build timeout at a 4-hr limit (sweep airline-rerun-2x3-kimik3-opt5-lanes4-4h)
+airline_rebooking_kimi-k3_b1_l3_20261016_215101,14400,10800,rerun of a 3-hr build timeout at a 4-hr limit (sweep airline-rerun-2x3-kimik3-opt5-lanes4-4h)
+slides_generator_kimi-k3_b0_l3_20261029_192630,14400,10800,"rerun of a 3-hr build timeout at a 4-hr limit (sweep slides-rerun-1x3-kimik3-opt5-4h, j-20261029-192618-000000)"
+customer_call_insights_kimi-k3_b0_l3_20261102_073145,14400,10800,"rerun of a build stopped by the task's 2-hour inner clock at a 4-hr limit (sweep cci-rerun-1x3-kimik3-opt5-4h, j-20261102-073135-000000); finished in 58m38s"

@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__biopurecorp_06_30_1999_ex_10_13_agency_agreement_f90c049a__vendor_standard",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'Vendor Contract Standard' policy (vendor_standard). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"vendor_standard\", \"compliant\": true, \"violations\": [], \"needs_review\": [{\"category\": \"Change Of Control\", \"evidence_spans\": [\"In the event of any material change in the organization,       ownership, management or control of the business of the Agent, the Company       may, at its option, terminate this Agreement upon giving written notice of       termination to the Agent.\"]}]}"
+  }
+}

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUILD Phase Tracer - Run List</title>
+    <link rel="stylesheet" href="{{ base }}/static/styles.css?v={{ asset_ver }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BUILD Phase Tracer</h1>
+            <p class="subtitle">Select a run to view its timeline</p>
+        </header>
+
+        <main>
+            <!-- The one way in: `/?trace_id=<id>` resolves a run whether it is already on this
+                 machine or only in the S3 mirror, so this box and the address bar are equivalent. -->
+            <section class="run-search">
+                <form class="s3-form" id="run-search-form" action="{{ base }}/" method="get">
+                    <input type="text" id="run-id-input" name="trace_id" autocomplete="off"
+                           placeholder="Load any run by id — local or shared" required>
+                    <button type="submit" class="btn btn-primary" id="run-search-submit">Load run</button>
+                </form>
+                <p class="s3-note">
+                    {% if s3_enabled %}
+                    Not on this machine? It is pulled from <code>{{ s3_uri }}</code> automatically.
+                    You can also just edit <code>?trace_id=</code> in the URL.
+                    {% else %}
+                    Serving local runs only &mdash; S3 mirroring is disabled for this tracer.
+                    {% endif %}
+                </p>
+                <div id="run-search-status" class="s3-status" hidden></div>
+            </section>
+
+            <!-- Filtering by id fragment, server-side. Deliberately NOT a client-side filter over
+                 the rendered rows: the rows are a window of recent runs, and the run you are
+                 hunting for by name is usually outside it. This searches every run on the host. -->
+            <section class="run-filter">
+                <form class="filter-form" id="run-filter-form" action="{{ base }}/" method="get">
+                    <input type="search" id="run-filter-input" name="q" autocomplete="off"
+                           value="{{ window.query }}"
+                           placeholder="Search all runs by id — task, model, date…">
+                    <input type="hidden" name="days" value="{{ window.days }}">
+                    <button type="submit" class="btn">Search</button>
+                    {% if window.query %}
+                    <a class="btn btn-quiet" href="{{ base }}/?days={{ window.days }}">Clear</a>
+                    {% endif %}
+                </form>
+                <nav class="window-choices" aria-label="How much history to list">
+                    <span class="hint">Show:</span>
+                    {% for choice in day_choices %}
+                    <a class="window-choice{{ ' is-current' if choice == window.days and not window.query else '' }}"
+                       href="{{ base }}/?days={{ choice }}{% if window.query %}&amp;q={{ window.query | urlencode }}{% endif %}">{% if choice == 0 %}all{% else %}{{ choice }}d{% endif %}</a>
+                    {% endfor %}
+                </nav>
+            </section>
+
+            <h2 class="section-title">Local runs</h2>
+            <!-- Everything that changes when a run starts, ends or gets mirrored, in one container so
+                 the auto-update at the bottom of this file can swap it in place. The search box, the
+                 status line and the header sit OUTSIDE it and are never touched. -->
+            <div id="run-list-region">
+            {# What this page is showing and what it is not. A window that silently hid runs would
+               be indistinguishable from runs that were never there -- or that were reaped. #}
+            <p class="list-scope">
+                {% if window.query %}
+                {{ window.matched }} run{{ '' if window.matched == 1 else 's' }} match
+                <code>{{ window.query }}</code> out of {{ window.total }} on this host{% if window.truncated %},
+                showing the {{ window.shown }} most recent{% endif %}.
+                {% elif window.days %}
+                {{ window.shown }} of {{ window.total }} local run{{ '' if window.total == 1 else 's' }},
+                {% if window.floored %}
+                the most recent ones &mdash; none in the last {{ window.days }} day{{ '' if window.days == 1 else 's' }}.
+                {% else %}
+                from the last {{ window.days }} day{{ '' if window.days == 1 else 's' }}{% if window.truncated %}
+                (capped){% endif %}.
+                {% endif %}
+                {% elif window.truncated %}
+                The {{ window.shown }} most recent of {{ window.total }} local runs &mdash; one page
+                shows at most {{ window.shown }}.
+                {% else %}
+                All {{ window.total }} local run{{ '' if window.total == 1 else 's' }}.
+                {% endif %}
+                {% if window.extra_builds %}
+                Plus {{ window.extra_builds }} older build{{ '' if window.extra_builds == 1 else 's' }}
+                that the listed eval trials belong to.
+                {% endif %}
+                {% if window.total > window.shown and not (window.query and not window.matched) %}
+                <span class="hint">Older ones are still here &mdash; search above, widen the window,
+                    or open any run by id.</span>
+                {% endif %}
+            </p>
+            {% if traces %}
+            <table class="run-list">
+                <thead>
+                    <tr>
+                        <th>Trace ID</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th title="Wall time from the run's first event to its last">Duration</th>
+                        <th title="The run's own eval score, and each objective beside it. A build cell has none -- it produces an artifact, it does not score one.">Score</th>
+                        <th>Events</th>
+                        <th>Mirror</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {# A run's row, reused for an ordinary run, a group's build, and a group's
+                       trials. `indent` nests a trial under its build; `badge` labels which half of a
+                       replicate pair it is. #}
+                    {% macro run_row(trace, indent=false, group=none, badge='') %}
+                    {# NOT server-rendered `hidden`: this page works with JavaScript off (so does its
+                       run-id form), and a trial hidden by markup would be unreachable there. JS
+                       collapses these on load instead, so no-JS degrades to a flat list. #}
+                    <tr {% if group %}class="replicate-child" data-group="{{ group }}"{% endif %}>
+                        <td class="trace-id{% if indent %} nested{% endif %}" title="{{ trace.trace_id }}">
+                            {% if badge %}<span class="replicate-badge {{ 'is-build' if 'BUILD' in badge else 'is-trial' }}">{{ badge }}</span>{% endif %}
+                            {{ trace.trace_id }}
+                        </td>
+                        <td>{{ trace.start_time or 'N/A' }}</td>
+                        <td>{{ trace.end_time or 'In Progress' }}</td>
+                        <td class="num">{{ fmt_secs(trace.duration_seconds) }}</td>
+                        <td class="score-cell">
+                            {% if trace.eval %}
+                            <span class="score-{{ score_band(trace.eval.final_score) }}"
+                                  title="final_score over {{ trace.eval.n_data_points }} data point(s)">{{ fmt_score(trace.eval.final_score) }}</span>
+                            {% if trace.eval.n_errored %}
+                            {# An errored result aggregates as 0.0, so errors turn into a clean-looking
+                               number. Marked wherever the score is shown. #}
+                            <span class="partial" title="{{ trace.eval.n_errored }} of {{ trace.eval.n_results }} results errored; an errored result aggregates as 0.0, so this score is partly an artefact of that">!</span>
+                            {% endif %}
+                            {% for name, value in trace.eval.per_metric.items() %}
+                            <span class="chip {{ score_band(value) }}" title="{{ name }}">{{ name[:12] }} {{ fmt_score(value) }}</span>
+                            {% endfor %}
+                            {% else %}
+                            <span class="muted" title="No eval report in this run dir. A BUILD run has none by design.">&mdash;</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ trace.event_count }}</td>
+                        <td>
+                            {% if trace.mirrored is none %}
+                            <span class="mirror-badge unknown" title="Can't tell -- S3 is unavailable or not configured">&mdash;</span>
+                            {% elif trace.mirrored %}
+                            <span class="mirror-badge shared" title="Mirrored to {{ s3_uri }} -- anyone with bucket access can open this run by id">Shared</span>
+                            {% elif trace.mirror_partial %}
+                            <span class="mirror-badge partial" title="Some objects are in the mirror but the upload never finished (no run_manifest.json). Re-run the upload command to complete it.">Partial</span>
+                            {% else %}
+                            <span class="mirror-badge local" title="On this machine only. Upload it with: python scripts/upload_runs_to_s3.py {{ trace.trace_id }}">Local only</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ base }}/?trace_id={{ trace.trace_id }}" class="btn btn-primary">View</a>
+                        </td>
+                    </tr>
+                    {% endmacro %}
+
+                    {% for entry in entries %}
+                        {% if entry.kind == 'run' %}
+                    {{ run_row(entry.trace, badge=entry.trace.replicate_badge) }}
+                        {% else %}
+                    {# One replicate cluster: the build, with its trials collapsed underneath. The
+                       build is the parent because it is what the trials are trials OF -- the artifact
+                       every one of them scored. #}
+                    <tr class="replicate-parent">
+                        <td class="trace-id"><div class="replicate-head">
+                            <button type="button" class="replicate-toggle" aria-expanded="true"
+                                    data-group="{{ entry.key }}"
+                                    title="Collapse this build's {{ entry.trials | length }} eval trial(s)">
+                                <span class="caret" aria-hidden="true">&#9656;</span>
+                            </button>
+                            <span class="replicate-badge is-build">BUILD{% if entry.build_index is not none %} b{{ entry.build_index }}{% endif %}</span>
+                            {% if entry.build %}
+                            <span title="{{ entry.build.trace_id }}">{{ entry.build.trace_id }}</span>
+                            {% else %}
+                            {# The trials outlived their build's run dir. Said plainly rather than
+                               rendering an empty parent, because the reason matters: run dirs are
+                               reaped under disk pressure while the job records live on. #}
+                            <span class="muted" title="This build's run directory is no longer on this host -- reaped, or it ran elsewhere. Its trials are below.">build run dir not on this host</span>
+                            {% endif %}
+                            <span class="hint">{{ entry.trials | length }} trial{{ '' if entry.trials | length == 1 else 's' }}</span>
+                        </div></td>
+                        <td>{{ entry.build.start_time if entry.build else '&mdash;' | safe }}</td>
+                        <td>{{ (entry.build.end_time or 'In Progress') if entry.build else '&mdash;' | safe }}</td>
+                        <td class="num">
+                            {# The build's own wall time, then its trials' summed. Kept apart because
+                               they are different magnitudes -- a build ran for an hour, its trials for
+                               minutes -- and one combined figure would hide the eval side entirely. #}
+                            {{ fmt_secs(entry.build.duration_seconds) if entry.build else '&mdash;' | safe }}
+                            {% if entry.trials_duration_seconds %}
+                            <span class="hint" title="summed wall time of this build's {{ entry.trials | length }} trial(s)">+ {{ fmt_secs(entry.trials_duration_seconds) }} trials</span>
+                            {% endif %}
+                        </td>
+                        <td class="score-cell">
+                            {# The GROUP's score is its trials', not the build's: a build produces an
+                               artifact and scores nothing, so a parent row showing only its own
+                               numbers shows a dash -- which is how the scores went missing when the
+                               trials were first nested underneath it. #}
+                            {% if entry.eval and entry.eval.n_scored %}
+                            <span class="score-{{ score_band(entry.eval.mean) }}"
+                                  title="mean final_score over {{ entry.eval.n_scored }} scored trial(s)">{{ fmt_score(entry.eval.mean) }}</span>
+                            <span class="hint" title="lowest and highest of the trials' scores -- did they agree">{{ fmt_score(entry.eval.min) }}&ndash;{{ fmt_score(entry.eval.max) }}</span>
+                            {% if entry.eval.n_scored != entry.eval.n_total %}
+                            {# A mean over 2 of 4 trials is a different claim from a mean over 4. #}
+                            <span class="partial" title="only {{ entry.eval.n_scored }} of {{ entry.eval.n_total }} trials produced a score, so this mean covers fewer trials than the group has">&dagger;</span>
+                            {% endif %}
+                            <span class="hint">mean of {{ entry.eval.n_scored }}</span>
+                            {% else %}
+                            <span class="muted" title="none of this build's trials produced an eval report">&mdash;</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ entry.build.event_count if entry.build else '&mdash;' | safe }}</td>
+                        <td>
+                            {% if entry.build %}
+                                {% if entry.build.mirrored is none %}
+                                <span class="mirror-badge unknown" title="Can't tell -- S3 is unavailable or not configured">&mdash;</span>
+                                {% elif entry.build.mirrored %}
+                                <span class="mirror-badge shared" title="Mirrored to {{ s3_uri }}">Shared</span>
+                                {% elif entry.build.mirror_partial %}
+                                <span class="mirror-badge partial" title="Upload never finished (no run_manifest.json)">Partial</span>
+                                {% else %}
+                                <span class="mirror-badge local" title="On this machine only">Local only</span>
+                                {% endif %}
+                            {% else %}
+                            <span class="mirror-badge unknown">&mdash;</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if entry.build %}
+                            <a href="{{ base }}/?trace_id={{ entry.build.trace_id }}" class="btn btn-primary">View build</a>
+                            {% endif %}
+                            {# The trials' EVAL reports, linked on the parent itself. Collapsing must
+                               never be the reason a report cannot be found: with these here, the
+                               group is navigable whether it is open or shut. #}
+                            {% if entry.trials %}
+                            <span class="replicate-trial-links">
+                                {% for t in entry.trials %}
+                                <a href="{{ base }}/?trace_id={{ t.trace.trace_id }}"
+                                   title="eval trial t{{ t.record.trial_index if t.record.trial_index is not none else '?' }}: {{ t.trace.trace_id }}">eval t{{ t.record.trial_index if t.record.trial_index is not none else '?' }}</a>
+                                {% endfor %}
+                            </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                            {% for t in entry.trials %}
+                    {{ run_row(t.trace, indent=true, group=entry.key, badge=t.trace.replicate_badge) }}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if s3_error %}
+            <div class="mirror-note warn">
+                <p><strong>Mirror status unknown.</strong> These runs are all safe on this machine;
+                   the tracer just can't reach S3 to check which are shared.</p>
+                <pre class="mirror-cmd">{{ s3_error }}</pre>
+            </div>
+            {% elif not s3_enabled %}
+            <div class="mirror-note">
+                <p><strong>S3 mirroring is off for this tracer</strong> (<code>--no-s3</code>), so these
+                   runs are local only. See
+                   <a href="https://github.com/appsci-bench/appsci-bench/blob/main/appsci_bench/tracer/README.md#first-time-s3-setup">the setup guide</a>
+                   to share them.</p>
+            </div>
+            {% elif local_only or partial_uploads %}
+            <div class="mirror-note warn">
+                {% if local_only %}
+                <p><strong>{{ local_only | length }} run{{ 's' if local_only | length != 1 else '' }}
+                   {{ 'are' if local_only | length != 1 else 'is' }} on this machine only</strong>{% if window.total > window.shown %}
+                   (of the {{ window.shown }} listed &mdash; runs outside this window were not
+                   checked){% endif %} and nobody else can open
+                   {{ 'them' if local_only | length != 1 else 'it' }} yet. Nothing is lost &mdash;
+                   mirror {{ 'them' if local_only | length != 1 else 'it' }} whenever you like:</p>
+                {% endif %}
+                {% if partial_uploads %}
+                <p><strong>{{ partial_uploads | length }} run{{ 's' if partial_uploads | length != 1 else '' }}
+                   uploaded only partially</strong> &mdash; objects are in the mirror but the run
+                   manifest is missing, so the upload did not finish (usually a session that expired
+                   mid-upload). Re-running is safe and only sends what is missing:</p>
+                {% endif %}
+                {% if local_only | length <= 4 %}
+                <pre class="mirror-cmd">python scripts/upload_runs_to_s3.py{% for rid in local_only %} {{ rid }}{% endfor %}</pre>
+                {% else %}
+                <pre class="mirror-cmd">python scripts/upload_runs_to_s3.py</pre>
+                <p class="hint">With no arguments it uploads every local run; the ones already
+                   mirrored are skipped, so this is equivalent and much shorter than listing
+                   {{ local_only | length }} ids.</p>
+                {% endif %}
+                <p class="hint">If that reports expired credentials, run
+                   <code>aws sso login --profile appsci-bench</code> first. Uploading is idempotent,
+                   so it is always safe to re-run.</p>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="empty-state">
+                {% if window.query %}
+                <p>No run id matches <code>{{ window.query }}</code> on this host.</p>
+                <p class="hint">{{ window.total }} local run{{ '' if window.total == 1 else 's' }} were
+                   searched &mdash; all of them, not just the listed window. A run that only exists in
+                   the mirror is not searchable here; load it by its full id above.</p>
+                {% else %}
+                <p>No local runs found.</p>
+                <p class="hint">Run a benchmark with <code>--enable-observability</code> to see events here{% if s3_enabled %}, or load a shared run by id above{% endif %}.</p>
+                {% endif %}
+            </div>
+            {% endif %}
+            </div>
+        </main>
+
+        <footer>
+            <p>New runs appear here on their own; the list updates every 10 seconds, keeping the
+               window and search you chose.</p>
+        </footer>
+    </div>
+
+    <script>
+        // The form is a plain GET to /?trace_id=<id> and works with no JS at all. With JS we pull
+        // first via the API so a failure (usually an expired AWS session) shows inline with its
+        // remediation text, instead of replacing the page with a raw JSON error.
+        const s3Enabled = {{ 'true' if s3_enabled else 'false' }};
+        const form = document.getElementById('run-search-form');
+        const input = document.getElementById('run-id-input');
+        const statusEl = document.getElementById('run-search-status');
+        const submit = document.getElementById('run-search-submit');
+        const localRuns = new Set({{ traces | map(attribute='trace_id') | list | tojson }});
+        let pulling = false;
+
+        function showError(message) {
+            statusEl.hidden = false;
+            statusEl.classList.add('s3-error');
+            statusEl.textContent = message;
+        }
+
+        form.addEventListener('submit', async (ev) => {
+            const runId = input.value.trim();
+            if (!runId) return;
+
+            // Already here, or no mirror to consult: let the plain GET navigate. A run that is
+            // present but was left half-pulled is repaired server-side, so this is still correct.
+            if (!s3Enabled || localRuns.has(runId)) return;
+
+            ev.preventDefault();
+            pulling = true;
+            statusEl.hidden = false;
+            statusEl.classList.remove('s3-error');
+            statusEl.textContent = 'Fetching ' + runId + ' from the mirror \u2026';
+            submit.disabled = true;
+
+            try {
+                const res = await fetch('{{ base }}/api/s3/pull/' + encodeURIComponent(runId), {method: 'POST'});
+                // Don't assume JSON: a proxy or an unhandled server error can return HTML.
+                let body = null;
+                try { body = await res.json(); } catch (_) { /* leave null */ }
+
+                if (!res.ok) {
+                    showError((body && body.detail) || 'Could not load run (HTTP ' + res.status + ')');
+                    submit.disabled = false;
+                    pulling = false;
+                    return;
+                }
+                statusEl.textContent = 'Fetched ' + body.downloaded + ' file(s)' +
+                    (body.skipped ? ', ' + body.skipped + ' already current' : '') + '. Opening\u2026';
+                window.location.href = '{{ base }}/?trace_id=' + encodeURIComponent(runId);
+            } catch (e) {
+                showError('Could not load run: ' + e);
+                submit.disabled = false;
+                pulling = false;
+            }
+        });
+
+        // ---------------------------------------------------------------------------
+        // Replicate groups: a build row that collapses to hide its eval trials.
+        //
+        // EXPANDED IS THE DEFAULT, and that is the point. Collapsed-by-default grouped the runs
+        // neatly and made every eval report invisible on arrival -- strictly worse than the flat list
+        // it replaced, because the run list is the only index of runs there is. Grouping is here to
+        // show which trials belong to which build, not to hide them.
+        //
+        // So sessionStorage remembers what the reader CLOSED, not what they opened: a fresh visitor
+        // sees everything, and a reader who collapses a group keeps it collapsed across the updates
+        // below.
+        // ---------------------------------------------------------------------------
+        const REPLICATE_CLOSED_KEY = 'tracer-closed-replicate-groups';
+
+        function closedGroups() {
+            try {
+                return new Set(JSON.parse(sessionStorage.getItem(REPLICATE_CLOSED_KEY) || '[]'));
+            } catch (e) {
+                return new Set();   // private mode, or a value another version wrote
+            }
+        }
+
+        function rememberClosed(closed) {
+            try {
+                sessionStorage.setItem(REPLICATE_CLOSED_KEY, JSON.stringify([...closed]));
+            } catch (e) { /* storage unavailable: collapsing still works, it just won't persist */ }
+        }
+
+        function applyGroup(key, expanded) {
+            document.querySelectorAll(`tr.replicate-child[data-group="${CSS.escape(key)}"]`)
+                .forEach(row => { row.hidden = !expanded; });
+            const btn = document.querySelector(`.replicate-toggle[data-group="${CSS.escape(key)}"]`);
+            if (btn) {
+                btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                btn.title = (expanded ? 'Collapse' : 'Show') + " this build's eval trials";
+            }
+        }
+
+        // Re-run after every in-place update, not just on load: the rows the listeners were bound to
+        // are gone by then, and an unbound caret is a toggle that does nothing.
+        function initReplicateGroups() {
+            const closed = closedGroups();
+            document.querySelectorAll('.replicate-toggle').forEach(btn => {
+                const key = btn.dataset.group;
+                applyGroup(key, !closed.has(key));
+                btn.addEventListener('click', () => {
+                    const nowExpanded = btn.getAttribute('aria-expanded') !== 'true';
+                    applyGroup(key, nowExpanded);
+                    const set = closedGroups();
+                    nowExpanded ? set.delete(key) : set.add(key);
+                    rememberClosed(set);
+                });
+            });
+        }
+        initReplicateGroups();
+
+        // ---------------------------------------------------------------------------
+        // Keeping the list current, WITHOUT throwing the page away.
+        //
+        // This used to reload the whole document every 10 seconds. That is the flicker: the browser
+        // discards the page, flashes, repaints, and drops the scroll position, whatever was typed in
+        // the search box, and any error message sitting under it -- which is why the reload had to be
+        // suppressed in three separate cases to stay usable at all.
+        //
+        // Only the run table changes, so only the run table is replaced. The markup comes from the
+        // server exactly as before (this page's rows carry eval scores, mirror state and replicate
+        // grouping, all of which are decided server-side), so nothing is re-implemented here; the
+        // response is simply patched in rather than navigated to.
+        // ---------------------------------------------------------------------------
+        const listRegion = document.getElementById('run-list-region');
+
+        function relearnLocalRuns() {
+            // The set the search form consults to decide whether an id still has to be pulled from
+            // the mirror. It is rendered from the runs that existed at first paint, so without this
+            // a run that appeared since would be treated as remote and pulled needlessly.
+            const ids = new Set();
+            listRegion.querySelectorAll('a[href*="trace_id="]').forEach(a => {
+                const id = new URL(a.getAttribute('href'), location.href).searchParams.get('trace_id');
+                if (id) ids.add(id);
+            });
+            localRuns.clear();
+            ids.forEach(id => localRuns.add(id));
+        }
+
+        async function refreshRunList() {
+            // The CURRENT view, not the default one. Fetching a bare `/` here would quietly replace
+            // a searched or widened list with the last two days on the next tick -- the window would
+            // look like it reset itself while you were reading.
+            const res = await fetch(location.pathname + location.search, {cache: 'no-store'});
+            // Leave what is on screen alone on any failure: a stale list is still a true list, and
+            // wiping it would turn a blip on the server into an empty page.
+            if (!res.ok) return;
+            const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+            const next = doc.getElementById('run-list-region');
+            if (!next) return;   // not the page we asked for (an auth redirect, say)
+            listRegion.replaceChildren(...next.childNodes);
+            relearnLocalRuns();
+            initReplicateGroups();
+        }
+
+        // setInterval, not a chained setTimeout: the skip conditions below return early, and a
+        // one-shot timer that returns early never re-arms -- the page would stay stale forever after
+        // the first skipped tick.
+        setInterval(() => {
+            // Nothing here is free and nobody is looking. On the mirrored setup each tick costs a
+            // bucket listing plus a stat of every run directory.
+            if (document.hidden) return;
+            // A pull is in flight and about to navigate; patching the table under it is pointless.
+            if (pulling) return;
+            refreshRunList().catch(() => { /* transient; the next tick tries again */ });
+        }, 10000);
+
+        // Come back to a tab that skipped its ticks and the list is as old as the moment you left.
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && !pulling) {
+                refreshRunList().catch(() => {});
+            }
+        });
+    </script>
+</body>
+</html>

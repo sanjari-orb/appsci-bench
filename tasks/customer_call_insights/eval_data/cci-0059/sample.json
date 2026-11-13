@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0059",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9004 (Millbrook Yarn Co) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"put together a migration plan for moving to the newer API version\"], \"risks\": [], \"commitments\": [\"put together a migration plan for moving to the newer API version\"], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 4 (Check-in, M, corner 2: acknowledgement rule, minimal accept). Near-identical to cci-0058 up through the same offer -- only Priya's response differs ('Sure, that'd help actually' instead of changing the subject), which is enough to flip this into both lists. Priya's 'appreciated' is a clear positive marker, so POSITIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

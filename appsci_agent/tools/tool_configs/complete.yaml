@@ -1,0 +1,20 @@
+name: complete
+
+description: |
+  Signal that you have finished building and deploying your artifact. Calling this ends the BUILD
+  phase and starts evaluation. Takes NO arguments.
+
+  Call this tool ONLY when:
+  1. You have built the artifact (Dockerfile, server code, endpoint)
+  2. You have deployed it with the deploy_artifact tool (which returned a healthy endpoint)
+
+  You do NOT pass an endpoint URL: the endpoint that gets evaluated is whatever deploy_artifact most
+  recently deployed and recorded. If you have not deployed yet, call deploy_artifact first --
+  calling complete before deploying is an error.
+
+  Before it ends the BUILD phase, this tool re-verifies that the deployed endpoint is still reachable,
+  then notifies the orchestrator that evaluation may begin.
+
+parameters:
+  type: object
+  properties: {}

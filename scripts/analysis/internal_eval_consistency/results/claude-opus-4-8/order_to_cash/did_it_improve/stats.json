@@ -1,0 +1,136 @@
+{
+  "census": {
+    "counts": {
+      "fetch_failed": 0,
+      "mixed_cases": 0,
+      "mixed_limit": 0,
+      "no_scorable_captures": 0,
+      "no_scores": 0,
+      "run_dir_missing": 0
+    },
+    "skipped": {
+      "fetch_failed": [],
+      "mixed_cases": [],
+      "mixed_limit": [],
+      "no_scorable_captures": [],
+      "no_scores": [],
+      "run_dir_missing": []
+    },
+    "total": 0
+  },
+  "generated_at": "2026-09-16T19:33:48.776035+00:00",
+  "pooled": {
+    "beat_noise": 0,
+    "floor_unmeasured": 0,
+    "headline_improved": 0,
+    "headline_series": 3,
+    "headline_sign_test_p": null,
+    "headline_unchanged": 3,
+    "headline_worsened": 0,
+    "improved": 1,
+    "n_series": 3,
+    "sign_test_p": 1.0,
+    "unchanged": 0,
+    "worsened": 2
+  },
+  "provenance": {
+    "order_to_cash_claude-opus-4-8_b0_l3_20260911_225703": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": true,
+      "headline_objective": "flag_accuracy",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "b618715706fa153047fdad859fc07d22e5e363fc"
+      ]
+    },
+    "order_to_cash_claude-opus-4-8_b1_l3_20260911_230944": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": true,
+      "headline_objective": "flag_accuracy",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "b618715706fa153047fdad859fc07d22e5e363fc"
+      ]
+    },
+    "order_to_cash_claude-opus-4-8_b2_l3_20260911_232253": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": true,
+      "headline_objective": "flag_accuracy",
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "b618715706fa153047fdad859fc07d22e5e363fc"
+      ]
+    }
+  },
+  "report_commit": "d1d6ea4f5b517ad9fab0910b621ac8a8bfcd2e06",
+  "report_tree_dirty": true,
+  "runs": {
+    "order_to_cash_claude-opus-4-8_b0_l3_20260911_225703": {
+      "delta": -2.2222222222367805e-05,
+      "delta_se": 0.00021998877636912392,
+      "distinct_hashes": 1,
+      "first": 0.9921444444444445,
+      "headline_delta": 0.0,
+      "headline_first": 1.0,
+      "headline_last": 1.0,
+      "headline_objective": "flag_accuracy",
+      "last": 0.9921222222222221,
+      "n_points": 2,
+      "n_unmeasured": 0,
+      "noise_floor": 0.0002694301256217957,
+      "run_id": "order_to_cash_claude-opus-4-8_b0_l3_20260911_225703",
+      "spearman": -0.9999999999999998,
+      "steps_down": 0,
+      "steps_flat": 1,
+      "steps_up": 0,
+      "task_id": "order_to_cash",
+      "zeros": 0
+    },
+    "order_to_cash_claude-opus-4-8_b1_l3_20260911_230944": {
+      "delta": 8.88888888889161e-05,
+      "delta_se": 0.00023280363155285888,
+      "distinct_hashes": 1,
+      "first": 0.18367777777777775,
+      "headline_delta": 0.0,
+      "headline_first": 0.0,
+      "headline_last": 0.0,
+      "headline_objective": "flag_accuracy",
+      "last": 0.18376666666666666,
+      "n_points": 2,
+      "n_unmeasured": 0,
+      "noise_floor": 0.00028512505378570105,
+      "run_id": "order_to_cash_claude-opus-4-8_b1_l3_20260911_230944",
+      "spearman": 0.9999999999999998,
+      "steps_down": 0,
+      "steps_flat": 1,
+      "steps_up": 0,
+      "task_id": "order_to_cash",
+      "zeros": 0
+    },
+    "order_to_cash_claude-opus-4-8_b2_l3_20260911_232253": {
+      "delta": -7.77777777777322e-05,
+      "delta_se": 0.00041246024873935086,
+      "distinct_hashes": 2,
+      "first": 0.9845444444444444,
+      "headline_delta": 0.0,
+      "headline_first": 1.0,
+      "headline_last": 1.0,
+      "headline_objective": "flag_accuracy",
+      "last": 0.9844666666666667,
+      "n_points": 3,
+      "n_unmeasured": 0,
+      "noise_floor": 0.0004946628731011632,
+      "run_id": "order_to_cash_claude-opus-4-8_b2_l3_20260911_232253",
+      "spearman": -0.4999999999999999,
+      "steps_down": 0,
+      "steps_flat": 2,
+      "steps_up": 0,
+      "task_id": "order_to_cash",
+      "zeros": 0
+    }
+  },
+  "synthetic": false
+}

@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__monthly_trend_analysis__131",
+  "single_turn_input": {
+    "text": "Over the past 10 months, is there a particular month where we received significantly more cases for the Home Gym Dumbbell Set compared to other months? The associated product Id is 01tWs000002wRgEIAU. Return only the month name.\n\n(Today's date: 2020-02-23)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"January\", \"evidence_case_ids\": [\"500Ws000007rQjVIAU\"], \"task_category\": \"monthly_trend_analysis\", \"reward_metric\": \"exact_match\"}"
+  }
+}

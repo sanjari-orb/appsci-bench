@@ -1,0 +1,4 @@
+name: codex
+image: appsci-bench-harness-clis:latest
+adapter: codex
+auth: api

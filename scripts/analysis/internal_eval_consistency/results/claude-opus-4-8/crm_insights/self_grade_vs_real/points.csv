@@ -1,0 +1,6 @@
+run_id,build,deploy,content_hash,is_submission,internal,external
+crm_insights_claude-opus-4-8_b0_l3_20260920_180551,b0,1,4b4cc7ec,0,1.0000,0.6548
+crm_insights_claude-opus-4-8_b0_l3_20260920_180551,b0,2,64d9b2e3,0,1.0000,0.6192
+crm_insights_claude-opus-4-8_b0_l3_20260920_180551,b0,4,0db5c735,0,1.0000,0.6303
+crm_insights_claude-opus-4-8_b1_l3_20260920_183649,b1,4,5f8d9d9b,0,1.0000,0.8075
+crm_insights_claude-opus-4-8_b1_l3_20260920_183649,b1,5,e739608f,0,1.0000,0.7888

@@ -1,0 +1,20 @@
+task_id: banking_support
+ambiguity_level: L3
+collaboration_style: collaborative
+experimental_condition: L3-collaborative
+persona_id: l3
+baseliner: P3
+attempt_id: banking_support-l3-P3-20260923-124439
+tooling: human + Claude Code
+soft_cap_hours: 4
+standalone_dir: /home/user/Documents/baseline-work/banking_support-l3-P3-20260923-124439
+assignment_url: (internal document, not public)
+cross_assignment_ok: true
+source:
+  branch: P3/banking-support-l3-human-baseline
+  main_commit: ce5765ba90f6c42feec061985a2a14965fbc0d96
+  harness_commit: ce5765ba90f6c42feec061985a2a14965fbc0d96
+tool_versions:
+  claude_code: 2.1.267
+  claude_model: claude-opus-4-8
+  harness_claude_code: 2.1.271

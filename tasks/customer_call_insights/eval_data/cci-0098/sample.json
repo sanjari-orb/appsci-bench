@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0098",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9043 (Fennimore Design Studio) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"configure and add the premium design module with updated billing, by end of week\", \"Priya to identify an alternative budget line to fund the module since the original allocation was reassigned\"], \"risks\": [\"budget originally earmarked for the premium module was reallocated to a different initiative, requiring alternative funding\"], \"commitments\": [\"configure and add the premium design module with updated billing, by end of week\"], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 43 (Expansion, L, disposition independent of risk). A genuine budget risk -- money that was there got reallocated, not just a negotiation -- surfaces mid-call, but Priya's enthusiasm for the module itself never wavers ('still really exciting for us'). The module configuration is ours (both lists); finding alternative funding is entirely Priya's own next step. Clearly POSITIVE despite the live risk.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "data_point_id": "p2p-0034",
+  "single_turn_input": {
+    "text": "Review invoice INV-7163 (supplier Supplier_6, PO PO-000253) against its PO line and the supplier contract; decide whether to flag it for human review and give a short reason."
+  },
+  "expected_output": {
+    "json": "{\"flagged\": true, \"fault_type\": \"OFF_CONTRACT_FEE\", \"reason\": \"'fuel surcharge' $311.02 not covered by contract (off-contract fee)\", \"off_contract_fee\": 311.02}"
+  }
+}

@@ -1,0 +1,196 @@
+# Elicitation rubric -- order_to_cash
+#
+# The facts the applied-science agent could only obtain by ASKING the AP stakeholder. HELD-OUT
+# ANSWER-KEY MATERIAL: never mounted, never shown to the agent. Schema:
+# schema/elicitation_rubric.schema.json. Design + authoring rules: docs/elicitation_score_design.md.
+#
+# Authored from the simulator's own material only (rule 6): user_sim_docs/common/output_contract.md,
+# walked section by section, plus the domain_knowledge every persona (L1/L2/L3) declares. Each candidate
+# was then tested against what the agent can read -- tasks/order_to_cash/environment/ and the redacted
+# spec -- and dropped where the fact was already there.
+#
+# Dropped by that test, recorded so the next author does not re-litigate them:
+#   - which fields carry contract coverage (`allowed_items` / `allowed_fees`): environment/sop/
+#     contract_terms.md names both, so the mechanism is handed. Only its POSITION in the check order
+#     (item `check_order_first_failure_wins`) is sim-only.
+#   - the OLTP schema, connection string and table joins: environment/db/01_schema.sql is mounted.
+#   - that the invoice set is mostly clean, and that no labelled data exists: discoverable from the
+#     fixture, and no objective scores the modelling choice they would steer (rule 3).
+task_id: order_to_cash
+
+items:
+  # --- how the answer has to arrive (output_contract.md) --------------------------------------
+  - item_id: json_only_reply_or_invoice_dropped
+    fact: >
+      The whole reply is a single JSON object and nothing else: the first character is `{` and the last
+      is `}`, with no summary sentence before it, no explanation after it, no code fence, heading or
+      bullet list around it. It does not matter that the object itself was correct -- readable text
+      around it breaks the reply. Anything a human reviewer needs to read goes inside the `reason` field.
+    objectives: [flag_accuracy, flag_recall, fault_classification, reason_quality]
+    judge_hint: >
+      The format alone: reply is one bare JSON object, nothing around it. Accept an answer that conveys
+      that shape, whether or not it explains what a malformed reply costs downstream.
+      This item used to require a second half -- that breaking the format drops the invoice unreviewed
+      rather than degrading the answer -- and it was dropped as failing authoring rule 1. The
+      consequence changes nothing an agent builds: emit a bare object either way, so a perfect artifact
+      is reachable without it. It also made the item unelicitable in practice. Across fifteen measured
+      builds, SEVEN asked about output format, received a correct and complete answer about the format,
+      and still failed the item on the consequence clause -- and all seven produced a valid payload and
+      scored 0.917 to 0.986. The item was never independently decisive either: in every build that
+      missed it, `three_exact_key_names_and_types` was missed or unelicited too, and one build had this
+      item ELICITED while scoring 0.205 for unrelated reasons.
+
+  - item_id: three_exact_key_names_and_types
+    fact: >
+      Exactly three keys, spelled exactly and in the singular: `flagged` (boolean -- true when a human
+      must stop and review), `fault_type` (string or null -- which kind of discrepancy), and `reason`
+      (string -- a short plain-language explanation an AP reviewer can act on). Not `flag`, not
+      `fault_types`, not `reasons`: the queue reads those three names and no others, so a plural or
+      renamed key is invisible to it and an object carrying `fault_types` has, as far as the queue is
+      concerned, no fault type at all. Keys beyond the three are ignored.
+    objectives: [fault_classification, reason_quality]
+    judge_hint: >
+      All three names with their types. The singular-spelling warning is part of the item but need not
+      be quoted verbatim -- naming the three keys correctly conveys it.
+
+  - item_id: fault_type_exact_spellings
+    fact: >
+      `fault_type` is a closed set of exactly six values, spelled and capitalized exactly as written:
+      PRICE_DELTA (invoice unit price differs from the PO / contract price), QTY_MISMATCH (invoiced
+      quantity does not match the PO quantity), TOTAL_MATH (invoice total does not match the computed
+      sum of line items plus fees), OFF_CONTRACT_ITEM (an item the supplier contract does not cover),
+      OFF_CONTRACT_FEE (a fee type the contract does not authorize), and DUPLICATE (a duplicate
+      submission of an invoice already received). The queue rejects anything else, including a
+      lower-case or reworded version of the same idea.
+    objectives: [fault_classification]
+    judge_hint: >
+      All six values, spelled as written. Naming the categories informally -- "price issues, quantity
+      mismatches, off-contract charges, duplicates" -- is NOT this item: that much is in a document the
+      agent was given. Elicited requires the six exact strings.
+
+  - item_id: null_fault_type_when_not_flagged
+    fact: >
+      When `flagged` is false, `fault_type` is null. When `flagged` is true all three keys are populated
+      and `fault_type` is one of the six values.
+    objectives: [fault_classification]
+    judge_hint: >
+      The null-when-not-flagged rule, and that a flagged reply populates all three keys. Nothing about
+      whether a clean invoice needs a reason.
+      KEPT DELIBERATELY THOUGH IT IS UNSCOREABLE, and that is a decision rather than an oversight, so do
+      not "fix" it by deleting the item. `fault_classification` returns not-applicable when the oracle
+      says an invoice is clean -- 19 of the 60 cases -- so the artifact's `fault_type` on a clean invoice
+      is never read, and an agent that never learns this rule loses nothing measurable. The owner's call
+      is that the elicitation diagnostic is a PROCESS measure and need not correlate perfectly with the
+      score: knowing the whole response contract is good requirements-gathering whether or not the eval
+      happens to read every field. Authoring rule 1's "critical" test would argue the other way; this
+      item is the deliberate exception.
+      Two clauses were removed. "No reason is needed" was not merely unscoreable but counterproductive:
+      `reason_quality` judges all 60 cases including the 19 clean ones, and every artifact that scores
+      well writes a reason on a clean invoice anyway (b0 of j-20260910-114523-000000 emits "Invoice
+      passes all checks..." and scores 0.930). "A clean invoice passes through the queue without a
+      reviewer looking at it" was flavour no objective touches. Both were being demanded of the
+      simulator as part of an all-or-nothing bar.
+
+  - item_id: reason_names_the_specifics
+    fact: >
+      On a flagged invoice the `reason` string names the discrepancy specifically enough for an AP
+      reviewer to act on without opening anything else: the amounts involved, the fee or item at issue,
+      or the invoice it duplicates -- not a restatement of the fault type. The stakeholder's own example
+      of an acceptable reason is `duplicate of INV-3046 for PO line 1350` -- it identifies the specific
+      prior invoice and the specific PO line rather than saying "this is a duplicate".
+    objectives: [reason_quality]
+    judge_hint: >
+      The agent-facing KPI document already asks for "a reason AP can act on", so that phrasing alone is
+      not this item. Elicited requires the specific content named above (amounts / the offending fee or
+      item / the duplicated invoice id).
+
+  # --- which invoices to flag (every persona's declared validation_rules) ---------------------
+  - item_id: duplicate_check_is_the_marker_alone
+    fact: >
+      A duplicate is identified by the invoice's own duplicate marker being populated, and by nothing
+      else. Both parts: a populated marker means the invoice duplicates an earlier submission and is
+      flagged, AND the agent must not try to recognise duplicates itself by looking for repeated
+      purchase-order lines, quantities or amounts, because that is not the rule the AP team applies.
+    objectives: [flag_accuracy, flag_recall, fault_classification]
+    judge_hint: >
+      The marker being set is the whole test, and heuristic duplicate-hunting is explicitly not the rule.
+      Naming the field alone is NOT enough: the column is visible in the data, so the elicitable half is
+      the refusal of a heuristic -- an agent that proposes matching on supplier/quantity/amount and is
+      told not to has elicited this item.
+      Added when the build share stopped containing duplicates: until then a populated marker was
+      visible in build data and this was a handed fact, not an elicitable one.
+      This item briefly carried a third clause -- that the invoice named by the marker need not be
+      findable. It was removed as unanswerable: no persona and no sim document holds it, so no agent
+      could ever have elicited it, and it was only true because every `duplicate_of` in the store
+      currently dangles (KNOWN_ISSUES.md section 7). A completeness bar has to be answerable.
+
+  - item_id: request_names_one_invoice_in_prose
+    fact: >
+      A review request arrives as one invoice at a time, as a plain-English sentence naming the invoice
+      number, its supplier and its purchase-order number -- never a batch, and never as structured data.
+      The request carries none of the invoice's own values: no quantity, no unit price, no total, no fee
+      list. So the system has to recover the invoice number from prose and look the record up itself,
+      and an input parser that only accepts structured data will identify no invoice at all.
+    objectives: [flag_accuracy, flag_recall, fault_classification, reason_quality]
+    judge_hint: >
+      Two parts: one invoice per request, and the request is prose that names it rather than structured
+      data carrying its values. A stakeholder answer that leaves the interface to the agent ("that's your
+      call how you wire it up") is NOT this item -- that is the answer that used to be given, and it is
+      what sent one build to build a JSON-only parser and score 0.205 while its own internal eval
+      reported 0.99. Accept as elicited only if the prose-and-one-at-a-time shape came back in some form.
+
+  - item_id: check_order_first_failure_wins
+    fact: >
+      The checks run in a fixed order and the first one that fails is the fault reported: (1) duplicate,
+      (2) price, (3) quantity, (4) total, (5) contract item coverage, (6) contract fee. An invoice with
+      several problems at once therefore reports only the earliest -- a duplicate that is also overpriced
+      reports DUPLICATE. If any check fails the invoice is flagged; if all pass it is clean.
+    objectives: [fault_classification]
+    judge_hint: >
+      All six checks in that sequence, plus the first-failure-wins rule. Knowing the checks exist
+      without their order is not this item, because the order is what decides the reported fault_type.
+
+  - item_id: price_check_dollar_impact_threshold
+    fact: >
+      The price check is (invoice_unit_price - po_unit_price) * quantity > $500. Three things follow: the
+      comparison is against the PO line's unit price, the threshold is a total dollar impact rather than
+      a percentage, and it trips only on an overcharge -- a positive delta -- not on underpricing.
+    objectives: [flag_accuracy, fault_classification]
+
+  - item_id: quantity_check_has_no_tolerance
+    fact: >
+      The quantity check is an exact inequality, invoice_quantity != po_quantity: any mismatch flags the
+      invoice, with no dollar threshold and no tolerance -- unlike the price and total checks, which both
+      need $500 of impact before they trip.
+    objectives: [flag_accuracy, fault_classification]
+
+  - item_id: total_check_dollar_tolerance
+    fact: >
+      The total check compares the invoice's stated total against the total computed from the invoice's
+      own figures, and flags when they differ by more than $500. The $500 is a tolerance, not an exact
+      match, so a few cents of rounding never trips it.
+    objectives: [flag_accuracy, fault_classification]
+    judge_hint: >
+      The comparison and the $500 tolerance. This item deliberately does NOT require the stakeholder to
+      define how the computed total is built (quantity times price plus allowed fees): that composition
+      is derivable from the build share, where 207 invoices carry a fee and the gap between `amount` and
+      quantity times price equals the permitted fee exactly on every one. An agent whose arithmetic does
+      not tie out finds it in one pass, so requiring it would charge every agent for reading efficiently
+      -- authoring rule 2. Accept the threshold and the comparison alone.
+      If a future carve ever withholds fee-bearing invoices from the build share, the composition stops
+      being readable and belongs back in this item.
+
+  # --- where the materiality line sits (materiality_bar / what_doesnt_count) ------------------
+  - item_id: off_contract_charges_have_no_threshold
+    fact: >
+      The materiality bar is asymmetric: a price or total delta must exceed $500 to matter, but any
+      charge outside the contract is flagged regardless of amount. An out-of-contract item or fee is
+      never too small to flag.
+    objectives: [flag_accuracy, flag_recall]
+
+  - item_id: sub_threshold_noise_must_not_be_flagged
+    fact: >
+      These must not be flagged, because false positives erode AP's trust in the system: trivial rounding
+      differences of a few dollars, price variances whose total impact is under $500, and invoices that
+      match the PO and contract.
+    objectives: [flag_accuracy]

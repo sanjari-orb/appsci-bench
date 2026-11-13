@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0097",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9042 (Barrow Creek Winery) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"add Idris to the analytics module pilot\"], \"risks\": [], \"commitments\": [\"add Idris to the analytics module pilot\"], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 42 (Expansion, M, corner 5: rep offers twice, one item not two). Maria's first pilot offer gets a deferral ('let me think about it'), not acceptance -- unacknowledged, so it doesn't count. The second, rephrased offer ('add you risk-free') is clearly accepted ('sure, yeah, let's do that'), landing in both lists exactly once, not duplicated across both attempts. Plain tone, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

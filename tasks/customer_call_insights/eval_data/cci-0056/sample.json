@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0056",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9001 (Larkhaven Systems) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"send a seat-utilization breakdown, by this week\"], \"risks\": [], \"commitments\": [\"send a seat-utilization breakdown, by this week\"], \"sentiment\": \"POSITIVE\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 1 (Check-in, M, overlap row 1). Owen's offer is accepted ('Sure, that'd be useful'), so it lands in both lists with the stated deadline (this week). Priya's tone is warm and appreciative throughout, so POSITIVE.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

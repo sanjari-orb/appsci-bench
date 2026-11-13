@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__bluerockresidentialgrowthreit_inc_06_01_2016_ex_1__5ce91b7f__vendor_standard",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'Vendor Contract Standard' policy (vendor_standard). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"vendor_standard\", \"compliant\": true, \"violations\": [], \"needs_review\": []}"
+  }
+}

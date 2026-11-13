@@ -1,0 +1,450 @@
+{
+  "presentation": {
+    "title": "Automated QA Accuracy",
+    "theme": "default",
+    "aspectRatio": "16:9",
+    "metadata": {
+      "author": "Unknown",
+      "version": "1.0",
+      "date": ""
+    },
+    "slides": [
+      {
+        "slideNumber": 1,
+        "layout": "Blank Basic Layout / Photo full",
+        "elements": [
+          {
+            "type": "bullet_list",
+            "name": "TextBox 4",
+            "items": [
+              "Automated QA Accuracy",
+              "Results of an 8-Week Pilot"
+            ],
+            "style": {
+              "fontSize": 32,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 5",
+            "items": [
+              "Applied Research · Leadership Briefing",
+              "Prepared by: COMPANY_NAME_REDACTED Applied Research",
+              "Audience: Contact-Center Operations & Exec",
+              "Confidential — Internal"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 2,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "What We Found",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 5",
+            "content": "In an 8-week pilot, Auto-QA scored 100% of calls and closely matched human reviewers — promising enough to expand carefully, but not yet ready to be the official agent score.",
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Shape 6",
+            "items": [
+              "100%",
+              "of calls reviewed (vs ~3% by hand)"
+            ],
+            "style": {
+              "fontSize": 24,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Shape 7",
+            "items": [
+              "88%",
+              "item-level agreement with humans"
+            ],
+            "style": {
+              "fontSize": 24,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Shape 8",
+            "items": [
+              "96%",
+              "of compliance issues caught"
+            ],
+            "style": {
+              "fontSize": 24,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Shape 9",
+            "items": [
+              "~70%",
+              "less analyst scoring time"
+            ],
+            "style": {
+              "fontSize": 24,
+              "bold": true,
+              "color": "#179DAB"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 10",
+            "items": [
+              "Coverage jumps from a ~3% hand-scored sample to every interaction.",
+              "Accuracy is an early read only — this study measured agreement, not business outcomes."
+            ],
+            "style": {
+              "fontSize": 15,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 3,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Recommendation",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Shape 5",
+            "content": "EXPAND IN SHADOW MODE · HUMANS IN THE LOOP",
+            "style": {
+              "fontSize": 15,
+              "bold": true,
+              "color": "#FFFFFF"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 99",
+            "items": [
+              "Expand to two more teams in shadow mode — Auto-QA scores are reviewed, not yet authoritative",
+              "Keep human QA in the loop, especially for disputed scores",
+              "Do not make Auto-QA the official agent score at this stage — and do not retire manual QA",
+              "Treat this as a controlled next step, not a green light to automate QA"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 4,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Why We Looked",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 99",
+            "items": [
+              "Today QA is manual — supervisors hand-score only ~2–3% of calls against a fixed scorecard",
+              "That process is slow and inconsistent between reviewers",
+              "Most interactions go unreviewed — a coverage and compliance blind spot",
+              "The question: can Auto-QA score every call and agree closely enough with humans to be trusted?"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 5,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "What We Did",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 99",
+            "items": [
+              "Ran an 8-week controlled pilot across 3 contact-center teams",
+              "Auto-QA scored 14,000 calls against each team's existing 12-item scorecard (compliance, resolution, soft-skills)",
+              "Analysts independently hand-scored a 1,200-call sample as the ground-truth comparison",
+              "Measured agreement (item-level exact, and overall within one point), coverage, compliance recall, and analyst time"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 6,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Results",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Table 5",
+            "rows": [
+              [
+                "What we measured",
+                "Auto-QA",
+                "Human / manual"
+              ],
+              [
+                "Calls reviewed (coverage)",
+                "100%",
+                "~3%"
+              ],
+              [
+                "Analyst scoring time",
+                "~70% less",
+                "baseline"
+              ],
+              [
+                "Item-level agreement",
+                "88%",
+                "~85% between analysts"
+              ],
+              [
+                "Overall score within 1 point",
+                "93%",
+                "—"
+              ],
+              [
+                "Compliance issues caught",
+                "96%",
+                "reference (human-found)"
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "name": "TextBox 6",
+            "content": "Human reviewers agree with each other only ~85% of the time — a practical ceiling on how high agreement can go.",
+            "style": {
+              "fontSize": 14,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 7,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "What the Numbers Mean for the Floor",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 99",
+            "items": [
+              "100% vs ~3% coverage — every call gets reviewed, not just a small hand-scored sample",
+              "88% item-level agreement — Auto-QA gave the same score a human did on about 88% of scorecard items",
+              "93% within one point — the overall call score lands within a point of the human score on 93% of calls",
+              "96% compliance recall — it caught 96% of the compliance problems human reviewers found",
+              "~70% less analyst scoring time — frees supervisors to spend that time coaching agents"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 8,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Where It Struggles Today",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 5",
+            "content": "Disagreements weren't evenly spread — they clustered in a few places.",
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 99",
+            "items": [
+              "Soft-skills / empathy items — subjective, and where agreement was lowest (~78%)",
+              "Calls with heavy cross-talk or poor audio — weaker transcription drags scoring down",
+              "Multi-intent calls — Auto-QA sometimes scored the wrong part of the conversation"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 9,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "What This Doesn't Tell Us Yet",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 5",
+            "content": "This is an accuracy study — not yet a verdict on production readiness.",
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 99",
+            "items": [
+              "English-only, single region — multilingual performance is untested",
+              "One scorecard across three similar teams — results may not transfer to a different scorecard or vertical",
+              "No downstream impact measured — we did not test effects on CSAT, handle time, or coaching outcomes",
+              "Human ground truth is itself ~85% — that caps how high agreement can appear against a single human label",
+              "8-week window — may miss seasonal shifts in call mix"
+            ],
+            "style": {
+              "fontSize": 16,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 10,
+        "layout": "Header_1 block",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 2",
+            "content": "Next Steps",
+            "style": {
+              "bold": true,
+              "color": "#4C4E56"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 99",
+            "items": [
+              "Calibrate the soft-skills scorecard items with QA leads",
+              "Run a multilingual evaluation before any broader rollout",
+              "Keep human QA in the loop for disputed scores",
+              "Expand to two more teams in shadow mode and re-measure"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": false,
+              "color": "#4C4E56"
+            }
+          }
+        ],
+        "notes": ""
+      }
+    ]
+  }
+}

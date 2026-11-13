@@ -1,0 +1,9 @@
+# Test image: the task environment (for its importable environment package and db.json fixture)
+# plus the test dependencies the environment image does not ship. Used to run the harness and the
+# no-mutation checks against an in-process copy of the environment, never the live container.
+FROM airline-workspace
+
+RUN pip install --no-cache-dir pytest httpx anthropic
+
+ENV PYTHONPATH=/app:/artifact
+WORKDIR /artifact

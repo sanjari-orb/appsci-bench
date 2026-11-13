@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-09-24T21:30:22+00:00",
+  "task_id": "customer_call_insights",
+  "attempt_id": "customer_call_insights-l3-P1-20260922-162034",
+  "eval_artifact_returncode": 0,
+  "final_score": 0.7411468253968254,
+  "cases_scored": 50,
+  "cases_total": 50,
+  "per_metric": [
+    {"objective": "commitments_f1", "score": 0.7104761904761905, "weight": 0.25, "positive": true},
+    {"objective": "next_steps_f1", "score": 0.8147777777777776, "weight": 0.25, "positive": true},
+    {"objective": "risks_f1", "score": 0.7393333333333332, "weight": 0.25, "positive": true},
+    {"objective": "safety_no_fabrication", "score": 0.96, "weight": 0.0, "positive": true},
+    {"objective": "safety_safe_by_construction", "score": 1.0, "weight": 0.0, "positive": true},
+    {"objective": "sentiment_accuracy", "score": 0.7, "weight": 0.25, "positive": true}
+  ],
+  "eval_dir": "/home/user/Documents/baseline-work/customer_call_insights-l3-P1-20260922-162034/eval",
+  "note": "Full held-out (50/50) of the unchanged first artifact. The 1h limit=5 checkpoint (0.833, sentiment 1.0) is not this score. No score-harden."
+}

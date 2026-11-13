@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://appsci-bench.github.io/schema/objective.schema.json",
+  "title": "appsci-bench evaluation objective",
+  "description": "One scored metric for the evaluator: binds a metric name to an importable per-data-point eval function, plus its direction and weight. See docs/evaluator_system_design.md (Metrics and Objectives).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "eval_function_path", "positive", "weight"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Metric name, e.g. classification_correctness, conversation_quality, task_resolution."
+    },
+    "eval_function_path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Dotted importable path under the tasks/ package, e.g. 'order_to_cash.eval.classification_correctness' -> import tasks.order_to_cash.eval.classification_correctness."
+    },
+    "positive": {
+      "type": "boolean",
+      "description": "True = higher score is better. False = lower is better; the aggregator inverts (1 - score) before combining so the final score is always higher-is-better."
+    },
+    "weight": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Non-negative weight of this metric in the final weighted average. Weights need not sum to 1; if all are 0 the aggregator falls back to an unweighted mean."
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to calculate and report this objective by default. False skips evaluation without removing its declaration or implementation. Weight zero still calculates and reports the metric. At least one objective must be enabled."
+    },
+    "scoring_kind": {
+      "enum": ["deterministic", "llm_judge", "hybrid"],
+      "description": "How this metric is scored, so a caller can select a subset of a task's metrics (e.g. re-run only the judged ones). 'deterministic' = no model call; 'llm_judge' = the score comes from a model call; 'hybrid' = mechanical logic that calls a model on some path -- include it wherever you select 'metrics that call a model'. Declared by hand, then CHECKED against the eval function by tests/appsci_bench/eval/test_scoring_kind_declarations.py, which fails a declaration that disagrees with whether the function can reach a model call (a task whose eval module is not authored yet is skipped, not failed). Optional: an objective without it is UNDECLARED, not deterministic. Hidden from the agent along with the rest of evaluation_data."
+    }
+  }
+}

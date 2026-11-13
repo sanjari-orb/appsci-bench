@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__best_region_identification__1041",
+  "single_turn_input": {
+    "text": "During the summer of 2021, which states had the quickest case closures? Return only the two-letter abbreviation of the most matching state (eg. CA).\n\n(Today's date: 2021-07-16)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"WI\", \"evidence_case_ids\": [\"500Ws000007rHOUIA2\"], \"task_category\": \"best_region_identification\", \"reward_metric\": \"exact_match\"}"
+  }
+}

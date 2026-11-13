@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": 1,
+  "summary": "Serve your artifact as a session API: create_session, query_session, delete_session.",
+  "doc": "docs/artifact_agent_api.md",
+  "endpoints": {
+    "create_session": {
+      "input": "{context?: object}  // reserved, currently always absent/empty; artifacts MUST accept it and MAY ignore it, so per-case starting state can be added additively later",
+      "output": "session_id: str (non-empty)"
+    },
+    "query_session": {
+      "input": "{session_id: str, query: ArtifactAgentQuery}",
+      "output": "ArtifactAgentOutput"
+    },
+    "delete_session": {
+      "input": "{session_id: str}",
+      "output": "{success: bool}"
+    }
+  },
+  "framing": "application/json (a non-null json field must be valid JSON); large files deferred",
+  "conformance": "the evaluator probes create->query->delete before scoring; non-conformant artifacts fail the run with a clear error rather than being scored",
+  "payloads": {
+    "$defs": {
+      "File": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["file_type", "file_name"],
+        "properties": {
+          "file_type": { "enum": ["pdf", "docx", "pptx", "csv", "xlsx", "jpg", "png", "txt", "md"] },
+          "file_name": { "type": "string" },
+          "file_data": { "type": "string", "description": "raw bytes (base64 when serialized to JSON)" }
+        }
+      },
+      "ArtifactAgentQuery": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Input query field of query_session. Any of text, json, files may be set.",
+        "properties": {
+          "text": { "type": ["string", "null"] },
+          "json": { "type": ["string", "null"], "description": "a JSON-encoded string (application/json)" },
+          "files": { "type": "array", "items": { "$ref": "#/payloads/$defs/File" } }
+        }
+      },
+      "ArtifactAgentOutput": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Output of query_session. text and json are exposed to the artifact agent user sim; file bytes are NOT (the sim sees only file_type + file_name).",
+        "properties": {
+          "text": { "type": ["string", "null"] },
+          "json": { "type": ["string", "null"], "description": "a JSON-encoded string (must be valid JSON)" },
+          "files": { "type": "array", "items": { "$ref": "#/payloads/$defs/File" } }
+        }
+      }
+    }
+  }
+}

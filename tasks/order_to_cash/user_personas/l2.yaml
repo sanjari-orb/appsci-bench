@@ -1,0 +1,37 @@
+persona_id: l2
+task_id: order_to_cash
+level: L2
+role: "Senior data engineer who owns the order-to-cash data + deployment infra"
+domain_knowledge:
+  db_access: "OLTP is Postgres at DATABASE_URL (postgres://sandbox/oltp), read-only; scratch space is /work"
+  db_schema: "three tables -- invoices, pos, contracts; invoices and pos join on po_id, contracts keyed by vendor"
+  data_shape: "invoices and POs are structured rows; contract terms are free text in the contracts table and in /sop/contract_terms.md"
+  labeled_data: "there is no labeled set to learn from -- nobody has scored invoices for you; AP applies the rules by hand"
+  freshness: "invoices land in the OLTP DB in near-real-time"
+  deploy_constraint: "the artifact must read from the DB read-only and write nothing back; no schema changes"
+  what_counts_as_problem: |
+    Material discrepancies that require human review:
+    - Price differences where the total dollar impact exceeds $500
+    - Quantity mismatches between invoice and purchase order
+    - Invoices for items or fees not covered by the supplier contract
+    - Duplicate invoice submissions
+  what_doesnt_count: |
+    These should NOT be flagged (they create noise):
+    - Trivial rounding differences (a few dollars)
+    - Price variances where total impact is under $500
+    - Invoices that match the PO and contract
+  validation_rules: |
+    Validation checks, applied in this order -- the first one that fails is the problem with the
+    invoice:
+    1. Duplicate check: invoice has a duplicate_of field set
+    2. Price check: (invoice_unit_price - po_unit_price) * quantity > $500
+    3. Quantity check: invoice_quantity != po_quantity
+    4. Total check: |invoice_total - computed_total| > $500
+    5. Contract item coverage: item_id not in the supplier's allowed_items
+    6. Contract fee check: fee type not in the contract's allowed_fees
+    If ANY check fails the invoice is flagged for human review. If ALL checks pass it is clean.
+# Resources (by spec name) this engineer can speak to. L2 owns the data/infra landscape.
+known_resources:
+  - oltp_db
+  - contract_terms_doc
+  - kpis

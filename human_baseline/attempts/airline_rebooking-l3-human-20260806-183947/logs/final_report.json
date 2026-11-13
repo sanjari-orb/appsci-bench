@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-08-11T10:09:23.211808+00:00",
+  "task_id": "airline_rebooking",
+  "attempt_id": "airline_rebooking-l3-human-20260806-183947",
+  "eval_artifact_returncode": 0,
+  "final_score": 0.569,
+  "per_metric": [
+    {
+      "objective": "policy_compliance",
+      "score": 0.598,
+      "weight": 1.0,
+      "positive": true
+    },
+    {
+      "objective": "task_success",
+      "score": 0.54,
+      "weight": 1.0,
+      "positive": true
+    }
+  ],
+  "eval_dir": "/home/user/Documents/baseline-work/airline_rebooking-l3-human-20260806-183947/eval"
+}

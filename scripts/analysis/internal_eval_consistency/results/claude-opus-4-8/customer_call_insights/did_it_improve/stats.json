@@ -1,0 +1,136 @@
+{
+  "census": {
+    "counts": {
+      "fetch_failed": 0,
+      "mixed_cases": 0,
+      "mixed_limit": 0,
+      "no_scorable_captures": 0,
+      "no_scores": 0,
+      "run_dir_missing": 0
+    },
+    "skipped": {
+      "fetch_failed": [],
+      "mixed_cases": [],
+      "mixed_limit": [],
+      "no_scorable_captures": [],
+      "no_scores": [],
+      "run_dir_missing": []
+    },
+    "total": 0
+  },
+  "generated_at": "2026-09-16T19:33:51.056712+00:00",
+  "pooled": {
+    "beat_noise": 2,
+    "floor_unmeasured": 0,
+    "headline_improved": 0,
+    "headline_series": 0,
+    "headline_sign_test_p": null,
+    "headline_unchanged": 0,
+    "headline_worsened": 0,
+    "improved": 3,
+    "n_series": 3,
+    "sign_test_p": 0.25,
+    "unchanged": 0,
+    "worsened": 0
+  },
+  "provenance": {
+    "customer_call_insights_claude-opus-4-8_b0_l3_20260913_194302": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": false,
+      "headline_objective": null,
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "b618715706fa153047fdad859fc07d22e5e363fc"
+      ]
+    },
+    "customer_call_insights_claude-opus-4-8_b1_l3_20260913_201712": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": false,
+      "headline_objective": null,
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "b618715706fa153047fdad859fc07d22e5e363fc"
+      ]
+    },
+    "customer_call_insights_claude-opus-4-8_b2_l3_20260913_210356": {
+      "dirty_scoring_tree": true,
+      "headline_confirmed": false,
+      "headline_objective": null,
+      "limit": null,
+      "sample_seed": null,
+      "scoring_commits": [
+        "b618715706fa153047fdad859fc07d22e5e363fc"
+      ]
+    }
+  },
+  "report_commit": "d1d6ea4f5b517ad9fab0910b621ac8a8bfcd2e06",
+  "report_tree_dirty": true,
+  "runs": {
+    "customer_call_insights_claude-opus-4-8_b0_l3_20260913_194302": {
+      "delta": 0.007020225689343351,
+      "delta_se": 0.004639672680912124,
+      "distinct_hashes": 3,
+      "first": 0.6370369369192899,
+      "headline_delta": null,
+      "headline_first": null,
+      "headline_last": null,
+      "headline_objective": null,
+      "last": 0.6440571626086332,
+      "n_points": 6,
+      "n_unmeasured": 0,
+      "noise_floor": 0.007413080520992593,
+      "run_id": "customer_call_insights_claude-opus-4-8_b0_l3_20260913_194302",
+      "spearman": 0.2,
+      "steps_down": 2,
+      "steps_flat": 1,
+      "steps_up": 2,
+      "task_id": "customer_call_insights",
+      "zeros": 0
+    },
+    "customer_call_insights_claude-opus-4-8_b1_l3_20260913_201712": {
+      "delta": 0.23038804713804711,
+      "delta_se": 0.002576892336477963,
+      "distinct_hashes": 6,
+      "first": 0.335,
+      "headline_delta": null,
+      "headline_first": null,
+      "headline_last": null,
+      "headline_objective": null,
+      "last": 0.5653880471380471,
+      "n_points": 9,
+      "n_unmeasured": 0,
+      "noise_floor": 0.0042893863976593205,
+      "run_id": "customer_call_insights_claude-opus-4-8_b1_l3_20260913_201712",
+      "spearman": 0.785068999090738,
+      "steps_down": 1,
+      "steps_flat": 6,
+      "steps_up": 1,
+      "task_id": "customer_call_insights",
+      "zeros": 0
+    },
+    "customer_call_insights_claude-opus-4-8_b2_l3_20260913_210356": {
+      "delta": 0.029194083694083606,
+      "delta_se": 0.002645026896483495,
+      "distinct_hashes": 3,
+      "first": 0.697865948865949,
+      "headline_delta": null,
+      "headline_first": null,
+      "headline_last": null,
+      "headline_objective": null,
+      "last": 0.7270600325600326,
+      "n_points": 4,
+      "n_unmeasured": 0,
+      "noise_floor": 0.0053890633024574995,
+      "run_id": "customer_call_insights_claude-opus-4-8_b2_l3_20260913_210356",
+      "spearman": 0.7999999999999998,
+      "steps_down": 1,
+      "steps_flat": 1,
+      "steps_up": 1,
+      "task_id": "customer_call_insights",
+      "zeros": 0
+    }
+  },
+  "synthetic": false
+}

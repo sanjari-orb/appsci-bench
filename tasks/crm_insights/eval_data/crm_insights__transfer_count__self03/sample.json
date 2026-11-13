@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__transfer_count__self03",
+  "single_turn_input": {
+    "text": "Identify the agent with the highest number of transfers over the past 11 quarters among those who managed cases. Return only the Id of the agent.\n\n(Today's date: 2023-03-01)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xZdtIAE\", \"evidence_case_ids\": [\"500Ws000007qu5MIAQ\", \"500Ws000007rA9DIAU\", \"500Ws000007rIFoIAM\", \"500Ws000007rJ71IAE\"], \"task_category\": \"transfer_count\", \"reward_metric\": \"exact_match\"}"
+  }
+}

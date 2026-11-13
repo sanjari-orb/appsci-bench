@@ -1,0 +1,646 @@
+{
+  "series": {
+    "customer_call_insights_claude-opus-4-8_b0_l3_20260913_194302": {
+      "n": 3,
+      "n_deploys": 5,
+      "pearson": 0.8787655099288458,
+      "spearman": 0.9999999999999998,
+      "kendall_tau_b": 1.0,
+      "external_noise_sd": 0.007413080520992593,
+      "programs": [
+        {
+          "program": "A",
+          "internal": 0.9906060606060606,
+          "external": 0.6387666262568223,
+          "deploys": [
+            1,
+            3,
+            5
+          ],
+          "first_deploy": 1
+        },
+        {
+          "program": "B",
+          "internal": 0.990909090909091,
+          "external": 0.6803383998898704,
+          "deploys": [
+            2
+          ],
+          "first_deploy": 2
+        },
+        {
+          "program": "C",
+          "internal": 0.999090909090909,
+          "external": 0.7211383638148344,
+          "deploys": [
+            4
+          ],
+          "first_deploy": 4
+        }
+      ],
+      "internal_first": 0.990909090909091,
+      "internal_last": 0.99,
+      "external_first": 0.6370369369192899,
+      "external_last": 0.6444040316981493,
+      "external_all": [
+        {
+          "deploy": 1,
+          "external": 0.6370369369192899,
+          "hash": "18a57890",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 2,
+          "external": 0.6803383998898704,
+          "hash": "14a8b505",
+          "program": "B",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 3,
+          "external": 0.6348589101530278,
+          "hash": "18a57890",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 4,
+          "external": 0.7211383638148344,
+          "hash": "04dfe2cd",
+          "program": "C",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 5,
+          "external": 0.6444040316981493,
+          "hash": "18a57890",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 6,
+          "external": 0.6440571626086332,
+          "hash": "18a57890",
+          "program": "A",
+          "is_submission": true,
+          "is_submitted_program": true,
+          "has_internal": false
+        }
+      ],
+      "programs_built": 3,
+      "programs_abandoned": [
+        "B",
+        "C"
+      ],
+      "shipped_program": "A",
+      "loop_verdicts": [
+        {
+          "deploy": 2,
+          "incumbent": 1,
+          "verdict": "rejected",
+          "reverted": true,
+          "technique": "risk_detection",
+          "note": "# Change note\n\n## Metric targeted\nrisk_detection (0.9 -> expected 1.0). Only one failing case: `case_05_mixed_neutral` (score 0.0).\n\n## Diagnosis\nThe eval scores risk_detection strictly: on a clearly healthy/routine call, `risks` MUST be\nempty, and inventing a risk scores 0. In case_05 the customer ",
+          "internal": 0.990909090909091,
+          "external_delta": 0.04330146297058057,
+          "outcome": "wrong_reject",
+          "within_noise": false
+        },
+        {
+          "deploy": 4,
+          "incumbent": 3,
+          "verdict": "rejected",
+          "reverted": true,
+          "technique": "risk_detection",
+          "note": "# Change note\n\n## Metric targeted\nrisk_detection (0.9 -> expected 1.0). Only failing case: `case_05_mixed_neutral` (risk_detection 0.0).\n\n## Diagnosis\nThe eval scores risk_detection strictly: on a healthy/routine call `risks` MUST be empty, and inventing a risk scores 0. In case_05 the integration i",
+          "internal": 0.999090909090909,
+          "external_delta": 0.08627945366180667,
+          "outcome": "wrong_reject",
+          "within_noise": false
+        }
+      ],
+      "loop_correct_keep": 0,
+      "loop_wrong_keep": 0,
+      "loop_correct_reject": 0,
+      "loop_wrong_reject": 2,
+      "loop_value_discarded": 0.12958091663238724,
+      "decisions": [
+        {
+          "cycle": "1->2",
+          "from": 1,
+          "to": 2,
+          "internal_delta": 0.0,
+          "external_delta": 0.04330146297058057,
+          "verdict": "tied",
+          "within_noise": false
+        },
+        {
+          "cycle": "3->4",
+          "from": 3,
+          "to": 4,
+          "internal_delta": 0.008181818181818068,
+          "external_delta": 0.08627945366180667,
+          "verdict": "agree",
+          "within_noise": false
+        }
+      ],
+      "decisions_agree": 1,
+      "decisions_disagree": 0,
+      "decisions_tied": 1,
+      "decisions_within_noise": 0,
+      "regret": {
+        "best_deploy": 4,
+        "best_score": 0.7211383638148344,
+        "submitted_deploy": 6,
+        "submitted_score": 0.640089260344775,
+        "submitted_is_best_program": false,
+        "regret": 0.08104910347005945
+      },
+      "points": [
+        {
+          "deploy": 1,
+          "internal": 0.990909090909091,
+          "external": 0.6370369369192899,
+          "hash": "18a57890",
+          "program": "A",
+          "is_submission": false
+        },
+        {
+          "deploy": 2,
+          "internal": 0.990909090909091,
+          "external": 0.6803383998898704,
+          "hash": "14a8b505",
+          "program": "B",
+          "is_submission": false
+        },
+        {
+          "deploy": 3,
+          "internal": 0.990909090909091,
+          "external": 0.6348589101530278,
+          "hash": "18a57890",
+          "program": "A",
+          "is_submission": false
+        },
+        {
+          "deploy": 4,
+          "internal": 0.999090909090909,
+          "external": 0.7211383638148344,
+          "hash": "04dfe2cd",
+          "program": "C",
+          "is_submission": false
+        },
+        {
+          "deploy": 5,
+          "internal": 0.99,
+          "external": 0.6444040316981493,
+          "hash": "18a57890",
+          "program": "A",
+          "is_submission": false
+        }
+      ]
+    },
+    "customer_call_insights_claude-opus-4-8_b1_l3_20260913_201712": {
+      "n": 5,
+      "n_deploys": 5,
+      "pearson": 0.9985173644206904,
+      "spearman": 0.8944271909999159,
+      "kendall_tau_b": 0.8366600265340756,
+      "external_noise_sd": 0.0042893863976593205,
+      "programs": [
+        {
+          "program": "A",
+          "internal": 0.4571428571428572,
+          "external": 0.335,
+          "deploys": [
+            1
+          ],
+          "first_deploy": 1
+        },
+        {
+          "program": "B",
+          "internal": 0.42857142857142855,
+          "external": 0.335,
+          "deploys": [
+            2
+          ],
+          "first_deploy": 2
+        },
+        {
+          "program": "C",
+          "internal": 0.4714285714285714,
+          "external": 0.335,
+          "deploys": [
+            4
+          ],
+          "first_deploy": 4
+        },
+        {
+          "program": "E",
+          "internal": 0.9971428571428572,
+          "external": 0.5670759055759056,
+          "deploys": [
+            6
+          ],
+          "first_deploy": 6
+        },
+        {
+          "program": "F",
+          "internal": 0.9914285714285713,
+          "external": 0.5588819421319422,
+          "deploys": [
+            7
+          ],
+          "first_deploy": 7
+        }
+      ],
+      "internal_first": 0.4571428571428572,
+      "internal_last": 0.9914285714285713,
+      "external_first": 0.335,
+      "external_last": 0.5588819421319422,
+      "external_all": [
+        {
+          "deploy": 1,
+          "external": 0.335,
+          "hash": "9d716f86",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 2,
+          "external": 0.335,
+          "hash": "9d2220b5",
+          "program": "B",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 3,
+          "external": 0.335,
+          "hash": "9d716f86",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": false
+        },
+        {
+          "deploy": 4,
+          "external": 0.335,
+          "hash": "b862ab71",
+          "program": "C",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 5,
+          "external": 0.335,
+          "hash": "e093b456",
+          "program": "D",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": false
+        },
+        {
+          "deploy": 6,
+          "external": 0.5670759055759056,
+          "hash": "695689ef",
+          "program": "E",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 7,
+          "external": 0.5588819421319422,
+          "hash": "5cbdf0cc",
+          "program": "F",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 8,
+          "external": 0.5582348762348762,
+          "hash": "695689ef",
+          "program": "E",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": false
+        },
+        {
+          "deploy": 9,
+          "external": 0.5653880471380471,
+          "hash": "695689ef",
+          "program": "E",
+          "is_submission": true,
+          "is_submitted_program": true,
+          "has_internal": false
+        }
+      ],
+      "programs_built": 6,
+      "programs_abandoned": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "F"
+      ],
+      "shipped_program": "E",
+      "loop_verdicts": [
+        {
+          "deploy": 2,
+          "incumbent": 1,
+          "verdict": "rejected",
+          "reverted": true,
+          "technique": "next_steps_coverage",
+          "note": "# Change note\n\n## Metric targeted\nAll content metrics collapsed to ~0 (next_steps_coverage=0.0, sentiment_accuracy=0.0,\ncommitment_coverage=0.2, overlap_rule=0.2). Root cause: the deployed candidate returned\n`{\"next_steps\":[],\"risks\":[],\"commitments\":[],\"sentiment\":\"\"}` for EVERY case\n(schema_validi",
+          "internal": 0.42857142857142855,
+          "external_delta": 0.0,
+          "outcome": "wrong_reject",
+          "within_noise": true
+        },
+        {
+          "deploy": 7,
+          "incumbent": 6,
+          "verdict": "rejected",
+          "reverted": true,
+          "technique": "sentiment_accuracy",
+          "note": "# Change note\n\n## Metric targeted\nsentiment_accuracy (0.98 overall; the only sub-1.0 metric). The single failing\ncase is case2_customer_owed_only, scored 0.9: ground truth sentiment was\n\"neutral to positive\" but the candidate emitted a bare \"positive\". The judge\nnoted it was \"slightly stronger than ",
+          "internal": 0.9914285714285713,
+          "external_delta": -0.008193963443963392,
+          "outcome": "correct_reject",
+          "within_noise": false
+        }
+      ],
+      "loop_correct_keep": 0,
+      "loop_wrong_keep": 0,
+      "loop_correct_reject": 1,
+      "loop_wrong_reject": 1,
+      "loop_value_discarded": 0.0,
+      "decisions": [
+        {
+          "cycle": "1->2",
+          "from": 1,
+          "to": 2,
+          "internal_delta": -0.028571428571428636,
+          "external_delta": 0.0,
+          "verdict": "tied",
+          "within_noise": true
+        },
+        {
+          "cycle": "6->7",
+          "from": 6,
+          "to": 7,
+          "internal_delta": -0.005714285714285894,
+          "external_delta": -0.008193963443963392,
+          "verdict": "agree",
+          "within_noise": false
+        }
+      ],
+      "decisions_agree": 1,
+      "decisions_disagree": 0,
+      "decisions_tied": 1,
+      "decisions_within_noise": 1,
+      "regret": {
+        "best_deploy": 6,
+        "best_score": 0.5635662763162763,
+        "submitted_deploy": 9,
+        "submitted_score": 0.5635662763162763,
+        "submitted_is_best_program": true,
+        "regret": 0.0
+      },
+      "points": [
+        {
+          "deploy": 1,
+          "internal": 0.4571428571428572,
+          "external": 0.335,
+          "hash": "9d716f86",
+          "program": "A",
+          "is_submission": false
+        },
+        {
+          "deploy": 2,
+          "internal": 0.42857142857142855,
+          "external": 0.335,
+          "hash": "9d2220b5",
+          "program": "B",
+          "is_submission": false
+        },
+        {
+          "deploy": 4,
+          "internal": 0.4714285714285714,
+          "external": 0.335,
+          "hash": "b862ab71",
+          "program": "C",
+          "is_submission": false
+        },
+        {
+          "deploy": 6,
+          "internal": 0.9971428571428572,
+          "external": 0.5670759055759056,
+          "hash": "695689ef",
+          "program": "E",
+          "is_submission": false
+        },
+        {
+          "deploy": 7,
+          "internal": 0.9914285714285713,
+          "external": 0.5588819421319422,
+          "hash": "5cbdf0cc",
+          "program": "F",
+          "is_submission": false
+        }
+      ]
+    },
+    "customer_call_insights_claude-opus-4-8_b2_l3_20260913_210356": {
+      "n": 3,
+      "n_deploys": 3,
+      "pearson": 0.9140338325592453,
+      "spearman": 0.9999999999999998,
+      "kendall_tau_b": 1.0,
+      "external_noise_sd": 0.0053890633024574995,
+      "programs": [
+        {
+          "program": "A",
+          "internal": 0.9167,
+          "external": 0.6978659488659489,
+          "deploys": [
+            1
+          ],
+          "first_deploy": 1
+        },
+        {
+          "program": "B",
+          "internal": 0.9722,
+          "external": 0.7086123136123136,
+          "deploys": [
+            2
+          ],
+          "first_deploy": 2
+        },
+        {
+          "program": "C",
+          "internal": 1.0,
+          "external": 0.7338003478003479,
+          "deploys": [
+            3
+          ],
+          "first_deploy": 3
+        }
+      ],
+      "internal_first": 0.9167,
+      "internal_last": 1.0,
+      "external_first": 0.6978659488659489,
+      "external_last": 0.7338003478003479,
+      "external_all": [
+        {
+          "deploy": 1,
+          "external": 0.6978659488659489,
+          "hash": "b9eddde8",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 2,
+          "external": 0.7086123136123136,
+          "hash": "18df766b",
+          "program": "B",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 3,
+          "external": 0.7338003478003479,
+          "hash": "e0ee3821",
+          "program": "C",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 4,
+          "external": 0.7270600325600326,
+          "hash": "e0ee3821",
+          "program": "C",
+          "is_submission": true,
+          "is_submitted_program": true,
+          "has_internal": false
+        }
+      ],
+      "programs_built": 3,
+      "programs_abandoned": [
+        "A",
+        "B"
+      ],
+      "shipped_program": "C",
+      "loop_verdicts": [
+        {
+          "deploy": 2,
+          "incumbent": 1,
+          "verdict": "kept",
+          "reverted": false,
+          "technique": "sentiment_correctness",
+          "note": "# Change note\n\n## Metric targeted\nsentiment_correctness (0.5 \u2014 the only sub-1.0 metric; headline 0.9167).\n\n## Diagnosis\nAll three sentiment failures (case2 expansion, case4 hedged price concern, case6\nrollout planning) were NEUTRAL cases the model labelled POSITIVE. The transcripts are\ncordial, task",
+          "internal": 0.9722,
+          "external_delta": 0.0107463647463647,
+          "outcome": "correct_keep",
+          "within_noise": false
+        },
+        {
+          "deploy": 3,
+          "incumbent": 2,
+          "verdict": "kept",
+          "reverted": false,
+          "technique": "sentiment_correctness",
+          "note": "# Change note\n\n## Decision\nHeadline metric = 0.9722, which is >= 0.917, so last cycle's change is kept. Proceeded to improve.\n\n## Metric targeted\nsentiment_correctness (0.8333). Only 1 of 6 cases failed: `case5_completed_on_call`,\nwhich expects POSITIVE but the candidate returned NEUTRAL. Every othe",
+          "internal": 1.0,
+          "external_delta": 0.02518803418803428,
+          "outcome": "correct_keep",
+          "within_noise": false
+        }
+      ],
+      "loop_correct_keep": 2,
+      "loop_wrong_keep": 0,
+      "loop_correct_reject": 0,
+      "loop_wrong_reject": 0,
+      "loop_value_discarded": 0,
+      "decisions": [
+        {
+          "cycle": "1->2",
+          "from": 1,
+          "to": 2,
+          "internal_delta": 0.055499999999999994,
+          "external_delta": 0.0107463647463647,
+          "verdict": "agree",
+          "within_noise": false
+        },
+        {
+          "cycle": "2->3",
+          "from": 2,
+          "to": 3,
+          "internal_delta": 0.027800000000000047,
+          "external_delta": 0.02518803418803428,
+          "verdict": "agree",
+          "within_noise": false
+        }
+      ],
+      "decisions_agree": 2,
+      "decisions_disagree": 0,
+      "decisions_tied": 0,
+      "decisions_within_noise": 0,
+      "regret": {
+        "best_deploy": 3,
+        "best_score": 0.7304301901801902,
+        "submitted_deploy": 4,
+        "submitted_score": 0.7304301901801902,
+        "submitted_is_best_program": true,
+        "regret": 0.0
+      },
+      "points": [
+        {
+          "deploy": 1,
+          "internal": 0.9167,
+          "external": 0.6978659488659489,
+          "hash": "b9eddde8",
+          "program": "A",
+          "is_submission": false
+        },
+        {
+          "deploy": 2,
+          "internal": 0.9722,
+          "external": 0.7086123136123136,
+          "hash": "18df766b",
+          "program": "B",
+          "is_submission": false
+        },
+        {
+          "deploy": 3,
+          "internal": 1.0,
+          "external": 0.7338003478003479,
+          "hash": "e0ee3821",
+          "program": "C",
+          "is_submission": false
+        }
+      ]
+    }
+  },
+  "skipped": {},
+  "limit": null
+}

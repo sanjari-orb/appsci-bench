@@ -1,0 +1,12 @@
+line_item,actual,budget,prior_year
+Subscription revenue,44900,43400,34100
+Services revenue,6100,6100,5700
+Total revenue,51000,49500,39800
+COGS,12240,12400,10300
+Gross profit,38760,37100,29500
+Sales & Marketing,19800,19200,16400
+Research & Development,13400,13900,11600
+General & Administrative,5300,5400,4300
+Total operating expense,38500,38500,32300
+Operating income,260,-1400,-2800
+Net income,120,-1600,-3200

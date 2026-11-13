@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__handle_time__650",
+  "single_turn_input": {
+    "text": "Find the agent with the shortest handle time who managed more than one case in Winter 2021. Return only the Id of the agent.\n\n(Today's date: 2023-12-21)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xSR9IAM\", \"evidence_case_ids\": [\"500Ws000007rCHRIA2\"], \"task_category\": \"handle_time\", \"reward_metric\": \"exact_match\"}"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0069",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9014 (Thackeray Health Systems) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"make sure the reliability improvements stay visible to Owen as they roll out over the quarter\"], \"risks\": [\"Q1 outages led leadership to make the June renewal explicitly conditional on Q3 uptime performance\", \"customer's team has been evaluating Meridian's platform as a contingency given the outages\"], \"commitments\": [], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 14 (Renewal, L, conditional renewal + named competitor). Two distinct risks: an explicitly conditional renewal tied to future uptime, and a named competitor being evaluated as a contingency. 'Make sure reliability stays visible' mirrors cci-0001/cci-0052's internal-flag precedent -- a next step, not a commitment, since no specific deliverable is owed. Owen is direct and matter-of-fact throughout, not angry, so NEUTRAL despite two live risks.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

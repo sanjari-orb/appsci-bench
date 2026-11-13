@@ -1,0 +1,12 @@
+metric,unit,Q2_FY26,Q1_FY26,note
+Monthly active agents,agents,1510,1240,
+Licenses purchased,licenses,1500,1500,
+Licenses activated,licenses,1395,1180,activation 93% vs 79%
+Feature adoption - Conversation Intelligence,%,74,68,
+Feature adoption - Auto-QA,%,58,41,
+Feature adoption - Coaching & Insights,%,19,12,
+CSAT,score (1-5),4.6,4.3,
+Support tickets,count,31,47,
+P1 incidents,count,1,2,May API latency in agent desktop integration (resolved; RCA shared)
+SLA attainment,%,99.1,98.2,
+Health score,RAG,Green,Amber,

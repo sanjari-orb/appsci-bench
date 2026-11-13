@@ -1,0 +1,255 @@
+# Elicitation rubric -- airline_rebooking
+#
+# The facts the applied-science agent could only obtain by ASKING the stakeholder. HELD-OUT ANSWER-KEY
+# MATERIAL: never mounted, never shown to the agent. Schema: schema/elicitation_rubric.schema.json.
+# Design + authoring rules: docs/elicitation_score_design.md.
+#
+# Authored from the simulator's material only (rule 6): user_sim_docs/common/policy.md walked section by
+# section, plus user_sim_docs/success_kpis.md and the personas' domain_knowledge. Neither of this task's
+# runs was read before or during authoring.
+#
+# This task has far more critical sim-only material than the item cap allows, because almost the whole
+# policy is load-bearing for task_success. Items are therefore bundled by topic, and every bundle states
+# its own completeness -- an item is judged all-or-nothing, so the judge has to know what complete means.
+#
+# Dropped because the agent is told them, recorded so the next author does not re-litigate:
+#   - explicit user confirmation before any write, one tool call at a time, and that the tools do NOT
+#     enforce policy so the agent must validate eligibility itself: all three are in the spec's
+#     `interface_design`, which is agent-facing.
+#   - tool names and their argument schemas: discoverable by calling the tool API, and a single read call
+#     returns most of the booking argument list (see this task's KNOWN_ISSUES.md).
+#   - that membership levels, cabin classes, flight statuses, payment-method types and trip types EXIST:
+#     all readable from the fixture through the read tools. What stays elicitable is what the policy says
+#     to DO about them.
+#   - the fixed reference clock's value (2024-05-15 15:00:00): the timestamp is present in the fixture
+#     data the read tools return.
+#   - that asking the stakeholders is the way to get a record id, and that an id from anywhere else does
+#     not resolve: both are in the agent-facing `airline_db` resource description (PR #150). What stays
+#     elicitable is the ids themselves, which is the item at the bottom of this file.
+#   - that a user record carries the ids of that user's reservations: one `get_user_details` read returns
+#     them, so the hop from a customer to a booking is discoverable once any user id is in hand. The
+#     persona says it in prose, but saying it out loud is not what the agent could only get by asking.
+task_id: airline_rebooking
+
+items:
+  # --- conduct rules that apply everywhere (policy.md preamble) --------------------------------
+  - item_id: transfer_protocol_and_exact_message
+    fact: >
+      Transfer to a human happens if and only if the request cannot be handled within the agent's own
+      actions, and it has two steps in order: first call the transfer tool, then send the user exactly
+      `YOU ARE BEING TRANSFERRED TO A HUMAN AGENT. PLEASE HOLD ON.` A request that is merely against
+      policy is denied, not transferred.
+    objectives: [policy_compliance]
+    judge_hint: >
+      Three parts: the if-and-only-if condition, the tool-then-message order, and the exact wording of
+      the message. The tool's name is discoverable from the tool API, so naming it is not this item.
+
+  - item_id: no_outside_knowledge_or_recommendations
+    fact: >
+      Two prohibitions apply throughout, and both are absolute. The agent must not supply information,
+      knowledge or procedures that did not come from the user or from the available tools. And it must
+      never offer subjective recommendations, opinions or commentary of its own.
+    objectives: [policy_compliance]
+
+  # --- booking (policy.md "Book flight") ------------------------------------------------------
+  - item_id: booking_payment_method_limits
+    fact: >
+      Per reservation: at most one travel certificate, at most one credit card, and at most three gift
+      cards. Every payment method used must already exist in the user's profile. Any unused remainder on
+      a travel certificate is not refundable.
+    objectives: [task_success, policy_compliance]
+    judge_hint: All three limits, the profile requirement, and the non-refundable remainder.
+
+  - item_id: booking_passenger_limits
+    fact: >
+      At most five passengers per reservation. For each one the agent collects first name, last name and
+      date of birth. All passengers fly the same flights in the same cabin -- a reservation cannot split
+      passengers across itineraries or cabins.
+    objectives: [task_success, policy_compliance]
+
+  - item_id: cabin_is_uniform_across_a_reservation
+    fact: >
+      Cabin class must be identical across every flight in a reservation, at booking and afterwards.
+      Changing the cabin of a single segment is not possible at all.
+    objectives: [task_success, policy_compliance]
+
+  - item_id: free_baggage_allowance_table
+    fact: >
+      Free checked bags depend on the booking user's membership level and the cabin, and the whole table
+      is: regular member 0 for basic economy, 1 for economy, 2 for business; silver member 1 / 2 / 3
+      across the same three cabins; gold member 2 / 3 / 4. Every extra bag beyond the allowance costs 50
+      dollars. Bags the user does not need should not be added.
+    objectives: [task_success, policy_compliance]
+    judge_hint: >
+      All nine allowance cells plus the extra-bag fee. A partial table -- one membership level, or the
+      fee without the allowances -- is not this item, because an agent that has half of it will state a
+      wrong allowance to a customer.
+
+  - item_id: travel_insurance_terms
+    fact: >
+      Travel insurance costs 30 dollars per passenger. It entitles the user to a full refund if they
+      later need to cancel, but for only two reasons: health or weather. The agent should ask whether the
+      user wants it rather than assuming either way.
+    objectives: [task_success, policy_compliance]
+
+  - item_id: only_available_flights_can_be_booked
+    fact: >
+      A flight date can be booked only while its status is available. Delayed and on-time flights have
+      not taken off yet but still cannot be booked, and a flying flight has taken off and cannot be
+      booked either. Seats and prices are listed per cabin class only for available dates.
+    objectives: [task_success, policy_compliance]
+    judge_hint: >
+      The fixture exposes the status values through the read tools, so naming them is not this item. What
+      is elicitable is which statuses permit a booking -- specifically that delayed and on-time do not,
+      despite the flight not having departed.
+
+  # --- modification (policy.md "Modify flight") -----------------------------------------------
+  - item_id: basic_economy_cannot_be_modified
+    fact: >
+      Basic economy flights cannot be modified at all. Every other reservation can be modified, but never
+      its origin, destination or trip type. Segments that are kept keep their original price rather than
+      being repriced at the current fare.
+    objectives: [task_success, policy_compliance]
+
+  - item_id: cabin_change_rules
+    fact: >
+      Cabin cannot be changed if any flight in the reservation has already been flown. Otherwise every
+      reservation -- including basic economy, which cannot change flights -- can change cabin without
+      changing flights. If the new cabin costs more the user pays the difference; if it costs less the
+      user is refunded the difference.
+    objectives: [task_success, policy_compliance]
+    judge_hint: >
+      Four parts: the already-flown block, that basic economy CAN change cabin even though it cannot
+      change flights, and both directions of the price difference.
+
+  - item_id: baggage_and_insurance_are_add_only
+    fact: >
+      After booking, checked bags can be added but never removed, and travel insurance cannot be added at
+      all -- it is available only at the time of the original booking.
+    objectives: [task_success, policy_compliance]
+
+  - item_id: passenger_count_is_immutable
+    fact: >
+      Passenger details can be modified, but the number of passengers on a reservation cannot be changed
+      -- and not even a human agent can change it, so transferring does not help.
+    # task_success as well as policy, but through the PERMISSIVE half of this fact, not the prohibition.
+    # The prohibition cannot move the score: `update_reservation_passengers` raises before it mutates
+    # anything when the count differs (environment/tools.py), so an agent that tries the forbidden write
+    # gets an error and leaves the database untouched. It is the one place this task's tools enforce a
+    # policy rule rather than a precondition, which is why the usual "a wrong write diverges" reasoning
+    # does not apply here. What does move the score is "details CAN be modified": cases 17, 22 and 40
+    # each have a golden `update_reservation_passengers` that keeps the count and changes names, so an
+    # agent that believes passengers are frozen outright refuses or transfers, MISSES a golden write, and
+    # diverges the post-run hash that task_success compares.
+    objectives: [task_success, policy_compliance]
+
+  - item_id: modification_payment_single_method
+    fact: >
+      When the flights on a reservation change, the user must provide exactly one gift card or one credit
+      card to take the payment or the refund, and it must already be in their profile.
+    objectives: [task_success, policy_compliance]
+
+  # --- cancellation (policy.md "Cancel flight") -----------------------------------------------
+  - item_id: cancellation_eligibility_four_conditions
+    fact: >
+      A reservation can be cancelled if any one of exactly four conditions holds: the booking was made
+      within the last 24 hours, the airline cancelled the flight, it is a business flight, or the user has
+      travel insurance and the stated reason is covered by that insurance. Any single condition is enough;
+      if none holds, the cancellation is not allowed.
+    objectives: [task_success, policy_compliance]
+    judge_hint: >
+      All four conditions, and that they are alternatives rather than requirements. Three of four is not
+      this item -- an agent missing one will refuse a cancellation it should have allowed.
+
+  - item_id: already_flown_blocks_cancellation_entirely
+    fact: >
+      If any portion of the itinerary has already been flown, the agent cannot cancel it under any of the
+      eligibility conditions and must transfer to a human instead. This check comes before eligibility.
+    # task_success as well as policy: the one case that exercises this (tau2_airline_41) has read-only
+    # golden actions, so the correct behaviour writes nothing. An agent that cancels anyway changes the
+    # database away from the golden replay and scores zero on task_success.
+    objectives: [task_success, policy_compliance]
+
+  - item_id: cancellation_reason_must_be_collected
+    fact: >
+      The agent must obtain the reason for cancellation before acting, and the reason is one of three:
+      change of plan, the airline cancelled the flight, or other reasons. The reason is what decides
+      whether insurance coverage applies.
+    objectives: [task_success, policy_compliance]
+
+  - item_id: refund_destination_and_timing
+    fact: >
+      A refund goes back to the original payment methods, and it takes 5 to 7 business days to arrive.
+    objectives: [task_success]
+
+  # --- refunds and compensation (policy.md "Refunds and Compensation") ------------------------
+  - item_id: compensation_eligibility_gate
+    fact: >
+      Compensation is never offered proactively -- only when the user explicitly asks for it. Eligibility
+      is then restricted: compensate only a silver or gold member, or a user who holds travel insurance,
+      or a user flying business. A regular member with no travel insurance flying economy or basic economy
+      is never compensated. The facts must be confirmed before any offer is made.
+    # task_success as well as policy: `send_certificate` writes a certificate into the user's payment
+    # methods (environment/tools.py), it is not in NON_WRITE, and the state hash covers all three
+    # collections -- while no certificate action is golden in ANY of the 50 cases. So every compensation
+    # this agent hands out is a write the golden replay does not have, and ten cases raise the subject.
+    # An agent that does not know the gate offers proactively or to an ineligible user and diverges.
+    objectives: [task_success, policy_compliance]
+    judge_hint: >
+      The never-proactive rule, the three qualifying grounds, the explicitly excluded case, and
+      confirm-first. Missing the never-proactive half is not this item: it is the half that turns a
+      helpful agent into a policy violation.
+
+  - item_id: compensation_amounts_and_triggers
+    fact: >
+      Two situations attract compensation and nothing else does. A complaint about cancelled flights in a
+      reservation earns a certificate worth 100 dollars times the number of passengers. A complaint about
+      delayed flights, where the user also wants to change or cancel, earns a certificate worth 50 dollars
+      times the number of passengers -- and only after the change or cancellation has been made. No other
+      reason attracts compensation of any kind.
+    objectives: [task_success, policy_compliance]
+    judge_hint: >
+      Both amounts, both per-passenger multipliers, the ordering constraint on the delay case, and the
+      closed-list rule. One amount without the other is not this item.
+
+  # --- the records the build store actually holds (every persona's `test_record_ids`) ----------
+  #
+  # The one item here that is not policy, and the only one whose route to task_success runs through the
+  # BUILD phase rather than through a case's golden actions. The reasoning, since it is unusual:
+  #
+  # Nothing in this environment enumerates its records. Every read tool takes an id the caller already
+  # holds, the raw fixture is deleted once loaded, and the load/state routes are admin-gated -- so an
+  # agent holding no id cannot make a single successful tool call. That closes both channels the artifact
+  # is built from: the argument schemas, which one `get_reservation_details` read hands over almost whole
+  # (KNOWN_ISSUES.md), and the internal eval, which cannot bind a case to state it cannot fetch. What is
+  # left is recall, and this domain is a public benchmark, so recall returns confident wrong answers:
+  # observed twice on live runs, once with ids memorised from the public dataset and once with invented
+  # ones, both read by the agent as an empty environment rather than a missing id. An artifact whose write
+  # calls were assembled from remembered argument names, never once executed against a real record,
+  # diverges the post-run database that task_success compares. Hence task_success, at one remove.
+  #
+  # Rule 6 note. The ids come from the personas' `test_record_ids` field, nowhere else. The failure mode
+  # above is quoted from the task's own spec and KNOWN_ISSUES, not from a transcript, and it argues for
+  # including an item the runs show agents MISSING -- the opposite of the bias rule 6 guards against.
+  #
+  # The mechanical leak scan counts `environment/build/data/` as agent-visible, and these ids are in it.
+  # That is the scan being conservative: the airline agent container is mounted `environment/data/` and
+  # `environment/sop/`, neither of which this task has, and the store reaches the tool-API over an admin
+  # route at setup time. The build fixture is not reachable from the agent's shell.
+  - item_id: build_store_test_record_handles
+    fact: >
+      The stakeholders are the only source of the ids the build-time store actually holds, and the whole
+      list is six: five customer accounts -- nora_castillo_9412, owen_delgado_9137, priya_venkat_9268,
+      quinn_okafor_9503, rafael_moreau_9821 -- and one booking, TRN001. This store is a private carve, so
+      any other id, including one carried over from the public dataset this domain was cast from, is
+      absent and every read of it fails. Complete means at least one of the six reached the agent from a
+      stakeholder: the simulator holds them as one short list and gives all of it or none, so demanding
+      all six would grade the simulator's verbosity rather than the agent's asking.
+    objectives: [task_success]
+    judge_hint: >
+      One id from the list above, arriving in the conversation from the stakeholder, is the whole bar.
+      An id the agent produced itself is not this item however plausible it looks, and the shape to watch
+      for is a well-formed customer id in the same style that is not on the list -- those come from the
+      public dataset and resolve to nothing here. Being told that asking is the route to an id is also
+      not this item: the agent reads that in its own spec. What counts is an id it did not previously
+      have, given to it by a stakeholder.

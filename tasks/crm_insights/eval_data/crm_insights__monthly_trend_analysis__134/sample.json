@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__monthly_trend_analysis__134",
+  "single_turn_input": {
+    "text": "Over the past 8 months, is there a specific month where we received significantly more cases for the Precision Golf Putter compared to the other months? The associated product Id is 01tWs000002wRWXIA2. Return only the month name.\n\n(Today's date: 2024-02-11)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"December\", \"evidence_case_ids\": [\"500Ws000007rBxUIAU\"], \"task_category\": \"monthly_trend_analysis\", \"reward_metric\": \"exact_match\"}"
+  }
+}

@@ -1,0 +1,5 @@
+# Task-specific Python dependencies for the environment image.
+# Pin versions for reproducibility. Leave empty if the base image is enough.
+#
+# Example:
+# psycopg2-binary==2.9.9

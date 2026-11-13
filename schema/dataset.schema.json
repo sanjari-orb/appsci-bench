@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://appsci-bench.github.io/schema/dataset.schema.json",
+  "title": "appsci-bench evaluation dataset",
+  "description": "A task's held-out eval dataset for the evaluator: a turn type, run controls, and the list of EvalSamples. The samples may be stored inline (data) or, in the task spec, under a directory pointed at by evaluation_data.dataset -- one subdirectory per data_point_id, each holding a sample.json (this $defs/eval_sample shape) plus any files it references by file_path. See docs/evaluator_system_design.md (Datasets).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "data"
+  ],
+  "properties": {
+    "type": {
+      "enum": [
+        "single_turn",
+        "multi_turn"
+      ],
+      "description": "single_turn = one query per sample; multi_turn = the artifact agent user sim drives a conversation."
+    },
+    "max_turns": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 10,
+      "description": "Max turns the artifact agent gets during user simulation (multi_turn)."
+    },
+    "repeat": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1,
+      "description": "How many times each data point is rerun for stability (scores averaged across repeats)."
+    },
+    "data": {
+      "type": "array",
+      "description": "The EvalSamples.",
+      "items": {
+        "$ref": "#/$defs/eval_sample"
+      }
+    },
+    "max_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Shared simulation-step budget for multi_turn data; replaces max_turns. Each speaker message costs one step and each individual tool request/result costs two."
+    }
+  },
+  "$defs": {
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file_type",
+        "file_name"
+      ],
+      "allOf": [
+        {
+          "$comment": "Exactly one of file_data / file_path -- catches a sample that gives neither or both.",
+          "not": {
+            "required": [
+              "file_data",
+              "file_path"
+            ]
+          }
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "file_data"
+              ]
+            },
+            {
+              "required": [
+                "file_path"
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "file_type": {
+          "enum": [
+            "pdf",
+            "docx",
+            "pptx",
+            "csv",
+            "xlsx",
+            "jpg",
+            "png",
+            "txt",
+            "md"
+          ]
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "file_data": {
+          "type": "string",
+          "description": "base64-encoded bytes, inline. Use for small files; for large ones prefer file_path."
+        },
+        "file_path": {
+          "type": "string",
+          "description": "Path to the file's bytes, relative to this sample's own eval_data/<data_point_id>/ directory (never repo-root). Alternative to inline file_data -- the loader (appsci_bench/eval/dataset.py) resolves it at load time and reads the bytes lazily, on first use. Dataset-authoring convenience only: the wire protocol (/query_session) always carries real file_data, never a path."
+        }
+      }
+    },
+    "artifact_agent_io": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "ArtifactAgentQuery / ArtifactAgentOutput: any of text, json, files.",
+      "properties": {
+        "text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "json": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/file"
+          }
+        }
+      }
+    },
+    "eval_sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data_point_id"
+      ],
+      "properties": {
+        "data_point_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "single_turn_input": {
+          "$ref": "#/$defs/artifact_agent_io"
+        },
+        "multi_turn_input": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "user_task",
+            "user_persona"
+          ],
+          "properties": {
+            "user_task": {
+              "type": "string"
+            },
+            "user_persona": {
+              "type": "string"
+            },
+            "user_stop_criteria": {
+              "type": "string",
+              "default": "The user task has been successfully completed."
+            },
+            "files": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/file"
+              }
+            },
+            "user_tools": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["name"],
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The tool's name, exactly as the environment's tool route takes it. This is also what authorises a call: the sim may only call a tool this case grants."
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "What the tool does, in one line. Rendered into the simulator's prompt so it can tell which of its tools fits the moment."
+                      },
+                      "parameters": {
+                        "type": "object",
+                        "description": "The tool's JSON-Schema parameter object, exactly as an OpenAI-style function declares it: {\"type\": \"object\", \"properties\": {...}, \"required\": [...]}. The simulator is told each argument's name and whether it is required. Absent or empty means the tool takes no arguments, which the prompt states outright."
+                      }
+                    }
+                  },
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Shorthand for a tool whose signature this dataset does not carry: the name alone. The prompt still lists it, but the simulator cannot fill its arguments -- see the array description."
+                  }
+                ]
+              },
+              "description": "Tools the SIMULATED USER holds and may call during the conversation (the customer's own capabilities, e.g. submitting an application themselves). Optional; absent or empty means the user only talks, which is the behaviour for every task that does not model user-side actions. The eval-time sim can EXECUTE one only when the run supplies an executor (see task_runner.env_tool_token_var) -- but it can only fill a tool's ARGUMENTS from the signature declared here, and its instructions forbid inventing values. So a tool given as a bare name is effectively callable only if it takes no arguments: any case whose golden outcome needs a customer-side action on a tool with arguments will fail for a reason unrelated to the artifact. Declare the full object for those. NOTE the signature duplicates what the environment's own toolkit defines, so it can drift; a task declaring signatures should assert the two agree (see banking's test_user_tool_schemas.py)."
+            }
+          }
+        },
+        "expected_output": {
+          "$ref": "#/$defs/artifact_agent_io",
+          "description": "Optional per-sample structured ground truth / params for the eval functions. Objectives are task-level (no per-sample objective spec), so anything that varies per sample lives here: put structured data in its `json` field (a JSON-encoded string), e.g. {\"required_actions\": [...]} for an airline trajectory check. The eval function parses it and owns the comparison semantics."
+        },
+        "eval_rubric": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional per-sample natural-language description of what success looks like, for LLM-judge-style eval functions to read. NL text only -- put structured params in expected_output.json, not here. This is per-DATA-POINT and varies sample to sample -- it is NOT where a metric's own scoring criteria goes; that is authored once by the task designer and belongs baked into that metric's own eval function/prompt, fixed for every sample."
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "not": {
+        "required": [
+          "max_turns",
+          "max_steps"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "max_steps"
+        ]
+      },
+      "then": {
+        "properties": {
+          "type": {
+            "const": "multi_turn"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+Call CALL-9028 — Ashworth Pharmaceuticals (ACC-4028) — 2026-03-10 11:00 UTC
+Participants: Lena Achterberg (Senior Account Manager, us) / Colin Marsh (Implementation Lead, customer)
+
+Lena: Colin, thanks for hopping on today. Wanted to check in on the rollout timeline given where things currently stand on your end.
+
+Colin: Yeah, I need to be upfront with you -- we're pushing the go-live from March to June. Our IT team's just not available before then, they're fully tied up on an unrelated internal project right now.
+
+Lena: I appreciate you telling me directly rather than us finding out closer to the original date. Is there anything on our side that's contributing to that delay at all, even partially?
+
+Colin: No, honestly this one's entirely on us, nothing to do with your team's work so far, they've actually been ahead of schedule if anything.
+
+Lena: Understood, good to know that distinction either way, and glad to hear our side's been keeping pace.
+
+Lena: Is June a firm date now, or could it slip further depending on how that other project goes?
+
+Colin: Should be firm, their project wraps at the end of April, so June gives us a reasonable buffer after that for our own prep work.
+
+Lena: That sounds like a reasonable plan overall. Is there anything we can do in the meantime to keep things moving on our end, even if the actual go-live itself is delayed?
+
+Colin: Not really, most of the remaining prep work does need their hands-on involvement specifically, it's not something we can parallelize easily.
+
+Lena: Understood. We'll just plan around the June date then rather than push for the original timeline unnecessarily.
+
+Colin: Appreciated, that's exactly what I was hoping to hear rather than pressure to speed things up artificially.
+
+Lena: Not our style to push when the reason's this clear and reasonable. While we're on, how's the documentation review going on your end, separate from the IT piece?
+
+Colin: That's actually been going fine, we've been chipping away at it even while the IT team's been unavailable.
+
+Lena: Good to hear that part's progressing regardless. Any concerns at all on the documentation side worth flagging?
+
+Colin: Not really, it's fairly straightforward work, just time-consuming more than anything else.
+
+Lena: Makes sense. Once IT frees up in May, do you expect the rest of the rollout to move quickly, or are there other dependencies we should know about?
+
+Colin: Should move quickly once they're free.
+
+Colin: Most of the groundwork will already be done by then on the documentation and planning side, so it shouldn't take long.
+
+Lena: That's good to hear, sounds like June is a realistic target rather than an optimistic one.
+
+Colin: I think so, yes, we've built in a bit of buffer intentionally given how this first delay went.
+
+Lena: Smart approach given what happened. One more thing while I have you -- should I still plan to loop in the same stakeholders on our side, or has anything changed on your team?
+
+Colin: No changes on our side, same group throughout, that part's been consistent at least.
+
+Lena: Good to know, keeps things simple going forward. Anything else on your end today before we wrap up?
+
+Colin: No, that's really the main update I had for you today -- thanks for being flexible about the timeline, talk soon.

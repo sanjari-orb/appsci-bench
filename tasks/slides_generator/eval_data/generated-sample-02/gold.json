@@ -1,0 +1,327 @@
+{
+  "presentation": {
+    "title": "GENERATED_PROJECT_NAME Bioenergy Market Survey",
+    "theme": "default",
+    "aspectRatio": "16:9",
+    "metadata": {
+      "author": "Unknown",
+      "version": "1.0",
+      "date": ""
+    },
+    "slides": [
+      {
+        "slideNumber": 1,
+        "layout": "Diapositiva titolo",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 1",
+            "content": "GENERATED_PROJECT_NAME Bioenergy Market Survey",
+            "style": {
+              "fontSize": 20,
+              "bold": false,
+              "color": "#44546A"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Subtitle 2",
+            "items": [
+              "• EU-level survey results — research briefing",
+              "• Testing the claim: cooperative members are highly receptive to bioenergy",
+              "• GENERATED_FUNDING_PROGRAMME Grant Agreement No. GENERATED_GRANT_NUMBER"
+            ],
+            "style": {
+              "fontSize": 17,
+              "bold": true,
+              "color": "#44546A"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 2,
+        "layout": "Titolo e contenuto",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 1",
+            "content": "Survey Methodology",
+            "style": {
+              "fontSize": 29,
+              "bold": false,
+              "color": "#44546A"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Content Placeholder 2",
+            "items": [
+              "Target audience: cooperative members, authorities, and policymakers across Europe",
+              "Distributed via Social Media, email, and other channels (incl. WhatsApp)",
+              "Administered on a GDPR-compliant EU survey platform",
+              "Developed in English, translated into six languages: French, German, Greek, Italian, Polish, Spanish",
+              "Dissemination phase: February to May 2021; survey remained open until the end of the project"
+            ],
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#44546A"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 3,
+        "layout": "Confronto",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 1",
+            "content": "Response Count: A Discrepancy Between Sources",
+            "style": {
+              "fontSize": 27,
+              "bold": false,
+              "color": "#44546A"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 2",
+            "content": "Research introduction states",
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#44546A"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Content Placeholder 3",
+            "content": "“...approximately 500 completed responses.”",
+            "style": {
+              "fontSize": 22,
+              "bold": false,
+              "color": "#666666"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Text Placeholder 4",
+            "content": "Response data shows",
+            "style": {
+              "fontSize": 18,
+              "bold": true,
+              "color": "#44546A"
+            }
+          },
+          {
+            "type": "text",
+            "name": "Content Placeholder 5",
+            "content": "382 actual response rows in the provided spreadsheet",
+            "style": {
+              "fontSize": 32,
+              "bold": true,
+              "color": "#44546A"
+            }
+          },
+          {
+            "type": "text",
+            "name": "TextBox 6",
+            "content": "This briefing uses the verified count of 382 responses (the row count in the provided data) rather than the introduction's reported ~500, and flags the discrepancy for the project team.",
+            "style": {
+              "fontSize": 14,
+              "bold": false,
+              "color": "#202020"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 4,
+        "layout": "Due contenuti",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 1",
+            "content": "Who Responded",
+            "style": {
+              "fontSize": 29,
+              "bold": false,
+              "color": "#44546A"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Table 2",
+            "rows": [
+              [
+                "Language",
+                "Respondents"
+              ],
+              [
+                "Polish",
+                "132"
+              ],
+              [
+                "Greek",
+                "88"
+              ],
+              [
+                "Spanish",
+                "52"
+              ],
+              [
+                "English",
+                "45"
+              ],
+              [
+                "German",
+                "43"
+              ],
+              [
+                "Italian",
+                "17"
+              ],
+              [
+                "French",
+                "5"
+              ]
+            ]
+          },
+          {
+            "type": "table",
+            "name": "Table 3",
+            "rows": [
+              [
+                "Affiliation",
+                "Respondents"
+              ],
+              [
+                "Policy makers / local authority / energy federation",
+                "243"
+              ],
+              [
+                "Cooperative members",
+                "139"
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "name": "TextBox 4",
+            "content": "• By region: Rural 197, Urban 152, Peri-urban 33 (n=382)",
+            "style": {
+              "fontSize": 17,
+              "bold": false,
+              "color": "#202020"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 5,
+        "layout": "Titolo e contenuto",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 1",
+            "content": "Substantiating the Claim: Cooperative-Member Interest in Bioenergy",
+            "style": {
+              "fontSize": 25,
+              "bold": false,
+              "color": "#44546A"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "Content Placeholder 2",
+            "items": [
+              "92 of 97 cooperative-member respondents who answered this question (~95%) expressed positive interest — already using bioenergy, interested, or open to it",
+              "This question was routed only to cooperative-member respondents; the remaining 285 respondents (mostly policymakers/authorities) were not asked it, so they are excluded from this count rather than counted as non-responses",
+              "Supports the research introduction's claim that cooperative members are highly receptive to bioenergy"
+            ],
+            "style": {
+              "fontSize": 15,
+              "bold": true,
+              "color": "#44546A"
+            }
+          },
+          {
+            "type": "table",
+            "name": "Table 3",
+            "rows": [
+              [
+                "Response",
+                "Count"
+              ],
+              [
+                "Yes",
+                "38"
+              ],
+              [
+                "Maybe",
+                "30"
+              ],
+              [
+                "Already use bioenergy",
+                "24"
+              ],
+              [
+                "No",
+                "5"
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "name": "TextBox 4",
+            "content": "Cooperative members who answered, n=97",
+            "style": {
+              "fontSize": 13,
+              "bold": true,
+              "color": "#44546A"
+            }
+          }
+        ],
+        "notes": ""
+      },
+      {
+        "slideNumber": 6,
+        "layout": "Solo titolo",
+        "elements": [
+          {
+            "type": "text",
+            "name": "Title 1",
+            "content": "Summary",
+            "style": {
+              "fontSize": 29,
+              "bold": false,
+              "color": "#44546A"
+            }
+          },
+          {
+            "type": "bullet_list",
+            "name": "TextBox 2",
+            "items": [
+              "• 382 verified survey responses collected Feb–May 2021 across partner countries (research introduction cites ~500; data shows 382 — flagged for follow-up)",
+              "• Broad geographic and language reach: 7 languages, respondents spanning both cooperative members and policymakers/local authorities",
+              "• Claim substantiated: 95% of cooperative-member respondents who answered are positive on bioenergy (92 of 97)",
+              "• Funded under GENERATED_FUNDING_PROGRAMME, Grant Agreement No. GENERATED_GRANT_NUMBER"
+            ],
+            "style": {
+              "fontSize": 17,
+              "bold": false,
+              "color": "#202020"
+            }
+          }
+        ],
+        "notes": ""
+      }
+    ]
+  }
+}

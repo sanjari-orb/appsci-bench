@@ -1,0 +1,137 @@
+{
+  "series": {
+    "compliance_review_claude-opus-4-8_b1_l3_20260914_193301": {
+      "n": 2,
+      "n_deploys": 2,
+      "pearson": -1.0000000000000002,
+      "spearman": -0.9999999999999998,
+      "kendall_tau_b": -1.0,
+      "external_noise_sd": 0.06360985661742125,
+      "programs": [
+        {
+          "program": "A",
+          "internal": 0.9889,
+          "external": 0.37727,
+          "deploys": [
+            1
+          ],
+          "first_deploy": 1
+        },
+        {
+          "program": "B",
+          "internal": 1.0,
+          "external": 0.37597733333333333,
+          "deploys": [
+            2
+          ],
+          "first_deploy": 2
+        }
+      ],
+      "internal_first": 0.9889,
+      "internal_last": 1.0,
+      "external_first": 0.37727,
+      "external_last": 0.37597733333333333,
+      "external_all": [
+        {
+          "deploy": 1,
+          "external": 0.37727,
+          "hash": "f2d0c2c9",
+          "program": "A",
+          "is_submission": false,
+          "is_submitted_program": false,
+          "has_internal": true
+        },
+        {
+          "deploy": 2,
+          "external": 0.37597733333333333,
+          "hash": "372576e5",
+          "program": "B",
+          "is_submission": false,
+          "is_submitted_program": true,
+          "has_internal": true
+        },
+        {
+          "deploy": 3,
+          "external": 0.36831166666666665,
+          "hash": "372576e5",
+          "program": "B",
+          "is_submission": true,
+          "is_submitted_program": true,
+          "has_internal": false
+        }
+      ],
+      "programs_built": 2,
+      "programs_abandoned": [
+        "A"
+      ],
+      "shipped_program": "B",
+      "loop_verdicts": [
+        {
+          "deploy": 2,
+          "incumbent": 1,
+          "verdict": "kept",
+          "reverted": false,
+          "technique": "violation_recall",
+          "note": "# Change note\n\n## Metric targeted\nviolation_recall (0.9722 \u2014 the only metric below 1.0).\n\n## Failing case\n`ip_perpetual_inferred`: ground truth expects three violations, but the candidate\nemitted only two. It missed the `License Grant` must_have (required-but-absent)\nviolation. The contract's \"LICEN",
+          "internal": 1.0,
+          "external_delta": -0.0012926666666666642,
+          "outcome": "wrong_keep",
+          "within_noise": true
+        }
+      ],
+      "loop_correct_keep": 0,
+      "loop_wrong_keep": 1,
+      "loop_correct_reject": 0,
+      "loop_wrong_reject": 0,
+      "loop_value_discarded": 0,
+      "decisions": [
+        {
+          "cycle": "1->2",
+          "from": 1,
+          "to": 2,
+          "internal_delta": 0.011099999999999999,
+          "external_delta": -0.0012926666666666642,
+          "verdict": "disagree",
+          "within_noise": true
+        }
+      ],
+      "decisions_agree": 0,
+      "decisions_disagree": 1,
+      "decisions_tied": 0,
+      "decisions_within_noise": 1,
+      "regret": {
+        "best_deploy": 1,
+        "best_score": 0.37727,
+        "submitted_deploy": 3,
+        "submitted_score": 0.3721445,
+        "submitted_is_best_program": false,
+        "regret": 0.005125500000000005
+      },
+      "points": [
+        {
+          "deploy": 1,
+          "internal": 0.9889,
+          "external": 0.37727,
+          "hash": "f2d0c2c9",
+          "program": "A",
+          "is_submission": false
+        },
+        {
+          "deploy": 2,
+          "internal": 1.0,
+          "external": 0.37597733333333333,
+          "hash": "372576e5",
+          "program": "B",
+          "is_submission": false
+        }
+      ]
+    }
+  },
+  "skipped": {
+    "fewer_than_two_points": [
+      "compliance_review_claude-opus-4-8_b0_l3_20260914_190804",
+      "compliance_review_claude-opus-4-8_b2_l3_20260914_200421"
+    ]
+  },
+  "limit": null
+}

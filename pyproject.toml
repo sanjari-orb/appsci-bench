@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "appsci-bench"
+version = "0.1.0"
+description = "Applied AI Scientist Benchmark - evaluate AI agents on real-world applied science tasks"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "example-org"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "jinja2>=3.1,<4.0",
+    "pyyaml>=6.0,<7.0",
+    "jsonschema>=4.26,<5.0",
+    "litellm==1.91.3",
+    "tenacity>=9.1,<10.0",
+    "python-dotenv>=1.2,<2.0",
+    "pydantic>=2.13,<3.0",
+    "fastapi>=0.136,<1.0",
+    # Starlette needs this to parse multipart form bodies, and FastAPI does not pull it in. Without
+    # it `POST /api/jobs` with `-F file=@sweep.yaml` -- the FIRST command in the experiments
+    # quickstart -- returns a 400, on an otherwise correct install. The failure is graceful (the
+    # route says to send JSON instead) but the documented path is broken, and CI caught it only
+    # because the local venv happened to have it transitively.
+    "python-multipart>=0.0.9,<1.0",
+    "uvicorn>=0.49,<1.0",
+    "httpx>=0.28,<1.0",
+    "mini-swe-agent==2.4.5",
+    "python-pptx>=1.0",
+    "python-docx>=1.1",
+    "openpyxl>=3.1",
+    # PDF text extraction for the eval file-content judges (helpers/files.py). BSD-licensed;
+    "pypdf>=5.0",
+    # Recompresses embedded images in vision-judge PDF renders (helpers/render.py). Already
+    # transitive (via litellm) but imported directly here, same rationale as rank_bm25 below.
+    "pillow>=10.0",
+    "boto3>=1.34,<2.0",
+    # Retrieval runtime for the banking_support environment (vendored tau2 knowledge
+    # pipeline): rank_bm25 backs KB_search_bm25; numpy + openai back KB_search_dense.
+    # numpy/openai are already transitive (via litellm) but are imported directly here.
+    "rank_bm25>=0.2.2,<1.0",
+    "numpy>=1.26,<3.0",
+    # Figures for the analysis scripts. Imported lazily inside the drawing functions, so everything
+    # except drawing works without it -- see requirements.txt, which is what CI installs.
+    "matplotlib>=3.8,<4.0",
+    "openai>=1.40",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.0,<10.0",
+    "pytest-cov>=4.0,<5.0",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+]
+# Paper figures (scripts/paper_plots). kaleido does the PDF/SVG/PNG export and needs a local Chrome.
+plots = [
+    "plotly>=6.1,<7.0",
+    "kaleido>=1.0,<2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/appsci-bench/appsci-bench"
+Repository = "https://github.com/appsci-bench/appsci-bench"
+
+[tool.setuptools.packages.find]
+include = ["appsci_agent*", "appsci_bench*", "shared*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]  # line too long - handled by formatter
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --tb=short"

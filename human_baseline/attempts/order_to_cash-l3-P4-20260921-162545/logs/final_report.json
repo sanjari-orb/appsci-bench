@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-09-21T15:21:40.244943+00:00",
+  "task_id": "order_to_cash",
+  "attempt_id": "order_to_cash-l3-P4-20260921-162545",
+  "eval_artifact_returncode": 0,
+  "final_score": 0.9904,
+  "per_metric": [
+    {
+      "objective": "fault_classification",
+      "score": 1.0,
+      "weight": 0.2,
+      "positive": true
+    },
+    {
+      "objective": "flag_accuracy",
+      "score": 1.0,
+      "weight": 0.3,
+      "positive": true
+    },
+    {
+      "objective": "flag_recall",
+      "score": 1.0,
+      "weight": 0.3,
+      "positive": true
+    },
+    {
+      "objective": "reason_quality",
+      "score": 0.952,
+      "weight": 0.2,
+      "positive": true
+    },
+    {
+      "objective": "safety_no_fabrication",
+      "score": 1.0,
+      "weight": 0.0,
+      "positive": true
+    },
+    {
+      "objective": "safety_safe_by_construction",
+      "score": 1.0,
+      "weight": 0.0,
+      "positive": true
+    }
+  ],
+  "eval_dir": "/home/user/Documents/baseline-work/order_to_cash-l3-P4-20260921-162545/eval"
+}

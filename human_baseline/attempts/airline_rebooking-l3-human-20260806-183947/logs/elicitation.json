@@ -1,0 +1,167 @@
+{
+  "task_id": "airline_rebooking",
+  "status": "scored",
+  "total_items": 19,
+  "judged_items": 19,
+  "elicited_rate": 0.0,
+  "asked_not_elicited_rate": 0.3157894736842105,
+  "missed_rate": 0.6842105263157895,
+  "error_items": 0,
+  "num_exchanges": 20,
+  "items": [
+    {
+      "item_id": "already_flown_blocks_cancellation_entirely",
+      "verdict": "asked_not_elicited",
+      "evidence": "which are the specific cases where it should be transferred= ... I don't have the specific list memorized -- the exact transfer cases are defined in the policy, so you'll want to read that.",
+      "reasoning": "The requirement is a specific cancellation rule: if any part of the itinerary has been flown, the agent cannot cancel and must transfer, and this check precedes eligibility. The engineer asked several questions about transfer cases and cancellation eligibility (exchange 12 'which are the specific cases where it should be transferred', exchange 13 about verifying cancellation reasons). These broadly reach toward transfer/cancellation conditions. However, the stakeholder repeatedly deferred to policy.md and never conveyed anything about flown segments blocking cancellation. No reply contains this fact.",
+      "error": null,
+      "fact": "If any portion of the itinerary has already been flown, the agent cannot cancel it under any of the eligibility conditions and must transfer to a human instead. This check comes before eligibility.\n"
+    },
+    {
+      "item_id": "baggage_and_insurance_are_add_only",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement concerns specific post-booking modification rules: checked bags can be added but never removed, and travel insurance cannot be added after booking. The engineer never asked about baggage modification rules or travel insurance specifics. The stakeholder repeatedly deferred such eligibility details to policy.md. No question reached for these specific rules.",
+      "error": null,
+      "fact": "After booking, checked bags can be added but never removed, and travel insurance cannot be added at all -- it is available only at the time of the original booking.\n"
+    },
+    {
+      "item_id": "basic_economy_cannot_be_modified",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement specifies detailed modification rules: basic economy can't be modified, other reservations can be modified but never origin/destination/trip type, and kept segments retain original price. The engineer asked about eligibility for changes generally (exchange 2) and specific policy details, but the stakeholder consistently deferred these specifics to policy.md. No question specifically reached for what fields can/can't be modified or how segments are repriced, and the stakeholder never conveyed these facts. The closest is general talk about eligibility for changes, but the specific modification constraints were always deferred to policy.",
+      "error": null,
+      "fact": "Basic economy flights cannot be modified at all. Every other reservation can be modified, but never its origin, destination or trip type. Segments that are kept keep their original price rather than being repriced at the current fare.\n"
+    },
+    {
+      "item_id": "booking_passenger_limits",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement concerns booking details: max five passengers per reservation, collecting first/last name and date of birth for each, and all passengers flying the same flights/cabin. The engineer's questions focused on verification, escalation, conversation flow, failure modes, compensation, and transfers. Nothing reached for the specifics of passenger limits, passenger data collection, or same-flight/same-cabin constraints. The engineer never asked about booking structure or passenger details.",
+      "error": null,
+      "fact": "At most five passengers per reservation. For each one the agent collects first name, last name and date of birth. All passengers fly the same flights in the same cabin -- a reservation cannot split passengers across itineraries or cabins.\n"
+    },
+    {
+      "item_id": "booking_payment_method_limits",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement concerns specific payment method limits per reservation (one travel certificate, one credit card, three gift cards), the profile requirement, and non-refundable travel certificate remainders. The engineer asked about verification, transfers, failure modes, compensation, and conversation flow, but never asked anything about payment methods, how payments are applied, or refund mechanics for certificates. The stakeholder repeatedly deferred payment/eligibility details to policy.md but was never asked about payment method limits. Nothing in the conversation reaches for this fact.",
+      "error": null,
+      "fact": "Per reservation: at most one travel certificate, at most one credit card, and at most three gift cards. Every payment method used must already exist in the user's profile. Any unused remainder on a travel certificate is not refundable.\n"
+    },
+    {
+      "item_id": "cabin_change_rules",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement concerns specific cabin-change rules: the already-flown block, basic economy being able to change cabin, and both directions of price difference. The engineer never asked about cabin changes specifically. Questions about eligibility, transfers, compensation, and conversation flow were asked, but none reached for the specific cabin-change rules. The stakeholder repeatedly deferred to policy.md for eligibility details and never conveyed any of these four parts.",
+      "error": null,
+      "fact": "Cabin cannot be changed if any flight in the reservation has already been flown. Otherwise every reservation -- including basic economy, which cannot change flights -- can change cabin without changing flights. If the new cabin costs more the user pays the difference; if it costs less the user is refunded the difference.\n"
+    },
+    {
+      "item_id": "cabin_is_uniform_across_a_reservation",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement is a specific policy rule: cabin class must be identical across every flight in a reservation, and single-segment cabin changes are impossible. The engineer asked many general questions about eligibility, transfers, verification, and failure modes, but never asked anything specific about cabin class, flight segments, or the rules governing changes to individual segments of a reservation. The stakeholder repeatedly deferred detailed policy rules to policy.md and never conveyed this specific rule.",
+      "error": null,
+      "fact": "Cabin class must be identical across every flight in a reservation, at booking and afterwards. Changing the cabin of a single segment is not possible at all.\n"
+    },
+    {
+      "item_id": "cancellation_eligibility_four_conditions",
+      "verdict": "asked_not_elicited",
+      "evidence": "How is the agent expected to verify the cancellation reason? for example the weather? -- 'I don't have the specifics on how a cancellation reason like weather gets verified -- that's exactly the kind of detail that lives in the policy.'",
+      "reasoning": "The requirement specifies four exact conditions under which a reservation can be cancelled. The engineer touched on cancellation topics (verifying cancellation reason in exchange 13-14), but the stakeholder consistently deferred all eligibility specifics to policy.md, saying 'I don't have the specifics' and 'that's exactly the kind of detail that lives in the policy.' The four specific conditions were never conveyed. The engineer never got the stakeholder to enumerate any of the cancellation conditions.",
+      "error": null,
+      "fact": "A reservation can be cancelled if any one of exactly four conditions holds: the booking was made within the last 24 hours, the airline cancelled the flight, it is a business flight, or the user has travel insurance and the stated reason is covered by that insurance. Any single condition is enough; if none holds, the cancellation is not allowed.\n"
+    },
+    {
+      "item_id": "cancellation_reason_must_be_collected",
+      "verdict": "asked_not_elicited",
+      "evidence": "How is the agent expected to verify the cancellation reason? for example the weather?\" / \"I don't have the specifics on how a cancellation reason like weather gets verified -- that's exactly the kind of detail that lives in the policy.",
+      "reasoning": "The requirement has multiple parts: the agent must obtain the cancellation reason before acting, the reason falls into three specific categories (change of plan, airline cancelled, other), and the reason determines whether insurance coverage applies. The engineer did ask about cancellation reason verification in exchanges 13 and 14. However, the stakeholder repeatedly deferred to policy.md and did not convey the three specific reason categories nor the insurance coverage connection. The stakeholder said 'I don't have the specifics on how a cancellation reason like weather gets verified -- that's exactly the kind of detail that lives in the policy.' None of the three categories or the insurance link were conveyed.",
+      "error": null,
+      "fact": "The agent must obtain the reason for cancellation before acting, and the reason is one of three: change of plan, the airline cancelled the flight, or other reasons. The reason is what decides whether insurance coverage applies.\n"
+    },
+    {
+      "item_id": "compensation_amounts_and_triggers",
+      "verdict": "asked_not_elicited",
+      "evidence": "when a user is entitled for compensation but never requests it, is it expected for the agent to tell them? ... I don't have a specific rule on proactive compensation offers -- whether the agent should volunteer it lives in the policy.",
+      "reasoning": "The requirement specifies exact compensation rules: two situations, specific dollar amounts ($100 and $50), per-passenger multipliers, an ordering constraint, and a closed-list rule. The engineer asked several questions about compensation (exchanges 17 and 18), asking whether the agent should proactively point out compensation. However, the stakeholder repeatedly deferred to policy.md and said they didn't have specific rules. The engineer never asked about the specific compensation amounts, the two qualifying situations, the per-passenger multipliers, or the ordering constraint. The stakeholder consistently said details are in policy and never conveyed any of these specifics.",
+      "error": null,
+      "fact": "Two situations attract compensation and nothing else does. A complaint about cancelled flights in a reservation earns a certificate worth 100 dollars times the number of passengers. A complaint about delayed flights, where the user also wants to change or cancel, earns a certificate worth 50 dollars times the number of passengers -- and only after the change or cancellation has been made. No other reason attracts compensation of any kind.\n"
+    },
+    {
+      "item_id": "compensation_eligibility_gate",
+      "verdict": "asked_not_elicited",
+      "evidence": "I don't have a rule on that specifically -- whether the agent proactively points out compensation the customer didn't ask for isn't something I can answer from what I know.",
+      "reasoning": "The engineer did ask about proactive compensation in exchanges 17 and 18, which reaches for the never-proactive half of the requirement. However, the stakeholder explicitly declined to answer: 'I don't have a rule on that specifically -- whether the agent proactively points out compensation the customer didn't ask for isn't something I can answer from what I know.' The stakeholder never confirmed the never-proactive rule, and never conveyed the three qualifying grounds (silver/gold member, travel insurance, business class), the excluded case (regular member, no insurance, economy/basic economy), or the confirm-first requirement. The engineer never asked about the specific eligibility grounds either. So the fact was not conveyed on any of its parts.",
+      "error": null,
+      "fact": "Compensation is never offered proactively -- only when the user explicitly asks for it. Eligibility is then restricted: compensate only a silver or gold member, or a user who holds travel insurance, or a user flying business. A regular member with no travel insurance flying economy or basic economy is never compensated. The facts must be confirmed before any offer is made.\n"
+    },
+    {
+      "item_id": "free_baggage_allowance_table",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement is a specific baggage allowance table (nine cells across membership levels and cabins) plus the $50 extra-bag fee. The engineer asked about membership differences in exchange 9, but only about conversation style, and the stakeholder explicitly deferred baggage/fee specifics to policy: 'Membership status matters for eligibility -- what someone's actually entitled to, like certain baggage or fees or compensation -- but that's about the outcome... Any status-based differences in what's allowed are spelled out in the policy.' No question reached for the specific allowance numbers or the fee, and the stakeholder never conveyed any of the table values.",
+      "error": null,
+      "fact": "Free checked bags depend on the booking user's membership level and the cabin, and the whole table is: regular member 0 for basic economy, 1 for economy, 2 for business; silver member 1 / 2 / 3 across the same three cabins; gold member 2 / 3 / 4. Every extra bag beyond the allowance costs 50 dollars. Bags the user does not need should not be added.\n"
+    },
+    {
+      "item_id": "modification_payment_single_method",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement concerns payment method details for flight changes: exactly one gift card or one credit card, already in profile. The engineer's questions covered general policy, verification, transfers, compensation, latency, conversation style, and failure modes, but never asked about payment methods for changes/refunds or profile-stored payment constraints. Nothing in the conversation reaches for this fact.",
+      "error": null,
+      "fact": "When the flights on a reservation change, the user must provide exactly one gift card or one credit card to take the payment or the refund, and it must already be in their profile.\n"
+    },
+    {
+      "item_id": "no_outside_knowledge_or_recommendations",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement is a pair of absolute prohibitions: (1) the agent must not supply information/knowledge/procedures not sourced from the user or tools, and (2) it must never offer subjective recommendations, opinions, or commentary of its own. The engineer asked about failure modes, what the agent should do, transfers, and correcting customers, but never asked anything reaching for these two specific prohibitions about not inventing information or not offering opinions. The stakeholder repeatedly stressed 'no wrong info' and 'don't invent behavior the policy doesn't spell out,' which touches the first prohibition loosely, but there was no question aimed at these constraints, and the second prohibition (no subjective recommendations/opinions) was never conveyed at all. The closest is exchange 10 (failure modes) yielding 'giving the customer wrong or inaccurate information,' but that is about accuracy, not the absolute prohibition on supplying non-sourced information or offering opinions.",
+      "error": null,
+      "fact": "Two prohibitions apply throughout, and both are absolute. The agent must not supply information, knowledge or procedures that did not come from the user or from the available tools. And it must never offer subjective recommendations, opinions or commentary of its own.\n"
+    },
+    {
+      "item_id": "only_available_flights_can_be_booked",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement concerns which flight statuses permit booking (only 'available', not delayed/on-time/flying). The engineer asked about eligibility and verification generally, but never asked specifically about flight status values or which statuses permit booking. The stakeholder repeatedly deferred eligibility details to policy.md. Nothing in the conversation reaches for the specific fact about which flight statuses allow booking.",
+      "error": null,
+      "fact": "A flight date can be booked only while its status is available. Delayed and on-time flights have not taken off yet but still cannot be booked, and a flying flight has taken off and cannot be booked either. Seats and prices are listed per cabin class only for available dates.\n"
+    },
+    {
+      "item_id": "passenger_count_is_immutable",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement is a specific policy rule: passenger details can be modified but the number of passengers cannot be changed, and not even a human can change it. The engineer asked broadly about eligibility, transfers, and failure modes, but never asked specifically about modifying reservations, passenger details, or the number of passengers. The stakeholder repeatedly deferred such specifics to policy.md. Nothing in the conversation reaches for this particular rule, and the stakeholder never conveyed it.",
+      "error": null,
+      "fact": "Passenger details can be modified, but the number of passengers on a reservation cannot be changed -- and not even a human agent can change it, so transferring does not help.\n"
+    },
+    {
+      "item_id": "refund_destination_and_timing",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement specifies that refunds go back to the original payment methods and take 5-7 business days. The engineer asked about refunds in general terms but never asked specifically about refund payment methods or timing/processing duration for refunds. No question in the conversation reaches for how refunds are processed, where the money goes, or how long it takes. The stakeholder mentioned refunds only as one of the request types the agent handles, never detailing the mechanism.",
+      "error": null,
+      "fact": "A refund goes back to the original payment methods, and it takes 5 to 7 business days to arrive.\n"
+    },
+    {
+      "item_id": "transfer_protocol_and_exact_message",
+      "verdict": "asked_not_elicited",
+      "evidence": "Transfer is for when the request is genuinely outside what the agent is allowed to handle, or can't be honored under policy and needs a human... The specific transfer cases are in policy.md.",
+      "reasoning": "The requirement has three parts: the if-and-only-if transfer condition, the two-step order (call tool then send message), and the exact message wording. The engineer asked extensively about transfer conditions (exchanges 12, 16, 19). The stakeholder repeatedly said transfer is for requests outside what the agent can handle, and clarified pushy customers aren't a trigger and against-policy requests are denied/refused. However, on the exact condition, the stakeholder kept deferring to policy.md and never gave a clean if-and-only-if. More importantly, the engineer never asked about the mechanical steps of transferring (calling a tool then sending a message) nor the exact message wording. None of that was conveyed.",
+      "error": null,
+      "fact": "Transfer to a human happens if and only if the request cannot be handled within the agent's own actions, and it has two steps in order: first call the transfer tool, then send the user exactly `YOU ARE BEING TRANSFERRED TO A HUMAN AGENT. PLEASE HOLD ON.` A request that is merely against policy is denied, not transferred.\n"
+    },
+    {
+      "item_id": "travel_insurance_terms",
+      "verdict": "missed",
+      "evidence": "",
+      "reasoning": "The requirement concerns travel insurance: its cost ($30/passenger), what it entitles (full refund on cancellation for health or weather only), and that the agent should ask whether the user wants it. The engineer never asked about travel insurance, its pricing, or whether the agent should offer it. The closest topics were cancellation reason verification (weather) and compensation, but none reached for travel insurance specifics. The stakeholder never conveyed any of these facts.",
+      "error": null,
+      "fact": "Travel insurance costs 30 dollars per passenger. It entitles the user to a full refund if they later need to cancel, but for only two reasons: health or weather. The agent should ask whether the user wants it rather than assuming either way.\n"
+    }
+  ],
+  "transcript_source": "human_baseline/attempts/airline_rebooking-l3-human-20260806-183947/logs/transcript.md",
+  "warnings": []
+}

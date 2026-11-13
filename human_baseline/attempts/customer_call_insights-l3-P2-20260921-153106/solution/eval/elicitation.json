@@ -1,0 +1,16 @@
+{
+  "task_id": "customer_call_insights",
+  "status": "unmeasurable",
+  "total_items": 15,
+  "judged_items": 0,
+  "elicited_rate": null,
+  "asked_not_elicited_rate": null,
+  "missed_rate": null,
+  "error_items": 0,
+  "num_exchanges": 0,
+  "items": [],
+  "transcript_source": "(no build transcript was provided)",
+  "warnings": [
+    "the build conversation could not be read (unreadable) from '(no build transcript was provided)'; this run has no elicitation score, which is NOT a zero"
+  ]
+}

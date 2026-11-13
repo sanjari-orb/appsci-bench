@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__monthly_trend_analysis__self02",
+  "single_turn_input": {
+    "text": "Over the past 53 months, is there a particular month where we received significantly more cases for the Classic Court Sneakers compared to other months? The associated product Id is 01tWs000002wRQ5IAM. Return only the month name.\n\n(Today's date: 2024-06-15)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"December\", \"evidence_case_ids\": [\"500Ws000007q7dnIAA\", \"500Ws000007qQ4EIAU\", \"500Ws000007ql5KIAQ\", \"500Ws000007qlQGIAY\", \"500Ws000007rBpLIAU\", \"500Ws000007rDkmIAE\", \"500Ws000007rGHDIA2\", \"500Ws000007rH3XIAU\", \"500Ws000007rH9zIAE\", \"500Ws000007rIahIAE\", \"500Ws000007rKt1IAE\", \"500Ws000007rQAyIAM\"], \"task_category\": \"monthly_trend_analysis\", \"reward_metric\": \"exact_match\"}"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__monthly_trend_analysis__self01",
+  "single_turn_input": {
+    "text": "Over the past 53 months, is there a particular month where we received significantly more cases for the Cyclone Bike Jersey compared to other months? The associated product Id is 01tWs000002wR8MIAU. Return only the month name.\n\n(Today's date: 2024-06-15)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"March\", \"evidence_case_ids\": [\"500Ws000007qe2DIAQ\", \"500Ws000007qtuvIAA\", \"500Ws000007rABlIAM\", \"500Ws000007rE4yIAE\", \"500Ws000007rH8NIAU\", \"500Ws000007rJDQIA2\", \"500Ws000007rKfjIAE\", \"500Ws000007rR66IAE\"], \"task_category\": \"monthly_trend_analysis\", \"reward_metric\": \"exact_match\"}"
+  }
+}

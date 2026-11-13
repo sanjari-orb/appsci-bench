@@ -1,0 +1,34 @@
+persona_id: l1
+task_id: order_to_cash
+level: L1
+role: "Applied-science manager overseeing the build"
+domain_knowledge:
+  materiality_bar: "price/total delta > $500, or any out-of-contract charge"
+  data_shape: "invoices and POs as structured records; contracts as text"
+  imbalance: "most invoices are clean; flagged cases are the minority"
+  what_counts_as_problem: |
+    Material discrepancies that require human review:
+    - Price differences where the total dollar impact exceeds $500
+    - Quantity mismatches between invoice and purchase order
+    - Invoices for items or fees not covered by the supplier contract
+    - Duplicate invoice submissions
+  what_doesnt_count: |
+    These should NOT be flagged (they create noise):
+    - Trivial rounding differences (a few dollars)
+    - Price variances where total impact is under $500
+    - Invoices that match the PO and contract
+  validation_rules: |
+    Validation checks, applied in this order -- the first one that fails is the problem with the
+    invoice:
+    1. Duplicate check: invoice has a duplicate_of field set
+    2. Price check: (invoice_unit_price - po_unit_price) * quantity > $500
+    3. Quantity check: invoice_quantity != po_quantity
+    4. Total check: |invoice_total - computed_total| > $500
+    5. Contract item coverage: item_id not in the supplier's allowed_items
+    6. Contract fee check: fee type not in the contract's allowed_fees
+    If ANY check fails the invoice is flagged for human review. If ALL checks pass it is clean.
+# Resources (by spec name) this manager can speak to. L1 knows the data/infra landscape.
+known_resources:
+  - oltp_db
+  - contract_terms_doc
+  - kpis

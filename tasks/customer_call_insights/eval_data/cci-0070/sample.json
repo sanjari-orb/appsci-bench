@@ -1,0 +1,21 @@
+{
+  "data_point_id": "cci-0070",
+  "single_turn_input": {
+    "text": "Read the attached recording transcript for call CALL-9015 (Ridgeline Consulting Group) and return this call's insights for the CRM.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "transcript.txt",
+        "file_path": "transcript.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"next_steps\": [\"Sana to get renewal sign-off from her VP, expected next week\"], \"risks\": [], \"commitments\": [], \"sentiment\": \"NEUTRAL\"}"
+  },
+  "eval_rubric": "GENERATION_SPEC row 15 (Renewal, M, normal buying process is not an authority risk). Needing VP sign-off is routine, and Sana explicitly says the VP has been supportive all year with no expected pushback -- the trap case, not the risk. Entirely Sana's own undertaking, so next-steps-only. Plain, even tone, NEUTRAL.",
+  "_source_conversation": {
+    "convo_id": null,
+    "subflow": "hand_authored_generation_spec"
+  }
+}

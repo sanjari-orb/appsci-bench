@@ -1,0 +1,377 @@
+# Elicitation rubric -- banking_support
+#
+# The facts the applied-science agent could only obtain by ASKING the stakeholder. HELD-OUT ANSWER-KEY
+# MATERIAL: never mounted, never shown to the agent. Schema: schema/elicitation_rubric.schema.json.
+# Design + authoring rules: docs/elicitation_score_design.md.
+#
+# Authored from the simulator's material only (rule 6): user_sim_docs/common/operating_rules.md walked
+# section by section, user_sim_docs/common/build_test_customers.md, user_sim_docs/success_kpis.md, and
+# the domain_knowledge every persona (L1/L2/L3, plain and adversarial) declares. Each candidate was
+# then tested against what the agent can actually read, which for this task is a SHORT list -- the
+# redacted spec (description, business_goals, dataset_files, interface_design, artifacts, budgets, and
+# environment.resources minus host paths) and the tool API itself. In a clean checkout banking has no
+# environment/data or environment/sop directory to mount into the agent; dirty snapshots containing
+# files under either directory have a wider agent-visible surface and must be checked separately.
+#
+# THIS TASK'S HIDE IS UNUSUALLY DEEP, which is why the rubric is unusually load-bearing. Three of the
+# bank's operating rules were deliberately moved OUT of the spec and into the simulator so they would
+# have to be elicited (spec.yaml records the move). Every item below traces to that decision or to a
+# persona's declared domain_knowledge.
+#
+# WHY task_success CARRIES ALMOST EVERY ITEM. Banking's reward is a full-DB state hash against a replay
+# of the golden actions (88 of 97 cases) or a golden action-trace match (the other 9). The hash covers
+# the whole store, so BOTH directions bite: a golden action the artifact never performs diverges it, and
+# an action the golden replay does not have diverges it too. The counts under each item are measured from
+# provenance/banking_support/tasks.json and are what make the task_success tag honest rather than
+# decorative -- 81 of 97 cases have a golden log_verification, 69 have the unlock-then-call pair, 13 have
+# a golden transfer. An artifact missing one of these facts does not score slightly worse; it scores 0 on
+# every case that needs it.
+#
+# THREE ITEMS COME FROM THE REVIEW RULES RATHER THAN FROM THE MOVED SPEC MATERIAL. The last section of
+# operating_rules.md ("What the bank looks at when it reviews a closed conversation") was written to close
+# a gap the rest of this rubric left open. The agent is told to get the customer the right outcome; the
+# reward compares the WHOLE store against a replay of the reference trajectory. Three consequences of that
+# comparison had no in-world statement anywhere the agent could reach: that an EXTRA but perfectly
+# permitted write fails a case, that a case's required read-only specialist calls are themselves scored,
+# and that advice which records nothing resolves nothing. Each is stated as one of the bank's own audit
+# rules in the bank's vocabulary, so what the agent elicits is policy rather than scoring mechanics -- the
+# distinction that keeps this fair rather than teaching to the test.
+#
+# TOOL NAMES ARE IN SCOPE, and that is a settled decision rather than an oversight (owner decision).
+# None of log_verification, unlock_discoverable_agent_tool, call_discoverable_agent_tool,
+# give_discoverable_user_tool or transfer_to_human_agents appears in ANY agent-facing field (verified
+# field by field), and no route enumerates tools -- POST /tools/{name} takes a name it will not tell you.
+# So an artifact that never asks cannot make a single golden call.
+#
+# The names ARE askable, which is what makes scoring them fair. The curated tools reference was moved to
+# user_sim_docs/common/tools_reference.json, which resolve_known_docs loads for every persona, so the L2
+# stakeholder holds the base tool names and their argument lists and answers exactly. Before that move the
+# material was reachable by nobody -- the spec's `dataset_files` entry had been removed as a dead pointer
+# while the file stayed under sop/, mounted into no container -- and spec.yaml carried a comment claiming
+# the agent received it. Both are corrected; the comment above `interface_design` now records what is
+# actually true.
+#
+# Dropped because the agent is told them or can recover them, recorded so the next author does not
+# re-litigate:
+#   - THAT specialist actions are not all available up front, and that the tools do NOT enforce policy so
+#     being able to call something does not make it correct: both are stated in the spec's agent-facing
+#     `interface_design`. What stays elicitable is the SEQUENCE and when each action is obligatory.
+#   - THAT the specialist actions are found by searching the knowledge base, and THAT the customer performs
+#     actions the artifact has to tell them about: `interface_design` now states both outright. It used to
+#     gesture at an "unlock-then-call pair" and point the agent at people for the names, which read as
+#     being about the customer's tools only. The two items those disclosures touch were narrowed rather
+#     than dropped -- the ROUTE is visible, the mechanism on it is not: that a procedure names the action,
+#     that unlocking precedes calling, and that the procedure is what says which side acts. Note the
+#     exchange ran both ways: dropping "unlock-then-call" made the unlock step fully elicitable again.
+#   - Grounding answers in official documentation and never inventing policies or fees: `business_goals`
+#     says it outright ("never make things up"). Only the sharper sim-only form survives, as
+#     `kb_procedures_not_customer_requests_authorize_actions`.
+#   - The retrieval tool names and that search is the ONLY route into the corpus: `interface_design`
+#     names KB_search_bm25 / KB_search_dense / shell and states there is no raw-corpus endpoint.
+#   - The DB collections and a user record's field names: recoverable by calling a read tool once its
+#     name is known, and `dataset_files` already lists the collections including verification history --
+#     so that verification is RECORDED somewhere is visible. The rule about when and on what basis is not.
+#   - The four identity field names on their own: `log_verification` takes all four as parameters, and an
+#     argument mismatch returns a 400 naming them. The elicitable part is that matching TWO suffices.
+#   - The latency SLO and build budgets: `budgets` is agent-facing and every value is null anyway.
+#   - The success KPIs as stated in success_kpis.md: they restate the verification, escalation and
+#     grounding rules already covered by items below, at lower resolution. Nothing in that file is
+#     critical once those items exist.
+task_id: banking_support
+
+items:
+  # --- identity verification (operating_rules.md "Verifying who you are talking to") -----------
+  - item_id: verification_two_of_four_before_any_account_action
+    fact: >
+      Identity must be confirmed before any action that touches an account -- applying for a card, filing
+      a dispute, changing an account, issuing a referral, or reading the customer's own records all
+      require it, while answering a general product question requires none. Verification means matching
+      TWO of these four fields against the customer's record: date of birth, email address, phone number,
+      postal address. Once two match, the check must be RECORDED against the customer before the account
+      action is taken. An action taken on an unverified customer is a compliance failure even when the
+      outcome would otherwise have been right.
+    # task_success, not merely a compliance axis: `log_verification` writes a record into the hashed
+    # store and is a GOLDEN action in 81 of the 97 cases. An artifact that never verifies misses a
+    # golden write in all 81 and its post-run hash cannot match the golden replay -- so this single fact
+    # gates the primary metric on five sixths of the dataset. The reverse also bites: verifying a
+    # customer no case asks about adds a record the replay does not have.
+    objectives: [task_success, verification_compliance]
+    judge_hint: >
+      Four parts: that verification precedes any ACCOUNT action (and that product questions are exempt),
+      that TWO of the four fields matching is the bar, that the check is recorded, and that acting
+      unverified fails even on a correct outcome. The four field NAMES alone are not this item -- they are
+      parameters of the logging tool and a wrong call returns them in a 400. The "two of four" threshold
+      is the part that cannot be recovered by probing, and an artifact that assumes all four must match
+      refuses customers it should have served.
+
+  # --- the specialist-action mechanism (operating_rules.md "Using the bank's specialist actions") ---
+  - item_id: discoverable_action_sequence_is_search_read_unlock_call
+    fact: >
+      Most of what the agent can do is not available up front, and the knowledge base is the only route
+      to it. The sequence is always the same four steps in order: search the knowledge base for the
+      procedure covering the customer's situation, read the name of the specialist action out of that
+      procedure, unlock that action by name, then call it with the arguments the procedure requires. An
+      action cannot be called before it is unlocked. The agent cannot enumerate the specialist actions in
+      advance and must not guess at their names, which is why an answer that skips the search usually
+      cannot complete the work either.
+    # task_success: the unlock-then-call pair are golden actions in 69 of 97 cases (274 unlock calls and
+    # 456 calls across the set). An artifact that calls without unlocking gets an error and writes
+    # nothing; one that guesses names unlocks the wrong action. Either way the golden writes are missing
+    # and the hash diverges. This is also the fact that makes retrieval load-bearing rather than
+    # decorative -- the search is not for the answer text, it is for the action name.
+    #
+    # WHAT interface_design NOW GIVES AWAY, and what it stopped giving away. It states that the
+    # specialist actions are discoverable by searching the knowledge base, so the ROUTE is no longer
+    # elicitable -- an agent is told where to look. In exchange it no longer mentions an
+    # "unlock-then-call pair", which it used to, so the UNLOCK STEP is now fully elicitable where before
+    # it was half-disclosed. What remains this item: that the procedure names the action, that unlocking
+    # precedes calling, and that the set cannot be enumerated or guessed.
+    objectives: [task_success, verification_compliance]
+    judge_hint: >
+      The four steps in order, plus that unlocking is a precondition of calling and that names cannot be
+      guessed or listed. That specialist actions EXIST, and that the knowledge base is where they are
+      found, are both stated in the agent-facing interface_design -- so an answer that only says "search
+      the knowledge base" has conveyed nothing this item measures. The elicited content is the rest of the
+      sequence: that the procedure names the action, and that the action must be unlocked before it can be
+      called.
+
+  - item_id: some_specialist_actions_are_handed_to_the_customer
+    fact: >
+      Some specialist actions belong to the customer rather than the agent: the agent hands the action
+      over and the customer performs it themselves. The procedure in the knowledge base says which kind it
+      is, so the agent decides between acting and handing over by reading the procedure, not by guessing.
+    # task_success: giving a tool to the customer is a golden action in 21 cases and the customer's own
+    # execution of one in 20. An artifact that believes it must perform every action itself either calls
+    # an agent-side action the replay does not have, or performs nothing where the golden trace expects a
+    # hand-over -- diverging the hash in both directions. Reaching the golden state on those cases is
+    # impossible without this fact, however good the advice.
+    #
+    # NARROWED once interface_design started stating that the customer performs actions of their own and
+    # that the artifact is what tells them which. THAT half is now visible, so it cannot be what this item
+    # measures. What is left, and is the half that decides cases: the agent learns which kind an action is
+    # by reading the procedure, rather than deciding for itself which side should act.
+    objectives: [task_success]
+    judge_hint: >
+      The half that is still elicitable: that the PROCEDURE is what says whether an action is the agent's
+      to perform or the customer's to run. That customers act at all, and that the artifact tells them
+      what to do, are both stated in the agent-facing interface_design -- an answer conveying only that has
+      conveyed nothing this item measures.
+
+  - item_id: base_and_specialist_tool_names
+    fact: >
+      The always-available agent tools, by name: get_user_information_by_id, get_user_information_by_name,
+      get_user_information_by_email, get_credit_card_accounts_by_user, get_referrals_by_user,
+      get_credit_card_transactions_by_user, log_verification, change_user_email, get_current_time, and
+      transfer_to_human_agents. The specialist mechanism adds three more: unlock_discoverable_agent_tool,
+      call_discoverable_agent_tool, and give_discoverable_user_tool.
+    # task_success: without these names the artifact cannot make ANY call, golden or otherwise. Nothing
+    # agent-facing names one of them and no route enumerates tools -- POST /tools/{name} requires a name
+    # it will not supply, so a 400 can reveal an argument list but never a tool. This is the most
+    # mechanical item in the rubric and the one whose absence is total rather than partial.
+    objectives: [task_success]
+    judge_hint: >
+      The names, spelled as written, because they are what the tool route takes. The retrieval tools
+      (KB_search_bm25 / KB_search_dense / shell) are named in the agent-facing spec and are NOT this
+      item. An artifact that has the read tools but not log_verification, or the call tool but not the
+      unlock tool, has not elicited this.
+
+  - item_id: customer_executed_tool_names
+    fact: >
+      The tools the CUSTOMER executes rather than the agent, by name: apply_for_credit_card,
+      submit_referral, submit_transaction, request_human_agent_transfer, and call_discoverable_user_tool.
+      The agent advises and hands over; the customer performs these.
+    # task_success: these are golden actions with requestor "user" -- apply_for_credit_card in 19 cases,
+    # call_discoverable_user_tool in 20, submit_referral in 6, submit_transaction in 1. The environment
+    # applies customer-side semantics when the call carries that requestor, so an artifact that tries to
+    # perform them itself is making a different call from the golden one.
+    objectives: [task_success]
+    judge_hint: >
+      The five names and that they are the customer's to run. A general statement that "the customer does
+      some things" is covered by the hand-over item; this item is the specific list.
+
+  # --- BUILD-only test fixtures (build_test_customers.md) ---------------------------------------
+  - item_id: build_customer_fixture_for_internal_tests
+    fact: >
+      The BUILD environment has six known customers for record-based internal tests: Mia Smith
+      (user ID 123; pending debit-card activation and a savings deposit), Alex Riviera (126; an active
+      card and completed referral), Liu Xiaoming (3d91a520be; a frozen card and replacement order),
+      Emily Thompson (4db6fc36e8; a duplicate charge and open dispute), Bei Chen (601e851551;
+      business accounts and an approved limit increase), and Maria Elena Rodríguez (d97fb90fe8;
+      a closed card, cash-back dispute, and pending application). Only one exact name/ID pair with its
+      matching scenario is required to give the builder a real starting point; banking read tools provide
+      the current account and transaction details needed to make an internal test.
+    # task_success is an indirect dependency here: without a real BUILD identity the builder cannot
+    # exercise a record-changing path in its internal tests and may optimise against invented fixtures.
+    # These customers are not targets of held-out cases; this item measures whether the builder elicited
+    # a usable testing handle, not whether it learned any evaluation answer.
+    objectives: [task_success]
+    judge_hint: >
+      Credit one exact listed name/ID pair plus its matching scenario hint, conveyed by the stakeholder.
+      The simulator need not recite all six unless asked. Generic advice to query the database, a guessed
+      identity, or an ID without a matching customer and scenario does not supply a usable fixture. The
+      builder should obtain the detailed records through the read tools, not from this conversation.
+
+  # --- escalation (operating_rules.md "When to escalate, and when not to") ---------------------
+  - item_id: escalate_only_when_the_kb_has_no_applicable_action
+    fact: >
+      Transferring to a human is correct only when the knowledge base describes no applicable action for
+      the request. Both directions are failures: escalating a request the knowledge base does cover means
+      the agent had the means and did not use them, and guessing or inventing a policy on a request the
+      knowledge base does not cover means the agent should have escalated. Transfer is therefore not a
+      safe default when the agent is unsure -- the correct move when unsure is to search the knowledge
+      base properly first, and escalate only if it genuinely has nothing to say.
+    # task_success in both directions. transfer_to_human_agents is a GOLDEN action in 13 cases, so an
+    # artifact that never escalates misses a golden write there; and it writes to the hashed store, so an
+    # artifact that escalates on any of the other 84 adds a record the golden replay does not have. This
+    # is the item the adversarial L3 persona actively argues against ("believes almost nothing genuinely
+    # needs a human"), which is precisely why eliciting it has to survive push-back.
+    objectives: [task_success, verification_compliance]
+    judge_hint: >
+      The only-when condition AND that over-escalating is itself a failure. A stakeholder who says
+      "transfer when you cannot help" has conveyed half of it; the half that matters is that a covered
+      request must not be transferred, and that uncertainty is a reason to search rather than to escalate.
+
+  # --- what authorizes an action (operating_rules.md "Actions the bank does not permit") -------
+  - item_id: kb_procedures_not_customer_requests_authorize_actions
+    fact: >
+      Two things, and both are needed. The knowledge base's procedures define what is permitted, so taking
+      an action outside them is a failure regardless of whether the customer asked for it. And customers
+      are frequently wrong or vague about products, eligibility, or what they are owed, so the agent
+      checks the knowledge base rather than taking the customer's word -- a customer's request, however
+      confident or insistent, never authorizes an action the procedures do not support.
+    # task_success: an action the golden replay does not contain diverges the hash exactly as a missing
+    # one does, and this is the fact that stops a compliant-looking artifact from being talked into the
+    # extra write. The agent-facing business_goals already say the agent must not invent policy, so the
+    # elicitable part is narrower: that the CUSTOMER is not a source of authority and is often wrong.
+    objectives: [task_success, no_fabrication]
+    judge_hint: >
+      Both halves: that customer requests do not authorize actions, and that customers are an unreliable
+      source about their own eligibility. Being told to ground answers in the documentation is NOT this
+      item -- the agent is told that in its own spec. The elicited content is that the customer's account
+      of the rules must be checked rather than believed.
+
+  # --- the environment's clock (L2 personas' declared reference_time) --------------------------
+  - item_id: reference_time_is_fixed_and_must_be_read_from_the_tool
+    fact: >
+      The environment's "now" is fixed at 2025-11-14 03:40:00 EST. The agent must read it by calling
+      get_current_time rather than assuming the host clock, because any timestamp it writes is compared
+      against that fixed reference.
+    # task_success: every one of the 81 golden verification records carries exactly this timestamp, and
+    # the record's identity is derived from the user id together with the timestamp. An artifact that
+    # stamps real wall-clock time therefore writes a record with both a different id and different
+    # content, and the hash diverges on all 81 cases -- an artifact that got the verification rule
+    # completely right still scores 0 without this. The VALUE is recoverable by calling get_current_time
+    # once that name is known (see the tool-names item), so what is elicitable is that the clock is fixed
+    # and must be read rather than assumed.
+    objectives: [task_success]
+    judge_hint: >
+      That the clock is fixed and comes from the tool rather than the host. The exact timestamp value is
+      recoverable from get_current_time and is not required for this item -- what is required is knowing
+      not to use the real time.
+
+  # --- what a closed conversation is reviewed against (operating_rules.md "What the bank looks at
+  # when it reviews a closed conversation") ----------------------------------------------------
+  - item_id: review_compares_recorded_result_against_a_correct_handling
+    fact: >
+      The review works out what a correct handling of the customer's request would have recorded -- every
+      action it required and nothing else -- and compares that against what the conversation actually
+      recorded. The comparison is on the records at the end, not on the wording of the answer: two agents
+      who took different routes to the same correct records both pass, and an agent whose advice was
+      faultless but whose records are wrong does not.
+    # task_success, and it is the frame the other three review items are consequences of. The reward IS
+    # this comparison, so an artifact that believes it is judged on the quality of its ANSWER optimises
+    # the one thing that is never read: 88 of 97 cases compare the whole store against the reference
+    # handling and the other 9 compare the action trajectory, and `communicate_info` is empty in every
+    # banking case, so nothing the artifact SAYS enters the score at all.
+    #
+    # The DOCUMENT states this in the bank's own terms, and the reasons are about what the artifact then
+    # optimises: told the machinery it optimises against the machinery, and "compared against a replay of
+    # the reference trajectory" also tells it a single reference exists per case, a long step toward
+    # reconstructing the answer key (see KNOWN_ISSUES.md section 1 on this task's contamination exposure).
+    # That is a reason to write the SOURCE carefully, NOT a reason to mark the item down when a simulator
+    # answers in harness vocabulary: what this item measures is whether the agent came away knowing the
+    # yardstick, and an answer that says "hashed against a golden replay" has told it exactly that. The
+    # judge hint says so outright, because the earlier wording read as a penalty and would have scored a
+    # more-informative answer lower than a tidier one.
+    objectives: [task_success]
+    judge_hint: >
+      Two halves, and both matter: that the yardstick is the RECORDED result rather than the answer text,
+      and that it is compared against what a correct handling of that request would have recorded. Being
+      told "get the right outcome" is not this item -- the agent's own spec says that. Being told the
+      records are audited, without the comparison against a correct handling, is the weaker half only.
+      Judge only whether those two halves came across. An answer that also reaches for the mechanism --
+      hashes, replays, a golden trajectory -- still conveys them, so score it elicited: this item asks
+      what the agent learned, not how tidily the simulator stayed in character.
+
+  - item_id: no_records_beyond_what_the_request_asked_for
+    fact: >
+      The bank reviews the records a conversation left behind against the records the request itself
+      called for, and anything extra is a finding rather than a courtesy. Take exactly the actions the
+      request requires and no others: a second verification record for a customer already verified
+      earlier in the same conversation, a dispute filed because the customer mentioned a charge in
+      passing rather than asked for it, an account opened while the customer was only asking what one
+      costs, or a record written "for the file" in case it proves useful later are all failures. An
+      unrequested record is a change to someone's account that they never authorised, so being more
+      thorough than the request is worse than doing nothing extra.
+    # task_success, and it is the direction the other items do not cover. 88 of the 97 cases compare the
+    # WHOLE store against the golden replay, so a record the replay does not contain diverges the hash
+    # exactly as a missing one does -- an artifact can lose a case by doing more than was asked. Measured
+    # from the eval data: 81 cases carry EXACTLY ONE golden verification record and 16 carry none, so a
+    # duplicate verification diverges those 81 and a verification on a case that needs none diverges the
+    # other 16. Nothing agent-facing says this; `interface_design` warns that a callable action may not be
+    # a correct one, which is the out-of-policy direction, not the extra-but-permitted one.
+    objectives: [task_success, verification_compliance]
+    judge_hint: >
+      That the record set must match the request EXACTLY, extra writes included. Being told not to take
+      actions the procedures forbid is NOT this item -- the agent is warned about that in its own spec,
+      and this item is about actions that would be perfectly permitted if the customer had asked for
+      them. A stakeholder who says "only do what the customer asked" has conveyed it; one who says
+      "follow the procedures" has not.
+
+  - item_id: required_lookups_must_actually_be_called
+    fact: >
+      Acting on what the customer says the records say is a failure even where the customer turns out to
+      have been right: an account id, a card's last four digits, an amount or a date the customer supplies
+      is confirmed against the record before it is used, and the agent acts on what the bank's records
+      say and never on the customer's account of them. Where the knowledge base's procedure names a
+      specialist lookup, that lookup has to actually be called -- the review looks for it, and a
+      conversation that went straight to the action fails even when the action itself was correct. The
+      lookups are part of the work, not a preliminary the agent may skip once it believes it knows the
+      answer.
+    # task_success. The read-only specialist calls a case requires are logged into the hashed store (the
+    # per-case required-reads allowlist is derived from the golden trajectory), so an artifact that
+    # reaches the right END state without performing them lands on a different hash and scores 0.
+    # Measured from the eval data: 54 of 97 cases derive a non-empty allowlist, of 1 to 5 tools each --
+    # most often get_all_user_accounts_by_user_id_3847 (40 cases), get_bank_account_transactions_9173
+    # (23), get_user_dispute_history_7291 (17) and get_debit_cards_by_account_id_7823 (15). This is the
+    # fact that makes a shortcut to the right answer score zero, and no agent-facing field hints at it.
+    objectives: [task_success]
+    judge_hint: >
+      Both halves: that customer-supplied identifiers and figures must be confirmed against the records,
+      and that a procedure's named lookup must actually be called rather than skipped when the agent
+      already believes it knows the answer. The specialist tool NAMES are not this item -- they come from
+      the knowledge base per case. Being told to search the knowledge base first is the sequence item,
+      not this one.
+
+  - item_id: outcome_must_land_in_the_records_before_the_conversation_ends
+    fact: >
+      A request counts as resolved only when the records show it, so correct advice with nothing recorded
+      is an unresolved request however good the advice was. Where the action is the customer's own to
+      perform, walking them through it until it is done is part of the agent's job -- telling them to do
+      it later, or pointing them at their dashboard, leaves the request unresolved, and nothing is
+      finished after the conversation closes. This never overrides the procedures: an action they do not
+      permit stays impermissible, and for such a request the resolved outcome is the one the procedure
+      gives, a refusal or an escalation, recorded as such.
+    # task_success. The reward reads the store AFTER the conversation ends, so a case whose golden
+    # trajectory contains a write is unreachable by advice alone. Measured from the eval data: 49 of the
+    # 97 cases have at least one golden action whose requestor is the CUSTOMER, and the customer simulator
+    # performs those only when the conversation drove it to -- so an artifact that advises correctly and
+    # leaves the customer to act afterwards reaches the golden state on none of them. Distinct from the
+    # hand-over item, which is about KNOWING some actions are the customer's: this is that handing over is
+    # not itself completion.
+    objectives: [task_success]
+    judge_hint: >
+      That advice alone does not resolve anything and that a customer-side action must be completed
+      inside the conversation. Knowing that some actions belong to the customer is the hand-over item;
+      this item is the completion requirement on top of it. The closing caveat about impermissible
+      actions is context, not a scored half -- an answer that omits it still conveys the fact.

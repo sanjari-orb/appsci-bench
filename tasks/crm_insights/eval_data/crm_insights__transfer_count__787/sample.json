@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__transfer_count__787",
+  "single_turn_input": {
+    "text": "Find the agent who handled over two cases and had the highest number of transfers in the summer of 2021. Return only the Id of the agent.\n\n(Today's date: 2021-10-20)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"005Ws000001xYoHIAU\", \"evidence_case_ids\": [\"500Ws000007rQd8IAE\"], \"task_category\": \"transfer_count\", \"reward_metric\": \"exact_match\"}"
+  }
+}

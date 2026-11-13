@@ -1,0 +1,9 @@
+{
+  "data_point_id": "p2p-0023",
+  "single_turn_input": {
+    "text": "Review invoice INV-8993 (supplier Supplier_7, PO PO-000744) against its PO line and the supplier contract; decide whether to flag it for human review and give a short reason."
+  },
+  "expected_output": {
+    "json": "{\"flagged\": false, \"fault_type\": null, \"reason\": \"trivial rounding (+$2.88 <= $3 tolerance); not material; 'handling fee' $304.24 is permitted by the contract\", \"total_delta\": 2.88, \"permitted_fee\": 304.24}"
+  }
+}

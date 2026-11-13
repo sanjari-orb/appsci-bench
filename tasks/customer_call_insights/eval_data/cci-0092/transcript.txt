@@ -1,0 +1,56 @@
+Call CALL-9037 — Winterhaven Outdoor Gear (ACC-4037) — 2026-03-13 09:00 UTC
+Participants: Theo Baptiste (Senior Sales Development Representative, us) / Nadia Solberg (VP of E-Commerce, customer)
+
+Theo: Nadia, thanks for the time today. Understand you reached out after seeing one of our case studies -- what caught your eye about it specifically?
+
+Nadia: Honestly, the inventory sync piece more than anything else. We've had some real pain points there that I think your platform might actually solve for us.
+
+Theo: Good to hear that resonated so directly. Can you tell me a bit more about your current setup before we get into specifics?
+
+Nadia: We've used Bardsley Systems for years, and honestly we've been pretty happy with them overall, no major complaints there generally speaking.
+
+Nadia: It's really just this one gap that's become a problem.
+
+Theo: Good to know, that's useful context either way, helps me understand where you're coming from. What specifically is missing from that setup for the inventory sync use case you mentioned?
+
+Nadia: Real-time updates across our regional warehouses, mostly, Bardsley's always a few hours behind and it's starting to cause real operational problems for us lately.
+
+Theo: That makes sense as a gap, and honestly that's actually one of our stronger areas as a platform. Would a live demo focused specifically on that workflow be useful to see?
+
+Nadia: Yes, definitely, that would help a lot in evaluating whether this is genuinely worth pursuing further on our end.
+
+Theo: Great, let's get that scheduled then while we're talking. Are you available next Tuesday by any chance?
+
+Nadia: Tuesday works well for me, let's do late morning if that's open on your end.
+
+Theo: I'll send an invite for Tuesday late morning, and I'll make sure the demo focuses specifically on real-time inventory sync across multiple locations, since that's the core issue.
+
+Nadia: Appreciated, that's exactly the piece I want to see walked through in real detail.
+
+Theo: Understood completely. Before we move on, roughly how big is the team that would eventually be using this day to day?
+
+Nadia: About fifteen people across our e-commerce operations group right now, could grow depending on how the pilot goes.
+
+Theo: Makes sense, that helps me think about the right setup to show you. One more thing while we're talking, just so I understand the landscape fully -- are you evaluating any other vendors alongside us for this?
+
+Nadia: Yes, actually, we do have a call scheduled with Aldergate next month too, just to compare options honestly before deciding anything.
+
+Theo: Appreciate you being upfront about that rather than letting me find out later -- it helps me understand the timeline you're actually working with.
+
+Nadia: Of course, seemed only fair to mention it given how directly you've been with me too.
+
+Theo: I'll make sure we come fully prepared for Tuesday given that timeline.
+
+Theo: Is there anyone else who should be included on the demo invite from your side?
+
+Nadia: Just me for this first one, if it goes well I'll loop in a couple others for a follow-up.
+
+Theo: Sounds good, I'll keep the invite to just you for now then. This has been a really helpful conversation, honestly, appreciate you being so open about all of it.
+
+Nadia: Of course, I'd rather set expectations clearly upfront than waste anyone's time later on.
+
+Theo: Completely agree with that approach. Anything else before we wrap up for today?
+
+Nadia: No, I think that covers it, looking forward to the demo on Tuesday.
+
+Theo: Great, talk Tuesday then, Nadia, looking forward to it.

@@ -1,0 +1,9 @@
+{
+  "data_point_id": "crm_insights__top_issue_identification__266",
+  "single_turn_input": {
+    "text": "What has been the most frequent problem with Urban Lifestyle Sneakers over the past 6 quarters? The associated product Id is 01tWs000002wRt7IAE. Return only the issue Id of the most reported issue for this product.\n\n(Today's date: 2021-07-29)"
+  },
+  "expected_output": {
+    "json": "{\"answer\": \"a1MWs0000012u7BMAQ\", \"evidence_case_ids\": [\"500Ws000007rHWdIAM\", \"500Ws000007rK7rIAE\", \"500Ws000007rQwPIAU\", \"500Ws000007rR1GIAU\"], \"task_category\": \"top_issue_identification\", \"reward_metric\": \"exact_match\"}"
+  }
+}

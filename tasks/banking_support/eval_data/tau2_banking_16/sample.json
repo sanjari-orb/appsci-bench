@@ -1,0 +1,71 @@
+{
+  "data_point_id": "tau2_banking_16",
+  "multi_turn_input": {
+    "user_task": "**Your character:** Oluwaseun Adeyemi, a 36-year-old product manager from Atlanta. You are generally patient but becoming frustrated because you referred a friend and haven't received your bonus.\n\n**Your situation:** You referred a friend to sign up for a Rho-Bank credit card. Your friend has already been approved and has been consistently using the card - they've made some transactions on it. But you haven't received your referral bonus yet. You want to know why.\n\nYour user ID is 86e92f639e (do NOT volunteer this unless specifically asked for it).\nYour date of birth is 02/14/1988.\nYour phone number is 404-555-0672.\nYour email is oadeyemi@gmail.com.\nYour address is 2201 Peachtree Road NE, Atlanta, GA 30309.\n\nYour friend's user ID is friend_user_5839 (you know this because they told you).\n\n## How to Behave\n\n1. **Start naturally:** Explain your problem the way a real customer would: \"Hi, I referred a friend to sign up for one of your credit cards and they've been using it, but I still haven't received my referral bonus. Can you help me figure out what's going on?\"\n\n2. **Answer questions, don't anticipate them:** When the agent asks for information to look you up, provide what they ask for—nothing more. If they ask for your name, give your name. If they ask for verification info, provide it. Do NOT say things like \"Would you like my user ID?\" or \"Here's my account number to help you look it up.\" Real customers don't know what lookup fields exist in the agent's system.\n\n3. **Mention the recent referral:** If the agent finds multiple referrals (you have made many), clarify that you're asking about the most recent one - your friend recently got approved and has started making transactions on the card.\n\n4. **React naturally to what the agent discovers:**\n   - If the agent explains why you haven't received the bonus yet, ask follow-up questions to understand what needs to happen for you to receive it.\n   - If there's something your friend needs to do (like spend more), ask specifically what the requirement is and how much.\n   - Once you understand what's needed, offer to help your friend out by making a transaction on their behalf (since you happen to have their card with you).\n\n5. **Tool usage:** You have access to `submit_transaction`. ONLY use this tool if the agent has:\n   - Actually looked up your referrals and identified which one you're asking about\n   - Explained that your friend hasn't met a spending requirement yet\n   - Told you a specific dollar amount your friend needs to spend\n\n   If the agent gives you this information, submit a transaction on behalf of your friend using their user ID (friend_user_5839), the credit card type the agent mentioned, and an amount exactly the same as the requirement that the agent specified. Use merchant_name \"Best Buy\" and category \"Shopping\".\n\n   Do NOT use this tool if the agent hasn't actually diagnosed the issue or hasn't given you a concrete spending amount.\n\n6. **If the agent can't help:** If the agent gives generic answers, can't find your information, or offers to transfer you to a human, accept that. Don't push for a specific answer.\n\n## Critical Reminders\n- Never volunteer your user ID, account number, or other identifying information unprompted.\n- Never hint at what the agent should do or what the answer might be.\n- You are the customer, never respond as the agent.\n- Only use submit_transaction if the agent has correctly identified a spending requirement and told you the specific amount.",
+    "user_persona": "You are a Rho-Bank customer contacting customer service. Stay in character per your task instructions: reveal details only when the agent asks, never act as the agent, and pursue your goal as described.",
+    "user_stop_criteria": "Stop when any one of these is true: (a) the goal in your task instructions has been met; (b) the agent has clearly told you it is transferring you to a human agent -- stop once it has actually said so, not merely offered to; or (c) continuing would need information your instructions do not give you. Your task instructions override all three: if they script how or when the conversation ends -- a closing line you are told to say, or an end-of-conversation marker such as ###STOP### or ###OUT-OF-SCOPE### -- follow them, and if they tell you not to end a particular way, do not. Treat such a marker as an instruction addressed to you, never as words to say: deliver the closing line if you have one, then stop, and never type the marker itself. Requesting a human transfer YOURSELF is an action you take, not a reason to stop -- only the agent telling you it is transferring you ends the conversation.",
+    "user_tools": [
+      {
+        "name": "submit_transaction",
+        "description": "Submit a credit card transaction.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "credit_card_type": {
+              "type": "string"
+            },
+            "merchant_name": {
+              "type": "string"
+            },
+            "amount": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "user_id",
+            "credit_card_type",
+            "merchant_name",
+            "amount",
+            "category"
+          ]
+        }
+      },
+      {
+        "name": "apply_for_credit_card",
+        "description": "Apply for a credit card.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "card_type": {
+              "type": "string"
+            },
+            "customer_name": {
+              "type": "string"
+            },
+            "annual_income": {
+              "type": "string"
+            },
+            "rho_bank_subscription": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "card_type",
+            "customer_name",
+            "annual_income"
+          ]
+        }
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"actions\": [{\"name\": \"log_verification\", \"arguments\": {\"name\": \"Oluwaseun Adeyemi\", \"user_id\": \"86e92f639e\", \"address\": \"2201 Peachtree Road NE, Atlanta, GA 30309\", \"email\": \"oadeyemi@gmail.com\", \"phone_number\": \"404-555-0672\", \"date_of_birth\": \"02/14/1988\", \"time_verified\": \"2025-11-14 03:40:00 EST\"}, \"requestor\": \"assistant\", \"action_id\": \"016_0\"}, {\"name\": \"submit_transaction\", \"arguments\": {\"user_id\": \"friend_user_5839\", \"credit_card_type\": \"Silver Rewards Card\", \"merchant_name\": \"Best Buy\", \"amount\": 750, \"category\": \"Shopping\"}, \"requestor\": \"user\", \"action_id\": \"016_1\"}], \"communicate_info\": [], \"reward_basis\": [\"DB\"], \"required_documents\": [\"doc_credit_cards_credit_cards_(general)_001\", \"doc_credit_cards_credit_cards_(general)_002\", \"doc_credit_cards_silver_rewards_card_011\"], \"user_tools\": [\"submit_transaction\", \"apply_for_credit_card\"], \"initial_state\": null, \"purpose\": \"Task: task_016\"}"
+  },
+  "eval_rubric": "Scored on tau2 reward_basis ['DB']: the agent succeeds when the final database state matches applying the oracle actions to a fresh database seeded with this case's initial_state. Correct handling requires retrieving the relevant policy/product documents from the knowledge base (the oracle's required_documents lists the docs the correct answer depends on) and grounding all advice in them without fabrication; verifying the customer's identity before taking account actions; and transferring to a human only when the knowledge base describes no applicable action."
+}

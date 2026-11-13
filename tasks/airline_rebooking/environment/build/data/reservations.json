@@ -1,0 +1,412 @@
+{
+  "TRN001": {
+    "cabin": "business",
+    "created_at": "2024-05-02T10:24:00",
+    "destination": "ORD",
+    "flight_type": "round_trip",
+    "flights": [
+      {
+        "date": "2024-05-20",
+        "destination": "ORD",
+        "flight_number": "HAT901",
+        "origin": "SFO",
+        "price": 420
+      },
+      {
+        "date": "2024-05-24",
+        "destination": "SFO",
+        "flight_number": "HAT902",
+        "origin": "ORD",
+        "price": 440
+      }
+    ],
+    "insurance": "yes",
+    "nonfree_baggages": 0,
+    "origin": "SFO",
+    "passengers": [
+      {
+        "dob": "1986-03-14",
+        "first_name": "Nora",
+        "last_name": "Castillo"
+      }
+    ],
+    "payment_history": [
+      {
+        "amount": 890,
+        "payment_id": "credit_card_50000001"
+      }
+    ],
+    "reservation_id": "TRN001",
+    "total_baggages": 2,
+    "user_id": "nora_castillo_9412"
+  },
+  "TRN002": {
+    "cabin": "basic_economy",
+    "created_at": "2024-05-06T18:03:00",
+    "destination": "JFK",
+    "flight_type": "one_way",
+    "flights": [
+      {
+        "date": "2024-05-22",
+        "destination": "JFK",
+        "flight_number": "HAT903",
+        "origin": "ORD",
+        "price": 72
+      }
+    ],
+    "insurance": "no",
+    "nonfree_baggages": 0,
+    "origin": "ORD",
+    "passengers": [
+      {
+        "dob": "1986-03-14",
+        "first_name": "Nora",
+        "last_name": "Castillo"
+      }
+    ],
+    "payment_history": [
+      {
+        "amount": 72,
+        "payment_id": "gift_card_50000002"
+      }
+    ],
+    "reservation_id": "TRN002",
+    "total_baggages": 0,
+    "user_id": "nora_castillo_9412"
+  },
+  "TRN003": {
+    "cabin": "economy",
+    "created_at": "2024-05-03T08:47:00",
+    "destination": "ORD",
+    "flight_type": "round_trip",
+    "flights": [
+      {
+        "date": "2024-05-21",
+        "destination": "ORD",
+        "flight_number": "HAT908",
+        "origin": "LAX",
+        "price": 168
+      },
+      {
+        "date": "2024-05-25",
+        "destination": "LAX",
+        "flight_number": "HAT909",
+        "origin": "ORD",
+        "price": 174
+      }
+    ],
+    "insurance": "yes",
+    "nonfree_baggages": 0,
+    "origin": "LAX",
+    "passengers": [
+      {
+        "dob": "1979-07-30",
+        "first_name": "Owen",
+        "last_name": "Delgado"
+      },
+      {
+        "dob": "1981-02-17",
+        "first_name": "Marta",
+        "last_name": "Delgado"
+      }
+    ],
+    "payment_history": [
+      {
+        "amount": 744,
+        "payment_id": "credit_card_50000004"
+      }
+    ],
+    "reservation_id": "TRN003",
+    "total_baggages": 3,
+    "user_id": "owen_delgado_9137"
+  },
+  "TRN004": {
+    "cabin": "economy",
+    "created_at": "2024-05-01T14:12:00",
+    "destination": "JFK",
+    "flight_type": "one_way",
+    "flights": [
+      {
+        "date": "2024-05-10",
+        "destination": "JFK",
+        "flight_number": "HAT905",
+        "origin": "SFO",
+        "price": 142
+      }
+    ],
+    "insurance": "no",
+    "nonfree_baggages": 0,
+    "origin": "SFO",
+    "passengers": [
+      {
+        "dob": "1979-07-30",
+        "first_name": "Owen",
+        "last_name": "Delgado"
+      }
+    ],
+    "payment_history": [
+      {
+        "amount": 142,
+        "payment_id": "gift_card_50000005"
+      }
+    ],
+    "reservation_id": "TRN004",
+    "total_baggages": 1,
+    "user_id": "owen_delgado_9137"
+  },
+  "TRN005": {
+    "cabin": "business",
+    "created_at": "2024-05-05T21:35:00",
+    "destination": "JFK",
+    "flight_type": "one_way",
+    "flights": [
+      {
+        "date": "2024-05-18",
+        "destination": "ORD",
+        "flight_number": "HAT901",
+        "origin": "SFO",
+        "price": 415
+      },
+      {
+        "date": "2024-05-18",
+        "destination": "JFK",
+        "flight_number": "HAT903",
+        "origin": "ORD",
+        "price": 445
+      }
+    ],
+    "insurance": "no",
+    "nonfree_baggages": 0,
+    "origin": "SFO",
+    "passengers": [
+      {
+        "dob": "1992-12-05",
+        "first_name": "Priya",
+        "last_name": "Venkat"
+      },
+      {
+        "dob": "1988-10-30",
+        "first_name": "Arun",
+        "last_name": "Venkat"
+      },
+      {
+        "dob": "2012-05-02",
+        "first_name": "Isha",
+        "last_name": "Venkat"
+      }
+    ],
+    "payment_history": [
+      {
+        "amount": 2580,
+        "payment_id": "credit_card_50000006"
+      }
+    ],
+    "reservation_id": "TRN005",
+    "total_baggages": 4,
+    "user_id": "priya_venkat_9268"
+  },
+  "TRN006": {
+    "cabin": "basic_economy",
+    "created_at": "2024-05-07T11:58:00",
+    "destination": "DEN",
+    "flight_type": "round_trip",
+    "flights": [
+      {
+        "date": "2024-05-19",
+        "destination": "DEN",
+        "flight_number": "HAT906",
+        "origin": "ORD",
+        "price": 85
+      },
+      {
+        "date": "2024-05-23",
+        "destination": "ORD",
+        "flight_number": "HAT907",
+        "origin": "DEN",
+        "price": 90
+      }
+    ],
+    "insurance": "yes",
+    "nonfree_baggages": 0,
+    "origin": "ORD",
+    "passengers": [
+      {
+        "dob": "1992-12-05",
+        "first_name": "Priya",
+        "last_name": "Venkat"
+      }
+    ],
+    "payment_history": [
+      {
+        "amount": 205,
+        "payment_id": "credit_card_50000006"
+      }
+    ],
+    "reservation_id": "TRN006",
+    "total_baggages": 1,
+    "user_id": "priya_venkat_9268"
+  },
+  "TRN007": {
+    "cabin": "economy",
+    "created_at": "2024-05-08T16:41:00",
+    "destination": "LAX",
+    "flight_type": "one_way",
+    "flights": [
+      {
+        "date": "2024-05-26",
+        "destination": "LAX",
+        "flight_number": "HAT910",
+        "origin": "DEN",
+        "price": 182
+      }
+    ],
+    "insurance": "no",
+    "nonfree_baggages": 0,
+    "origin": "DEN",
+    "passengers": [
+      {
+        "dob": "1995-09-21",
+        "first_name": "Quinn",
+        "last_name": "Okafor"
+      },
+      {
+        "dob": "1990-06-08",
+        "first_name": "Ada",
+        "last_name": "Okafor"
+      },
+      {
+        "dob": "2015-01-19",
+        "first_name": "Tomas",
+        "last_name": "Okafor"
+      },
+      {
+        "dob": "1963-03-03",
+        "first_name": "Grace",
+        "last_name": "Okafor"
+      }
+    ],
+    "payment_history": [
+      {
+        "amount": 728,
+        "payment_id": "gift_card_50000007"
+      }
+    ],
+    "reservation_id": "TRN007",
+    "total_baggages": 4,
+    "user_id": "quinn_okafor_9503"
+  },
+  "TRN008": {
+    "cabin": "business",
+    "created_at": "2024-05-15T09:12:00",
+    "destination": "JFK",
+    "flight_type": "round_trip",
+    "flights": [
+      {
+        "date": "2024-05-27",
+        "destination": "JFK",
+        "flight_number": "HAT903",
+        "origin": "ORD",
+        "price": 455
+      },
+      {
+        "date": "2024-05-29",
+        "destination": "ORD",
+        "flight_number": "HAT904",
+        "origin": "JFK",
+        "price": 470
+      }
+    ],
+    "insurance": "no",
+    "nonfree_baggages": 0,
+    "origin": "ORD",
+    "passengers": [
+      {
+        "dob": "1995-09-21",
+        "first_name": "Quinn",
+        "last_name": "Okafor"
+      },
+      {
+        "dob": "1990-06-08",
+        "first_name": "Ada",
+        "last_name": "Okafor"
+      }
+    ],
+    "payment_history": [
+      {
+        "amount": 1850,
+        "payment_id": "certificate_50000008"
+      }
+    ],
+    "reservation_id": "TRN008",
+    "total_baggages": 2,
+    "user_id": "quinn_okafor_9503"
+  },
+  "TRN009": {
+    "cabin": "economy",
+    "created_at": "2024-05-04T13:26:00",
+    "destination": "DEN",
+    "flight_type": "one_way",
+    "flights": [
+      {
+        "date": "2024-05-20",
+        "destination": "DEN",
+        "flight_number": "HAT906",
+        "origin": "ORD",
+        "price": 155
+      }
+    ],
+    "insurance": "yes",
+    "nonfree_baggages": 0,
+    "origin": "ORD",
+    "passengers": [
+      {
+        "dob": "1974-04-11",
+        "first_name": "Rafael",
+        "last_name": "Moreau"
+      }
+    ],
+    "payment_history": [
+      {
+        "amount": 185,
+        "payment_id": "credit_card_50000009"
+      }
+    ],
+    "reservation_id": "TRN009",
+    "total_baggages": 1,
+    "user_id": "rafael_moreau_9821"
+  },
+  "TRN010": {
+    "cabin": "basic_economy",
+    "created_at": "2024-05-09T07:19:00",
+    "destination": "LAX",
+    "flight_type": "one_way",
+    "flights": [
+      {
+        "date": "2024-05-28",
+        "destination": "LAX",
+        "flight_number": "HAT909",
+        "origin": "ORD",
+        "price": 95
+      }
+    ],
+    "insurance": "no",
+    "nonfree_baggages": 0,
+    "origin": "ORD",
+    "passengers": [
+      {
+        "dob": "1974-04-11",
+        "first_name": "Rafael",
+        "last_name": "Moreau"
+      }
+    ],
+    "payment_history": [
+      {
+        "amount": 95,
+        "payment_id": "gift_card_50000010"
+      }
+    ],
+    "reservation_id": "TRN010",
+    "total_baggages": 0,
+    "user_id": "rafael_moreau_9821"
+  }
+}

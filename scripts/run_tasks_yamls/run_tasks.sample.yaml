@@ -1,0 +1,93 @@
+# =============================================================================
+# run_tasks.sh — config file README + worked example
+# =============================================================================
+# WHAT THIS IS
+#   Input to `./scripts/run_tasks.sh <config.yaml>`. run_tasks.sh expands this file
+#   into one run per (task x persona), then executes them SEQUENTIALLY through the
+#   Docker orchestrator with the live observability dashboard (http://localhost:8080)
+#   on, printing a pass/fail summary at the end. Expansion is done by
+#   scripts/_expand_runs.py.
+#
+# QUICK START
+#   source the setup steps in README.md          # creds + images (once per shell)
+#   ./scripts/run_tasks.sh scripts/run_tasks.sample.yaml
+#
+# ---------------------------------------------------------------------------
+# SCHEMA
+# ---------------------------------------------------------------------------
+# Top-level keys:
+#   timeout: <int>        Default per-run BUILD timeout in seconds (default 7200).
+#                         Any run may override it with its own `timeout:`.
+#   observability: <bool> Stream the live dashboard for every run (default true).
+#   agent_model: <id>     LiteLLM model id for the AGENT UNDER TEST, for every run (default:
+#                         $AGENT_MODEL in your shell, else the agent's own built-in default). Any run
+#                         may override it with its own `agent_model:`, and `agent_model: null` on a run
+#                         puts that one back on the default (same shape as `limit: null`).
+#                         See the commented block below the schema for the Fireworks route.
+#   runs: <list>          One entry per task to run (required, non-empty).
+#
+# Each entry under `runs:`:
+#   task: <id>            REQUIRED. A task under tasks/<id>/ (must have spec.yaml):
+#                         airline_rebooking | order_to_cash | slides_generator.
+#   personas: <spec>      Which user-persona level(s) to run. One of:
+#                           all         -> every tasks/<task>/user_personas/*.yaml
+#                           [l1, l2]    -> a list of levels (each -> <level>.yaml)
+#                           l3          -> a single level (bare scalar)
+#                           <path>.yaml -> a name ending in .yaml or containing '/'
+#                                          is treated as a path (relative to repo root)
+#                         Omitted -> defaults to l3.
+#                         Levels available: airline_rebooking has l1/l2/l3;
+#                         order_to_cash and slides_generator also add
+#                         l1_adversarial/l2_adversarial/l3_adversarial.
+#   limit: <int|null>     Cap the number of eval data points (fast smokes).
+#                         null / omitted = all data points.
+#   timeout: <int>        OPTIONAL per-run override of the top-level timeout.
+#   agent_model: <id>     OPTIONAL per-run override of the top-level agent_model.
+#
+# NOTES
+#   * Runs are sequential; each spins up its own orchestrator + tracer on :8080.
+#   * slides_generator rows are skipped if its eval data isn't present on disk.
+#   * The runs below are a VARIED SHOWCASE of the options, not "run everything".
+#     To run the full matrix, set every entry to `personas: all` and `limit: null`.
+# =============================================================================
+
+timeout: 7200          # global default build timeout (seconds); overridable per run
+observability: true    # stream the live dashboard for each run
+
+# Which model the AGENT UNDER TEST runs. Omitted (as here) => `$AGENT_MODEL` from the shell if set,
+# else the agent's own default, and no --agent-model is passed at all in that case.
+#
+# The model id decides the route, because LiteLLM reads the provider from its prefix. To benchmark a
+# Fireworks-served model, source the Fireworks setup (it supplies the key, clears the gateway vars that
+# would otherwise capture the request, and exports AGENT_MODEL so you need not repeat it here):
+#
+#     source the setup steps in README.md      # judges + sims
+#     source scripts/setup_local_with_fireworks.sh    # agent under test
+#
+# Pin it in the config instead when a batch should not depend on the shell:
+#
+#     agent_model: fireworks_ai/accounts/fireworks/models/kimi-k3
+#
+# Only the agent under test moves; the build-time customer sim, the eval judges and the eval-time
+# user sim keep their own models, which is what keeps scores comparable across model arms.
+# agent_model: fireworks_ai/accounts/fireworks/models/kimi-k3
+
+runs:
+  # A subset of persona levels (l1 and l2, NOT l3), a numbered limit, and a
+  # per-task timeout override that is SHORTER than the global default.
+  - task: airline_rebooking
+    personas: [l1, l2]
+    limit: 3
+    timeout: 3600
+
+  # A SINGLE persona, and ALL eval data points (limit omitted -> all).
+  # No per-task timeout, so this run uses the global 7200s above.
+  - task: order_to_cash
+    personas: [l3]
+
+  # EVERY persona (l1/l2/l3 + *_adversarial), a small limit for a quick pass,
+  # and a LONGER per-task timeout (generative task, no DB but heavier build).
+  - task: slides_generator
+    personas: all
+    limit: 2
+    timeout: 5400

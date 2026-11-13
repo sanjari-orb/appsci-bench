@@ -1,0 +1,481 @@
+[
+  {
+    "type": "function",
+    "tool_type": "WRITE",
+    "function": {
+      "name": "book_reservation",
+      "description": "Book a reservation.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string"
+          },
+          "destination": {
+            "type": "string"
+          },
+          "flight_type": {
+            "type": "string",
+            "enum": [
+              "one_way",
+              "round_trip"
+            ]
+          },
+          "cabin": {
+            "type": "string",
+            "enum": [
+              "basic_economy",
+              "economy",
+              "business"
+            ]
+          },
+          "flights": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "flight_number": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string",
+                  "description": "YYYY-MM-DD"
+                }
+              },
+              "required": [
+                "flight_number",
+                "date"
+              ]
+            }
+          },
+          "passengers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "dob": {
+                  "type": "string",
+                  "description": "YYYY-MM-DD"
+                }
+              },
+              "required": [
+                "first_name",
+                "last_name",
+                "dob"
+              ]
+            }
+          },
+          "payment_methods": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "payment_id": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "payment_id",
+                "amount"
+              ]
+            }
+          },
+          "total_baggages": {
+            "type": "integer"
+          },
+          "nonfree_baggages": {
+            "type": "integer"
+          },
+          "insurance": {
+            "type": "string",
+            "enum": [
+              "yes",
+              "no"
+            ]
+          }
+        },
+        "required": [
+          "user_id",
+          "origin",
+          "destination",
+          "flight_type",
+          "cabin",
+          "flights",
+          "passengers",
+          "payment_methods",
+          "total_baggages",
+          "nonfree_baggages",
+          "insurance"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "WRITE",
+    "function": {
+      "name": "update_reservation_flights",
+      "description": "Update the flight information of a reservation.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reservation_id": {
+            "type": "string"
+          },
+          "cabin": {
+            "type": "string",
+            "enum": [
+              "basic_economy",
+              "economy",
+              "business"
+            ]
+          },
+          "flights": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "flight_number": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string",
+                  "description": "YYYY-MM-DD"
+                }
+              },
+              "required": [
+                "flight_number",
+                "date"
+              ]
+            }
+          },
+          "payment_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "reservation_id",
+          "cabin",
+          "flights",
+          "payment_id"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "WRITE",
+    "function": {
+      "name": "update_reservation_baggages",
+      "description": "Update the baggage information of a reservation.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reservation_id": {
+            "type": "string"
+          },
+          "total_baggages": {
+            "type": "integer"
+          },
+          "nonfree_baggages": {
+            "type": "integer"
+          },
+          "payment_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "reservation_id",
+          "total_baggages",
+          "nonfree_baggages",
+          "payment_id"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "WRITE",
+    "function": {
+      "name": "update_reservation_passengers",
+      "description": "Update the passenger information of a reservation.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reservation_id": {
+            "type": "string"
+          },
+          "passengers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "dob": {
+                  "type": "string",
+                  "description": "YYYY-MM-DD"
+                }
+              },
+              "required": [
+                "first_name",
+                "last_name",
+                "dob"
+              ]
+            }
+          }
+        },
+        "required": [
+          "reservation_id",
+          "passengers"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "WRITE",
+    "function": {
+      "name": "cancel_reservation",
+      "description": "Cancel the whole reservation.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reservation_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "reservation_id"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "WRITE",
+    "function": {
+      "name": "send_certificate",
+      "description": "Send a certificate to a user. Be careful!",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "user_id",
+          "amount"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "READ",
+    "function": {
+      "name": "get_user_details",
+      "description": "Get the details of a user, including their reservations.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "user_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "READ",
+    "function": {
+      "name": "get_reservation_details",
+      "description": "Get the details of a reservation.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reservation_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "reservation_id"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "READ",
+    "function": {
+      "name": "get_flight_status",
+      "description": "Get the status of a flight.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "flight_number": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "description": "YYYY-MM-DD"
+          }
+        },
+        "required": [
+          "flight_number",
+          "date"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "READ",
+    "function": {
+      "name": "search_direct_flight",
+      "description": "Search for direct flights between two cities on a specific date.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "origin": {
+            "type": "string"
+          },
+          "destination": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "description": "YYYY-MM-DD"
+          }
+        },
+        "required": [
+          "origin",
+          "destination",
+          "date"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "READ",
+    "function": {
+      "name": "search_onestop_flight",
+      "description": "Search for one-stop flights between two cities on a specific date.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "origin": {
+            "type": "string"
+          },
+          "destination": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "description": "YYYY-MM-DD"
+          }
+        },
+        "required": [
+          "origin",
+          "destination",
+          "date"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "READ",
+    "function": {
+      "name": "list_all_airports",
+      "description": "Returns a list of all available airports.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "GENERIC",
+    "function": {
+      "name": "calculate",
+      "description": "Calculate the result of a mathematical expression.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "expression": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "tool_type": "GENERIC",
+    "function": {
+      "name": "transfer_to_human_agents",
+      "description": "Transfer the user to a human agent, with a summary of the user's issue.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "summary"
+        ]
+      }
+    }
+  }
+]

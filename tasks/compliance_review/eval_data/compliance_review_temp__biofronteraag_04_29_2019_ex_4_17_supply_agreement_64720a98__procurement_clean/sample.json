@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__biofronteraag_04_29_2019_ex_4_17_supply_agreement_64720a98__procurement_clean",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'Procurement Clean Standard' policy (procurement_clean). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"procurement_clean\", \"compliant\": false, \"violations\": [{\"category\": \"Exclusivity\", \"rule\": \"must_not_have\", \"present\": true, \"evidence_spans\": [\"Subject to the terms and conditions of this Agreement, Supplier agrees that it will, on a non-exclusive basis (but exclusive for supply of the Product in the United States of America including Puerto Rico and the U.S. Virgin Islands), Manufacture (directly or through a designee) for and provide and supply to CUTANEA, and CUTANEA agrees that it will purchase exclusively from Supplier, all of its requirements of the Products as follows: Supplier shall supply Products in accordance with the Specifications and in sufficient quantity to meet CUTANEA's Forecasted Needs for the length of this Agreement. All deviations from the Specifications must be approved by CUTANEA, in writing, prior to Supplier Manufacturing the Product.\"]}, {\"category\": \"Minimum Commitment\", \"rule\": \"must_not_have\", \"present\": true, \"evidence_spans\": [\"Supplier will use commercially reasonable efforts to deliver Product to CUTANEA with minimum expiry dating remaining of [***]% of the approved shelf-life.\"]}], \"needs_review\": []}"
+  }
+}

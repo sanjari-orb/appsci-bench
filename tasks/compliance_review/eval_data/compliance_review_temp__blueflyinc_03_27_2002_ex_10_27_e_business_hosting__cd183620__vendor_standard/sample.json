@@ -1,0 +1,16 @@
+{
+  "data_point_id": "compliance_review_temp__blueflyinc_03_27_2002_ex_10_27_e_business_hosting__cd183620__vendor_standard",
+  "single_turn_input": {
+    "text": "Review the attached contract against the 'Vendor Contract Standard' policy (vendor_standard). Report every violation (the broken rule, the offending text span when the clause is present, and a short rationale), list any clauses needing human review, and give an overall compliant verdict.",
+    "files": [
+      {
+        "file_type": "txt",
+        "file_name": "contract.txt",
+        "file_path": "contract.txt"
+      }
+    ]
+  },
+  "expected_output": {
+    "json": "{\"policy_id\": \"vendor_standard\", \"compliant\": false, \"violations\": [{\"category\": \"Uncapped Liability\", \"rule\": \"must_not_have\", \"present\": true, \"evidence_spans\": [\"In no event will either party be liable to the other for special,       incidental, or indirect damages or for any consequential damages       (including lost profits or savings), even if they are informed of the       possibility; provided that this Section 10 does not apply to Customer's       failure to pay any amounts owing to IBM under this Agreement (including       amounts owing for Services that would have been rendered but for       Customer's breach of this Agreement).\"]}], \"needs_review\": []}"
+  }
+}

@@ -1,0 +1,81 @@
+# Appsci Agent User Sim Docker image
+#
+# This container runs the appsci agent user sim FastAPI service that the appsci-agent
+# communicates with to gather requirements for building artifacts.
+#
+# Build from repo root:
+#   docker build -f appsci_bench/Dockerfile.appsci_agent_usersim -t appsci-bench-usersim .
+#
+# Run:
+#   docker run -d --name usersim-{task_id} \
+#     --network bench-network \
+#     -e APPSCI_USERSIM_TOKEN=<token> \
+#     -e APPSCI_USERSIM_SPEC_PATH=/spec/spec.yaml \
+#     -e APPSCI_USERSIM_PERSONA_PATH=/spec/persona.yaml \
+#     -e ANTHROPIC_API_KEY=<key> \
+#     -v /path/to/spec.yaml:/spec/spec.yaml:ro \
+#     -v /path/to/persona.yaml:/spec/persona.yaml:ro \
+#     appsci-bench-usersim
+#
+# For a task whose personas declare `known_docs`, also mount its docs tree (read-only). This is the
+# sim-only material the appsci-agent must ELICIT rather than read, so it is mounted here and nowhere
+# else (APPSCI_USERSIM_DOCS_DIR overrides the /user_sim_docs default):
+#   -v /path/to/tasks/<id>/user_sim_docs:/user_sim_docs:ro
+#
+# For a non-default model or a gateway (e.g. gateway) instead of a direct provider key, also pass
+# -e APPSCI_USERSIM_MODEL=<model> (this sim's own var; falls back to -e MODEL_NAME=<model>)
+# and/or -e MODEL_BASE_URL=<url> -e MODEL_API_KEY=<key>
+# (see appsci_bench/common/model_config.py -- config_for("APPSCI_USERSIM_MODEL")).
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies first for better caching.
+# QUOTE THE SPECS: unquoted `fastapi>=0.136` makes the shell read `>=0.136` as an output redirect, so
+# the version floor is silently dropped and a stray `=0.136` file lands in /app.
+COPY pyproject.toml /app/
+RUN pip install --no-cache-dir \
+    "fastapi>=0.136" \
+    "uvicorn>=0.49" \
+    "litellm==1.91.3" \
+    "pyyaml>=6.0" \
+    "jinja2>=3.1" \
+    "httpx>=0.28" \
+    "pydantic>=2.13" \
+    "tenacity>=9.1"
+
+# Copy appsci agent user sim package
+COPY appsci_bench/appsci_agent_user_sim /app/appsci_bench/appsci_agent_user_sim/
+
+# Copy common package (model_config.py for LLM configuration)
+COPY appsci_bench/common /app/appsci_bench/common/
+
+# The user-sim uses only shared.observability (event emission + model I/O via session.py /
+# common.model_config); it needs nothing else under shared/ (not shared.auth). Copy just that
+# subpackage plus the shared package marker.
+COPY shared/__init__.py   /app/shared/__init__.py
+COPY shared/observability /app/shared/observability/
+
+# Copy schema directory (validate_persona reads schema/user_persona.schema.json)
+COPY schema /app/schema/
+
+# Create __init__.py for appsci_bench if needed
+RUN mkdir -p /app/appsci_bench && \
+    touch /app/appsci_bench/__init__.py
+
+# Create directory for mounted spec/persona files, and the mount point for the task's
+# user_sim_docs/ tree (the sim-only documents the bound persona has internalized -- issue #76).
+# This directory is mounted into THIS container only; the appsci-agent never gets it, which is what
+# makes the material elicitable rather than readable.
+RUN mkdir -p /spec /user_sim_docs
+
+# Expose the service port
+EXPOSE 8000
+
+# Health check (uses APPSCI_USERSIM_TOKEN env var for auth)
+HEALTHCHECK --interval=10s --timeout=5s --start-period=30s --retries=3 \
+    CMD python -c "import os, urllib.request; req = urllib.request.Request('http://localhost:8000/health'); req.add_header('Authorization', 'Bearer ' + os.environ.get('APPSCI_USERSIM_TOKEN', '')); urllib.request.urlopen(req)" || exit 1
+
+# Run the FastAPI app
+CMD ["uvicorn", "appsci_bench.appsci_agent_user_sim.service.app:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000"]
