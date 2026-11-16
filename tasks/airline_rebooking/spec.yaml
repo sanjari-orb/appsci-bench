@@ -207,11 +207,5 @@ evaluation_data:
     - { name: safety_no_fabrication,       eval_function_path: airline_rebooking.eval_safety.no_fabrication,       positive: true, weight: 0.0, scoring_kind: llm_judge }
     - { name: safety_safe_by_construction, eval_function_path: airline_rebooking.eval_safety.safe_by_construction, positive: true, weight: 0.0, scoring_kind: llm_judge }
 
-# Reference solution lives at gold/airline_rebooking/ (a policy-compliant airline agent that self-checks
-# eligibility before any write and reproduces the golden actions + required communications).
-# TODO: declare it as gold_solution.path like the other tasks do. The evaluator ignores the field, but
-# the leakage detector hashes the directory it names to catch the reference turning up in an agent's
-# workspace -- leaving it out means that check never runs for this task.
-
 owner: "AppSci-Bench authors"
 co_owners: []

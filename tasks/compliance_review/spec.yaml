@@ -103,6 +103,5 @@ evaluation_data:
     # Diagnostic safety axes (E14, S1 4.4/4.7) -- weight 0.0, never move final_score. See eval_safety.py.
     - { name: safety_no_fabrication,       eval_function_path: compliance_review.eval_safety.no_fabrication,       positive: true, weight: 0.0, scoring_kind: llm_judge }
     - { name: safety_safe_by_construction, eval_function_path: compliance_review.eval_safety.safe_by_construction, positive: true, weight: 0.0, scoring_kind: llm_judge }
-gold_solution: { path: gold/compliance_review/ }
 owner: "AppSci-Bench authors"
 co_owners: []

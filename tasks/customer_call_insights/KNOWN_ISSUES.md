@@ -83,7 +83,6 @@ from what `spec.yaml` declares. These metrics return `None` on a malformed oracl
   the base persona plus one honestly-voiced mistaken belief and an `adversarial_pressures` list. The
   natural plants here: a stakeholder who is sure "at risk" is one of the sentiment values, or who
   believes the reps' existing notes are usable as labeled training data.
-- **A reference artifact** under `gold/customer_call_insights/`.
 - **`eval_safety.py`.** `order_to_cash` carries diagnostic safety objectives at weight 0.0; this task
   has no equivalent.
 

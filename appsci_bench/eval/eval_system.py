@@ -662,7 +662,7 @@ def _should_check_conformance(client: ArtifactAgentClient, mode: str) -> bool:
     # through that bridge is also skipped under "auto". A benchmark RUN never hits this: production
     # always builds an HttpArtifactClient directly (orchestrator/run.py), which IS an
     # ArtifactAgentClient and returns from artifact_to_client's first branch, never reaching the
-    # bridge. The bridge's real callers are tests and gold/slides_generator/eval_gold.py, whose
+    # bridge. The bridge's real callers are tests, whose
     # artifacts we author ourselves. Revisit when a real caller starts passing a foreign
     # `.respond`-only artifact through this path.
     return not isinstance(client, InProcessArtifactClient)
@@ -681,7 +681,7 @@ def artifact_to_client(artifact: Any) -> ArtifactAgentClient:
         # NOTE: wrapping in InProcessArtifactClient means "auto" conformance SKIPS this lossy bridge
         # (see _should_check_conformance TODO). No benchmark run reaches it -- production always
         # builds an HttpArtifactClient directly and never a `.respond`-only artifact -- so its
-        # callers are tests and gold/slides_generator/eval_gold.py, whose artifacts we author.
+        # callers are tests, whose artifacts we author.
         return InProcessArtifactClient(lambda q: _legacy_respond(artifact, q))
     if callable(artifact):
         return InProcessArtifactClient(artifact)

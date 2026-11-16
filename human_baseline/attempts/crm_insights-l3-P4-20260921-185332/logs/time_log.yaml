@@ -8,7 +8,7 @@ technical_issues:
       Solution authoring ran in a Claude Code session rooted in the appsci-bench repo rather than in
       the standalone workspace, contrary to human_baseline/template/README.md. All artifact files
       were written only under the standalone dir and no answer-key path (eval_data/, evaluators/,
-      gold/crm_insights/, seed_data/fixture/labels.csv, elicitation_rubric.yaml) was read.
+      seed_data/fixture/labels.csv, elicitation_rubric.yaml) was read.
       Disclosure: an early orientation command listed the NAMES of the eval_data/ case directories,
       which reveal the six question categories; those categories matched the use cases the persona
       had already volunteered in elicitation, so no answer content was exposed.

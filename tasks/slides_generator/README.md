@@ -286,16 +286,6 @@ additionally carry their `gold.pptx` in `expected_output.files`. The mandatory t
 is named `template.pptx` in every sample.
 
 
-## Gold Solution
-
-**Reference path**: `gold/slides_generator/`
-
-The gold approach is defined in the Overall Agentic Architecture section (internal document, not public).
-
-`gold/slides_generator/reference_artifact.py` replays each eval sample's own `expected_output.json`
-presentation plus its sibling `gold.pptx` directly (no LLM, no generation) — proving the eval
-pipeline end-to-end. Purpose-built gold decks beyond the current eval samples are not authored yet.
-
 ## Documentational Artifacts
 
 The applied-scientist agent may optionally produce a `design_notes.md` alongside the slides-generator system artifact. It is a diagnostic write-up only and is **not scored** — the `design_quality` objective that formerly graded it has been removed from the task evaluation (it had weight 0 and was not reachable from `conversation`; see "Outstanding TODOs"). The submission is never penalized for its absence.

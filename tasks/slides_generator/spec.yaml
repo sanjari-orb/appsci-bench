@@ -190,16 +190,6 @@ evaluation_data:
   #   * PPTAgent PPTEVAL "Coherence": its rubric gates top scores on speaker/date/acknowledgment
   #     metadata, which internal QBR and board decks legitimately do not carry. Narrative is covered
   #     by content_narrative (EvoPresent) instead.
-gold_solution:
-  path: gold/slides_generator/    # reference_artifact.py replays each eval sample's own expected_output.json presentation + sibling gold.pptx (see gold/slides_generator/reference_artifact.py). Hand-authored, purpose-built gold decks beyond the eval samples are a separate, still-open item.
-  notes: >
-    "Reference is a staged pipeline wrapped in feedback loops (see README 'Overall Agentic
-     Architecture'): Parse -> Outline -> Summarize -> Extract Figures -> Lay Out & Render, with a
-     Verification-Adjustment loop (content fidelity vs. source) and a Visual Inspection loop
-     (post-render defects). Principles: editable intermediate representation over direct image
-     synthesis, modular stages, render-and-verify. The system is grounded only in the user-provided
-     brief (no fabricated facts), establishes the theme from the template, then fills content to fit."
-
 owner: "AppSci-Bench authors"
 co_owners: []
 

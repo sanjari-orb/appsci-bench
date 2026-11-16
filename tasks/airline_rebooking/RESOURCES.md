@@ -72,5 +72,3 @@ The artifact the agent builds is an HTTP service:
   OpenAI-style `{"choices":[{"message":{"role":"assistant","content":...}}]}`.
 - It reaches the 14 airline tools as a **tool-API** at `AIRLINE_TOOLS_URL` (bearer `AIRLINE_TOOLS_TOKEN`):
   `POST {AIRLINE_TOOLS_URL}/<tool_name>` with `{"arguments": {...}}` → `{"result": ...}`.
-- Reference implementation: `gold/airline_rebooking/local_server/server.py` (deployed via
-  `gold/airline_rebooking/local_artifact_agent.py`).

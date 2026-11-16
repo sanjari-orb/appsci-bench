@@ -117,7 +117,6 @@ so the τ-bench line of work is the natural external anchor.
 | Reference | What it gives us | Status |
 |---|---|---|
 | **tau2 default `LLMAgent` + frontier model, scored by *our* eval** | The apples-to-apples artifact ceiling: the domain policy handed over directly, zero applied-science process | **The single most important number to produce.** Implement `HalfDuplexAgent` behind our session API — ~a day. |
-| **`gold/airline_rebooking/`** | Our own reference artifact | Already in repo |
 | **`human_baseline/`** | Human applied scientist on the same task | Already in repo (pilot done) |
 | **tau2-bench submission JSONs** (`web/leaderboard/public/submissions/`) | External calibration: per-domain `pass_1..pass_4` + config for 65 submissions. Primary source — prefer over taubench.com's rendered view | See caveats below |
 | **`amazon-agi/tau2-bench-verified`** (45★, MIT, 2026-04) | Corrected τ² tasks — cross-check our 50 converted cases for known-bad items | Worth a one-off diff |

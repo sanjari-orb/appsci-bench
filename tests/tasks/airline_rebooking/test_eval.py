@@ -180,36 +180,3 @@ def test_policy_compliance_forwards_expected_json_and_rubric_and_transcript():
 
 # --- gold agent LLM trace (for the eval viewer) -----------------------------------------------
 
-def test_run_chat_collects_trace(monkeypatch):
-    from gold.airline_rebooking import _airline_agent as core
-
-    class _TC:
-        def __init__(self, name, args, id): self.name, self.arguments, self.id = name, args, id
-
-    class _Resp:
-        def __init__(self, content=None, tool_calls=None):
-            self.content, self.tool_calls = content, (tool_calls or [])
-
-    class _Client:
-        model = "fake"
-        def __init__(self): self.n = 0
-        def chat(self, messages, tools=None, timeout=None):
-            self.n += 1
-            if self.n == 1:
-                return _Resp("Let me verify.", [_TC("get_user_details", {"user_id": "emma"}, "t1")])
-            return _Resp("Sorry, cannot cancel.", [])
-        def format_assistant_message_with_tool_calls(self, content, tool_calls):
-            return {"role": "assistant", "content": content}
-        def format_tool_result(self, tool_call_id, result):
-            return {"role": "tool", "tool_call_id": tool_call_id, "content": str(result)}
-
-    monkeypatch.setattr(core, "call_tool", lambda name, args: {"membership": "gold"})
-    text, trace = core.run_chat(_Client(),
-                                [{"role": "system", "content": "sys"}, {"role": "user", "content": "hi"}],
-                                schemas=[], collect_trace=True)
-    assert text == "Sorry, cannot cancel."
-    kinds = [s["kind"] for s in trace]
-    assert kinds == ["system", "assistant", "tool_result", "final"]
-    assert trace[1]["tool_calls"][0]["name"] == "get_user_details"
-    assert trace[2]["result"] == {"membership": "gold"}
-    assert trace[3]["content"] == "Sorry, cannot cancel."

@@ -129,8 +129,7 @@ The `airline_rebooking` task exercises both the **build** and **eval** sides end
   and reads its state.
 - **Live build phase:** the orchestrator launches a business appsci-agent-user-sim (`DockerAppsciAgentUserSimService`, bound to
   the task spec + a persona) and the baseline AppSci agent authors + deploys its *own* artifact,
-  optimizes it (`optimize_agent`), and submits it. Gold stand-ins live in `gold/airline_rebooking/`
-  (`reference_artifact.py` golden-replay, `tau2_style_agent.py`, `local_artifact_agent.py`).
+  optimizes it (`optimize_agent`), and submits it.
 
 ```bash
 # Full build->eval with the baseline AppSci agent (the agent writes its own artifact).

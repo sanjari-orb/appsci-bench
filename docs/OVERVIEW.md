@@ -91,7 +91,7 @@ See [evaluation_framework.md](evaluation_framework.md#status) for the airline en
 ## Status
 
 On the **build** side, `airline_rebooking` runs the full build→eval loop: the AppSci agent authors,
-deploys, and submits its own artifact (see `gold/airline_rebooking/`). On the **eval** side, the
+deploys, and submits its own artifact. On the **eval** side, the
 orchestration run loop and the eval-function authoring helpers (deterministic comparisons +
 LLM-judge mechanism) run end to end (`python scripts/evaluator_system_e2e.py`); see
 [`appsci_bench/eval/README.md`](../appsci_bench/eval/README.md). Five tasks — `order_to_cash`,

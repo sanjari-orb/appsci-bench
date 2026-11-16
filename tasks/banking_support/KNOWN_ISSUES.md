@@ -32,15 +32,6 @@ ones, which inverts the metric's intent. It no longer distorts the headline numb
 moved to weight 0 in §7 -- but it does make the metric useless for the diagnostic job it was kept for,
 so it still needs resolving before the column is read as meaning anything.
 
-## 3. The reference agent is not yet a strong reference
-
-`gold/banking_support/` retrieves correctly (`retrieval_recall` 1.0) but on the sampled cases picked the
-wrong product and did not reach the golden DB state, so it does not currently beat the naive controls on
-`task_success`. It is honest as a *wiring* reference and as the thing the controls are compared against;
-it is not yet evidence of an achievable score. Deterministic validation of the measurement chain is done
-separately, by a local smoke driver that replays a golden trajectory through the live tool API; that does
-reach 1.0.
-
 ## 4. Two copies of the retrieval runtime, hand-synced
 
 `tasks/banking_support/seed_data/upstream_src/` keeps the upstream sources for provenance, and

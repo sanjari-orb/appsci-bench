@@ -382,6 +382,5 @@ evaluation_data:
 # here even though (unlike most tasks declaring a path) banking's reference directory really exists.
 # The evaluator ignores the field, and spec redaction drops it, so the agent never sees the pointer.
 # What the reference is and is not yet worth as a score is recorded in KNOWN_ISSUES.md section 3.
-gold_solution: { path: gold/banking_support/ }
 owner: "AppSci-Bench authors"
 co_owners: []
