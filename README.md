@@ -18,7 +18,6 @@ agent builder, and to regenerate the paper's tables and figures from our recorde
 ## Contents
 
 - [Running the benchmark](#running-the-benchmark)
-- [Abstract](#abstract)
 - [What the benchmark does](#what-the-benchmark-does)
 - [How a run works](#how-a-run-works)
 - [Tasks](#tasks)
@@ -147,7 +146,6 @@ See [`docs/evaluator_system_design.md`](docs/evaluator_system_design.md#model) f
 
 Runs stay on your machine. Mirroring finished runs to your own S3 bucket is optional: set
 `APPSCI_S3_BUCKET`. A run with no cloud credentials is complete on disk.
-
 
 ## What the benchmark does
 
