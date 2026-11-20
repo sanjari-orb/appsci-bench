@@ -14,8 +14,11 @@
   <a href="https://www.python.org/downloads/">
     <img src="https://img.shields.io/badge/Python-3.11%2B-blue.svg" alt="Python 3.11+">
   </a>
-  <a href="https://opensource.org/licenses/Apache-2.0">
-    <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache 2.0 license">
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/Code-Apache%202.0-blue.svg" alt="Code license: Apache 2.0">
+  </a>
+  <a href="LICENSE-DATA">
+    <img src="https://img.shields.io/badge/Data-CC%20BY--NC%204.0-lightgrey.svg" alt="Data license: CC BY-NC 4.0">
   </a>
 </p>
 
@@ -276,17 +279,18 @@ tests/
 
 ## 📄 Data sources and licenses
 
-| Task | Source | License |
+| Task | Source | Source license |
 |---|---|---|
 | `airline_rebooking`, `banking_support` | [τ³-bench](https://github.com/sierra-research/tau2-bench) (Sierra), from the `tau2-bench` repository at v1.0.1 | MIT |
 | `crm_insights` | [CRMArena](https://github.com/SalesforceAIResearch/CRMArena) (Salesforce AI Research) | CC BY-NC 4.0 |
 | `compliance_review` | [CUAD](https://www.atticusprojectai.org/cuad) (The Atticus Project) | CC BY 4.0 |
-| `order_to_cash` | a synthetic procure-to-pay dataset published on Kaggle; see [`provenance/order_to_cash/`](provenance/order_to_cash/) | source states no license; our converted version is distributed under this repository's license |
-| `customer_call_insights`, `slides_generator` | written for this benchmark | released with this repository |
+| `order_to_cash` | a synthetic procure-to-pay dataset published on Kaggle; see [`provenance/order_to_cash/`](provenance/order_to_cash/) | none stated; our converted version is released under CC BY-NC 4.0 |
+| `customer_call_insights` | written for this benchmark | CC BY-NC 4.0 |
+| `slides_generator` | written for this benchmark, with excerpts of public SEC filings, documents from [Zenodo](https://zenodo.org/), and templates from Zenodo10K ([PPTAgent](https://github.com/icip-cas/PPTAgent)) | CC BY-NC 4.0; the Zenodo documents are CC BY 4.0 or CC BY-SA 4.0 |
 
-All task data is synthetic or comes from public research datasets. No task contains real customer
-records. The CRMArena-derived data is licensed for non-commercial use only. Full license texts and
-attributions are in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+All task data is synthetic or comes from public sources. No task contains real customer records.
+Full license texts, attributions, and the few files that keep their source's license are in
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
 ## 📚 Citation
 
@@ -309,6 +313,10 @@ If you use AppSci-Bench, please cite the paper:
 
 ## ⚖️ License
 
-The code is licensed under the Apache License 2.0; see `LICENSE`. Task data keeps the license of its
-source, listed in [Data sources and licenses](#-data-sources-and-licenses): in particular, the
-`crm_insights` data is CC BY-NC 4.0 and may be used for non-commercial purposes only.
+- **Code:** Apache License 2.0; see [`LICENSE`](LICENSE).
+- **Data:** the benchmark data (task datasets, fixtures, gold outputs, personas, prompts, rubrics,
+  human-baseline attempts and recorded results) is licensed under
+  [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/); see [`LICENSE-DATA`](LICENSE-DATA).
+  It may be used for non-commercial purposes only, with attribution. Data adapted from third-party
+  sources keeps their attribution requirements, and a few files stay under their source's license;
+  both are listed in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
