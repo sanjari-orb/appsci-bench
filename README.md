@@ -1,11 +1,23 @@
-# AppSci-Bench: Can LLMs Build AI Agents and Make Them Better?
+<h1 align="center">AppSci-Bench: Can LLMs Build AI Agents and Make Them Better?</h1>
 
-[**Paper (arXiv:XXXX.XXXXX)**](https://arxiv.org/abs/XXXX.XXXXX) ·
-[**PDF**](https://arxiv.org/pdf/XXXX.XXXXX) ·
-[**Citation**](#citation) ·
-[**Results**](#results)
+<p align="center">
+  <a href="https://arxiv.org/abs/2611.25360">Paper</a> -
+  <a href="https://arxiv.org/pdf/2611.25360">PDF</a> -
+  <a href="#-results">Results</a> -
+  <a href="#-citation">Citation</a>
+</p>
 
-> **Placeholder:** replace `XXXX.XXXXX` with the arXiv identifier once the paper is posted.
+<p align="center">
+  <a href="https://arxiv.org/abs/2611.25360">
+    <img src="https://img.shields.io/badge/arXiv-2611.25360-b31b1b.svg" alt="arXiv 2611.25360">
+  </a>
+  <a href="https://www.python.org/downloads/">
+    <img src="https://img.shields.io/badge/Python-3.11%2B-blue.svg" alt="Python 3.11+">
+  </a>
+  <a href="https://opensource.org/licenses/Apache-2.0">
+    <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache 2.0 license">
+  </a>
+</p>
 
 <p align="center">
   <img src="docs/assets/overview.png" alt="Overview of AppSci-Bench. A simulated business user (1) holds the task requirements; the applied scientist agent (2) asks questions, explores the task environment, designs, builds and optimizes an artifact system (3), which is scored by the benchmark's held-out evaluation (4) on new data and scenarios never available during the build." width="860">
@@ -15,19 +27,11 @@ This repository is the official release of **AppSci-Bench**: the benchmark, the 
 and the data behind the paper. It contains everything needed to run the benchmark on a new model or
 agent builder, and to regenerate the paper's tables and figures from our recorded results.
 
-## Contents
+## 📢 Updates
 
-- [Running the benchmark](#running-the-benchmark)
-- [What the benchmark does](#what-the-benchmark-does)
-- [How a run works](#how-a-run-works)
-- [Tasks](#tasks)
-- [Results](#results)
-- [Evaluating your own builder](#evaluating-your-own-builder)
-- [Repository layout](#repository-layout)
-- [Data sources and licenses](#data-sources-and-licenses)
-- [Citation](#citation)
+- **2026-11-19**: Paper released on [arXiv](https://arxiv.org/abs/2611.25360), along with the benchmark, the AppSci-Agent harness and the recorded results.
 
-## Running the benchmark
+## 🚀 Running the benchmark
 
 ### Requirements
 
@@ -147,7 +151,7 @@ See [`docs/evaluator_system_design.md`](docs/evaluator_system_design.md#model) f
 Runs stay on your machine. Mirroring finished runs to your own S3 bucket is optional: set
 `APPSCI_S3_BUCKET`. A run with no cloud credentials is complete on disk.
 
-## What the benchmark does
+## 🔍 What the benchmark does
 
 An *applied scientist* agent (the builder under test) is given a business problem it must solve by
 building another AI system, the *artifact*. To do that it has to:
@@ -164,7 +168,7 @@ builder never saw. The benchmark also measures the build process itself: how muc
 requirements the builder elicited, how representative its internal benchmark was, safety, and build
 efficiency.
 
-## How a run works
+## ⚙️ How a run works
 
 A run has two phases.
 
@@ -188,7 +192,7 @@ combines them into one task accuracy.
 
 Each objective is an importable per-case eval function with a weight and a direction. [`docs/evaluator_system_design.md`](docs/evaluator_system_design.md) describes the evaluator's design, and [`appsci_bench/eval/README.md`](appsci_bench/eval/README.md) maps its modules.
 
-## Tasks
+## 📋 Tasks
 
 Seven tasks drawn from realistic business settings. Five are new; τ-Airline and τ-Banking are
 adapted from τ³-bench, whose original evaluation datasets and scorers are reused. *Cases* is the
@@ -208,7 +212,7 @@ score computed by code rather than by an LLM judge.
 Each task's `README.md` and `spec.yaml` under [`tasks/`](tasks/) give its objectives, personas and
 known issues.
 
-## Results
+## 🏆 Results
 
 ### Leaderboard
 
@@ -237,7 +241,7 @@ task's cases. A build that fails to deliver a usable artifact scores 0 on every 
 failed build brings that task's MMS@3 to 0. The benchmark score is the unweighted mean of MMS@3 over
 the seven tasks.
 
-## Evaluating your own builder
+## 🧪 Evaluating your own builder
 
 The benchmark is agnostic to the builder. Any agent that can use the task environment, talk to the
 simulated user over HTTP, and hand back an artifact endpoint can be evaluated:
@@ -254,7 +258,7 @@ To add a task, copy [`tasks/_TEMPLATE/`](tasks/_TEMPLATE/) and fill in `spec.yam
 [`tasks/_TEMPLATE/eval.py`](tasks/_TEMPLATE/eval.py) shows both a deterministic objective and an
 LLM-judge objective.
 
-## Repository layout
+## 🗂️ Repository layout
 
 ```
 appsci_bench/      the benchmark: task model, orchestrator, evaluator, simulated users, tracer
@@ -270,7 +274,7 @@ docs/              design documents for the evaluator, environments and experime
 tests/
 ```
 
-## Data sources and licenses
+## 📄 Data sources and licenses
 
 | Task | Source | License |
 |---|---|---|
@@ -284,26 +288,27 @@ All task data is synthetic or comes from public research datasets. No task conta
 records. The CRMArena-derived data is licensed for non-commercial use only. Full license texts and
 attributions are in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
-## Citation
+## 📚 Citation
 
 If you use AppSci-Bench, please cite the paper:
 
 ```bibtex
 @misc{appscibench2026,
   title         = {AppSci-Bench: Can LLMs Build AI Agents and Make Them Better?},
-  author        = {TODO},
+  author        = {Srivastava, Sanjari and Kaur, Manpreet and Chang, Cheng and
+                   Ram{\'o}s Anton, Sof{\'\i}a and Essamadi, Oumaima and Garg, Rishu and
+                   Lavale Jim{\'e}nez, Alejandro and Caballero Yus, Marcos and
+                   Garc{\'\i}a Mart{\'\i}nez, Mercedes and Qi, Peng},
   year          = {2026},
-  eprint        = {XXXX.XXXXX},
+  eprint        = {2611.25360},
   archivePrefix = {arXiv},
   primaryClass  = {cs.AI},
-  url           = {https://arxiv.org/abs/XXXX.XXXXX}
+  url           = {https://arxiv.org/abs/2611.25360}
 }
 ```
 
-Replace `XXXX.XXXXX` and the author list once the paper is posted.
-
-## License
+## ⚖️ License
 
 The code is licensed under the Apache License 2.0; see `LICENSE`. Task data keeps the license of its
-source, listed in [Data sources and licenses](#data-sources-and-licenses): in particular, the
+source, listed in [Data sources and licenses](#-data-sources-and-licenses): in particular, the
 `crm_insights` data is CC BY-NC 4.0 and may be used for non-commercial purposes only.
