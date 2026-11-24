@@ -297,17 +297,14 @@ Full license texts, attributions, and the few files that keep their source's lic
 If you use AppSci-Bench, please cite the paper:
 
 ```bibtex
-@misc{appscibench2026,
-  title         = {AppSci-Bench: Can LLMs Build AI Agents and Make Them Better?},
-  author        = {Srivastava, Sanjari and Kaur, Manpreet and Chang, Cheng and
-                   Ram{\'o}s Anton, Sof{\'\i}a and Essamadi, Oumaima and Garg, Rishu and
-                   Lavale Jim{\'e}nez, Alejandro and Caballero Yus, Marcos and
-                   Garc{\'\i}a Mart{\'\i}nez, Mercedes and Qi, Peng},
-  year          = {2026},
-  eprint        = {2611.25360},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.AI},
-  url           = {https://arxiv.org/abs/2611.25360}
+@misc{srivastava2026appscibenchllmsbuildai,
+      title={AppSci-Bench: Can LLMs Build AI Agents and Make Them Better?}, 
+      author={Sanjari Srivastava and Manpreet Kaur and Cheng Chang and Sofía Ramós Anton and Oumaima Essamadi and Rishu Garg and Alejandro Lavale Jiménez and Marcos Caballero Yus and Mercedes García Martínez and Peng Qi},
+      year={2026},
+      eprint={2611.25360},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2611.25360}, 
 }
 ```
 
